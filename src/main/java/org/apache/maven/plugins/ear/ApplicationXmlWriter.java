@@ -78,6 +78,10 @@ final class ApplicationXmlWriter
         {
             writer = initializeRootElementSeven( w );
         }
+        else if ( JavaEEVersion.EIGHT.eq( version ) )
+        {
+            writer = initializeRootElementEight( w );
+        }
 
         // writer is still on root element, so we can still add this attribute
         if ( context.getApplicationId() != null )
@@ -251,6 +255,20 @@ final class ApplicationXmlWriter
                              "http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd" );
         // CHECKSTYLE_ON: LineLength
         writer.addAttribute( "version", "7" );
+        return writer;
+    }
+
+    private XMLWriter initializeRootElementEight( Writer w )
+    {
+        XMLWriter writer = initializeXmlWriter( w, null );
+        writer.startElement( APPLICATION_ELEMENT );
+        writer.addAttribute( "xmlns", "http://xmlns.jcp.org/xml/ns/javaee" );
+        writer.addAttribute( "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance" );
+        // CHECKSTYLE_OFF: LineLength
+        writer.addAttribute( "xsi:schemaLocation",
+                             "http://xmlns.jcp.org/xml/ns/javaee/ http://xmlns.jcp.org/xml/ns/javaee/application_8.xsd" );
+        // CHECKSTYLE_ON: LineLength
+        writer.addAttribute( "version", "8" );
         return writer;
     }
 }
