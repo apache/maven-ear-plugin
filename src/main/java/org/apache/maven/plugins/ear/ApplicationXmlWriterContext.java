@@ -55,7 +55,7 @@ class ApplicationXmlWriterContext
 
     private final Boolean initializeInOrder;
 
-    public ApplicationXmlWriterContext( File destinationFile, List<EarModule> earModules,
+    ApplicationXmlWriterContext( File destinationFile, List<EarModule> earModules,
                                         List<SecurityRole> securityRoles, List<EnvEntry> envEntries,
                                         List<EjbRef> ejbEntries, List<ResourceRef> resourceRefs, String displayName,
                                         String description, String libraryDirectory, String applicationName,

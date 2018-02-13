@@ -48,7 +48,7 @@ class SecurityRole
 
     private final String descriptionId;
 
-    public SecurityRole( String roleName, String roleNameId, String roleId, String description, String descriptionId )
+    SecurityRole( String roleName, String roleNameId, String roleId, String description, String descriptionId )
     {
         if ( roleName == null )
         {

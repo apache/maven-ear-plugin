@@ -91,7 +91,7 @@ class JbossConfiguration
 
     private final String libraryDirectory;
 
-    public JbossConfiguration( String version, String securityDomain, String unauthenticatedPrincipal, String jmxName,
+    JbossConfiguration( String version, String securityDomain, String unauthenticatedPrincipal, String jmxName,
                                String loaderRepository, String moduleOrder, List<String> dataSources,
                                String libraryDirectory, String loaderRepositoryConfig, String loaderRepositoryClass,
                                String configParserClass )

@@ -53,7 +53,7 @@ class EnvEntry
 
     private final String lookupName;
 
-    public EnvEntry( String description, String name, String type, String value, String lookupName )
+    EnvEntry( String description, String name, String type, String value, String lookupName )
     {
         if ( StringUtils.isEmpty( name ) )
         {
