@@ -26,8 +26,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.zip.ZipException;
 
 import org.apache.maven.archiver.MavenArchiveConfiguration;
@@ -42,7 +40,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.plugins.ear.util.EarMavenArchiver;
 import org.apache.maven.plugins.ear.util.JavaEEVersion;
-import org.apache.maven.plugins.ear.util.ModuleIdentifierValidator;
 import org.apache.maven.project.MavenProjectHelper;
 import org.apache.maven.shared.filtering.MavenFileFilter;
 import org.apache.maven.shared.filtering.MavenFilteringException;
@@ -272,35 +269,6 @@ public class EarMojo
     @Parameter( defaultValue = "false", property = "maven.ear.duplicateArtifactsBreakTheBuild" )
     private boolean duplicateArtifactsBreakTheBuild;
 
-    private void checkModuleUniqueness()
-        throws MojoExecutionException
-    {
-        ModuleIdentifierValidator miv = new ModuleIdentifierValidator( getModules() );
-        miv.checkForDuplicateArtifacts();
-        if ( miv.existDuplicateArtifacts() )
-        {
-            Map<String, List<EarModule>> duplicateArtifacts = miv.getDuplicateArtifacts();
-            for ( Entry<String, List<EarModule>> entry : duplicateArtifacts.entrySet() )
-            {
-                getLog().warn( "The artifactId " + entry.getKey() + " exists more than once in the modules list." );
-                for ( EarModule earModule : entry.getValue() )
-                {
-                    getLog().warn( " --> " + earModule.getArtifact().getId() + " (" + earModule.getType() + ")" );
-                }
-            }
-
-            getLog().warn( "HINT: This can be simply solved by using the <fileNameMapping>full</fileNameMapping>" );
-
-            if ( duplicateArtifactsBreakTheBuild )
-            {
-                // CHECKSTYLE_OFF: LineLength
-                throw new MojoExecutionException( "The build contains duplicate artifacts which result in unpredictable ear content." );
-                // CHECKSTYLE_ON: LineLength
-            }
-        }
-
-    }
-
     /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException, MojoFailureException
@@ -396,13 +364,6 @@ public class EarMojo
     {
         try
         {
-            // TODO: With the next major release the modules
-            // should be identified by a unique id instead of the
-            // the artifactId's only which means this
-            // check can be removed.
-            // https://issues.apache.org/jira/browse/MEAR-209
-            checkModuleUniqueness();
-
             for ( EarModule module : getModules() )
             {
                 final File sourceFile = module.getArtifact().getFile();
