@@ -74,7 +74,6 @@ public abstract class AbstractEarPluginIT
      * @return the base directory of the project
      * @throws Exception if an error occurred
      */
-    @SuppressWarnings( "unchecked" )
     protected File executeMojo( final String projectName, final Properties properties, boolean expectNoError )
         throws Exception
     {
