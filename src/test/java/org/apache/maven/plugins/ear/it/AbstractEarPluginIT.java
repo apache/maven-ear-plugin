@@ -88,7 +88,7 @@ public abstract class AbstractEarPluginIT
 
         verifier.getCliOptions().add( "-s \"" + settingsFile.getAbsolutePath() + "\"" );//
         verifier.getCliOptions().add( "-X" );
-        verifier.localRepo = localRepo;
+        verifier.setLocalRepo( localRepo );
 
         // On linux and macOSX, an exception is thrown if a build failure occurs underneath
         try

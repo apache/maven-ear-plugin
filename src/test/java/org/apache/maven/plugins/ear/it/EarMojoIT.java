@@ -25,7 +25,7 @@ import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import org.apache.maven.it.util.IOUtil;
+import org.apache.maven.shared.utils.io.IOUtil;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.ReaderFactory;
 
