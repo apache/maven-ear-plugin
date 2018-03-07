@@ -28,7 +28,6 @@ import org.apache.maven.artifact.Artifact;
  * An artifact repository used to resolve {@link org.apache.maven.plugins.ear.EarModule}.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: ArtifactRepository.java 1645331 2014-12-13 17:31:09Z khmarbaise $
  */
 public class ArtifactRepository
 {
@@ -55,13 +54,13 @@ public class ArtifactRepository
 
     /**
      * Returns the artifact with the specified parameters.
-     * <p/>
+     * <p>
      * If the artifact is classified and is the only one with the specified groupI, artifactId and type, it will be
-     * returned.
-     * <p/>
+     * returned.</p>
+     * <p>
      * If the artifact is classified and is not the only one with the specified groupI, artifactId and type, it returns
-     * null.
-     * <p/>
+     * null.</p>
+     * 
      * If the artifact is not found, it returns null.
      * 
      * @param groupId the group id
@@ -101,13 +100,13 @@ public class ArtifactRepository
 
     /**
      * Returns the artifact with the specified parameters.
-     * <p/>
+     * <p>
      * If the artifact is classified and is the only one with the specified groupI, artifactId and type, it will be
-     * returned.
-     * <p/>
+     * returned.</p>
+     * <p>
      * If the artifact is classified and is not the only one with the specified groupI, artifactId and type, it returns
-     * null.
-     * <p/>
+     * null.</p>
+     * 
      * If the artifact is not found, it returns null.
      * 
      * @param groupId the group id

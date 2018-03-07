@@ -23,7 +23,6 @@ package org.apache.maven.plugins.ear;
  * Thrown if an unknown artifact type is encountered.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: UnknownArtifactTypeException.java 1645331 2014-12-13 17:31:09Z khmarbaise $
  */
 public class UnknownArtifactTypeException
     extends EarPluginException

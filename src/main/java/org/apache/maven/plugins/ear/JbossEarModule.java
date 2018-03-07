@@ -25,7 +25,6 @@ import org.codehaus.plexus.util.xml.XMLWriter;
  * Represents a JBoss specific ear module.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: JbossEarModule.java 1542511 2013-11-16 13:33:56Z rfscholte $
  */
 public interface JbossEarModule
 {

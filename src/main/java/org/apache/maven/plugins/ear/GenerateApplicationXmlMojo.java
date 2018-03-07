@@ -44,7 +44,6 @@ import org.codehaus.plexus.util.FileUtils;
  * Generates the EAR deployment descriptor file(s).
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: GenerateApplicationXmlMojo.java 1713543 2015-11-09 21:32:15Z khmarbaise $
  */
 // CHECKSTYLE_OFF: LineLength
 @Mojo( name = "generate-application-xml", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true, requiresDependencyResolution = ResolutionScope.TEST )

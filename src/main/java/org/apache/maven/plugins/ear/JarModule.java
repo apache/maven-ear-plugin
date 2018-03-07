@@ -27,15 +27,13 @@ import java.util.Set;
 
 /**
  * The {@link EarModule} implementation for a non J2EE module such as third party libraries.
- * <p/>
- * Such module is not incorporated in the generated <tt>application.xml<tt>
+ *
+ * <p>Such module is not incorporated in the generated <tt>application.xml</tt>
  * but some application servers support it. To include it in the generated
  * deployment descriptor anyway, set the <tt>includeInApplicationXml</tt> boolean flag.
- * <p/>
- * This class deprecates {@link org.apache.maven.plugins.ear.JavaModule}.
+ * </p>
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: JarModule.java 1648046 2014-12-27 11:07:02Z khmarbaise $
  */
 public class JarModule
     extends AbstractEarModule

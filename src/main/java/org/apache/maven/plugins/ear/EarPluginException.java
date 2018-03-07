@@ -23,7 +23,6 @@ package org.apache.maven.plugins.ear;
  * The base exception of the EAR plugin.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: EarPluginException.java 1645331 2014-12-13 17:31:09Z khmarbaise $
  */
 public class EarPluginException
     extends Exception

@@ -29,14 +29,13 @@ import java.util.Set;
  * The ear module interface.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: EarModule.java 1645331 2014-12-13 17:31:09Z khmarbaise $
  */
 public interface EarModule
 {
 
     /**
      * Returns the {@link Artifact} representing this module.
-     * <p/>
+     * 
      * Note that this might return <tt>null</tt> till the module has been resolved.
      * 
      * @return the artifact
@@ -67,7 +66,7 @@ public interface EarModule
 
     /**
      * Specify whether this module should be unpacked in the EAR archive or not.
-     * <p/>
+     *
      * Returns null if no configuration was specified so that defaulting may apply.
      * 
      * @return true if this module should be bundled unpacked, false otherwise

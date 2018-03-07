@@ -24,9 +24,7 @@ import org.apache.maven.artifact.Artifact;
 /**
  * The {@link EarModule} implementation for a Par module.
  * 
- * @author Stephane Nicoll <snicoll@apache.org>
- * @author $Author: khmarbaise $ (last edit)
- * @version $Revision: 1645331 $
+ * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
 public class ParModule
     extends EjbModule

@@ -25,7 +25,6 @@ import java.util.List;
  * The JBoss specific configuration, used to generate the jboss-app.xml deployment descriptor file
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: JbossConfiguration.java 1636449 2014-11-03 21:27:36Z khmarbaise $
  */
 class JbossConfiguration
 {

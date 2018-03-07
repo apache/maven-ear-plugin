@@ -27,7 +27,6 @@ import org.apache.maven.project.MavenProject;
  * Contains various runtime parameters used to customize the generated EAR file.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: EarExecutionContext.java 1755538 2016-08-08 20:32:12Z rfscholte $
  */
 public class EarExecutionContext
 {
@@ -73,7 +72,7 @@ public class EarExecutionContext
     }
 
     /**
-     * @return {@link #fileNameMapping}
+     * @return {@link #outputFileNameMapping}
      */
     public String getOutputFileNameMapping()
     {

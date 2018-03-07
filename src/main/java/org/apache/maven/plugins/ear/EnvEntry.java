@@ -26,7 +26,6 @@ import org.codehaus.plexus.util.xml.XMLWriter;
  * The representation of a env-entry entry within an application.xml file.
  * 
  * @author Jim Brownfield based on code by <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: EnvEntry.java 1648055 2014-12-27 14:59:45Z khmarbaise $
  */
 class EnvEntry
 {

@@ -32,7 +32,6 @@ import org.codehaus.plexus.util.xml.XMLWriter;
  * A base implementation of an {@link EarModule}.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: AbstractEarModule.java 1645331 2014-12-13 17:31:09Z khmarbaise $
  */
 public abstract class AbstractEarModule
     implements EarModule

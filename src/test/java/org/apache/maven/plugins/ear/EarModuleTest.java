@@ -28,7 +28,6 @@ import org.junit.Test;
  * Ear module test case.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: EarModuleTest.java 1648192 2014-12-28 12:39:04Z khmarbaise $
  */
 public class EarModuleTest
 {

@@ -29,7 +29,7 @@
 ${project.name}
 
   This plugin generates Java EE Enterprise Archive (EAR) file. It can also generate
-  the deployment descriptor file (e.g. application.xml).
+  the deployment descriptor file (e.g. <<<application.xml>>>).
 
   The EAR plugin supports the following artifacts:
 
@@ -63,8 +63,11 @@ ${project.name}
   For more information about the Java EE technology, please visit
   {{http://www.oracle.com/us/technologies/java/enterprise-edition/overview/index.html}}.
 
-  Note: Starting with version 3.0.0 the usage of <<<fileNameMapping>> has been removed. If you need
-  to use <<<fileNameMapping>> take a look at the new <<<outputFileNameMapping>>> which is more
+* Version 3.0.0
+
+  Starting with version 3.0.0 the usage of <<fileNameMapping>> has been removed. If you need
+  to use a kind of file name mapping take a look at the new 
+  {{{./ear-mojo.html#outputFileNameMapping}outputFileNameMapping}} which is more
   flexible.
   
 * Goals Overview

@@ -25,7 +25,6 @@ import org.apache.maven.artifact.Artifact;
  * The {@link EarModule} implementation for an ejb client module.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: EjbClientModule.java 1645331 2014-12-13 17:31:09Z khmarbaise $
  */
 public class EjbClientModule
     extends JarModule

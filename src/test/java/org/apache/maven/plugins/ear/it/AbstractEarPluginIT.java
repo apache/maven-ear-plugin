@@ -44,7 +44,6 @@ import org.xml.sax.helpers.DefaultHandler;
  * Base class for ear test cases.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: AbstractEarPluginIT.java 1630593 2014-10-09 20:40:31Z khmarbaise $
  */
 public abstract class AbstractEarPluginIT
     extends TestCase
@@ -71,6 +70,7 @@ public abstract class AbstractEarPluginIT
      * 
      * @param projectName the name of the project
      * @param properties extra properties to be used by the embedder
+     * @param expectNoError true/flase.
      * @return the base directory of the project
      * @throws Exception if an error occurred
      */
@@ -134,7 +134,7 @@ public abstract class AbstractEarPluginIT
      * @param artifactsDirectory whether the artifact is an exploded artifactsDirectory or not
      * @param testDeploymentDescriptors whether we should test deployment descriptors
      * @return the base directory of the project
-     * @throws Exception
+     * @throws Exception Mojo exception in case of an error.
      */
     protected File doTestProject( final String projectName, final String[] expectedArtifacts,
                                   final boolean[] artifactsDirectory, boolean testDeploymentDescriptors )
@@ -162,7 +162,7 @@ public abstract class AbstractEarPluginIT
      * @param expectedArtifacts the list of artifacts to be found in the EAR archive
      * @param artifactsDirectory whether the artifact is an exploded artifactsDirectory or not
      * @return the base directory of the project
-     * @throws Exception
+     * @throws Exception Mojo exception in case of an error.
      */
     protected File doTestProject( final String projectName, final String[] expectedArtifacts,
                                   final boolean[] artifactsDirectory )
@@ -179,7 +179,7 @@ public abstract class AbstractEarPluginIT
      * @param expectedArtifacts the list of artifacts to be found in the EAR archive
      * @param testDeploymentDescriptors whether we should test deployment descriptors
      * @return the base directory of the project
-     * @throws Exception
+     * @throws Exception Mojo exception in case of an error.
      */
     protected File doTestProject( final String projectName, final String[] expectedArtifacts,
                                   boolean testDeploymentDescriptors )
@@ -195,7 +195,7 @@ public abstract class AbstractEarPluginIT
      * @param projectName the project to test
      * @param expectedArtifacts the list of artifacts to be found in the EAR archive
      * @return the base directory of the project
-     * @throws Exception
+     * @throws Exception Mojo exception in case of an error.
      */
     protected File doTestProject( final String projectName, final String[] expectedArtifacts )
         throws Exception
@@ -337,12 +337,13 @@ public abstract class AbstractEarPluginIT
 
     /**
      * Asserts that the deployment descriptors have been generated successfully.
-     * <p/>
+     * 
      * This test assumes that deployment descriptors are located in the <tt>expected-META-INF</tt> directory of the
      * project. Note that the <tt>MANIFEST.mf</tt> file is ignored and is not tested.
      * 
      * @param baseDir the directory of the tested project
      * @param projectName the name of the project
+     * @throws IOException exception in case of an error.
      */
     protected void assertDeploymentDescriptors( final File baseDir, final String projectName )
         throws IOException

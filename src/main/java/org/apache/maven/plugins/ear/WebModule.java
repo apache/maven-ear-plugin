@@ -29,7 +29,6 @@ import java.util.Set;
  * The {@link EarModule} implementation for a Web application module.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: WebModule.java 1645331 2014-12-13 17:31:09Z khmarbaise $
  */
 public class WebModule
     extends AbstractEarModule
@@ -98,7 +97,7 @@ public class WebModule
 
     /**
      * Returns the context root to use for the web module.
-     * <p/>
+     *
      * Note that this might return <tt>null</tt> till the artifact has been resolved.
      * 
      * @return the context root

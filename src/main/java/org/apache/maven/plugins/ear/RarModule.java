@@ -26,7 +26,6 @@ import org.codehaus.plexus.util.xml.XMLWriter;
  * The {@link EarModule} implementation for an J2EE connector module.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: RarModule.java 1660473 2015-02-17 19:33:00Z khmarbaise $
  */
 public class RarModule
     extends AbstractEarModule

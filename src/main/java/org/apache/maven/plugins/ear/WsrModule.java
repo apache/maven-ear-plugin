@@ -24,9 +24,7 @@ import org.apache.maven.artifact.Artifact;
 /**
  * The {@link EarModule} implementation for a JBoss wsr module.
  * 
- * @author Brad O'Hearne <brado@neurofire.com>
- * @author $Author: khmarbaise $ (last edit)
- * @version $Revision: 1645331 $
+ * @author <a href="mailto:brado@neurofire.com">brado@neurofire.com</a>
  */
 public class WsrModule
     extends RarModule

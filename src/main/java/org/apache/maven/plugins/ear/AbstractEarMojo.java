@@ -42,7 +42,6 @@ import org.codehaus.plexus.configuration.PlexusConfigurationException;
  * A base class for EAR-processing related tasks.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: AbstractEarMojo.java 1742027 2016-05-02 19:11:21Z khmarbaise $
  */
 public abstract class AbstractEarMojo
     extends AbstractMojo

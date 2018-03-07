@@ -36,7 +36,6 @@ import java.util.List;
  * A fake {@link Artifact} test stub.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: ArtifactTestStub.java 1755538 2016-08-08 20:32:12Z rfscholte $
  */
 public class ArtifactTestStub
     implements Artifact

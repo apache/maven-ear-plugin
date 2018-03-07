@@ -28,7 +28,6 @@ import org.codehaus.plexus.util.xml.XMLWriter;
  * An <tt>XmlWriter</tt> based implementation used to generate an <tt>application.xml</tt> file
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: ApplicationXmlWriter.java 1648055 2014-12-27 14:59:45Z khmarbaise $
  */
 final class ApplicationXmlWriter
     extends AbstractXmlWriter

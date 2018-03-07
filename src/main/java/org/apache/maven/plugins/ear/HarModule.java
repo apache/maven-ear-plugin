@@ -26,7 +26,6 @@ import org.codehaus.plexus.util.xml.XMLWriter;
  * The {@link EarModule} implementation for a JBoss Hibernate archive.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: HarModule.java 1645331 2014-12-13 17:31:09Z khmarbaise $
  */
 public class HarModule
     extends AbstractEarModule

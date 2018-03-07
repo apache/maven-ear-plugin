@@ -31,7 +31,6 @@ import java.io.Writer;
  * A base class for deployment descriptor file generators.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: AbstractXmlWriter.java 1636449 2014-11-03 21:27:36Z khmarbaise $
  */
 abstract class AbstractXmlWriter
 {

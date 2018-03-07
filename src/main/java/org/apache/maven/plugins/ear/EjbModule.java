@@ -26,7 +26,6 @@ import org.codehaus.plexus.util.xml.XMLWriter;
  * The {@link EarModule} implementation for an EJB module.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: EjbModule.java 1645331 2014-12-13 17:31:09Z khmarbaise $
  */
 public class EjbModule
     extends AbstractEarModule

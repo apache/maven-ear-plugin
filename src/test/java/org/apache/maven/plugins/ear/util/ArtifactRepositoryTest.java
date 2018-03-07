@@ -31,7 +31,6 @@ import org.junit.Test;
 
 /**
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: ArtifactRepositoryTest.java 1648192 2014-12-28 12:39:04Z khmarbaise $
  */
 public class ArtifactRepositoryTest
     extends AbstractEarTestBase

@@ -32,7 +32,6 @@ import org.codehaus.plexus.configuration.xml.XmlPlexusConfiguration;
  * Tests for the {@link ArtifactTypeMappingService}
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: ArtifactTypeMappingServiceTest.java 1542508 2013-11-16 13:21:35Z rfscholte $
  */
 public class ArtifactTypeMappingServiceTest
     extends TestCase

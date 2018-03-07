@@ -34,7 +34,6 @@ import org.codehaus.plexus.configuration.PlexusConfigurationException;
  * Allows to map custom artifact type to standard type.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: ArtifactTypeMappingService.java 1645331 2014-12-13 17:31:09Z khmarbaise $
  */
 public class ArtifactTypeMappingService
 {

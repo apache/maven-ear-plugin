@@ -64,7 +64,6 @@ import org.codehaus.plexus.util.StringUtils;
  * Builds J2EE Enterprise Archive (EAR) files.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: EarMojo.java 1755539 2016-08-08 20:34:46Z rfscholte $
  */
 // CHECKSTYLE_OFF: LineLength
 @Mojo( name = "ear", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true, requiresDependencyResolution = ResolutionScope.TEST )
@@ -616,7 +615,7 @@ public class EarMojo
 
     /**
      * Returns the {@link JarArchiver} implementation used to package the EAR file.
-     * <p/>
+     *
      * By default the archiver is obtained from the Plexus container.
      * 
      * @return the archiver

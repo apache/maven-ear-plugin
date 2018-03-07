@@ -26,7 +26,6 @@ import java.util.List;
  * A context for the {@link ApplicationXmlWriter}.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: ApplicationXmlWriter.java 728546 2008-12-21 22:56:51Z bentmann $
  */
 class ApplicationXmlWriterContext
 {

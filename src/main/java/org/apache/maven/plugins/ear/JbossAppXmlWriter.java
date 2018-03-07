@@ -29,7 +29,6 @@ import org.codehaus.plexus.util.xml.XMLWriter;
  * An <tt>XmlWriter</tt> based implementation used to generate a <tt>jboss-app.xml</tt> file
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
- * @version $Id: JbossAppXmlWriter.java 1636449 2014-11-03 21:27:36Z khmarbaise $
  */
 final class JbossAppXmlWriter
     extends AbstractXmlWriter

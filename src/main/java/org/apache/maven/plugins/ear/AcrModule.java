@@ -27,9 +27,8 @@ import java.util.Set;
 
 /**
  * The {@link EarModule} implementation for an Acr Module.
- * <p/>
  * 
- * @author <a href="khmarbaise@apache.org">Karl Heinz Marbaise</a>
+ * @author <a href="mailto:khmarbaise@apache.org">Karl Heinz Marbaise</a>
  * @since 3.0.0
  */
 public class AcrModule
