@@ -29,12 +29,10 @@ import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.ear.util.ArtifactTypeMappingService;
 import org.apache.maven.plugins.ear.util.JavaEEVersion;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.shared.filtering.MavenResourcesFiltering;
 import org.codehaus.plexus.configuration.PlexusConfiguration;
 import org.codehaus.plexus.configuration.PlexusConfigurationException;
 
@@ -129,11 +127,9 @@ public abstract class AbstractEarMojo
     // CHECKSTYLE_ON: LineLength
 
     /**
-     * When using a {@link #fileNameMapping} with versions, either use the {@code baseVersion} or the {@code version}.
-     * When the artifact is a SNAPSHOT, {@code version} will always return a value with a {@code -SNAPSHOT} postfix
-     * instead of the possible timestamped value.
-     * 
-     * @since 2.9 FIXME: Check what exactly this means!!!
+     * When using a {@link #outputFileNameMapping} with versions, either use the {@code baseVersion} or the
+     * {@code version}. When the artifact is a SNAPSHOT, {@code version} will always return a value with a
+     * {@code -SNAPSHOT} postfix instead of the possible timestamped value.
      */
     @Parameter
     private Boolean useBaseVersion;
@@ -166,9 +162,6 @@ public abstract class AbstractEarMojo
      */
     @Parameter( defaultValue = "${project.build.directory}", required = true )
     private File tempFolder;
-
-    @Component
-    private MavenResourcesFiltering mavenResourcesFiltering;
 
     private List<EarModule> earModules;
 

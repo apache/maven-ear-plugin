@@ -258,16 +258,6 @@ public class EarMojo
     @Parameter( defaultValue = "true" )
     private boolean useJvmChmod = true;
 
-    /**
-     * The list of artifacts is checked and if you set this to {@code true} the build will fail if duplicate artifacts
-     * have been found within the build configuration.
-     * 
-     * @since 2.10
-     */
-    // TODO: This can be removed if we change to full unique identifiers in EAR (next major version!)
-    @Parameter( defaultValue = "false", property = "maven.ear.duplicateArtifactsBreakTheBuild" )
-    private boolean duplicateArtifactsBreakTheBuild;
-
     /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException, MojoFailureException
@@ -741,7 +731,7 @@ public class EarMojo
                 if ( module.getLibDir() != null )
                 {
                     // MEAR-189:
-                    // We use the original name, cause in case of fileNameMapping to no-version/full
+                    // We use the original name, cause in case of outputFileNameMapping
                     // we could not not delete it and it will end up in the resulting EAR and the WAR
                     // will not be cleaned up.
                     // CHECKSTYLE_OFF: LineLength
@@ -753,7 +743,6 @@ public class EarMojo
                     // If WAR contains files with timestamps, but EAR strips them away (useBaseVersion=true)
                     // the artifact is not found. Therefore respect the current fileNameMapping additionally.
 
-                    // FIXME: Need to check this based on the new name mapping.!
                     if ( !artifact.exists() )
                     {
                         getLog().debug( "module does not exist with original file name." );

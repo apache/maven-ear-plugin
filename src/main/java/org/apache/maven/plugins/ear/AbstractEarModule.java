@@ -250,7 +250,6 @@ public abstract class AbstractEarModule
             try
             {
                 String outputFileNameMapping = earExecutionContext.getOutputFileNameMapping();
-                System.out.println( "*** outputFileNameMapping:" + outputFileNameMapping );
                 bundleFileName = MappingUtils.evaluateFileNameMapping( outputFileNameMapping, artifact );
             }
             catch ( InterpolationException e )
