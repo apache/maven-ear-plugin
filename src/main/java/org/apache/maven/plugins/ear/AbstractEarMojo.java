@@ -120,6 +120,8 @@ public abstract class AbstractEarMojo
      * The file name mapping to use for all dependencies included in the EAR file. The mapping between artifacts and the
      * file names which is used within the EAR file. Details see
      * <a href="http://maven.apache.org/shared/maven-mapping/index.html">Maven Mapping Reference</a>.
+     * 
+     * @since 3.0.0
      */
     // CHECKSTYLE_OFF: LineLength
     @Parameter( defaultValue = "@{groupId}@-@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@", required = true )
