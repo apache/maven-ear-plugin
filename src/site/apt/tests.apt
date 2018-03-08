@@ -27,7 +27,7 @@
 EAR Plugin Tests
 
   This page lists the EAR Plugin integration tests. Each tests is built on top of a sample project available in
-  the {{{https://gitbox.apache.org/repos/asf?p=maven-ear-plugin.git;a=tree;f=src/test/resources/projects;h=39023bc4a97f4eea5305d068a3b0d24a5864b5f2;hb=HEAD/}git repository}}.
+  the {{{https://gitbox.apache.org/repos/asf?p=maven-ear-plugin.git;a=tree;f=src/test/resources/projects}git repository}}.
   This structure provides lots of concrete use cases for beginners.
 
   * project-001: builds an EAR with a single EJB and no configuration.
