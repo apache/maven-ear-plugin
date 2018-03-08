@@ -154,7 +154,7 @@ public class EarMojo
     /**
      * The name of the EAR file to generate.
      */
-    @Parameter( defaultValue = "${project.build.finalName}", required = true )
+    @Parameter( defaultValue = "${project.build.finalName}", required = true, readonly = true )
     private String finalName;
 
     /**
