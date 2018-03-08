@@ -3,6 +3,7 @@
   ------
   Stephane Nicoll
   <snicoll@apache.org>
+  Karl Heinz Marbaise <khmarbaise@apache.org>
   ------
   2006-11-19
 
@@ -26,8 +27,14 @@
 
 Customizing The File Name Mapping
 
-  It might happen that your project has the same artifactId for different groups. To avoid file name
-  clashing, specify the <<<full>>> file name mapping.
+
+    @Parameter( defaultValue = "@{groupId}@-@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@", required = true )
+    private String outputFileNameMapping;
+
+
+  It might happen that you need to change the naming of the artifacts within the EAR file. 
+  This can be achieved by using the <<<outputFileNameMapping>>>. The following shows how it could be 
+  configured in your pom file. In this example the default value is given as a starting point.
 
 +--------
   <build>
@@ -38,12 +45,33 @@ Customizing The File Name Mapping
         <version>${project.version}</version>
         <configuration>
            [...]
-           <fileNameMapping>full</fileNameMapping>
+           <outputFileNameMapping>@{groupId}@-@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@</outputFileNameMapping>
         </configuration>
       </plugin>
     </plugins>
   </build>
 +---------
 
-  As a result, each artifact file name will be prefixed by the groupId to avoid clashes. There is also a
-  <<<no-version>>> file name mapping if you do not want to get the version in the file names.
+  Based on the given things you can influence the resulting naming based on your wishes. For example you
+  want to have all artifacts within your ear file without a version you can change the configuration like the 
+  following:
+
++--------
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-ear-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+           [...]
+           <outputFileNameMapping>@{groupId}@-@{artifactId}@@{dashClassifier?}@.@{extension}@</outputFileNameMapping>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
++---------
+  
+  Just a some words about the <<<@{dashClassifier?}@>>> which expands to a classifier including the preceding
+  dash which is needed to separate it from other parts of the artifact.
+  
