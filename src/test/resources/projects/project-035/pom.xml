@@ -65,7 +65,6 @@ under the License.
         <artifactId>maven-ear-plugin</artifactId>
         <version>@project.version@</version>
         <configuration>
-          <fileNameMapping>full</fileNameMapping>
           <defaultLibBundleDir>libs</defaultLibBundleDir>
           <modules>
             <sarModule>

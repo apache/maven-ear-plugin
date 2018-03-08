@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
 Licensed to the Apache Software Foundation (ASF) under one
 or more contributor license agreements.  See the NOTICE file
@@ -8,7 +9,7 @@ to you under the Apache License, Version 2.0 (the
 "License"); you may not use this file except in compliance
 with the License.  You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+  http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing,
 software distributed under the License is distributed on an
@@ -18,42 +19,42 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>ear</groupId>
-  <artifactId>maven-ear-plugin-test-project-078</artifactId>
-  <version>99.0</version>
-  <name>Maven</name>
+
+  <groupId>org.apache.maven.its.ear.skinnywars</groupId>
+  <artifactId>ear-module</artifactId>
+  <version>1.0</version>
   <packaging>ear</packaging>
+
   <dependencies>
     <dependency>
-      <groupId>eartest</groupId>
-      <artifactId>ejb-sample-one</artifactId>
-      <version>1.0</version>
-      <type>ejb</type>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.5</version>
     </dependency>
     <dependency>
-      <groupId>eartest</groupId>
-      <artifactId>jar-sample-two</artifactId>
-      <version>1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>eartest</groupId>
-      <artifactId>war-sample-one</artifactId>
+      <groupId>org.apache.maven.its.ear.skinnywars</groupId>
+      <artifactId>war-module</artifactId>
       <version>1.0</version>
       <type>war</type>
     </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-ear-plugin</artifactId>
+        <groupId>@project.groupId@</groupId>
+        <artifactId>@project.artifactId@</artifactId>
         <version>@project.version@</version>
         <configuration>
-          <version>1.3</version>
-          <outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
+          <skinnyWars>true</skinnyWars>
+          <defaultLibBundleDir>lib/</defaultLibBundleDir>
+          <!--
+            ! Only artifactId.extension
+            ! no groupId/version etc. 
+           -->
+          <fileNameMapping>no-version</fileNameMapping>
         </configuration>
       </plugin>
     </plugins>

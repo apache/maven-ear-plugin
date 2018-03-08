@@ -173,6 +173,14 @@ public abstract class AbstractEarMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
+        if ( fileNameMapping != null )
+        {
+            getLog().error( "fileNameMapping has been removed with version 3.0.0. You are still using it." );
+            getLog().error( "Use outputFileNameMapping instead." );
+            throw new MojoExecutionException( "fileNameMapping has ben removed with version 3.0.0 "
+                + "but you are still using it." );
+        }
+
         final JavaEEVersion javaEEVersion = JavaEEVersion.getJavaEEVersion( version );
         getLog().debug( "Resolving artifact type mappings ..." );
         ArtifactTypeMappingService typeMappingService;
