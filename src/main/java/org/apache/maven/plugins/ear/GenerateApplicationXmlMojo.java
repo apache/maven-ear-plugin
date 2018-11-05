@@ -480,11 +480,15 @@ public class GenerateApplicationXmlMojo
                     interpolate( ssi, resEntry.getChild( ResourceRef.RESOURCE_TYPE ).getValue() );
                 final String childResRefAuth =
                     interpolate( ssi, resEntry.getChild( ResourceRef.RESOURCE_AUTH ).getValue() );
+                final String childResRefLookupName =
+                    interpolate( ssi, resEntry.getChild( ResourceRef.LOOKUP_NAME ).getValue() );
                 // CHECKSTYLE_ON: LineLength
 
                 try
                 {
-                    result.add( new ResourceRef( childResRefName, childResType, childResRefAuth ) );
+                    // CHECKSTYLE_OFF: LineLength
+                    result.add( new ResourceRef( childResRefName, childResType, childResRefAuth, childResRefLookupName ) );
+                    // CHECKSTYLE_ON: LineLength
                 }
                 catch ( IllegalArgumentException e )
                 {

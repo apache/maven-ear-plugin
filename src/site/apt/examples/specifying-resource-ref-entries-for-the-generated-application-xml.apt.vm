@@ -49,6 +49,11 @@ Specifying Resource Ref entries For The Generated application.xml
                <res-type>javax.sql.DataSource</res-type>
                <res-auth>Container</res-auth>
              </resourceRef>
+             <resourceRef>
+               <res-ref-name>jdbc/myDs3</res-ref-name>
+               <res-type>javax.sql.DataSource</res-type>
+               <lookup-name>jdbc/lookup/myDs3</lookup-name>
+             </resourceRef>
             </resourceRefs>
           </configuration>
       </plugin>
