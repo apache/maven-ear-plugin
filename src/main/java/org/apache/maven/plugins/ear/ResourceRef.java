@@ -32,6 +32,14 @@ import org.codehaus.plexus.util.xml.XMLWriter;
  *   &lt;res-auth&gt;Container&lt;/res-auth&gt;
  * &lt;/resource-ref&gt;
  * </pre>
+ * or
+ * <pre>
+ * &lt;resource-ref&gt;
+ *   &lt;res-ref-name&gt;jdbc/myDs&lt;/res-ref-name&gt;
+ *   &lt;res-type&gt;javax.sql.DataSource&lt;/res-type&gt;
+ *   &lt;lookup-name&gt;jdbc/lookup/myDs&lt;/lookup-name&gt;
+ * &lt;/resource-ref&gt;
+ * </pre>
  * 
  * @author Karl Heinz Marbaise
  * @since 3.0.0
@@ -46,18 +54,23 @@ public class ResourceRef
 
     static final String RESOURCE_AUTH = "res-auth";
 
+   static final String LOOKUP_NAME = "lookup-name";
+
     private String name;
 
     private String type;
 
     private String auth;
 
+   private String lookupName;
+
     /**
      * @param name The res-ref-name.
      * @param type The res-type
      * @param auth The res-auth.
+     * @param lookupName The lookup-name.
      */
-    public ResourceRef( String name, String type, String auth )
+   public ResourceRef( String name, String type, String auth, String lookupName )
     {
         if ( StringUtils.isEmpty( name ) )
         {
@@ -73,6 +86,7 @@ public class ResourceRef
         this.name = name;
         this.type = type;
         this.auth = auth;
+        this.lookupName = lookupName;
 
     }
 
@@ -98,6 +112,12 @@ public class ResourceRef
         if ( getAuth() != null )
         {
             doWriteElement( writer, RESOURCE_AUTH, getAuth() );
+        }
+
+        // lookup-name
+        if ( getLookupName() != null ) 
+        {
+            doWriteElement( writer, LOOKUP_NAME, getLookupName() );
         }
 
         // end of ejb-ref
@@ -157,6 +177,22 @@ public class ResourceRef
     public void setAuth( String auth )
     {
         this.auth = auth;
+    }
+    
+    /**
+     * @return {@link #LookupName}
+     */
+    public String getLookupName() 
+    {
+        return lookupName;
+    }
+
+   /**
+    * @param auth {@link #LookupName}
+    */
+    public void setLookupName( String lookupName ) 
+    {
+        this.lookupName = lookupName;
     }
 
 }
