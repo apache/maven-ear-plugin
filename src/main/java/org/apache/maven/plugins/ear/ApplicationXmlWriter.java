@@ -265,7 +265,7 @@ final class ApplicationXmlWriter
         writer.addAttribute( "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance" );
         // CHECKSTYLE_OFF: LineLength
         writer.addAttribute( "xsi:schemaLocation",
-                             "http://xmlns.jcp.org/xml/ns/javaee/ http://xmlns.jcp.org/xml/ns/javaee/application_8.xsd" );
+                             "http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_8.xsd" );
         // CHECKSTYLE_ON: LineLength
         writer.addAttribute( "version", "8" );
         return writer;
