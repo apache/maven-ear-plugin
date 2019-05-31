@@ -55,10 +55,10 @@ public class ArtifactRepository
     /**
      * Returns the artifact with the specified parameters.
      * <p>
-     * If the artifact is classified and is the only one with the specified groupI, artifactId and type, it will be
+     * If the artifact is classified and is the only one with the specified groupId, artifactId and type, it will be
      * returned.</p>
      * <p>
-     * If the artifact is classified and is not the only one with the specified groupI, artifactId and type, it returns
+     * If the artifact is classified and is not the only one with the specified groupId, artifactId and type, it returns
      * null.</p>
      * 
      * If the artifact is not found, it returns null.

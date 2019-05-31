@@ -27,17 +27,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipException;
-
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.plugins.annotations.ResolutionScope;
+import org.apache.maven.plugins.annotations.*;
 import org.apache.maven.plugins.ear.util.EarMavenArchiver;
 import org.apache.maven.plugins.ear.util.JavaEEVersion;
 import org.apache.maven.project.MavenProjectHelper;
@@ -330,6 +326,8 @@ public class EarMojo
             getLog().debug( "Excluding " + Arrays.asList( getPackagingExcludes() ) + " from the generated EAR." );
             getLog().debug( "Including " + Arrays.asList( getPackagingIncludes() ) + " in the generated EAR." );
 
+            removeUnnecessaryFilesFromWorkingDirectory();
+
             archiver.getArchiver().addDirectory( getWorkDirectory(), getPackagingIncludes(), getPackagingExcludes() );
             archiver.createArchive( session, getProject(), archive );
 
@@ -348,7 +346,27 @@ public class EarMojo
         }
     }
 
-    private void copyModules( final JavaEEVersion javaEEVersion, List<String> unpackTypesList )
+    private void removeUnnecessaryFilesFromWorkingDirectory() {
+
+        File[] filesInWorkingDirectory = getWorkDirectory().listFiles();
+        List<String> artifactFiles = new ArrayList<>();
+
+        for ( Artifact artifact :  project.getArtifacts() )
+        {
+            String name = artifact.getGroupId() + "-" + artifact.getFile().getName();
+            artifactFiles.add(name) ;
+        }
+
+        for( File file : filesInWorkingDirectory )
+        {
+            if( !artifactFiles.contains(file.getName()) )
+            {
+                file.delete();
+            }
+        }
+    }
+
+    private void copyModules(final JavaEEVersion javaEEVersion, List<String> unpackTypesList )
         throws MojoExecutionException, MojoFailureException
     {
         try
@@ -667,7 +685,7 @@ public class EarMojo
         return filterWrappers;
     }
 
-    private void changeManifestClasspath( EarModule module, File original, JavaEEVersion javaEEVersion )
+    private void changeManifestClasspath(EarModule module, File original, JavaEEVersion javaEEVersion )
         throws MojoFailureException
     {
         try
@@ -772,7 +790,7 @@ public class EarMojo
             // Modify the classpath entries in the manifest
             for ( EarModule o : getModules() )
             {
-                if ( o instanceof JarModule )
+                if ( o instanceof JarModule)
                 {
                     JarModule jm = (JarModule) o;
                     if ( classPathElements.contains( jm.getBundleFileName() ) )
