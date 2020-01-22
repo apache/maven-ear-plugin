@@ -180,7 +180,7 @@ public class ResourceRef
     }
     
     /**
-     * @return {@link #LookupName}
+     * @return {@link #lookupName}
      */
     public String getLookupName() 
     {
@@ -188,7 +188,7 @@ public class ResourceRef
     }
 
    /**
-    * @param auth {@link #LookupName}
+    * @param lookupName {@link #lookupName}
     */
     public void setLookupName( String lookupName ) 
     {

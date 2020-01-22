@@ -17,4 +17,5 @@
  * under the License.
  */
 
-asfMavenTlpPlgnBuild()
+// asfMavenTlpStdBuild( 'jdks' : [ "11" ] )
+asfMavenTlpStdBuild( )

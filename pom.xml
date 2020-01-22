@@ -30,7 +30,7 @@
   </parent>
 
   <artifactId>maven-ear-plugin</artifactId>
-  <version>3.0.2-SNAPSHOT</version>
+  <version>3.0.3-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Apache Maven EAR Plugin</name>
@@ -84,6 +84,7 @@
     <mavenFilteringVersion>3.1.1</mavenFilteringVersion>
     <mavenVersion>3.0</mavenVersion>
     <javaVersion>7</javaVersion>
+    <surefire.version>2.22.1</surefire.version>
   </properties>
 
   <dependencies>
@@ -115,7 +116,7 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-archiver</artifactId>
-      <version>3.6.0</version>
+      <version>4.1.0</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
@@ -130,7 +131,7 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-interpolation</artifactId>
-      <version>1.24</version>
+      <version>1.25</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.shared</groupId>
@@ -168,6 +169,14 @@
 
     <pluginManagement>
       <plugins>
+        <!--
+          TODO: maven-invoker-plugin version should come from maven-plugins pom
+        -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-invoker-plugin</artifactId>
+          <version>3.2.1</version>
+        </plugin>
         <plugin>
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
@@ -255,6 +264,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-invoker-plugin</artifactId>
             <configuration>
+              <streamLogs>true</streamLogs>
               <!-- NOTE: Must be synced with the repo path used by AbstractEarPluginIT -->
               <localRepositoryPath>${localRepositoryPath}</localRepositoryPath>
               <goals>
