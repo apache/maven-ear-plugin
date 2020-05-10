@@ -30,6 +30,10 @@ under the License.
   <name>Maven Integration Test :: it0033</name> 
   <description>Test an EAR generation</description>
 
+  <properties>
+    <project.build.outputTimestamp>2020-05-01T12:12:12Z</project.build.outputTimestamp>
+  </properties>
+
   <build>
     <plugins>
       <plugin>

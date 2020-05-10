@@ -224,6 +224,16 @@ public class EarMojo
     private MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
 
     /**
+     * Timestamp for reproducible output archive entries, either formatted as ISO 8601
+     * <code>yyyy-MM-dd'T'HH:mm:ssXXX</code> or as an int representing seconds since the epoch (like
+     * <a href="https://reproducible-builds.org/docs/source-date-epoch/">SOURCE_DATE_EPOCH</a>).
+     *
+     * @since 3.1.0
+     */
+    @Parameter( defaultValue = "${project.build.outputTimestamp}" )
+    private String outputTimestamp;
+
+    /**
      */
     @Component
     private MavenProjectHelper projectHelper;
@@ -326,6 +336,11 @@ public class EarMojo
             getLog().debug( "Jar archiver implementation [" + theJarArchiver.getClass().getName() + "]" );
             archiver.setArchiver( theJarArchiver );
             archiver.setOutputFile( earFile );
+
+            archiver.setCreatedBy( "Maven EAR Plugin", "org.apache.maven.plugins", "maven-ear-plugin" );
+
+            // configure for Reproducible Builds based on outputTimestamp value
+            archiver.configureReproducible( outputTimestamp );
 
             getLog().debug( "Excluding " + Arrays.asList( getPackagingExcludes() ) + " from the generated EAR." );
             getLog().debug( "Including " + Arrays.asList( getPackagingIncludes() ) + " in the generated EAR." );
