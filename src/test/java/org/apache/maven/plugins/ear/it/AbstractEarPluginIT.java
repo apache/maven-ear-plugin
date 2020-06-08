@@ -91,7 +91,7 @@ public abstract class AbstractEarPluginIT
         verifier.getCliOptions().add( "-X" );
         verifier.setLocalRepo( localRepo );
 
-        // On linux and macOSX, an exception is thrown if a build failure occurs underneath
+        // On linux and MacOS X, an exception is thrown if a build failure occurs underneath
         try
         {
             verifier.executeGoal( "package" );
@@ -129,48 +129,27 @@ public abstract class AbstractEarPluginIT
     }
 
     /**
-     * Executes the specified projects and asserts the given artifacts.
-     * 
-     * @param projectName the project to test
-     * @param expectedArtifacts the list of artifacts to be found in the EAR archive
-     * @param artifactsDirectory whether the artifact is an exploded artifactsDirectory or not
-     * @param testDeploymentDescriptors whether we should test deployment descriptors
-     * @return the base directory of the project
-     * @throws Exception Mojo exception in case of an error.
-     */
-    protected File doTestProject( final String projectName, final String[] expectedArtifacts,
-                                  final boolean[] artifactsDirectory, boolean testDeploymentDescriptors )
-        throws Exception
-    {
-        final File baseDir = executeMojo( projectName, new Properties() );
-        assertEarArchive( baseDir, projectName );
-        assertEarDirectory( baseDir, projectName );
-
-        assertArchiveContent( baseDir, projectName, expectedArtifacts, artifactsDirectory );
-
-        if ( testDeploymentDescriptors )
-        {
-            assertDeploymentDescriptors( baseDir, projectName );
-        }
-
-        return baseDir;
-
-    }
-
-    /**
      * Executes the specified projects and asserts the given artifacts. Assert the deployment descriptors are valid
      * 
      * @param projectName the project to test
      * @param expectedArtifacts the list of artifacts to be found in the EAR archive
      * @param artifactsDirectory whether the artifact is an exploded artifactsDirectory or not
      * @return the base directory of the project
-     * @throws Exception Mojo exception in case of an error.
+     * @throws Exception Mojo exception in case of an error
      */
     protected File doTestProject( final String projectName, final String[] expectedArtifacts,
                                   final boolean[] artifactsDirectory )
         throws Exception
     {
-        return doTestProject( projectName, expectedArtifacts, artifactsDirectory, true );
+        final File baseDir = executeMojo( projectName, new Properties() );
+        assertEarArchive( baseDir, projectName );
+        assertEarDirectory( baseDir, projectName );
+        
+        assertArchiveContent( baseDir, projectName, expectedArtifacts, artifactsDirectory );
+        
+        assertDeploymentDescriptors( baseDir, projectName );
+        
+        return baseDir;
 
     }
 
