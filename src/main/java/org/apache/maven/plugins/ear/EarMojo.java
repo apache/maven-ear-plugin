@@ -23,8 +23,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.zip.ZipException;
 
@@ -57,6 +65,7 @@ import org.codehaus.plexus.archiver.manager.ArchiverManager;
 import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
 import org.codehaus.plexus.archiver.zip.ZipArchiver;
 import org.codehaus.plexus.archiver.zip.ZipUnArchiver;
+import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -261,7 +270,7 @@ public class EarMojo
     private MavenSession session;
 
     private List<FileUtils.FilterWrapper> filterWrappers;
-
+    
     /**
      * @since 2.9
      */
@@ -279,17 +288,46 @@ public class EarMojo
         zipUnArchiver.setUseJvmChmod( useJvmChmod );
 
         final JavaEEVersion javaEEVersion = JavaEEVersion.getJavaEEVersion( version );
+        
+        final Collection<String> outdatedResources;
+        
+        if ( !getWorkDirectory().exists() )
+        {
+            outdatedResources = Collections.emptyList(); 
+        }
+        else
+        {
+            outdatedResources = new ArrayList<>();
+            try
+            {
+                Files.walkFileTree( getWorkDirectory().toPath(), new SimpleFileVisitor<Path>() 
+                {
+                    @Override
+                    public FileVisitResult visitFile( Path file, BasicFileAttributes attrs )
+                        throws IOException
+                    {
+                        outdatedResources.add( getWorkDirectory().toPath().relativize( file ).toString() );
+                        return super.visitFile( file, attrs );
+                    }
+                } );
+            }
+            catch ( IOException e )
+            {
+                getLog().warn( "Can't detect outdated resources", e );
+            } 
+        }
 
         // Initializes unpack types
         List<String> unpackTypesList = createUnpackList();
 
         // Copy modules
-        copyModules( javaEEVersion, unpackTypesList );
+        copyModules( javaEEVersion, unpackTypesList, outdatedResources );
 
         // Copy source files
         try
         {
             File earSourceDir = earSourceDirectory;
+            
             if ( earSourceDir.exists() )
             {
                 getLog().info( "Copy ear sources to " + getWorkDirectory().getAbsolutePath() );
@@ -297,6 +335,7 @@ public class EarMojo
                 for ( String fileName : fileNames )
                 {
                     copyFile( new File( earSourceDir, fileName ), new File( getWorkDirectory(), fileName ) );
+                    outdatedResources.remove( Paths.get( fileName ).toString() );
                 }
             }
 
@@ -306,8 +345,8 @@ public class EarMojo
                 getLog().info( "Including custom application.xml[" + applicationXml + "]" );
                 File metaInfDir = new File( getWorkDirectory(), META_INF );
                 copyFile( new File( applicationXml ), new File( metaInfDir, "/application.xml" ) );
+                outdatedResources.remove( Paths.get( "META-INF/application.xml" ).toString() );
             }
-
         }
         catch ( IOException e )
         {
@@ -326,6 +365,17 @@ public class EarMojo
             throw new MojoExecutionException( "Deployment descriptor: " + ddFile.getAbsolutePath()
                 + " does not exist." );
             // CHECKSTYLE_ON: LineLength
+        }
+        
+        final long startTime = session.getStartTime().getTime();
+        
+        // generate-application-xml writes directly to working directory, so needs to be verified based on timestamp
+        for ( String outdatedResource : outdatedResources )
+        {
+            if ( new File( getWorkDirectory(), outdatedResource ).lastModified() < startTime )
+            {
+                new File( getWorkDirectory(), outdatedResource ).delete();
+            }
         }
 
         try
@@ -363,9 +413,13 @@ public class EarMojo
         }
     }
 
-    private void copyModules( final JavaEEVersion javaEEVersion, List<String> unpackTypesList )
+    private void copyModules( final JavaEEVersion javaEEVersion, 
+                              List<String> unpackTypesList, 
+                              Collection<String> outdatedResources )
         throws MojoExecutionException, MojoFailureException
     {
+        final Path workingDir = getWorkDirectory().toPath();
+        
         try
         {
             for ( EarModule module : getModules() )
@@ -397,7 +451,7 @@ public class EarMojo
                     getLog().info( "Copying artifact [" + module + "] to [" + module.getUri() + "] (unpacked)" );
                     // Make sure that the destination is a directory to avoid plexus nasty stuff :)
                     destinationFile.mkdirs();
-                    unpack( sourceFile, destinationFile );
+                    unpack( sourceFile, destinationFile, outdatedResources );
 
                     if ( skinnyWars && module.changeManifestClasspath() )
                     {
@@ -421,6 +475,7 @@ public class EarMojo
                         getLog().debug( "Skipping artifact [" + module + "], as it is already up to date at ["
                             + module.getUri() + "]" );
                     }
+                    outdatedResources.remove( workingDir.relativize( destinationFile.toPath() ).toString() );
                 }
             }
         }
@@ -607,12 +662,24 @@ public class EarMojo
      * @throws NoSuchArchiverException In case of we don't have an appropriate archiver.
      * @throws IOException In case of a general IOException.
      */
-    public void unpack( File source, File destDir )
+    public void unpack( File source, final File destDir, final Collection<String> outdatedResources )
         throws NoSuchArchiverException, IOException
     {
         UnArchiver unArchiver = archiverManager.getUnArchiver( "zip" );
         unArchiver.setSourceFile( source );
         unArchiver.setDestDirectory( destDir );
+        unArchiver.setFileMappers( new FileMapper[] {
+            new FileMapper()
+            {
+                @Override
+                public String getMappedFileName( String pName )
+                {
+                    Path destFile = destDir.toPath().resolve( pName );
+                    outdatedResources.remove( getWorkDirectory().toPath().relativize( destFile ).toString() );
+                    return pName;
+                }
+            }
+        } );
 
         // Extract the module
         unArchiver.extract();
