@@ -58,6 +58,7 @@ import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.UnArchiver;
 import org.codehaus.plexus.archiver.ear.EarArchiver;
+import org.codehaus.plexus.archiver.jar.JarArchiver;
 import org.codehaus.plexus.archiver.jar.Manifest;
 import org.codehaus.plexus.archiver.jar.Manifest.Attribute;
 import org.codehaus.plexus.archiver.jar.ManifestException;
@@ -212,6 +213,12 @@ public class EarMojo
      */
     @Component( role = Archiver.class, hint = "ear" )
     private EarArchiver earArchiver;
+
+    /**
+     * The Jar archiver.
+     */
+    @Component( role = Archiver.class, hint = "jar" )
+    private JarArchiver jarArchiver;
 
     /**
      * The Zip archiver.
@@ -382,10 +389,19 @@ public class EarMojo
         {
             File earFile = getEarFile( outputDirectory, finalName, classifier );
             final MavenArchiver archiver = new EarMavenArchiver( getModules() );
-            final EarArchiver theEarArchiver = getEarArchiver();
-            theEarArchiver.setAppxml( ddFile );
-            getLog().debug( "Ear archiver implementation [" + theEarArchiver.getClass().getName() + "]" );
-            archiver.setArchiver( theEarArchiver );
+            JarArchiver theArchiver;
+            if ( ddFile.exists() )
+            {
+                final EarArchiver earArchiver = getEarArchiver();
+                earArchiver.setAppxml( ddFile );
+                theArchiver = earArchiver;
+            }
+            else
+            {
+                theArchiver = getJarArchiver();
+            }
+            getLog().debug( "Archiver implementation [" + theArchiver.getClass().getName() + "]" );
+            archiver.setArchiver( theArchiver );
             archiver.setOutputFile( earFile );
 
             archiver.setCreatedBy( "Maven EAR Plugin", "org.apache.maven.plugins", "maven-ear-plugin" );
@@ -695,6 +711,18 @@ public class EarMojo
     protected EarArchiver getEarArchiver()
     {
         return earArchiver;
+    }
+
+    /**
+     * Returns the {@link JarArchiver} implementation used to package the EAR file.
+     *
+     * By default the archiver is obtained from the Plexus container.
+     *
+     * @return the archiver
+     */
+    protected JarArchiver getJarArchiver()
+    {
+        return jarArchiver;
     }
 
     private void copyFile( File source, File target )
