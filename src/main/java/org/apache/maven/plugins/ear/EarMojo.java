@@ -58,7 +58,6 @@ import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.UnArchiver;
 import org.codehaus.plexus.archiver.ear.EarArchiver;
-import org.codehaus.plexus.archiver.jar.JarArchiver;
 import org.codehaus.plexus.archiver.jar.Manifest;
 import org.codehaus.plexus.archiver.jar.Manifest.Attribute;
 import org.codehaus.plexus.archiver.jar.ManifestException;
@@ -209,7 +208,7 @@ public class EarMojo
     private boolean skinnyWars;
 
     /**
-     * The Jar archiver.
+     * The Ear archiver.
      */
     @Component( role = Archiver.class, hint = "ear" )
     private EarArchiver earArchiver;
@@ -385,7 +384,7 @@ public class EarMojo
             final MavenArchiver archiver = new EarMavenArchiver( getModules() );
             final EarArchiver theEarArchiver = getEarArchiver();
             theEarArchiver.setAppxml( ddFile );
-            getLog().debug( "Jar archiver implementation [" + theEarArchiver.getClass().getName() + "]" );
+            getLog().debug( "Ear archiver implementation [" + theEarArchiver.getClass().getName() + "]" );
             archiver.setArchiver( theEarArchiver );
             archiver.setOutputFile( earFile );
 
@@ -687,7 +686,7 @@ public class EarMojo
     }
 
     /**
-     * Returns the {@link JarArchiver} implementation used to package the EAR file.
+     * Returns the {@link EarArchiver} implementation used to package the EAR file.
      *
      * By default the archiver is obtained from the Plexus container.
      * 
