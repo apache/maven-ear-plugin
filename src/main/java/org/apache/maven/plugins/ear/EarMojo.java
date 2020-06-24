@@ -57,6 +57,7 @@ import org.apache.maven.shared.utils.io.FileUtils;
 import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.UnArchiver;
+import org.codehaus.plexus.archiver.ear.EarArchiver;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
 import org.codehaus.plexus.archiver.jar.Manifest;
 import org.codehaus.plexus.archiver.jar.Manifest.Attribute;
@@ -210,8 +211,8 @@ public class EarMojo
     /**
      * The Jar archiver.
      */
-    @Component( role = Archiver.class, hint = "jar" )
-    private JarArchiver jarArchiver;
+    @Component( role = Archiver.class, hint = "ear" )
+    private EarArchiver earArchiver;
 
     /**
      * The Zip archiver.
@@ -382,9 +383,10 @@ public class EarMojo
         {
             File earFile = getEarFile( outputDirectory, finalName, classifier );
             final MavenArchiver archiver = new EarMavenArchiver( getModules() );
-            final JarArchiver theJarArchiver = getJarArchiver();
-            getLog().debug( "Jar archiver implementation [" + theJarArchiver.getClass().getName() + "]" );
-            archiver.setArchiver( theJarArchiver );
+            final EarArchiver theEarArchiver = getEarArchiver();
+            theEarArchiver.setAppxml( ddFile );
+            getLog().debug( "Jar archiver implementation [" + theEarArchiver.getClass().getName() + "]" );
+            archiver.setArchiver( theEarArchiver );
             archiver.setOutputFile( earFile );
 
             archiver.setCreatedBy( "Maven EAR Plugin", "org.apache.maven.plugins", "maven-ear-plugin" );
@@ -397,7 +399,6 @@ public class EarMojo
 
             archiver.getArchiver().addDirectory( getWorkDirectory(), getPackagingIncludes(), getPackagingExcludes() );
             archiver.createArchive( session, getProject(), archive );
-
             if ( classifier != null )
             {
                 projectHelper.attachArtifact( getProject(), "ear", classifier, earFile );
@@ -692,9 +693,9 @@ public class EarMojo
      * 
      * @return the archiver
      */
-    protected JarArchiver getJarArchiver()
+    protected EarArchiver getEarArchiver()
     {
-        return jarArchiver;
+        return earArchiver;
     }
 
     private void copyFile( File source, File target )
