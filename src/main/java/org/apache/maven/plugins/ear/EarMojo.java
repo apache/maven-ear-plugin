@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipException;
 
@@ -285,6 +286,11 @@ public class EarMojo
         super.execute();
 
         zipArchiver.setUseJvmChmod( useJvmChmod );
+        final Date parsedOutputTimestamp = new MavenArchiver().parseOutputTimestamp( outputTimestamp );
+        if ( parsedOutputTimestamp != null )
+        {
+            zipArchiver.configureReproducible( parsedOutputTimestamp );
+        }
         zipUnArchiver.setUseJvmChmod( useJvmChmod );
 
         final JavaEEVersion javaEEVersion = JavaEEVersion.getJavaEEVersion( version );
