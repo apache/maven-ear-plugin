@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipException;
 
@@ -284,7 +285,33 @@ public class EarMojo
         // Initializes ear modules
         super.execute();
 
+        final File earFile;
+        final MavenArchiver archiver;
+        final Date reproducibleLastModifiedDate;
+        try
+        {
+            earFile = getEarFile( outputDirectory, finalName, classifier );
+            archiver = new EarMavenArchiver( getModules() );
+            final JarArchiver theJarArchiver = getJarArchiver();
+            getLog().debug( "Jar archiver implementation [" + theJarArchiver.getClass().getName() + "]" );
+            archiver.setArchiver( theJarArchiver );
+            archiver.setOutputFile( earFile );
+
+            archiver.setCreatedBy( "Maven EAR Plugin", "org.apache.maven.plugins", "maven-ear-plugin" );
+
+            // configure for Reproducible Builds based on outputTimestamp value
+            reproducibleLastModifiedDate = archiver.configureReproducible( outputTimestamp );
+        }
+        catch ( Exception e )
+        {
+            throw new MojoExecutionException( "Error assembling EAR", e );
+        }
+
         zipArchiver.setUseJvmChmod( useJvmChmod );
+        if ( reproducibleLastModifiedDate != null )
+        {
+            zipArchiver.configureReproducible( reproducibleLastModifiedDate );
+        }
         zipUnArchiver.setUseJvmChmod( useJvmChmod );
 
         final JavaEEVersion javaEEVersion = JavaEEVersion.getJavaEEVersion( version );
@@ -381,18 +408,6 @@ public class EarMojo
 
         try
         {
-            File earFile = getEarFile( outputDirectory, finalName, classifier );
-            final MavenArchiver archiver = new EarMavenArchiver( getModules() );
-            final JarArchiver theJarArchiver = getJarArchiver();
-            getLog().debug( "Jar archiver implementation [" + theJarArchiver.getClass().getName() + "]" );
-            archiver.setArchiver( theJarArchiver );
-            archiver.setOutputFile( earFile );
-
-            archiver.setCreatedBy( "Maven EAR Plugin", "org.apache.maven.plugins", "maven-ear-plugin" );
-
-            // configure for Reproducible Builds based on outputTimestamp value
-            archiver.configureReproducible( outputTimestamp );
-
             getLog().debug( "Excluding " + Arrays.asList( getPackagingExcludes() ) + " from the generated EAR." );
             getLog().debug( "Including " + Arrays.asList( getPackagingIncludes() ) + " in the generated EAR." );
 
