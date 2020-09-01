@@ -18,9 +18,13 @@
  */
 
 import java.io.*;
+import java.nio.file.attribute.FileTime;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.jar.*;
 import java.util.regex.*;
+import java.util.zip.ZipEntry;
 
 File jarFile = new File( basedir, "target/test-1.0.ear" );
 System.out.println( "Checking for existence of " + jarFile );
@@ -35,12 +39,44 @@ String[] includedEntries = {
     "META-INF/application.xml",
     "META-INF/appserver-application.xml",
 };
+
+// Refer to org.apache.maven.archiver.MavenArchiver.parseOutputTimestamp
+DateFormat entryDateFormat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssXXX" );
+Date notNormalizedExpectedEntryDate = entryDateFormat.parse( "2020-05-01T12:12:12Z" );
+// Refer to org.codehaus.plexus.archiver.zip.AbstractZipArchiver.normalizeLastModifiedDate
+// and org.codehaus.plexus.archiver.zip.AbstractZipArchiver.dosToJavaTime
+Calendar calendar = Calendar.getInstance();
+FileTime expectedEntryTimestamp = FileTime.fromMillis( notNormalizedExpectedEntryDate.getTime()
+    - calendar.get( Calendar.ZONE_OFFSET ) - calendar.get( Calendar.DST_OFFSET ) );
+
 for ( String included : includedEntries )
 {
     System.out.println( "Checking for existence of " + included );
-    if ( jar.getEntry( included ) == null )
+    ZipEntry jarEntry = jar.getEntry( included );
+    if ( jarEntry == null )
     {
         throw new IllegalStateException( "Missing archive entry: " + included );
+    }
+    FileTime creationTime = jarEntry.getCreationTime();
+    if ( creationTime != null && !creationTime.equals(expectedEntryTimestamp) )
+    {
+        throw new IllegalStateException( "Invalid creation time: " + creationTime
+            + " of archive entry: " + included
+            + ", expected: " + expectedEntryTimestamp );
+    }
+    FileTime lastAccessTime = jarEntry.getLastAccessTime();
+    if ( lastAccessTime != null && !lastAccessTime.equals(expectedEntryTimestamp) )
+    {
+        throw new IllegalStateException( "Invalid last access time: " + lastAccessTime
+            + " of archive entry: " + included
+            + ", expected: " + expectedEntryTimestamp );
+    }
+    FileTime lastModifiedTime = jarEntry.getLastModifiedTime();
+    if ( lastModifiedTime == null || !lastModifiedTime.equals(expectedEntryTimestamp) )
+    {
+        throw new IllegalStateException( "Invalid last modified time: " + lastModifiedTime
+            + " of archive entry: " + included
+            + ", expected: " + expectedEntryTimestamp );
     }
 }
 
