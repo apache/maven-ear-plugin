@@ -27,6 +27,10 @@ under the License.
   <version>1.0</version>
   <packaging>ear</packaging>
 
+  <properties>
+    <project.build.outputTimestamp>2020-05-01T12:12:12Z</project.build.outputTimestamp>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>commons-lang</groupId>
