@@ -374,6 +374,7 @@ public class EarMojo
         {
             if ( new File( getWorkDirectory(), outdatedResource ).lastModified() < startTime )
             {
+                getLog().info( "deleting outdated resource " + outdatedResource );
                 new File( getWorkDirectory(), outdatedResource ).delete();
             }
         }
