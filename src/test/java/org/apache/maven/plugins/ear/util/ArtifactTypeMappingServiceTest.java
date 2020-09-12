@@ -24,7 +24,6 @@ import junit.framework.TestCase;
 import org.apache.maven.plugins.ear.EarModuleFactory;
 import org.apache.maven.plugins.ear.EarPluginException;
 import org.apache.maven.plugins.ear.UnknownArtifactTypeException;
-import org.apache.maven.plugins.ear.util.ArtifactTypeMappingService;
 import org.codehaus.plexus.configuration.PlexusConfigurationException;
 import org.codehaus.plexus.configuration.xml.XmlPlexusConfiguration;
 

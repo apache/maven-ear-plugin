@@ -24,8 +24,6 @@ import static org.junit.Assert.assertNull;
 
 import org.apache.maven.plugins.ear.AbstractEarTestBase;
 import org.apache.maven.plugins.ear.EarPluginException;
-import org.apache.maven.plugins.ear.util.ArtifactRepository;
-import org.apache.maven.plugins.ear.util.ArtifactTypeMappingService;
 import org.codehaus.plexus.configuration.PlexusConfigurationException;
 import org.junit.Test;
 

@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.ZipException;
 
 import org.apache.maven.archiver.MavenArchiveConfiguration;
@@ -573,7 +574,7 @@ public class EarMojo
      */
     protected String[] getIncludes()
     {
-        return StringUtils.split( StringUtils.defaultString( earSourceIncludes ), "," );
+        return StringUtils.split( Objects.toString( earSourceIncludes, "" ), "," );
     }
 
     /**

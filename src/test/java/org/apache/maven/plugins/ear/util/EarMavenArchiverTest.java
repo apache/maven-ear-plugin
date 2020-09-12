@@ -8,7 +8,6 @@ import java.util.List;
 import org.apache.maven.plugins.ear.AbstractEarTestBase;
 import org.apache.maven.plugins.ear.EarModule;
 import org.apache.maven.plugins.ear.EjbModule;
-import org.apache.maven.plugins.ear.util.EarMavenArchiver;
 import org.junit.Test;
 
 /*

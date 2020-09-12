@@ -4,8 +4,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.plugins.ear.AbstractEarModule;
-import org.apache.maven.plugins.ear.EarModule;
 import org.apache.maven.plugins.ear.stub.ArtifactTestStub;
 
 /*
