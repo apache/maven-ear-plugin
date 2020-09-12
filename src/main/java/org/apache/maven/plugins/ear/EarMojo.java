@@ -209,19 +209,19 @@ public class EarMojo
     private boolean skinnyWars;
 
     /**
-     * The Jar archiver.
+     * The Jar archiver to create the output archive.
      */
     @Component( role = Archiver.class, hint = "jar" )
     private JarArchiver jarArchiver;
 
     /**
-     * The Zip archiver.
+     * The Zip archiver for Skinny WAR repackaging.
      */
     @Component( role = Archiver.class, hint = "zip" )
     private ZipArchiver zipArchiver;
 
     /**
-     * The Zip Un archiver.
+     * The Zip Un archiver for Skinny WAR repackaging.
      */
     @Component( role = UnArchiver.class, hint = "zip" )
     private ZipUnArchiver zipUnArchiver;
@@ -292,9 +292,8 @@ public class EarMojo
         {
             earFile = getEarFile( outputDirectory, finalName, classifier );
             archiver = new EarMavenArchiver( getModules() );
-            final JarArchiver theJarArchiver = getJarArchiver();
-            getLog().debug( "Jar archiver implementation [" + theJarArchiver.getClass().getName() + "]" );
-            archiver.setArchiver( theJarArchiver );
+            getLog().debug( "Jar archiver implementation [" + jarArchiver.getClass().getName() + "]" );
+            archiver.setArchiver( jarArchiver );
             archiver.setOutputFile( earFile );
 
             archiver.setCreatedBy( "Maven EAR Plugin", "org.apache.maven.plugins", "maven-ear-plugin" );
@@ -699,18 +698,6 @@ public class EarMojo
 
         // Extract the module
         unArchiver.extract();
-    }
-
-    /**
-     * Returns the {@link JarArchiver} implementation used to package the EAR file.
-     *
-     * By default the archiver is obtained from the Plexus container.
-     * 
-     * @return the archiver
-     */
-    protected JarArchiver getJarArchiver()
-    {
-        return jarArchiver;
     }
 
     private void copyFile( File source, File target )
