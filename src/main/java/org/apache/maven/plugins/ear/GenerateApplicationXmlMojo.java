@@ -362,7 +362,6 @@ public class GenerateApplicationXmlMojo
 
             final PlexusConfiguration[] allEnvEntries = envEntries.getChildren( EnvEntry.ENV_ENTRY );
 
-            getLog().debug( "buildEnvEntries: allEnvEntries:" + allEnvEntries );
             getLog().debug( "buildEnvEntries: allEnvEntries size:" + allEnvEntries.length );
             for ( PlexusConfiguration envEntry : allEnvEntries )
             {
@@ -470,7 +469,6 @@ public class GenerateApplicationXmlMojo
             // TODO: Check if this is a good idea hard code that here? Better idea?
             final PlexusConfiguration[] allResourceRefEntries = resourceRefs.getChildren( "resourceRef" );
 
-            getLog().debug( "allResourceRefEntries: " + allResourceRefEntries );
             getLog().debug( "allResourceRefEntries length: " + allResourceRefEntries.length );
             for ( PlexusConfiguration resEntry : allResourceRefEntries )
             {
