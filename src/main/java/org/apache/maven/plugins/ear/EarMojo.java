@@ -393,10 +393,11 @@ public class EarMojo
                 + " does not exist." );
             // CHECKSTYLE_ON: LineLength
         }
+        // no need to check timestamp: removing if outdated does not really make sense
+        outdatedResources.remove( Paths.get( APPLICATION_XML_URI ).toString() );
         
         final long startTime = session.getStartTime().getTime();
         
-        // generate-application-xml writes directly to working directory, so needs to be verified based on timestamp
         for ( String outdatedResource : outdatedResources )
         {
             if ( new File( getWorkDirectory(), outdatedResource ).lastModified() < startTime )
