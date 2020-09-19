@@ -393,8 +393,12 @@ public class EarMojo
                 + " does not exist." );
             // CHECKSTYLE_ON: LineLength
         }
-        // no need to check timestamp: removing if outdated does not really make sense
+        // no need to check timestamp for descriptors: removing if outdated does not really make sense
         outdatedResources.remove( Paths.get( APPLICATION_XML_URI ).toString() );
+        if ( getJbossConfiguration() != null )
+        {
+            outdatedResources.remove( Paths.get( "META-INF/jboss-app.xml" ).toString() );
+        }
         
         final long startTime = session.getStartTime().getTime();
         
