@@ -21,8 +21,10 @@ package org.apache.maven.plugins.ear;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -890,9 +892,11 @@ public class EarMojo
             mf.getMainSection().addConfiguredAttribute( classPath );
 
             // Write the manifest to disk
-            PrintWriter pw = new PrintWriter( newCreatedManifestFile );
-            mf.write( pw );
-            pw.close();
+            try ( FileOutputStream out = new FileOutputStream( newCreatedManifestFile );
+                  OutputStreamWriter writer = new OutputStreamWriter( out, StandardCharsets.UTF_8 ) )
+            {
+                mf.write( writer );
+            }
 
             if ( original.isFile() )
             {
