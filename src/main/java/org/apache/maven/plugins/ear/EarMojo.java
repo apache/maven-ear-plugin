@@ -33,7 +33,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.ZipException;
 
 import org.apache.maven.archiver.MavenArchiveConfiguration;
@@ -209,25 +211,25 @@ public class EarMojo
     private boolean skinnyWars;
 
     /**
-     * The Ear archiver.
+     * The Ear archiver to create the output archive.
      */
     @Component( role = Archiver.class, hint = "ear" )
     private EarArchiver earArchiver;
 
     /**
-     * The Jar archiver.
+     * The Jar archiver to create the output archive.
      */
     @Component( role = Archiver.class, hint = "jar" )
     private JarArchiver jarArchiver;
 
     /**
-     * The Zip archiver.
+     * The Zip archiver for Skinny WAR repackaging.
      */
     @Component( role = Archiver.class, hint = "zip" )
     private ZipArchiver zipArchiver;
 
     /**
-     * The Zip Un archiver.
+     * The Zip Un archiver for Skinny WAR repackaging.
      */
     @Component( role = UnArchiver.class, hint = "zip" )
     private ZipUnArchiver zipUnArchiver;
@@ -291,7 +293,45 @@ public class EarMojo
         // Initializes ear modules
         super.execute();
 
+        final File earFile;
+        final MavenArchiver archiver;
+        final Date reproducibleLastModifiedDate;
+        File ddFile = new File( getWorkDirectory(), APPLICATION_XML_URI );
+        try
+        {
+            earFile = getEarFile( outputDirectory, finalName, classifier );
+            archiver = new EarMavenArchiver( getModules() );
+            JarArchiver theArchiver;
+            if ( ddFile.exists() )
+            {
+                final EarArchiver earArchiver = getEarArchiver();
+                earArchiver.setAppxml( ddFile );
+                theArchiver = earArchiver;
+            }
+            else
+            {
+                theArchiver = getJarArchiver();
+            }
+
+            getLog().debug( "Jar archiver implementation [" + theArchiver.getClass().getName() + "]" );
+            archiver.setArchiver( theArchiver );
+            archiver.setOutputFile( earFile );
+
+            archiver.setCreatedBy( "Maven EAR Plugin", "org.apache.maven.plugins", "maven-ear-plugin" );
+
+            // configure for Reproducible Builds based on outputTimestamp value
+            reproducibleLastModifiedDate = archiver.configureReproducible( outputTimestamp );
+        }
+        catch ( Exception e )
+        {
+            throw new MojoExecutionException( "Error assembling EAR", e );
+        }
+
         zipArchiver.setUseJvmChmod( useJvmChmod );
+        if ( reproducibleLastModifiedDate != null )
+        {
+            zipArchiver.configureReproducible( reproducibleLastModifiedDate );
+        }
         zipUnArchiver.setUseJvmChmod( useJvmChmod );
 
         final JavaEEVersion javaEEVersion = JavaEEVersion.getJavaEEVersion( version );
@@ -365,7 +405,6 @@ public class EarMojo
         }
 
         // Check if deployment descriptor is there
-        File ddFile = new File( getWorkDirectory(), APPLICATION_XML_URI );
         if ( !ddFile.exists() && ( javaEEVersion.lt( JavaEEVersion.FIVE ) ) )
         {
             // CHECKSTYLE_OFF: LineLength
@@ -373,42 +412,26 @@ public class EarMojo
                 + " does not exist." );
             // CHECKSTYLE_ON: LineLength
         }
+        // no need to check timestamp for descriptors: removing if outdated does not really make sense
+        outdatedResources.remove( Paths.get( APPLICATION_XML_URI ).toString() );
+        if ( getJbossConfiguration() != null )
+        {
+            outdatedResources.remove( Paths.get( "META-INF/jboss-app.xml" ).toString() );
+        }
         
         final long startTime = session.getStartTime().getTime();
         
-        // generate-application-xml writes directly to working directory, so needs to be verified based on timestamp
         for ( String outdatedResource : outdatedResources )
         {
             if ( new File( getWorkDirectory(), outdatedResource ).lastModified() < startTime )
             {
+                getLog().info( "deleting outdated resource " + outdatedResource );
                 new File( getWorkDirectory(), outdatedResource ).delete();
             }
         }
 
         try
         {
-            File earFile = getEarFile( outputDirectory, finalName, classifier );
-            final MavenArchiver archiver = new EarMavenArchiver( getModules() );
-            JarArchiver theArchiver;
-            if ( ddFile.exists() )
-            {
-                final EarArchiver earArchiver = getEarArchiver();
-                earArchiver.setAppxml( ddFile );
-                theArchiver = earArchiver;
-            }
-            else
-            {
-                theArchiver = getJarArchiver();
-            }
-            getLog().debug( "Archiver implementation [" + theArchiver.getClass().getName() + "]" );
-            archiver.setArchiver( theArchiver );
-            archiver.setOutputFile( earFile );
-
-            archiver.setCreatedBy( "Maven EAR Plugin", "org.apache.maven.plugins", "maven-ear-plugin" );
-
-            // configure for Reproducible Builds based on outputTimestamp value
-            archiver.configureReproducible( outputTimestamp );
-
             getLog().debug( "Excluding " + Arrays.asList( getPackagingExcludes() ) + " from the generated EAR." );
             getLog().debug( "Including " + Arrays.asList( getPackagingIncludes() ) + " in the generated EAR." );
 
@@ -574,7 +597,7 @@ public class EarMojo
      */
     protected String[] getIncludes()
     {
-        return StringUtils.split( StringUtils.defaultString( earSourceIncludes ), "," );
+        return StringUtils.split( Objects.toString( earSourceIncludes, "" ), "," );
     }
 
     /**

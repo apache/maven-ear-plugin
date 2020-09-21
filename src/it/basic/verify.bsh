@@ -35,12 +35,27 @@ String[] includedEntries = {
     "META-INF/application.xml",
     "META-INF/appserver-application.xml",
 };
+
+// Reproducible Builds: check that every entry has the same timestamp  
+long entryTime = -1;
+
 for ( String included : includedEntries )
 {
     System.out.println( "Checking for existence of " + included );
-    if ( jar.getEntry( included ) == null )
+    JarEntry jarEntry = jar.getEntry( included );
+    if ( jarEntry == null )
     {
         throw new IllegalStateException( "Missing archive entry: " + included );
+    }
+    if ( entryTime < 0 )
+    {
+        entryTime = jarEntry.getTime();
+    }
+    if ( entryTime != jarEntry.getTime() )
+    {
+        throw new IllegalStateException( "Invalid jar entry time: " + jarEntry.getTime()
+            + " of archive entry: " + included
+            + ", expected: " + entryTime );
     }
 }
 

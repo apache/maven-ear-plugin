@@ -21,7 +21,6 @@ package org.apache.maven.plugins.ear;
 
 import static org.junit.Assert.assertEquals;
 
-import org.apache.maven.plugins.ear.AbstractEarModule;
 import org.junit.Test;
 
 /**

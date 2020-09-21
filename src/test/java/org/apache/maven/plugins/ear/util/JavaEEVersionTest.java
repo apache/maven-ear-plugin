@@ -1,8 +1,5 @@
 package org.apache.maven.plugins.ear.util;
 
-import org.apache.maven.plugins.ear.util.InvalidJavaEEVersion;
-import org.apache.maven.plugins.ear.util.JavaEEVersion;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
