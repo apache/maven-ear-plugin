@@ -21,12 +21,11 @@ package org.apache.maven.plugins.ear.it;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import org.apache.maven.shared.utils.io.IOUtil;
+import org.apache.commons.io.IOUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.ReaderFactory;
 
@@ -548,7 +547,7 @@ public class EarMojoIT
     {
         final File baseDir = doTestProject( "project-045", new String[] { "README.txt", "eartest-ejb-sample-one-1.0.jar" } );
         final File actualReadme = new File( getEarDirectory( baseDir, "project-045" ), "README.txt" );
-        final String content = IOUtil.toString( ReaderFactory.newReader( actualReadme, "UTF-8" ) );
+        final String content = IOUtils.toString( ReaderFactory.newReader( actualReadme, "UTF-8" ) );
         assertTrue( "application name and version was not filtered properly", content.contains( "my-app 99.0" ) );
         assertTrue( "Escaping did not work properly", content.contains( "will not be filtered ${application.name}." ) );
     }
@@ -562,7 +561,7 @@ public class EarMojoIT
     {
         final File baseDir = doTestProject( "project-046", new String[] { "README.txt", "eartest-ejb-sample-one-1.0.jar" } );
         final File actualReadme = new File( getEarDirectory( baseDir, "project-046" ), "README.txt" );
-        final String content = IOUtil.toString( ReaderFactory.newReader( actualReadme, "UTF-8" ) );
+        final String content = IOUtils.toString( ReaderFactory.newReader( actualReadme, "UTF-8" ) );
         assertTrue( "application name and version was not filtered properly", content.contains( "my-app 99.0" ) );
         assertTrue( "application build was not filtered properly", content.contains( "(Build 2)" ) );
         assertTrue( "Unknown property should not have been filtered",
@@ -578,13 +577,13 @@ public class EarMojoIT
     {
         final File baseDir = doTestProject( "project-047", new String[] { "README.txt", "eartest-ejb-sample-one-1.0.jar" } );
         final File actualReadme = new File( getEarDirectory( baseDir, "project-047" ), "README.txt" );
-        final String content = IOUtil.toString( ReaderFactory.newReader( actualReadme, "UTF-8" ) );
+        final String content = IOUtils.toString( ReaderFactory.newReader( actualReadme, "UTF-8" ) );
         assertTrue( "application name and version should not have been filtered", !content.contains( "my-app 99.0" ) );
         assertTrue( "original properties not found", content.contains( "${application.name} ${project.version}" ) );
     }
 
     /**
-     * Builds an EAR with a Jboss 5 configuration containing library directory.
+     * Builds an EAR with a JBoss 5 configuration containing library directory.
      * @throws Exception in case of an error.
      */
     public void testProject048()
@@ -594,7 +593,7 @@ public class EarMojoIT
     }
 
     /**
-     * Builds an EAR with a Jboss 4.2 configuration containing a library directory.
+     * Builds an EAR with a JBoss 4.2 configuration containing a library directory.
      * @throws Exception in case of an error.
      */
     public void testProject049()
