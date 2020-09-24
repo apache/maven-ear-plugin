@@ -34,14 +34,13 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.zip.ZipException;
 
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -288,26 +287,15 @@ public class EarMojo
         // Initializes ear modules
         super.execute();
 
-        final File earFile;
-        final MavenArchiver archiver;
-        final Date reproducibleLastModifiedDate;
-        try
-        {
-            earFile = getEarFile( outputDirectory, finalName, classifier );
-            archiver = new EarMavenArchiver( getModules() );
-            getLog().debug( "Jar archiver implementation [" + jarArchiver.getClass().getName() + "]" );
-            archiver.setArchiver( jarArchiver );
-            archiver.setOutputFile( earFile );
+        File earFile = getEarFile( outputDirectory, finalName, classifier );
+        MavenArchiver archiver = new EarMavenArchiver( getModules() );
+        getLog().debug( "Jar archiver implementation [" + jarArchiver.getClass().getName() + "]" );
+        archiver.setArchiver( jarArchiver );
+        archiver.setOutputFile( earFile );
+        archiver.setCreatedBy( "Maven EAR Plugin", "org.apache.maven.plugins", "maven-ear-plugin" );
 
-            archiver.setCreatedBy( "Maven EAR Plugin", "org.apache.maven.plugins", "maven-ear-plugin" );
-
-            // configure for Reproducible Builds based on outputTimestamp value
-            reproducibleLastModifiedDate = archiver.configureReproducible( outputTimestamp );
-        }
-        catch ( Exception e )
-        {
-            throw new MojoExecutionException( "Error assembling EAR", e );
-        }
+        // configure for Reproducible Builds based on outputTimestamp value
+        Date reproducibleLastModifiedDate = archiver.configureReproducible( outputTimestamp );
 
         zipArchiver.setUseJvmChmod( useJvmChmod );
         if ( reproducibleLastModifiedDate != null )
@@ -318,15 +306,10 @@ public class EarMojo
 
         final JavaEEVersion javaEEVersion = JavaEEVersion.getJavaEEVersion( version );
         
-        final Collection<String> outdatedResources;
+        final Collection<String> outdatedResources = new ArrayList<>();
         
-        if ( !getWorkDirectory().exists() )
+        if ( getWorkDirectory().exists() )
         {
-            outdatedResources = Collections.emptyList(); 
-        }
-        else
-        {
-            outdatedResources = new ArrayList<>();
             try
             {
                 Files.walkFileTree( getWorkDirectory().toPath(), new SimpleFileVisitor<Path>() 
@@ -390,10 +373,8 @@ public class EarMojo
         File ddFile = new File( getWorkDirectory(), APPLICATION_XML_URI );
         if ( !ddFile.exists() && ( javaEEVersion.lt( JavaEEVersion.FIVE ) ) )
         {
-            // CHECKSTYLE_OFF: LineLength
             throw new MojoExecutionException( "Deployment descriptor: " + ddFile.getAbsolutePath()
                 + " does not exist." );
-            // CHECKSTYLE_ON: LineLength
         }
         // no need to check timestamp for descriptors: removing if outdated does not really make sense
         outdatedResources.remove( Paths.get( APPLICATION_XML_URI ).toString() );
@@ -413,26 +394,27 @@ public class EarMojo
             }
         }
 
+        getLog().debug( "Excluding " + Arrays.asList( getPackagingExcludes() ) + " from the generated EAR." );
+        getLog().debug( "Including " + Arrays.asList( getPackagingIncludes() ) + " in the generated EAR." );
+
+        archiver.getArchiver().addDirectory( getWorkDirectory(), getPackagingIncludes(), getPackagingExcludes() );
         try
         {
-            getLog().debug( "Excluding " + Arrays.asList( getPackagingExcludes() ) + " from the generated EAR." );
-            getLog().debug( "Including " + Arrays.asList( getPackagingIncludes() ) + " in the generated EAR." );
-
-            archiver.getArchiver().addDirectory( getWorkDirectory(), getPackagingIncludes(), getPackagingExcludes() );
             archiver.createArchive( session, getProject(), archive );
-
-            if ( classifier != null )
-            {
-                projectHelper.attachArtifact( getProject(), "ear", classifier, earFile );
-            }
-            else
-            {
-                getProject().getArtifact().setFile( earFile );
-            }
         }
-        catch ( Exception e )
+        catch ( ManifestException | IOException | DependencyResolutionRequiredException e )
         {
             throw new MojoExecutionException( "Error assembling EAR", e );
+        }
+        
+
+        if ( classifier != null )
+        {
+            projectHelper.attachArtifact( getProject(), "ear", classifier, earFile );
+        }
+        else
+        {
+            getProject().getArtifact().setFile( earFile );
         }
     }
 
@@ -465,11 +447,9 @@ public class EarMojo
 
                 // If the module is within the unpack list, make sure that no unpack wasn't forced (null or true)
                 // If the module is not in the unpack list, it should be true
-                // CHECKSTYLE_OFF: LineLength
                 if ( ( unpackTypesList.contains( module.getType() )
                     && ( module.shouldUnpack() == null || module.shouldUnpack() ) )
                     || ( module.shouldUnpack() != null && module.shouldUnpack() ) )
-                // CHECKSTYLE_ON: LineLength
                 {
                     getLog().info( "Copying artifact [" + module + "] to [" + module.getUri() + "] (unpacked)" );
                     // Make sure that the destination is a directory to avoid plexus nasty stuff :)
@@ -608,7 +588,7 @@ public class EarMojo
     }
 
     /**
-     * @return The arrays with the includes.
+     * @return the arrays with the includes
      */
     public String[] getPackagingIncludes()
     {
@@ -680,13 +660,14 @@ public class EarMojo
     /**
      * Unpacks the module into the EAR structure.
      * 
-     * @param source File to be unpacked.
-     * @param destDir Location where to put the unpacked files.
-     * @throws NoSuchArchiverException In case of we don't have an appropriate archiver.
-     * @throws IOException In case of a general IOException.
+     * @param source file to be unpacked
+     * @param destDir where to put the unpacked files
+     * @throws ArchiverException a corrupt archive
+     * @throws NoSuchArchiverException if we don't have an appropriate archiver
+     * @throws IOException in case of a general IOException
      */
     public void unpack( File source, final File destDir, final Collection<String> outdatedResources )
-        throws NoSuchArchiverException, IOException
+        throws ArchiverException, NoSuchArchiverException, IOException
     {
         UnArchiver unArchiver = archiverManager.getUnArchiver( "zip" );
         unArchiver.setSourceFile( source );
@@ -728,8 +709,8 @@ public class EarMojo
     }
 
     /**
-     * @param fileName The name of the file which should be checked.
-     * @return {@code true} if the name is part of the non filtered extensions {@code false} otherwise.
+     * @param fileName the name of the file which should be checked
+     * @return {@code true} if the name is part of the non filtered extensions; {@code false} otherwise
      */
     public boolean isNonFilteredExtension( String fileName )
     {
@@ -912,21 +893,9 @@ public class EarMojo
                 zipArchiver.createArchive();
             }
         }
-        catch ( ManifestException e )
+        catch ( ManifestException | IOException | ArchiverException e )
         {
-            throw new MojoFailureException( e.getMessage() );
-        }
-        catch ( ZipException e )
-        {
-            throw new MojoFailureException( e.getMessage() );
-        }
-        catch ( IOException e )
-        {
-            throw new MojoFailureException( e.getMessage() );
-        }
-        catch ( ArchiverException e )
-        {
-            throw new MojoFailureException( e.getMessage() );
+            throw new MojoFailureException( e.getMessage(), e );
         }
     }
 }
