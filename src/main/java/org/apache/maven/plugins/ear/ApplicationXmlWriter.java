@@ -19,13 +19,14 @@ package org.apache.maven.plugins.ear;
  * under the License.
  */
 
+import java.io.IOException;
 import java.io.Writer;
 
 import org.apache.maven.plugins.ear.util.JavaEEVersion;
 import org.codehaus.plexus.util.xml.XMLWriter;
 
 /**
- * An <tt>XmlWriter</tt> based implementation used to generate an <tt>application.xml</tt> file
+ * An <code>XmlWriter</code> based implementation used to generate an <tt>application.xml</tt> file.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
@@ -51,103 +52,106 @@ final class ApplicationXmlWriter
         this.generateModuleId = generateModuleId;
     }
 
-    public void write( ApplicationXmlWriterContext context )
+    void write( ApplicationXmlWriterContext context )
         throws EarPluginException
     {
-        Writer w = initializeWriter( context.getDestinationFile() );
-
-        XMLWriter writer = null;
-        if ( JavaEEVersion.ONE_DOT_THREE.eq( version ) )
+        try ( Writer w = initializeWriter( context.getDestinationFile() ) )
         {
-            writer = initializeRootElementOneDotThree( w );
-        }
-        else if ( JavaEEVersion.ONE_DOT_FOUR.eq( version ) )
-        {
-            writer = initializeRootElementOneDotFour( w );
-        }
-        else if ( JavaEEVersion.FIVE.eq( version ) )
-        {
-            writer = initializeRootElementFive( w );
-        }
-        else if ( JavaEEVersion.SIX.eq( version ) )
-        {
-            writer = initializeRootElementSix( w );
-        }
-        else if ( JavaEEVersion.SEVEN.eq( version ) )
-        {
-            writer = initializeRootElementSeven( w );
-        }
-        else if ( JavaEEVersion.EIGHT.eq( version ) )
-        {
-            writer = initializeRootElementEight( w );
-        }
-
-        // writer is still on root element, so we can still add this attribute
-        if ( context.getApplicationId() != null )
-        {
-            writer.addAttribute( "id", context.getApplicationId() );
-        }
-
-        // As from JavaEE6
-        if ( version.ge( JavaEEVersion.SIX ) )
-        {
-            writeApplicationName( context.getApplicationName(), writer );
-        }
-
-        // IMPORTANT: the order of the description and display-name elements was
-        // reversed between J2EE 1.3 and J2EE 1.4.
-        if ( version.eq( JavaEEVersion.ONE_DOT_THREE ) )
-        {
-            writeDisplayName( context.getDisplayName(), writer );
-            writeDescription( context.getDescription(), writer );
-        }
-        else
-        {
-            writeDescription( context.getDescription(), writer );
-            writeDisplayName( context.getDisplayName(), writer );
-        }
-
-        // As from JavaEE6
-        if ( version.ge( JavaEEVersion.SIX ) )
-        {
-            writeInitializeInOrder( context.getInitializeInOrder(), writer );
-        }
-
-        // Do not change this unless you really know what you're doing :)
-        for ( EarModule module : context.getEarModules() )
-        {
-            module.appendModule( writer, version.getVersion(), generateModuleId );
-        }
-
-        for ( SecurityRole securityRole : context.getSecurityRoles() )
-        {
-            securityRole.appendSecurityRole( writer );
-        }
-
-        if ( version.ge( JavaEEVersion.FIVE ) )
-        {
-            writeLibraryDirectory( context.getLibraryDirectory(), writer );
-        }
-
-        if ( version.ge( JavaEEVersion.SIX ) )
-        {
-            for ( EnvEntry envEntry : context.getEnvEntries() )
+            XMLWriter writer = null;
+            if ( JavaEEVersion.ONE_DOT_THREE.eq( version ) )
             {
-                envEntry.appendEnvEntry( writer );
+                writer = initializeRootElementOneDotThree( w );
             }
-            for ( EjbRef ejbEntry : context.getEjbEntries() )
+            else if ( JavaEEVersion.ONE_DOT_FOUR.eq( version ) )
             {
-                ejbEntry.appendEjbRefEntry( writer );
+                writer = initializeRootElementOneDotFour( w );
             }
-            for ( ResourceRef resourceEntry : context.getResourceRefs() )
+            else if ( JavaEEVersion.FIVE.eq( version ) )
             {
-                resourceEntry.appendResourceRefEntry( writer );
+                writer = initializeRootElementFive( w );
             }
+            else if ( JavaEEVersion.SIX.eq( version ) )
+            {
+                writer = initializeRootElementSix( w );
+            }
+            else if ( JavaEEVersion.SEVEN.eq( version ) )
+            {
+                writer = initializeRootElementSeven( w );
+            }
+            else if ( JavaEEVersion.EIGHT.eq( version ) )
+            {
+                writer = initializeRootElementEight( w );
+            }
+    
+            // writer is still on root element, so we can still add this attribute
+            if ( context.getApplicationId() != null )
+            {
+                writer.addAttribute( "id", context.getApplicationId() );
+            }
+    
+            // As from JavaEE6
+            if ( version.ge( JavaEEVersion.SIX ) )
+            {
+                writeApplicationName( context.getApplicationName(), writer );
+            }
+    
+            // IMPORTANT: the order of the description and display-name elements was
+            // reversed between J2EE 1.3 and J2EE 1.4.
+            if ( version.eq( JavaEEVersion.ONE_DOT_THREE ) )
+            {
+                writeDisplayName( context.getDisplayName(), writer );
+                writeDescription( context.getDescription(), writer );
+            }
+            else
+            {
+                writeDescription( context.getDescription(), writer );
+                writeDisplayName( context.getDisplayName(), writer );
+            }
+    
+            // As from JavaEE6
+            if ( version.ge( JavaEEVersion.SIX ) )
+            {
+                writeInitializeInOrder( context.getInitializeInOrder(), writer );
+            }
+    
+            // Do not change this unless you really know what you're doing :)
+            for ( EarModule module : context.getEarModules() )
+            {
+                module.appendModule( writer, version.getVersion(), generateModuleId );
+            }
+    
+            for ( SecurityRole securityRole : context.getSecurityRoles() )
+            {
+                securityRole.appendSecurityRole( writer );
+            }
+    
+            if ( version.ge( JavaEEVersion.FIVE ) )
+            {
+                writeLibraryDirectory( context.getLibraryDirectory(), writer );
+            }
+    
+            if ( version.ge( JavaEEVersion.SIX ) )
+            {
+                for ( EnvEntry envEntry : context.getEnvEntries() )
+                {
+                    envEntry.appendEnvEntry( writer );
+                }
+                for ( EjbRef ejbEntry : context.getEjbEntries() )
+                {
+                    ejbEntry.appendEjbRefEntry( writer );
+                }
+                for ( ResourceRef resourceEntry : context.getResourceRefs() )
+                {
+                    resourceEntry.appendResourceRefEntry( writer );
+                }
+            }
+    
+            writer.endElement();
         }
-
-        writer.endElement();
-
-        close( w );
+        catch ( IOException ex )
+        {
+            // ignore
+        }
     }
 
     private void writeApplicationName( String applicationName, XMLWriter writer )
@@ -249,10 +253,8 @@ final class ApplicationXmlWriter
         writer.startElement( APPLICATION_ELEMENT );
         writer.addAttribute( "xmlns", "http://xmlns.jcp.org/xml/ns/javaee" );
         writer.addAttribute( "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance" );
-        // CHECKSTYLE_OFF: LineLength
         writer.addAttribute( "xsi:schemaLocation",
-                             "http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd" );
-        // CHECKSTYLE_ON: LineLength
+            "http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd" );
         writer.addAttribute( "version", "7" );
         return writer;
     }
@@ -263,10 +265,8 @@ final class ApplicationXmlWriter
         writer.startElement( APPLICATION_ELEMENT );
         writer.addAttribute( "xmlns", "http://xmlns.jcp.org/xml/ns/javaee" );
         writer.addAttribute( "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance" );
-        // CHECKSTYLE_OFF: LineLength
         writer.addAttribute( "xsi:schemaLocation",
-                             "http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_8.xsd" );
-        // CHECKSTYLE_ON: LineLength
+            "http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_8.xsd" );
         writer.addAttribute( "version", "8" );
         return writer;
     }

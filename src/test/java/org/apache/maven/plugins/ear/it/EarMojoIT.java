@@ -21,6 +21,7 @@ package org.apache.maven.plugins.ear.it;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -208,14 +209,14 @@ public class EarMojoIT
 
         final File sourceManifestFile = new File( baseDir, "src/main/ear/MANIFEST.MF" );
 
-        JarFile jarFile = new JarFile( createdEarFile );
-        Manifest manifestFromCreatedEARFile = jarFile.getManifest();
-        jarFile.close();
-
-        Manifest sourceManifest = new Manifest( new FileInputStream( sourceManifestFile ) );
-
-        assertTrue( "There are differences in the manifest.", sourceManifest.equals( manifestFromCreatedEARFile ) );
-    }
+        try ( JarFile jarFile = new JarFile( createdEarFile );
+              FileInputStream in = new FileInputStream( sourceManifestFile ) )
+        {    
+            Manifest manifestFromCreatedEARFile = jarFile.getManifest();
+            Manifest sourceManifest = new Manifest( in );
+            assertEquals( "There are differences in the manifest.", sourceManifest, manifestFromCreatedEARFile );
+        }
+     }
 
     /**
      * Builds an EAR and make sure that custom application.xml is taken into account.

@@ -754,13 +754,19 @@ public class EarMojo
                 // Create a temporary work directory
                 // MEAR-167 use uri as directory to prevent merging of artifacts with the same artifactId
                 workDirectory = new File( new File( getTempFolder(), "temp" ), module.getUri() );
-                workDirectory.mkdirs();
-                getLog().debug( "Created a temporary work directory: " + workDirectory.getAbsolutePath() );
-
-                // Unpack the archive to a temporary work directory
-                zipUnArchiver.setSourceFile( original );
-                zipUnArchiver.setDestDirectory( workDirectory );
-                zipUnArchiver.extract();
+                if ( workDirectory.mkdirs() )
+                {
+                    getLog().debug( "Created a temporary work directory: " + workDirectory.getAbsolutePath() );
+    
+                    // Unpack the archive to a temporary work directory
+                    zipUnArchiver.setSourceFile( original );
+                    zipUnArchiver.setDestDirectory( workDirectory );
+                    zipUnArchiver.extract();
+                }
+                else
+                {
+                    throw new MojoFailureException( "Failed to create directory " + workDirectory );
+                }
             }
             else
             {
@@ -772,21 +778,18 @@ public class EarMojo
             boolean newMetaInfCreated = metaInfDirectory.mkdirs();
             if ( newMetaInfCreated )
             {
-                // CHECKSTYLE_OFF: LineLength
-                getLog().debug( "This project did not have a META-INF directory before, so a new directory was created." );
-                // CHECKSTYLE_ON: LineLength
+                getLog().debug(
+                    "This project did not have a META-INF directory before, so a new directory was created." );
             }
-            File newCreatedManifestFile = new File( metaInfDirectory, "MANIFEST.MF" );
-            boolean newManifestCreated = newCreatedManifestFile.createNewFile();
+            File manifestFile = new File( metaInfDirectory, "MANIFEST.MF" );
+            boolean newManifestCreated = manifestFile.createNewFile();
             if ( newManifestCreated )
             {
-                // CHECKSTYLE_OFF: LineLength
-                getLog().debug( "This project did not have a META-INF/MANIFEST.MF file before, so a new file was created." );
-                // CHECKSTYLE_ON: LineLength
+                getLog().debug(
+                    "This project did not have a META-INF/MANIFEST.MF file before, so a new file was created." );
             }
 
-            // Read the manifest from disk
-            Manifest mf = new Manifest( new FileInputStream( newCreatedManifestFile ) );
+            Manifest mf = readManifest( manifestFile );
             Attribute classPath = mf.getMainSection().getAttribute( "Class-Path" );
             List<String> classPathElements = new ArrayList<String>();
 
@@ -808,10 +811,8 @@ public class EarMojo
                     // We use the original name, cause in case of outputFileNameMapping
                     // we could not not delete it and it will end up in the resulting EAR and the WAR
                     // will not be cleaned up.
-                    // CHECKSTYLE_OFF: LineLength
                     File artifact = new File( new File( workDirectory, module.getLibDir() ),
                                               module.getArtifact().getFile().getName() );
-                    // CHECKSTYLE_ON: LineLength
 
                     // MEAR-217
                     // If WAR contains files with timestamps, but EAR strips them away (useBaseVersion=true)
@@ -873,7 +874,7 @@ public class EarMojo
             mf.getMainSection().addConfiguredAttribute( classPath );
 
             // Write the manifest to disk
-            try ( FileOutputStream out = new FileOutputStream( newCreatedManifestFile );
+            try ( FileOutputStream out = new FileOutputStream( manifestFile );
                   OutputStreamWriter writer = new OutputStreamWriter( out, StandardCharsets.UTF_8 ) )
             {
                 mf.write( writer );
@@ -896,6 +897,17 @@ public class EarMojo
         catch ( ManifestException | IOException | ArchiverException e )
         {
             throw new MojoFailureException( e.getMessage(), e );
+        }
+    }
+
+    private static Manifest readManifest( File manifestFile )
+        throws IOException
+    {
+        // Read the manifest from disk
+        try ( FileInputStream in = new FileInputStream( manifestFile ) )
+        {
+            Manifest manifest = new Manifest( in );
+            return manifest;
         }
     }
 }
