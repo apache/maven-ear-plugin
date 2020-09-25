@@ -238,7 +238,10 @@ public class GenerateApplicationXmlMojo
         File outputDir = new File( generatedDescriptorLocation );
         if ( !outputDir.exists() )
         {
-            outputDir.mkdirs();
+            if ( !outputDir.mkdirs() )
+            {
+                throw new EarPluginException( "Error creating " + outputDir );
+            }
         }
 
         File descriptor = new File( outputDir, "application.xml" );
@@ -253,7 +256,7 @@ public class GenerateApplicationXmlMojo
     }
 
     /**
-     * Generates the jboss deployment descriptor.
+     * Generates the JBoss deployment descriptor.
      * 
      * @throws EarPluginException if the configuration is invalid
      */
@@ -263,7 +266,10 @@ public class GenerateApplicationXmlMojo
         File outputDir = new File( generatedDescriptorLocation );
         if ( !outputDir.exists() )
         {
-            outputDir.mkdirs();
+            if ( !outputDir.mkdirs() )
+            {
+                throw new EarPluginException( "Error creating " + outputDir );
+            }
         }
 
         File descriptor = new File( outputDir, "jboss-app.xml" );
