@@ -37,16 +37,12 @@ abstract class AbstractXmlWriter
 
     private final String encoding;
 
-    protected static final String MODULE_ELEMENT = "module";
-
-    protected static final String SERVICE_ELEMENT = "service";
-
     AbstractXmlWriter( String encoding )
     {
         this.encoding = encoding;
     }
 
-    protected Writer initializeWriter( final File destinationFile )
+    Writer initializeWriter( final File destinationFile )
         throws EarPluginException
     {
         try
@@ -55,36 +51,13 @@ abstract class AbstractXmlWriter
         }
         catch ( IOException ex )
         {
-            // CHECKSTYLE_OFF: LineLength
-            throw new EarPluginException( "Exception while opening file[" + destinationFile.getAbsolutePath() + "]", ex );
-            // CHECKSTYLE_ON: LineLength
+            throw new EarPluginException( 
+                    "Exception while opening file[" + destinationFile.getAbsolutePath() + "]", ex );
         }
     }
 
-    protected XMLWriter initializeXmlWriter( final Writer writer, final String docType )
+    XMLWriter initializeXmlWriter( final Writer writer, final String docType )
     {
         return new PrettyPrintXMLWriter( writer, encoding, docType );
-    }
-
-    protected void close( Writer closeable )
-    {
-        if ( closeable == null )
-        {
-            return;
-        }
-
-        try
-        {
-            closeable.close();
-        }
-        catch ( Exception e )
-        {
-            // TODO: warn
-        }
-    }
-
-    public String getEncoding()
-    {
-        return encoding;
     }
 }
