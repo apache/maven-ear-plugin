@@ -280,7 +280,7 @@ public class EarMojo
     private MavenSession session;
 
     private List<FileUtils.FilterWrapper> filterWrappers;
-    
+
     /**
      * @since 2.9
      */
@@ -326,29 +326,8 @@ public class EarMojo
         zipUnArchiver.setUseJvmChmod( useJvmChmod );
 
         final JavaEEVersion javaEEVersion = JavaEEVersion.getJavaEEVersion( version );
-        
-        final Collection<String> outdatedResources = new ArrayList<>();
-        
-        if ( getWorkDirectory().exists() )
-        {
-            try
-            {
-                Files.walkFileTree( getWorkDirectory().toPath(), new SimpleFileVisitor<Path>() 
-                {
-                    @Override
-                    public FileVisitResult visitFile( Path file, BasicFileAttributes attrs )
-                        throws IOException
-                    {
-                        outdatedResources.add( getWorkDirectory().toPath().relativize( file ).toString() );
-                        return super.visitFile( file, attrs );
-                    }
-                } );
-            }
-            catch ( IOException e )
-            {
-                getLog().warn( "Can't detect outdated resources", e );
-            } 
-        }
+
+        final Collection<String> outdatedResources = initOutdatedResources();
 
         // Initializes unpack types
         List<String> unpackTypesList = createUnpackList();
@@ -360,7 +339,7 @@ public class EarMojo
         try
         {
             File earSourceDir = earSourceDirectory;
-            
+
             if ( earSourceDir.exists() )
             {
                 getLog().info( "Copy ear sources to " + getWorkDirectory().getAbsolutePath() );
@@ -402,31 +381,22 @@ public class EarMojo
         {
             outdatedResources.remove( Paths.get( "META-INF/jboss-app.xml" ).toString() );
         }
-        
-        final long startTime = session.getStartTime().getTime();
-        
-        for ( String outdatedResource : outdatedResources )
-        {
-            if ( new File( getWorkDirectory(), outdatedResource ).lastModified() < startTime )
-            {
-                getLog().info( "deleting outdated resource " + outdatedResource );
-                new File( getWorkDirectory(), outdatedResource ).delete();
-            }
-        }
 
-        getLog().debug( "Excluding " + Arrays.asList( getPackagingExcludes() ) + " from the generated EAR." );
-        getLog().debug( "Including " + Arrays.asList( getPackagingIncludes() ) + " in the generated EAR." );
+        deleteOutdatedResources( outdatedResources );
 
-        archiver.getArchiver().addDirectory( getWorkDirectory(), getPackagingIncludes(), getPackagingExcludes() );
         try
         {
+            getLog().debug( "Excluding " + Arrays.asList( getPackagingExcludes() ) + " from the generated EAR." );
+            getLog().debug( "Including " + Arrays.asList( getPackagingIncludes() ) + " in the generated EAR." );
+
+            archiver.getArchiver().addDirectory( getWorkDirectory(), getPackagingIncludes(), getPackagingExcludes() );
+
             archiver.createArchive( session, getProject(), archive );
         }
         catch ( ManifestException | IOException | DependencyResolutionRequiredException e )
         {
             throw new MojoExecutionException( "Error assembling EAR", e );
         }
-        
 
         if ( classifier != null )
         {
@@ -444,7 +414,7 @@ public class EarMojo
         throws MojoExecutionException, MojoFailureException
     {
         final Path workingDir = getWorkDirectory().toPath();
-        
+
         try
         {
             for ( EarModule module : getModules() )
@@ -685,6 +655,7 @@ public class EarMojo
      * 
      * @param source file to be unpacked
      * @param destDir where to put the unpacked files
+     * @param outdatedResources currently outdated resources
      * @throws ArchiverException a corrupt archive
      * @throws NoSuchArchiverException if we don't have an appropriate archiver
      * @throws IOException in case of a general IOException
@@ -781,7 +752,7 @@ public class EarMojo
                 if ( workDirectory.mkdirs() )
                 {
                     getLog().debug( "Created a temporary work directory: " + workDirectory.getAbsolutePath() );
-    
+
                     // Unpack the archive to a temporary work directory
                     zipUnArchiver.setSourceFile( original );
                     zipUnArchiver.setDestDirectory( workDirectory );
@@ -932,6 +903,47 @@ public class EarMojo
         {
             Manifest manifest = new Manifest( in );
             return manifest;
+        }
+    }
+
+    private Collection<String> initOutdatedResources()
+    {
+        final Collection<String> outdatedResources = new ArrayList<>();
+        
+        if ( getWorkDirectory().exists() )
+        {
+            try
+            {
+                Files.walkFileTree( getWorkDirectory().toPath(), new SimpleFileVisitor<Path>() 
+                {
+                    @Override
+                    public FileVisitResult visitFile( Path file, BasicFileAttributes attrs )
+                        throws IOException
+                    {
+                        outdatedResources.add( getWorkDirectory().toPath().relativize( file ).toString() );
+                        return super.visitFile( file, attrs );
+                    }
+                } );
+            }
+            catch ( IOException e )
+            {
+                getLog().warn( "Can't detect outdated resources", e );
+            } 
+        }
+        return outdatedResources;
+    }
+
+    private void deleteOutdatedResources( final Collection<String> outdatedResources )
+    {
+        final long startTime = session.getStartTime().getTime();
+        
+        for ( String outdatedResource : outdatedResources )
+        {
+            if ( new File( getWorkDirectory(), outdatedResource ).lastModified() < startTime )
+            {
+                getLog().info( "deleting outdated resource " + outdatedResource );
+                new File( getWorkDirectory(), outdatedResource ).delete();
+            }
         }
     }
 }
