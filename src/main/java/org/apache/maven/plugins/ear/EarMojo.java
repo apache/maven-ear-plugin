@@ -60,6 +60,7 @@ import org.apache.maven.shared.utils.io.FileUtils;
 import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.UnArchiver;
+import org.codehaus.plexus.archiver.ear.EarArchiver;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
 import org.codehaus.plexus.archiver.jar.Manifest;
 import org.codehaus.plexus.archiver.jar.Manifest.Attribute;
@@ -211,26 +212,32 @@ public class EarMojo
     private boolean skinnyWars;
 
     /**
-     * The Jar archiver to create the output archive.
+     * The Plexus EAR archiver to create the output archive.
+     */
+    @Component( role = Archiver.class, hint = "ear" )
+    private EarArchiver earArchiver;
+
+    /**
+     * The Plexus JAR archiver to create the output archive if not EAR application descriptor is provided (JavaEE 5+).
      */
     @Component( role = Archiver.class, hint = "jar" )
     private JarArchiver jarArchiver;
 
     /**
-     * The Zip archiver for Skinny WAR repackaging.
+     * The Plexus Zip archiver for Skinny WAR repackaging.
      */
     @Component( role = Archiver.class, hint = "zip" )
     private ZipArchiver zipArchiver;
 
     /**
-     * The Zip Un archiver for Skinny WAR repackaging.
+     * The Plexus Zip Un archiver for Skinny WAR repackaging.
      */
     @Component( role = UnArchiver.class, hint = "zip" )
     private ZipUnArchiver zipUnArchiver;
 
     /**
-     * The archive configuration to use. See <a href="http://maven.apache.org/shared/maven-archiver/index.html">Maven
-     * Archiver Reference</a>.
+     * The archive configuration to use. See <a href="https://maven.apache.org/shared/maven-archiver/">Maven Archiver
+     * Reference</a>.
      */
     @Parameter
     private MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
@@ -289,8 +296,22 @@ public class EarMojo
 
         File earFile = getEarFile( outputDirectory, finalName, classifier );
         MavenArchiver archiver = new EarMavenArchiver( getModules() );
-        getLog().debug( "Jar archiver implementation [" + jarArchiver.getClass().getName() + "]" );
-        archiver.setArchiver( jarArchiver );
+        File ddFile = new File( getWorkDirectory(), APPLICATION_XML_URI );
+
+        JarArchiver theArchiver;
+        if ( ddFile.exists() )
+        {
+            earArchiver.setAppxml( ddFile );
+            theArchiver = earArchiver;
+        }
+        else
+        {
+            // current Plexus EarArchiver does not support application.xml-less JavaEE 5+ case
+            // => fallback to Plexus Jar archiver 
+            theArchiver = jarArchiver;
+        }
+        getLog().debug( "Ear archiver implementation [" + theArchiver.getClass().getName() + "]" );
+        archiver.setArchiver( theArchiver );
         archiver.setOutputFile( earFile );
         archiver.setCreatedBy( "Maven EAR Plugin", "org.apache.maven.plugins", "maven-ear-plugin" );
 
@@ -370,7 +391,6 @@ public class EarMojo
         }
 
         // Check if deployment descriptor is there
-        File ddFile = new File( getWorkDirectory(), APPLICATION_XML_URI );
         if ( !ddFile.exists() && ( javaEEVersion.lt( JavaEEVersion.FIVE ) ) )
         {
             throw new MojoExecutionException( "Deployment descriptor: " + ddFile.getAbsolutePath()
