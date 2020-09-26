@@ -473,7 +473,10 @@ public class EarMojo
                 {
                     getLog().info( "Copying artifact [" + module + "] to [" + module.getUri() + "] (unpacked)" );
                     // Make sure that the destination is a directory to avoid plexus nasty stuff :)
-                    destinationFile.mkdirs();
+                    if ( !destinationFile.mkdirs() )
+                    {
+                        throw new MojoExecutionException( "Error creating " + destinationFile );
+                    }
                     unpack( sourceFile, destinationFile, outdatedResources );
 
                     if ( skinnyWars && module.changeManifestClasspath() )
@@ -715,9 +718,10 @@ public class EarMojo
         if ( filtering && !isNonFilteredExtension( source.getName() ) )
         {
             // Silly that we have to do this ourselves
-            if ( target.getParentFile() != null && !target.getParentFile().exists() )
+            File parentDirectory = target.getParentFile();
+            if ( parentDirectory != null && !parentDirectory.exists() )
             {
-                target.getParentFile().mkdirs();
+                Files.createDirectories( parentDirectory.toPath() );
             }
 
             mavenFileFilter.copyFile( source, target, true, getFilterWrappers(), encoding );
