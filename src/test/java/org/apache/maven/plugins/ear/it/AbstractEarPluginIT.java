@@ -29,6 +29,7 @@ import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.TestCase;
 
@@ -38,6 +39,7 @@ import org.apache.maven.it.util.ResourceExtractor;
 import org.apache.maven.plugins.ear.util.ResourceEntityResolver;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLAssert;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
@@ -49,33 +51,26 @@ public abstract class AbstractEarPluginIT
     extends TestCase
 {
 
-    protected final String FINAL_NAME_PREFIX = "maven-ear-plugin-test-";
+    private final String FINAL_NAME_PREFIX = "maven-ear-plugin-test-";
 
-    protected final String FINAL_NAME_SUFFIX = "-99.0";
+    private final String FINAL_NAME_SUFFIX = "-99.0";
 
     /**
      * The base directory.
      */
     private File basedir;
 
-    /**
-     * Test repository directory.
-     */
-    protected File localRepositoryDir = new File( getBasedir().getAbsolutePath(), "target/test-classes/m2repo" );
-
-    protected File settingsFile = new File( getBasedir().getAbsolutePath(), "target/test-classes/settings.xml" );
+    private File settingsFile = new File( getBasedir().getAbsolutePath(), "target/test-classes/settings.xml" );
 
     /**
      * Execute the EAR plugin for the specified project.
      * 
      * @param projectName the name of the project
      * @param properties extra properties to be used by the embedder
-     * @param expectNoError true/flase.
+     * @param expectNoError true/false
      * @return the base directory of the project
-     * @throws Exception if an error occurred
      */
-    protected File executeMojo( final String projectName, final Properties properties, boolean expectNoError )
-        throws Exception
+    protected File executeMojo( final String projectName, final Properties properties, boolean expectNoError ) throws VerificationException, IOException
     {
         System.out.println( "  Building: " + projectName );
 
@@ -120,10 +115,9 @@ public abstract class AbstractEarPluginIT
      * @param projectName the name of the project
      * @param properties extra properties to be used by the embedder
      * @return the base directory of the project
-     * @throws Exception if an error occurred
      */
     protected File executeMojo( final String projectName, final Properties properties )
-        throws Exception
+        throws VerificationException, IOException
     {
         return executeMojo( projectName, properties, true );
     }
@@ -135,11 +129,10 @@ public abstract class AbstractEarPluginIT
      * @param expectedArtifacts the list of artifacts to be found in the EAR archive
      * @param artifactsDirectory whether the artifact is an exploded artifactsDirectory or not
      * @return the base directory of the project
-     * @throws Exception Mojo exception in case of an error
      */
     protected File doTestProject( final String projectName, final String[] expectedArtifacts,
                                   final boolean[] artifactsDirectory )
-        throws Exception
+        throws VerificationException, IOException
     {
         final File baseDir = executeMojo( projectName, new Properties() );
         assertEarArchive( baseDir, projectName );
@@ -160,11 +153,10 @@ public abstract class AbstractEarPluginIT
      * @param expectedArtifacts the list of artifacts to be found in the EAR archive
      * @param testDeploymentDescriptors whether we should test deployment descriptors
      * @return the base directory of the project
-     * @throws Exception Mojo exception in case of an error.
      */
-    protected File doTestProject( final String projectName, final String[] expectedArtifacts,
-                                  boolean testDeploymentDescriptors )
-        throws Exception
+    private File doTestProject( final String projectName, final String[] expectedArtifacts,
+                                boolean testDeploymentDescriptors )
+        throws VerificationException, IOException
     {
         return doTestProject( projectName, expectedArtifacts, new boolean[expectedArtifacts.length] );
     }
@@ -214,7 +206,7 @@ public abstract class AbstractEarPluginIT
         return FINAL_NAME_PREFIX + projectName + FINAL_NAME_SUFFIX;
     }
 
-    protected void assertArchiveContent( final File baseDir, final String projectName, final String[] artifactNames,
+    private void assertArchiveContent( final File baseDir, final String projectName, final String[] artifactNames,
                                          final boolean[] artifactsDirectory )
     {
         // sanity check
@@ -248,7 +240,7 @@ public abstract class AbstractEarPluginIT
         }
     }
 
-    protected List<File> buildArchiveContentFiles( final File baseDir, final List<File> expectedDirectories )
+    private static List<File> buildArchiveContentFiles( final File baseDir, final List<File> expectedDirectories )
     {
         final List<File> result = new ArrayList<File>();
         addFiles( baseDir, result, expectedDirectories );
@@ -256,7 +248,7 @@ public abstract class AbstractEarPluginIT
         return result;
     }
 
-    private void addFiles( final File directory, final List<File> files, final List<File> expectedDirectories )
+    private static void addFiles( final File directory, final List<File> files, final List<File> expectedDirectories )
     {
         File[] result = directory.listFiles( new FilenameFilter()
         {
@@ -289,7 +281,7 @@ public abstract class AbstractEarPluginIT
         }
     }
 
-    protected File getBasedir()
+    private File getBasedir()
     {
         if ( basedir != null )
         {
@@ -361,6 +353,7 @@ public abstract class AbstractEarPluginIT
                 try
                 {
                     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                    dbf.setNamespaceAware( true );
                     dbf.setValidating( true );
                     DocumentBuilder docBuilder = dbf.newDocumentBuilder();
                     docBuilder.setEntityResolver( new ResourceEntityResolver() );
@@ -372,7 +365,7 @@ public abstract class AbstractEarPluginIT
                     XMLAssert.assertXMLEqual( "Wrong deployment descriptor generated for["
                         + expectedDeploymentDescriptor.getName() + "]", myDiff, true );
                 }
-                catch ( Exception e )
+                catch ( SAXException | ParserConfigurationException e )
                 {
                     e.printStackTrace();
                     fail( "Could not assert deployment descriptor " + e.getMessage() );
@@ -381,7 +374,7 @@ public abstract class AbstractEarPluginIT
         }
     }
 
-    private File[] getDeploymentDescriptors( final File ddDirectory )
+    private static File[] getDeploymentDescriptors( final File ddDirectory )
     {
         return ddDirectory.listFiles( new FilenameFilter()
         {
