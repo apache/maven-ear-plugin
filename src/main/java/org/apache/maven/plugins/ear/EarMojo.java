@@ -443,7 +443,7 @@ public class EarMojo
                 {
                     getLog().info( "Copying artifact [" + module + "] to [" + module.getUri() + "] (unpacked)" );
                     // Make sure that the destination is a directory to avoid plexus nasty stuff :)
-                    if ( !destinationFile.mkdirs() )
+                    if ( !destinationFile.isDirectory() && !destinationFile.mkdirs() )
                     {
                         throw new MojoExecutionException( "Error creating " + destinationFile );
                     }
