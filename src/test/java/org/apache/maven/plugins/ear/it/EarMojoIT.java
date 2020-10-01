@@ -332,7 +332,7 @@ public class EarMojoIT
     public void testProject026()
         throws Exception
     {
-        final File baseDir = executeMojo( "project-026", new Properties(), false );
+        final File baseDir = executeMojo( "project-026", new Properties(), false, true );
         // Stupido, checks that the ear archive is not there
         assertFalse( "Execution should have failed", getEarArchive( baseDir, "project-026" ).exists() );
     }
@@ -992,5 +992,25 @@ public class EarMojoIT
         throws Exception
     {
         doTestProject( "project-087", new String[] { "eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar" } );
+    }
+
+    /**
+     * Builds WAR and EAR as part of multi-module project twice so that the 2nd build is guaranteed to be performed when
+     * target directories and files exist.
+     * @throws Exception in case of an error.
+     */
+    public void testProject088()
+        throws Exception
+    {
+        final String[] expectedArtifacts = {
+            "eartest-war-sample-two-1.0.war",
+            "eartest-ejb-sample-one-1.0.jar",
+            "lib/eartest-jar-sample-two-1.0.jar" };
+        final boolean[] artifactsDirectory = { false, true, false };
+        // "Clean" build - target directories and files do not exist
+        // Pass cleanBeforeExecute parameter to ensure that target location is cleaned before Mojo execution
+        doTestProject( "project-088", "ear", expectedArtifacts, artifactsDirectory, true );
+        // "Dirty" build - target directories and files exist
+        doTestProject( "project-088", "ear", expectedArtifacts, artifactsDirectory, false );
     }
 }
