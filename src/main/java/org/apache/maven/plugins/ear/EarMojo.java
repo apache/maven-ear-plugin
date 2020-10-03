@@ -971,6 +971,10 @@ public class EarMojo
      */
     private int findModuleInClassPathElements( final List<String> classPathElements, final JarModule module )
     {
+        if ( classPathElements.isEmpty() )
+        {
+            return -1;
+        }
         int moduleClassPathIndex = classPathElements.indexOf( module.getBundleFileName() );
         if ( moduleClassPathIndex != -1 )
         {
