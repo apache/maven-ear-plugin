@@ -462,7 +462,7 @@ public class EarMojo
                     }
                     unpack( sourceFile, destinationFile, outdatedResources );
 
-                    if ( skinnyWars && module.changeManifestClasspath() )
+                    if ( module.changeManifestClasspath() && ( skinnyWars || module.getLibDir() == null ) )
                     {
                         changeManifestClasspath( module, destinationFile, javaEEVersion );
                     }
@@ -474,7 +474,7 @@ public class EarMojo
                         getLog().info( "Copying artifact [" + module + "] to [" + module.getUri() + "]" );
                         FileUtils.copyFile( sourceFile, destinationFile );
 
-                        if ( skinnyWars && module.changeManifestClasspath() )
+                        if ( module.changeManifestClasspath() && ( skinnyWars || module.getLibDir() == null ) )
                         {
                             changeManifestClasspath( module, destinationFile, javaEEVersion );
                         }
