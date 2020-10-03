@@ -40,6 +40,7 @@ import java.util.Objects;
 
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -56,6 +57,7 @@ import org.apache.maven.shared.filtering.MavenFileFilter;
 import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.maven.shared.filtering.MavenResourcesExecution;
 import org.apache.maven.shared.filtering.MavenResourcesFiltering;
+import org.apache.maven.shared.mapping.MappingUtils;
 import org.apache.maven.shared.utils.io.FileUtils;
 import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.ArchiverException;
@@ -70,6 +72,7 @@ import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
 import org.codehaus.plexus.archiver.zip.ZipArchiver;
 import org.codehaus.plexus.archiver.zip.ZipUnArchiver;
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
+import org.codehaus.plexus.interpolation.InterpolationException;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -84,6 +87,16 @@ import org.codehaus.plexus.util.StringUtils;
 public class EarMojo
     extends AbstractEarMojo
 {
+    /**
+     * File name mappings which can be used by elements of Class-Path manifest entry of EAR modules to identify if
+     * classpath element matches particular EAR module.
+     */
+    private static final List<String> CLASSPATH_ELEMENT_FILE_NAME_MAPPINGS = Arrays.asList(
+        "@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@",
+        "@{groupId}@-@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@",
+        "@{artifactId}@-@{baseVersion}@@{dashClassifier?}@.@{extension}@",
+        "@{groupId}@-@{artifactId}@-@{baseVersion}@@{dashClassifier?}@.@{extension}@" );
+
     /**
      * Single directory for extra files to include in the EAR.
      */
@@ -845,9 +858,10 @@ public class EarMojo
                 if ( o instanceof JarModule )
                 {
                     JarModule jm = (JarModule) o;
-                    if ( classPathElements.contains( jm.getBundleFileName() ) )
+                    final int moduleClassPathIndex = findModuleInClassPathElements( classPathElements, jm );
+                    if ( moduleClassPathIndex != -1 )
                     {
-                        classPathElements.set( classPathElements.indexOf( jm.getBundleFileName() ), jm.getUri() );
+                        classPathElements.set( moduleClassPathIndex, jm.getUri() );
                     }
                     else
                     {
@@ -945,5 +959,43 @@ public class EarMojo
                 new File( getWorkDirectory(), outdatedResource ).delete();
             }
         }
+    }
+
+    /**
+     * Searches JAR module in the list of classpath elements.
+     *
+     * @param classPathElements classpath elements to search among.
+     * @param module module to find among classpath elements defined by {@code classPathElements}
+     * @return -1 if {@code module} was not found in {@code classPathElements} or index of item of
+     * {@code classPathElements} which matches {@code module}
+     */
+    private int findModuleInClassPathElements( final List<String> classPathElements, final JarModule module )
+    {
+        int moduleClassPathIndex = classPathElements.indexOf( module.getBundleFileName() );
+        if ( moduleClassPathIndex != -1 )
+        {
+            return moduleClassPathIndex;
+        }
+        // Check the case when classpath entry uses some of default file name mappings
+        // instead of file name mapping configured for EAR plugin
+        final Artifact artifact = module.getArtifact();
+        for ( String fileNameMapping : CLASSPATH_ELEMENT_FILE_NAME_MAPPINGS )
+        {
+            try
+            {
+                final String bundleFileName = MappingUtils.evaluateFileNameMapping( fileNameMapping, artifact );
+                moduleClassPathIndex = classPathElements.indexOf( bundleFileName );
+                if ( moduleClassPathIndex != -1 )
+                {
+                    return moduleClassPathIndex;
+                }
+            }
+            catch ( InterpolationException e )
+            {
+                getLog().warn( "Failed to build bundle file name for artifact [" + module
+                    + "] using file name mapping: " + fileNameMapping, e );
+            }
+        }
+        return -1;
     }
 }
