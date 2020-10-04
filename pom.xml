@@ -86,6 +86,12 @@
     <javaVersion>7</javaVersion>
     <surefire.version>2.22.2</surefire.version>
     <project.build.outputTimestamp>2020-09-26T20:10:30Z</project.build.outputTimestamp>
+    <mavenWarPluginVersion>2.1.1</mavenWarPluginVersion>
+    <mavenCompilerPluginVersion>2.5.1</mavenCompilerPluginVersion>
+    <mavenEjbPluginVersion>2.3</mavenEjbPluginVersion>
+    <invoker.skip>false</invoker.skip>
+    <invoker.install.skip>${invoker.skip}</invoker.install.skip>
+    <invoker.it.skip>${invoker.skip}</invoker.it.skip>
   </properties>
 
   <dependencies>
@@ -280,10 +286,12 @@
                 <goal>package</goal>
               </goals>
               <extraArtifacts>
-                <extraArtifact>org.apache.maven.plugins:maven-war-plugin:2.1.1:jar</extraArtifact>
-                <extraArtifact>org.apache.maven.plugins:maven-compiler-plugin:2.5.1:jar</extraArtifact>
-                <extraArtifact>org.apache.maven.plugins:maven-ejb-plugin:2.3:jar</extraArtifact>
+                <extraArtifact>org.apache.maven.plugins:maven-war-plugin:${mavenWarPluginVersion}:jar</extraArtifact>
+                <extraArtifact>org.apache.maven.plugins:maven-compiler-plugin:${mavenCompilerPluginVersion}:jar</extraArtifact>
+                <extraArtifact>org.apache.maven.plugins:maven-ejb-plugin:${mavenEjbPluginVersion}:jar</extraArtifact>
               </extraArtifacts>
+              <skipInstallation>${invoker.install.skip}</skipInstallation>
+              <skipInvocation>${invoker.it.skip}</skipInvocation>
             </configuration>
           </plugin>
           <plugin>

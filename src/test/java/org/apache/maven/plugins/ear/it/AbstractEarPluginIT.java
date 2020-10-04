@@ -22,10 +22,15 @@ package org.apache.maven.plugins.ear.it;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.jar.JarFile;
+import java.util.jar.JarInputStream;
+import java.util.jar.Manifest;
+import java.util.zip.ZipEntry;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -39,6 +44,7 @@ import org.apache.maven.it.util.ResourceExtractor;
 import org.apache.maven.plugins.ear.util.ResourceEntityResolver;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLAssert;
+import org.junit.Assert;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -68,14 +74,17 @@ public abstract class AbstractEarPluginIT
      * @param projectName the name of the project
      * @param properties extra properties to be used by the embedder
      * @param expectNoError true/false
+     * @param cleanBeforeExecute call clean plugin before execution
      * @return the base directory of the project
      */
-    protected File executeMojo( final String projectName, final Properties properties, boolean expectNoError ) throws VerificationException, IOException
+    protected File executeMojo( final String projectName, final Properties properties, boolean expectNoError,
+                                boolean cleanBeforeExecute ) throws VerificationException, IOException
     {
         System.out.println( "  Building: " + projectName );
 
         File testDir = getTestDir( projectName );
         Verifier verifier = new Verifier( testDir.getAbsolutePath() );
+        verifier.setAutoclean( cleanBeforeExecute );
         // Let's add alternate settings.xml setting so that the latest dependencies are used
         String localRepo = System.getProperty( "localRepositoryPath" );
         verifier.setLocalRepo( localRepo );
@@ -119,12 +128,99 @@ public abstract class AbstractEarPluginIT
     protected File executeMojo( final String projectName, final Properties properties )
         throws VerificationException, IOException
     {
-        return executeMojo( projectName, properties, true );
+        return executeMojo( projectName, properties, true, true );
     }
 
     /**
      * Executes the specified projects and asserts the given artifacts. Assert the deployment descriptors are valid
-     * 
+     *
+     * @param projectName the project to test
+     * @param earModuleName the name of 1st level EAR module in multi-module project or null if project is single-module
+     * @param expectedArtifacts the list of artifacts to be found in the EAR archive
+     * @param artifactsDirectory whether the artifact is an exploded artifactsDirectory or not
+     * @param cleanBeforeExecute call clean plugin before execution
+     * @return the base directory of the project
+     */
+    protected File doTestProject( final String projectName, final String earModuleName, final String[] expectedArtifacts,
+                                  final boolean[] artifactsDirectory, boolean cleanBeforeExecute )
+        throws VerificationException, IOException
+    {
+        final File baseDir = executeMojo( projectName, new Properties(), true, cleanBeforeExecute );
+        final File earDir = getEarModuleDirectory( baseDir, earModuleName );
+        assertEarArchive( earDir, projectName );
+        assertEarDirectory( earDir, projectName );
+
+        assertArchiveContent( earDir, projectName, expectedArtifacts, artifactsDirectory );
+
+        assertDeploymentDescriptors( earDir, projectName );
+
+        return baseDir;
+    }
+
+    /**
+     * Executes the specified projects and asserts the given artifacts. Asserts the deployment descriptors are valid.
+     * Asserts Class-Path entry of manifest of EAR modules.
+     *
+     * @param projectName the project to test
+     * @param earModuleName the name of 1st level EAR module in multi-module project or null if project is single-module
+     * @param expectedArtifacts the list of artifacts to be found in the EAR archive
+     * @param moduleArtifacts the list of artifacts representing EAR modules which manifest needs to be asserted
+     * @param expectedClassPathElements the list of elements of Class-Path entry of manifest. Rows should match
+     *                                  modules passed in {@code moduleArtifacts} parameter
+     * @return the base directory of the project
+     */
+    protected File doTestProject( final String projectName, final String earModuleName, final String[] expectedArtifacts,
+                                  final String[] moduleArtifacts, final String[][] expectedClassPathElements )
+        throws VerificationException, IOException
+    {
+        assertEquals( "Rows of expectedClassPathElements parameter should match items of moduleArtifacts parameter",
+            moduleArtifacts.length, expectedClassPathElements.length );
+
+        final File baseDir = doTestProject( projectName, earModuleName, expectedArtifacts, new boolean[expectedArtifacts.length], true );
+
+        final File earFile = getEarArchive( getEarModuleDirectory( baseDir, earModuleName ), projectName );
+        for ( int i = 0; i != moduleArtifacts.length; ++i )
+        {
+            final String moduleArtifact = moduleArtifacts[i];
+            Assert.assertArrayEquals( "Wrong elements of Class-Path entry of module [" + moduleArtifact + "] manifest",
+                expectedClassPathElements[i], getClassPathElements( earFile, moduleArtifact ) );
+        }
+
+        return baseDir;
+    }
+
+    /**
+     * Extracts elements of Class-Path entry of manifest of given EAR module.
+     *
+     * @param earFile the EAR file to investigate
+     * @param moduleArtifact the name of artifact in EAR representing EAR module
+     * @return elements of Class-Path entry of manifest of EAR module which is represented by
+     * {@code moduleArtifact} artifact in {@code earFile} file
+     */
+    protected String[] getClassPathElements( final File earFile, final String moduleArtifact ) throws IOException
+    {
+        try ( JarFile earJarFile = new JarFile( earFile ) )
+        {
+            final ZipEntry moduleEntry = earJarFile.getEntry( moduleArtifact );
+            assertNotNull( "Artifact [" + moduleArtifact + "] should exist in EAR", moduleEntry );
+            try ( InputStream moduleInputStream = earJarFile.getInputStream( moduleEntry );
+                  JarInputStream moduleJarInputStream = new JarInputStream( moduleInputStream ) )
+            {
+                final Manifest manifest = moduleJarInputStream.getManifest();
+                assertNotNull( "Artifact [" + moduleArtifact + "] of EAR should have manifest", manifest );
+                final String classPath = manifest.getMainAttributes().getValue( "Class-Path" );
+                if ( classPath == null )
+                {
+                    return new String[0];
+                }
+                return classPath.split( " " );
+            }
+        }
+    }
+
+    /**
+     * Executes the specified projects and asserts the given artifacts. Assert the deployment descriptors are valid
+     *
      * @param projectName the project to test
      * @param expectedArtifacts the list of artifacts to be found in the EAR archive
      * @param artifactsDirectory whether the artifact is an exploded artifactsDirectory or not
@@ -134,16 +230,7 @@ public abstract class AbstractEarPluginIT
                                   final boolean[] artifactsDirectory )
         throws VerificationException, IOException
     {
-        final File baseDir = executeMojo( projectName, new Properties() );
-        assertEarArchive( baseDir, projectName );
-        assertEarDirectory( baseDir, projectName );
-        
-        assertArchiveContent( baseDir, projectName, expectedArtifacts, artifactsDirectory );
-        
-        assertDeploymentDescriptors( baseDir, projectName );
-        
-        return baseDir;
-
+        return doTestProject( projectName, null, expectedArtifacts, artifactsDirectory, true );
     }
 
     /**
@@ -184,6 +271,11 @@ public abstract class AbstractEarPluginIT
     protected void assertEarDirectory( final File baseDir, final String projectName )
     {
         assertTrue( "EAR archive directory does not exist", getEarDirectory( baseDir, projectName ).exists() );
+    }
+
+    protected File getEarModuleDirectory( final File baseDir, final String earModuleName)
+    {
+        return earModuleName == null ? baseDir : new File( baseDir, earModuleName );
     }
 
     protected File getTargetDirectory( final File basedir )

@@ -203,8 +203,7 @@ public class EarMojoIT
     {
         final File baseDir = doTestProject( "project-016", new String[] { "eartest-ejb-sample-one-1.0.jar" } );
 
-        final File targetFolder = new File( baseDir, "target" );
-        final File createdEarFile = new File( targetFolder, "maven-ear-plugin-test-project-016-99.0.ear" );
+        final File createdEarFile = getEarArchive( baseDir, "project-016" );
 
         final File sourceManifestFile = new File( baseDir, "src/main/ear/MANIFEST.MF" );
 
@@ -332,7 +331,7 @@ public class EarMojoIT
     public void testProject026()
         throws Exception
     {
-        final File baseDir = executeMojo( "project-026", new Properties(), false );
+        final File baseDir = executeMojo( "project-026", new Properties(), false, true );
         // Stupido, checks that the ear archive is not there
         assertFalse( "Execution should have failed", getEarArchive( baseDir, "project-026" ).exists() );
     }
@@ -992,5 +991,65 @@ public class EarMojoIT
         throws Exception
     {
         doTestProject( "project-087", new String[] { "eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar" } );
+    }
+
+    /**
+     * Validates modification of Class-Path entry of EAR modules manifest when
+     * <ul>
+     * <li>skinnyWars option is turned on</li>
+     * <li>skipClassPathModification option is turned off</li>
+     * </ul
+     */
+    public void testProject089()
+        throws Exception
+    {
+        final String warModuleArtifact = "eartest-war-sample-three-1.0.war";
+        final String ejbModuleArtifact = "eartest-ejb-sample-three-1.0.jar";
+        final String jarSampleTwoArtifact = "lib/eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeArtifact = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
+        doTestProject( "project-089", "ear",
+            new String[] { warModuleArtifact, ejbModuleArtifact, jarSampleTwoArtifact, jarSampleThreeArtifact },
+            new String[] { warModuleArtifact, ejbModuleArtifact },
+            new String[][] { { jarSampleTwoArtifact, jarSampleThreeArtifact }, { jarSampleThreeArtifact, jarSampleTwoArtifact } } );
+    }
+
+    /**
+     * Validates modification of Class-Path entry of EAR modules manifest when
+     * <ul>
+     * <li>skinnyWars option is turned on</li>
+     * <li>skipClassPathModification option is turned on</li>
+     * </ul
+     */
+    public void testProject090()
+        throws Exception
+    {
+        final String warModuleArtifact = "eartest-war-sample-three-1.0.war";
+        final String ejbModuleArtifact = "eartest-ejb-sample-three-1.0.jar";
+        final String jarSampleTwoArtifact = "lib/eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeArtifact = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
+        doTestProject( "project-090", "ear",
+            new String[] { warModuleArtifact, ejbModuleArtifact, jarSampleTwoArtifact, jarSampleThreeArtifact },
+            new String[] { warModuleArtifact, ejbModuleArtifact },
+            new String[][] { { jarSampleTwoArtifact }, { jarSampleThreeArtifact, jarSampleTwoArtifact } } );
+    }
+
+    /**
+     * Validates modification of Class-Path entry of EAR modules manifest when
+     * <ul>
+     * <li>skinnyWars option is turned off</li>
+     * <li>skipClassPathModification option is turned off</li>
+     * </ul
+     */
+    public void testProject091()
+        throws Exception
+    {
+        final String warModuleArtifact = "eartest-war-sample-three-1.0.war";
+        final String ejbModuleArtifact = "eartest-ejb-sample-three-1.0.jar";
+        final String jarSampleTwoArtifact = "eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeArtifact = "eartest-jar-sample-three-with-deps-1.0.jar";
+        doTestProject( "project-091", "ear",
+            new String[] { warModuleArtifact, ejbModuleArtifact, jarSampleTwoArtifact, jarSampleThreeArtifact },
+            new String[] { warModuleArtifact, ejbModuleArtifact },
+            new String[][] { { "jar-sample-two-1.0.jar" }, { jarSampleThreeArtifact, jarSampleTwoArtifact } } );
     }
 }
