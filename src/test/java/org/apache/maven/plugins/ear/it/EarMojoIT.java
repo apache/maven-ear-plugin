@@ -998,7 +998,7 @@ public class EarMojoIT
      * <ul>
      * <li>skinnyWars option is turned on</li>
      * <li>skipClassPathModification option is turned off</li>
-     * </ul
+     * </ul>
      */
     public void testProject089()
         throws Exception
@@ -1018,7 +1018,7 @@ public class EarMojoIT
      * <ul>
      * <li>skinnyWars option is turned on</li>
      * <li>skipClassPathModification option is turned on</li>
-     * </ul
+     * </ul>
      */
     public void testProject090()
         throws Exception
@@ -1038,7 +1038,7 @@ public class EarMojoIT
      * <ul>
      * <li>skinnyWars option is turned off</li>
      * <li>skipClassPathModification option is turned off</li>
-     * </ul
+     * </ul>
      */
     public void testProject091()
         throws Exception
