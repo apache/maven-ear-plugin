@@ -40,7 +40,6 @@ import java.util.Objects;
 
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
-import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -57,7 +56,6 @@ import org.apache.maven.shared.filtering.MavenFileFilter;
 import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.maven.shared.filtering.MavenResourcesExecution;
 import org.apache.maven.shared.filtering.MavenResourcesFiltering;
-import org.apache.maven.shared.mapping.MappingUtils;
 import org.apache.maven.shared.utils.io.FileUtils;
 import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.ArchiverException;
@@ -72,7 +70,6 @@ import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
 import org.codehaus.plexus.archiver.zip.ZipArchiver;
 import org.codehaus.plexus.archiver.zip.ZipUnArchiver;
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
-import org.codehaus.plexus.interpolation.InterpolationException;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -87,16 +84,6 @@ import org.codehaus.plexus.util.StringUtils;
 public class EarMojo
     extends AbstractEarMojo
 {
-    /**
-     * File name mappings which can be used by elements of Class-Path manifest entry of EAR modules to identify if
-     * classpath element matches particular EAR module.
-     */
-    private static final List<String> CLASSPATH_ELEMENT_FILE_NAME_MAPPINGS = Arrays.asList(
-        "@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@",
-        "@{groupId}@-@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@",
-        "@{artifactId}@-@{baseVersion}@@{dashClassifier?}@.@{extension}@",
-        "@{groupId}@-@{artifactId}@-@{baseVersion}@@{dashClassifier?}@.@{extension}@" );
-
     /**
      * Single directory for extra files to include in the EAR.
      */
@@ -819,8 +806,8 @@ public class EarMojo
                     // We use the original name, cause in case of outputFileNameMapping
                     // we could not not delete it and it will end up in the resulting EAR and the WAR
                     // will not be cleaned up.
-                    File artifact = new File( new File( workDirectory, module.getLibDir() ),
-                                              module.getArtifact().getFile().getName() );
+                    final File workLibDir = new File( workDirectory, module.getLibDir() );
+                    File artifact = new File( workLibDir, getArtifactFileName( module ) );
 
                     // MEAR-217
                     // If WAR contains files with timestamps, but EAR strips them away (useBaseVersion=true)
@@ -829,16 +816,15 @@ public class EarMojo
                     if ( !artifact.exists() )
                     {
                         getLog().debug( "module does not exist with original file name." );
-                        artifact = new File( new File( workDirectory, module.getLibDir() ), jm.getBundleFileName() );
+                        artifact = new File( workLibDir, jm.getBundleFileName() );
                         getLog().debug( "Artifact with mapping:" + artifact.getAbsolutePath() );
                     }
 
                     if ( !artifact.exists() )
                     {
                         getLog().debug( "Artifact with mapping does not exist." );
-                        artifact = new File( new File( workDirectory, module.getLibDir() ),
-                                             jm.getArtifact().getFile().getName() );
-                        getLog().debug( "Artifact with orignal file name:" + artifact.getAbsolutePath() );
+                        artifact = new File( workLibDir, getArtifactFileName( jm ) );
+                        getLog().debug( "Artifact with original file name:" + artifact.getAbsolutePath() );
                     }
 
                     if ( artifact.exists() )
@@ -980,26 +966,11 @@ public class EarMojo
         {
             return moduleClassPathIndex;
         }
-        // Check the case when classpath entry uses some of default file name mappings
-        // instead of file name mapping configured for EAR plugin
-        final Artifact artifact = module.getArtifact();
-        for ( String fileNameMapping : CLASSPATH_ELEMENT_FILE_NAME_MAPPINGS )
-        {
-            try
-            {
-                final String bundleFileName = MappingUtils.evaluateFileNameMapping( fileNameMapping, artifact );
-                moduleClassPathIndex = classPathElements.indexOf( bundleFileName );
-                if ( moduleClassPathIndex != -1 )
-                {
-                    return moduleClassPathIndex;
-                }
-            }
-            catch ( InterpolationException e )
-            {
-                getLog().warn( "Failed to build bundle file name for artifact [" + module
-                    + "] using file name mapping: " + fileNameMapping, e );
-            }
-        }
-        return -1;
+        return classPathElements.indexOf( getArtifactFileName( module ) );
+    }
+
+    private String getArtifactFileName( final EarModule module )
+    {
+        return module.getArtifact().getFile().getName();
     }
 }
