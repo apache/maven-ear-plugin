@@ -132,90 +132,40 @@ public abstract class AbstractEarPluginIT
     }
 
     /**
-     * Executes the specified projects and asserts the given artifacts. Assert the deployment descriptors are valid
-     *
-     * @param projectName the project to test
-     * @param earModuleName the name of 1st level EAR module in multi-module project or null if project is single-module
-     * @param expectedArtifacts the list of artifacts to be found in the EAR archive
-     * @param artifactsDirectory whether the artifact is an exploded artifactsDirectory or not
-     * @param cleanBeforeExecute call clean plugin before execution
-     * @return the base directory of the project
-     */
-    protected File doTestProject( final String projectName, final String earModuleName, final String[] expectedArtifacts,
-                                  final boolean[] artifactsDirectory, boolean cleanBeforeExecute )
-        throws VerificationException, IOException
-    {
-        final File baseDir = executeMojo( projectName, new Properties(), true, cleanBeforeExecute );
-        final File earDir = getEarModuleDirectory( baseDir, earModuleName );
-        assertEarArchive( earDir, projectName );
-        assertEarDirectory( earDir, projectName );
-
-        assertArchiveContent( earDir, projectName, expectedArtifacts, artifactsDirectory );
-
-        assertDeploymentDescriptors( earDir, projectName );
-
-        return baseDir;
-    }
-
-    /**
      * Executes the specified projects and asserts the given artifacts. Asserts the deployment descriptors are valid.
      * Asserts Class-Path entry of manifest of EAR modules.
      *
      * @param projectName the project to test
      * @param earModuleName the name of 1st level EAR module in multi-module project or null if project is single-module
      * @param expectedArtifacts the list of artifacts to be found in the EAR archive
-     * @param moduleArtifacts the list of artifacts representing EAR modules which manifest needs to be asserted
+     * @param artifactsDirectory whether the artifact is an exploded artifactsDirectory or not
+     * @param moduleArtifacts the list of artifacts representing EAR modules which manifest needs to be asserted or
+     *                        {@code null} if there is no need to validate Class-Path entry of EAR modules manifests
+     * @param moduleArtifactsDirectory whether the artifact from {@code moduleArtifacts} list is an exploded or not.
+     *                                 Can be {@code null} if {@code moduleArtifacts} is {@code null}
      * @param expectedClassPathElements the list of elements of Class-Path entry of manifest. Rows should match
-     *                                  modules passed in {@code moduleArtifacts} parameter
+     *                                  modules passed in {@code moduleArtifacts} parameter. Can be {@code null} if
+     *                                  {@code moduleArtifacts} is {@code null}
+     * @param cleanBeforeExecute call clean plugin before execution
      * @return the base directory of the project
      */
-    protected File doTestProject( final String projectName, final String earModuleName, final String[] expectedArtifacts,
-                                  final String[] moduleArtifacts, final String[][] expectedClassPathElements )
+    protected File doTestProject( final String projectName, final String earModuleName,
+                                  final String[] expectedArtifacts, boolean[] artifactsDirectory,
+                                  final String[] moduleArtifacts, boolean[] moduleArtifactsDirectory,
+                                  final String[][] expectedClassPathElements,
+                                  final boolean cleanBeforeExecute )
         throws VerificationException, IOException
     {
-        assertEquals( "Rows of expectedClassPathElements parameter should match items of moduleArtifacts parameter",
-            moduleArtifacts.length, expectedClassPathElements.length );
+        final File baseDir = executeMojo( projectName, new Properties(), true, cleanBeforeExecute );
 
-        final File baseDir = doTestProject( projectName, earModuleName, expectedArtifacts, new boolean[expectedArtifacts.length], true );
-
-        final File earFile = getEarArchive( getEarModuleDirectory( baseDir, earModuleName ), projectName );
-        for ( int i = 0; i != moduleArtifacts.length; ++i )
-        {
-            final String moduleArtifact = moduleArtifacts[i];
-            Assert.assertArrayEquals( "Wrong elements of Class-Path entry of module [" + moduleArtifact + "] manifest",
-                expectedClassPathElements[i], getClassPathElements( earFile, moduleArtifact ) );
-        }
+        final File earModuleDir = getEarModuleDirectory( baseDir, earModuleName );
+        assertEarArchive( earModuleDir, projectName );
+        assertEarDirectory( earModuleDir, projectName );
+        assertArchiveContent( earModuleDir, projectName, expectedArtifacts, artifactsDirectory );
+        assertDeploymentDescriptors( earModuleDir, projectName );
+        assertClassPathElements( earModuleDir, projectName, moduleArtifacts, moduleArtifactsDirectory, expectedClassPathElements );
 
         return baseDir;
-    }
-
-    /**
-     * Extracts elements of Class-Path entry of manifest of given EAR module.
-     *
-     * @param earFile the EAR file to investigate
-     * @param moduleArtifact the name of artifact in EAR representing EAR module
-     * @return elements of Class-Path entry of manifest of EAR module which is represented by
-     * {@code moduleArtifact} artifact in {@code earFile} file
-     */
-    protected String[] getClassPathElements( final File earFile, final String moduleArtifact ) throws IOException
-    {
-        try ( JarFile earJarFile = new JarFile( earFile ) )
-        {
-            final ZipEntry moduleEntry = earJarFile.getEntry( moduleArtifact );
-            assertNotNull( "Artifact [" + moduleArtifact + "] should exist in EAR", moduleEntry );
-            try ( InputStream moduleInputStream = earJarFile.getInputStream( moduleEntry );
-                  JarInputStream moduleJarInputStream = new JarInputStream( moduleInputStream ) )
-            {
-                final Manifest manifest = moduleJarInputStream.getManifest();
-                assertNotNull( "Artifact [" + moduleArtifact + "] of EAR should have manifest", manifest );
-                final String classPath = manifest.getMainAttributes().getValue( "Class-Path" );
-                if ( classPath == null )
-                {
-                    return new String[0];
-                }
-                return classPath.split( " " );
-            }
-        }
     }
 
     /**
@@ -230,7 +180,7 @@ public abstract class AbstractEarPluginIT
                                   final boolean[] artifactsDirectory )
         throws VerificationException, IOException
     {
-        return doTestProject( projectName, null, expectedArtifacts, artifactsDirectory, true );
+        return doTestProject( projectName, null, expectedArtifacts, artifactsDirectory, null, null, null, true );
     }
 
     /**
@@ -238,29 +188,12 @@ public abstract class AbstractEarPluginIT
      * 
      * @param projectName the project to test
      * @param expectedArtifacts the list of artifacts to be found in the EAR archive
-     * @param testDeploymentDescriptors whether we should test deployment descriptors
      * @return the base directory of the project
      */
-    private File doTestProject( final String projectName, final String[] expectedArtifacts,
-                                boolean testDeploymentDescriptors )
+    protected File doTestProject( final String projectName, final String[] expectedArtifacts )
         throws VerificationException, IOException
     {
         return doTestProject( projectName, expectedArtifacts, new boolean[expectedArtifacts.length] );
-    }
-
-    /**
-     * Executes the specified projects and asserts the given artifacts as artifacts (non directory). Assert the
-     * deployment descriptors are valid
-     * 
-     * @param projectName the project to test
-     * @param expectedArtifacts the list of artifacts to be found in the EAR archive
-     * @return the base directory of the project
-     * @throws Exception Mojo exception in case of an error.
-     */
-    protected File doTestProject( final String projectName, final String[] expectedArtifacts )
-        throws Exception
-    {
-        return doTestProject( projectName, expectedArtifacts, true );
     }
 
     protected void assertEarArchive( final File baseDir, final String projectName )
@@ -475,5 +408,78 @@ public abstract class AbstractEarPluginIT
                 return !name.equalsIgnoreCase( "manifest.mf" );
             }
         } );
+    }
+
+    private void assertClassPathElements( final File baseDir, String projectName, String[] moduleArtifacts,
+                                          boolean[] moduleArtifactsDirectory, String[][] expectedClassPathElements )
+        throws IOException
+    {
+        if ( moduleArtifacts == null )
+        {
+            return;
+        }
+
+        assertNotNull( "moduleArtifactsDirectory should be provided if moduleArtifacts is provided",
+            moduleArtifactsDirectory );
+        assertTrue( "Size of moduleArtifactsDirectory should match size of moduleArtifacts parameter",
+            moduleArtifacts.length <= moduleArtifactsDirectory.length );
+        assertNotNull( "expectedClassPathElements should be provided if moduleArtifacts is provided",
+            expectedClassPathElements );
+        assertTrue( "Rows of expectedClassPathElements parameter should match items of moduleArtifacts parameter",
+            moduleArtifacts.length <= expectedClassPathElements.length );
+
+        final File earFile = getEarArchive( baseDir, projectName );
+        for ( int i = 0; i != moduleArtifacts.length; ++i )
+        {
+            final String moduleArtifact = moduleArtifacts[i];
+            Assert.assertArrayEquals( "Wrong elements of Class-Path entry of module [" + moduleArtifact + "] manifest",
+                expectedClassPathElements[i],
+                getClassPathElements( earFile, moduleArtifact, moduleArtifactsDirectory[i] ) );
+        }
+    }
+
+    /**
+     * Extracts elements of Class-Path entry of manifest of given EAR module.
+     *
+     * @param earFile the EAR file to investigate
+     * @param moduleArtifact the name of artifact in EAR representing EAR module
+     * @return elements of Class-Path entry of manifest of EAR module which is represented by
+     * {@code moduleArtifact} artifact in {@code earFile} file
+     */
+    protected String[] getClassPathElements( final File earFile, final String moduleArtifact, final boolean directory )
+        throws IOException
+    {
+        final String classPath;
+        try ( JarFile earJarFile = new JarFile( earFile ) )
+        {
+            final ZipEntry moduleEntry = earJarFile.getEntry( moduleArtifact );
+            assertNotNull( "Artifact [" + moduleArtifact + "] should exist in EAR", moduleEntry );
+            if (directory)
+            {
+                final String manifestEntryName = moduleArtifact + "/META-INF/MANIFEST.MF";
+                final ZipEntry manifestEntry = earJarFile.getEntry( manifestEntryName );
+                assertNotNull( manifestEntryName + " manifest file should exist in EAR", manifestEntry );
+                try ( InputStream manifestInputStream = earJarFile.getInputStream( manifestEntry ) )
+                {
+                    final Manifest manifest = new Manifest(manifestInputStream);
+                    classPath = manifest.getMainAttributes().getValue( "Class-Path" );
+                }
+            }
+            else
+            {
+                try ( InputStream moduleInputStream = earJarFile.getInputStream( moduleEntry );
+                      JarInputStream moduleJarInputStream = new JarInputStream( moduleInputStream ) )
+                {
+                    final Manifest manifest = moduleJarInputStream.getManifest();
+                    assertNotNull( "Artifact [" + moduleArtifact + "] of EAR should have manifest", manifest );
+                    classPath = manifest.getMainAttributes().getValue( "Class-Path" );
+                }
+            }
+        }
+        if ( classPath == null )
+        {
+            return new String[0];
+        }
+        return classPath.split( " " );
     }
 }

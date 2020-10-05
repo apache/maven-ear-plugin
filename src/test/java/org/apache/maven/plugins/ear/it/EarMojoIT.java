@@ -1009,8 +1009,11 @@ public class EarMojoIT
         final String jarSampleThreeArtifact = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
         doTestProject( "project-089", "ear",
             new String[] { warModuleArtifact, ejbModuleArtifact, jarSampleTwoArtifact, jarSampleThreeArtifact },
+            new boolean[] { false, false, false, false},
             new String[] { warModuleArtifact, ejbModuleArtifact },
-            new String[][] { { jarSampleTwoArtifact, jarSampleThreeArtifact }, { jarSampleThreeArtifact, jarSampleTwoArtifact } } );
+            new boolean[] { false, false },
+            new String[][] { { jarSampleTwoArtifact, jarSampleThreeArtifact }, { jarSampleThreeArtifact, jarSampleTwoArtifact } },
+            true );
     }
 
     /**
@@ -1029,8 +1032,11 @@ public class EarMojoIT
         final String jarSampleThreeArtifact = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
         doTestProject( "project-090", "ear",
             new String[] { warModuleArtifact, ejbModuleArtifact, jarSampleTwoArtifact, jarSampleThreeArtifact },
+            new boolean[] { false, false, false, false },
             new String[] { warModuleArtifact, ejbModuleArtifact },
-            new String[][] { { jarSampleTwoArtifact }, { jarSampleThreeArtifact, jarSampleTwoArtifact } } );
+            new boolean[] { false, false },
+            new String[][] { { jarSampleTwoArtifact }, { jarSampleThreeArtifact, jarSampleTwoArtifact } },
+            true );
     }
 
     /**
@@ -1038,6 +1044,7 @@ public class EarMojoIT
      * <ul>
      * <li>skinnyWars option is turned off</li>
      * <li>skipClassPathModification option is turned off</li>
+     * <li>unpacking of EJB JARs is turned on</li>
      * </ul>
      */
     public void testProject091()
@@ -1049,7 +1056,10 @@ public class EarMojoIT
         final String jarSampleThreeArtifact = "eartest-jar-sample-three-with-deps-1.0.jar";
         doTestProject( "project-091", "ear",
             new String[] { warModuleArtifact, ejbModuleArtifact, jarSampleTwoArtifact, jarSampleThreeArtifact },
+            new boolean[] { false, true, false, false },
             new String[] { warModuleArtifact, ejbModuleArtifact },
-            new String[][] { { "jar-sample-two-1.0.jar" }, { jarSampleThreeArtifact, jarSampleTwoArtifact } } );
+            new boolean[] { false, true },
+            new String[][] { { "jar-sample-two-1.0.jar" }, { jarSampleThreeArtifact, jarSampleTwoArtifact } },
+            true );
     }
 }
