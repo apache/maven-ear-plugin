@@ -962,7 +962,7 @@ public class EarMojo
         {
             return -1;
         }
-        int moduleClassPathIndex = classPathElements.indexOf( module.getBundleFileName() );
+        final int moduleClassPathIndex = classPathElements.indexOf( module.getBundleFileName() );
         if ( moduleClassPathIndex != -1 )
         {
             return moduleClassPathIndex;
