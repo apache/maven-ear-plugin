@@ -87,6 +87,9 @@
     <surefire.version>2.22.2</surefire.version>
     <project.build.outputTimestamp>2020-09-26T20:10:30Z</project.build.outputTimestamp>
     <mavenWarPluginVersion>2.1.1</mavenWarPluginVersion>
+    <invoker.skip>false</invoker.skip>
+    <invoker.install.skip>${invoker.skip}</invoker.install.skip>
+    <invoker.it.skip>${invoker.skip}</invoker.it.skip>
   </properties>
 
   <dependencies>
@@ -183,7 +186,32 @@
   </dependencies>
 
   <build>
-
+    <resources>
+      <resource>
+        <directory>src/main/filtered-resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/pom.xml</include>
+        </includes>
+      </testResource>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>**/pom.xml</exclude>
+        </excludes>
+      </testResource>
+      <testResource>
+        <directory>src/test/filtered-resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -220,6 +248,15 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <escapeString>\</escapeString>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
   <profiles>
@@ -231,43 +268,6 @@
         <localSnapshotRepositoryPath>${project.build.testOutputDirectory}/m2snapshots</localSnapshotRepositoryPath>
       </properties>
       <build>
-        <resources>
-          <resource>
-            <directory>src/main/filtered-resources</directory>
-            <filtering>true</filtering>
-          </resource>
-        </resources>
-        <testResources>
-          <testResource>
-            <directory>src/test/resources</directory>
-            <filtering>true</filtering>
-            <includes>
-              <include>**/pom.xml</include>
-            </includes>
-          </testResource>
-          <testResource>
-            <directory>src/test/resources</directory>
-            <filtering>false</filtering>
-            <excludes>
-              <exclude>**/pom.xml</exclude>
-            </excludes>
-          </testResource>
-          <testResource>
-            <directory>src/test/filtered-resources</directory>
-            <filtering>true</filtering>
-          </testResource>
-        </testResources>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-resources-plugin</artifactId>
-              <configuration>
-                <escapeString>\</escapeString>
-              </configuration>
-            </plugin>
-          </plugins>
-        </pluginManagement>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -285,6 +285,8 @@
                 <extraArtifact>org.apache.maven.plugins:maven-compiler-plugin:2.5.1:jar</extraArtifact>
                 <extraArtifact>org.apache.maven.plugins:maven-ejb-plugin:2.3:jar</extraArtifact>
               </extraArtifacts>
+              <skipInstallation>${invoker.install.skip}</skipInstallation>
+              <skipInvocation>${invoker.it.skip}</skipInvocation>
             </configuration>
           </plugin>
           <plugin>
