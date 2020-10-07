@@ -1003,16 +1003,16 @@ public class EarMojoIT
     public void testProject089()
         throws Exception
     {
-        final String warModuleArtifact = "eartest-war-sample-three-1.0.war";
-        final String ejbModuleArtifact = "eartest-ejb-sample-three-1.0.jar";
-        final String jarSampleTwoArtifact = "lib/eartest-jar-sample-two-1.0.jar";
-        final String jarSampleThreeArtifact = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
+        final String warModule = "eartest-war-sample-three-1.0.war";
+        final String ejbModule = "eartest-ejb-sample-three-1.0.jar";
+        final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
         doTestProject( "project-089", "ear",
-            new String[] { warModuleArtifact, ejbModuleArtifact, jarSampleTwoArtifact, jarSampleThreeArtifact },
+            new String[] { warModule, ejbModule, jarSampleTwoLibrary, jarSampleThreeLibrary },
             new boolean[] { false, false, false, false},
-            new String[] { warModuleArtifact, ejbModuleArtifact },
+            new String[] { warModule, ejbModule },
             new boolean[] { false, false },
-            new String[][] { { jarSampleTwoArtifact, jarSampleThreeArtifact }, { jarSampleThreeArtifact, jarSampleTwoArtifact } },
+            new String[][] { { jarSampleTwoLibrary, jarSampleThreeLibrary }, { jarSampleThreeLibrary, jarSampleTwoLibrary } },
             true );
     }
 
@@ -1026,16 +1026,16 @@ public class EarMojoIT
     public void testProject090()
         throws Exception
     {
-        final String warModuleArtifact = "eartest-war-sample-three-1.0.war";
-        final String ejbModuleArtifact = "eartest-ejb-sample-three-1.0.jar";
-        final String jarSampleTwoArtifact = "lib/eartest-jar-sample-two-1.0.jar";
-        final String jarSampleThreeArtifact = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
+        final String warModule = "eartest-war-sample-three-1.0.war";
+        final String ejbModule = "eartest-ejb-sample-three-1.0.jar";
+        final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
         doTestProject( "project-090", "ear",
-            new String[] { warModuleArtifact, ejbModuleArtifact, jarSampleTwoArtifact, jarSampleThreeArtifact },
+            new String[] { warModule, ejbModule, jarSampleTwoLibrary, jarSampleThreeLibrary },
             new boolean[] { false, false, false, false },
-            new String[] { warModuleArtifact, ejbModuleArtifact },
+            new String[] { warModule, ejbModule },
             new boolean[] { false, false },
-            new String[][] { { jarSampleTwoArtifact }, { jarSampleThreeArtifact, jarSampleTwoArtifact } },
+            new String[][] { { jarSampleTwoLibrary }, { jarSampleThreeLibrary, jarSampleTwoLibrary } },
             true );
     }
 
@@ -1050,16 +1050,16 @@ public class EarMojoIT
     public void testProject091()
         throws Exception
     {
-        final String warModuleArtifact = "eartest-war-sample-three-1.0.war";
-        final String ejbModuleArtifact = "eartest-ejb-sample-three-1.0.jar";
-        final String jarSampleTwoArtifact = "eartest-jar-sample-two-1.0.jar";
-        final String jarSampleThreeArtifact = "eartest-jar-sample-three-with-deps-1.0.jar";
+        final String warModule = "eartest-war-sample-three-1.0.war";
+        final String ejbModule = "eartest-ejb-sample-three-1.0.jar";
+        final String jarSampleTwoLibrary = "eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "eartest-jar-sample-three-with-deps-1.0.jar";
         doTestProject( "project-091", "ear",
-            new String[] { warModuleArtifact, ejbModuleArtifact, jarSampleTwoArtifact, jarSampleThreeArtifact },
+            new String[] { warModule, ejbModule, jarSampleTwoLibrary, jarSampleThreeLibrary },
             new boolean[] { false, true, false, false },
-            new String[] { warModuleArtifact, ejbModuleArtifact },
+            new String[] { warModule, ejbModule },
             new boolean[] { false, true },
-            new String[][] { { "jar-sample-two-1.0.jar" }, { jarSampleThreeArtifact, jarSampleTwoArtifact } },
+            new String[][] { { "jar-sample-two-1.0.jar" }, { jarSampleThreeLibrary, jarSampleTwoLibrary } },
             true );
     }
 }

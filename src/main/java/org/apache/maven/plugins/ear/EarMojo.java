@@ -807,7 +807,7 @@ public class EarMojo
                     // we could not not delete it and it will end up in the resulting EAR and the WAR
                     // will not be cleaned up.
                     final File workLibDir = new File( workDirectory, module.getLibDir() );
-                    File artifact = new File( workLibDir, getArtifactFileName( module ) );
+                    File artifact = new File( workLibDir, module.getArtifact().getFile().getName() );
 
                     // MEAR-217
                     // If WAR contains files with timestamps, but EAR strips them away (useBaseVersion=true)
@@ -823,7 +823,7 @@ public class EarMojo
                     if ( !artifact.exists() )
                     {
                         getLog().debug( "Artifact with mapping does not exist." );
-                        artifact = new File( workLibDir, getArtifactFileName( jm ) );
+                        artifact = new File( workLibDir, jm.getArtifact().getFile().getName() );
                         getLog().debug( "Artifact with original file name:" + artifact.getAbsolutePath() );
                     }
 
@@ -948,9 +948,10 @@ public class EarMojo
     }
 
     /**
-     * Searches JAR module in the list of classpath elements.
+     * Searches for the given JAR module in the list of classpath elements and if found matching returns index of
+     * class path element matching JAR module or -1 otherwise.
      *
-     * @param classPathElements classpath elements to search among.
+     * @param classPathElements classpath elements to search among
      * @param module module to find among classpath elements defined by {@code classPathElements}
      * @return -1 if {@code module} was not found in {@code classPathElements} or index of item of
      * {@code classPathElements} which matches {@code module}
@@ -966,11 +967,6 @@ public class EarMojo
         {
             return moduleClassPathIndex;
         }
-        return classPathElements.indexOf( getArtifactFileName( module ) );
-    }
-
-    private String getArtifactFileName( final EarModule module )
-    {
-        return module.getArtifact().getFile().getName();
+        return classPathElements.indexOf( module.getArtifact().getFile().getName() );
     }
 }
