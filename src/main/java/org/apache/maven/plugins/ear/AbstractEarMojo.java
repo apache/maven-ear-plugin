@@ -179,7 +179,7 @@ public abstract class AbstractEarMojo
         {
             getLog().error( "fileNameMapping has been removed with version 3.0.0. You are still using it." );
             getLog().error( "Use outputFileNameMapping instead." );
-            throw new MojoExecutionException( "fileNameMapping has ben removed with version 3.0.0 "
+            throw new MojoExecutionException( "fileNameMapping has been removed with version 3.0.0 "
                 + "but you are still using it." );
         }
 
