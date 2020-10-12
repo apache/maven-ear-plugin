@@ -39,7 +39,7 @@ public final class EarModuleFactory
      */
     public static final List<String> STANDARD_ARTIFACT_TYPE =
         Collections.unmodifiableList( Arrays.asList( "jar", "ejb", "par", "ejb-client", "app-client", "rar", "war",
-                                                     "sar", "wsr", "har" ) );
+                                                     "sar", "wsr", "har", "test-jar" ) );
 
     /**
      * Creates a new {@link EarModule} based on the specified {@link Artifact} and the specified execution
@@ -70,7 +70,7 @@ public final class EarModuleFactory
             throw new UnknownArtifactTypeException( e.getMessage() + " for " + artifact.getArtifactId() );
         }
 
-        if ( "jar".equals( artifactType ) )
+        if ( "jar".equals( artifactType ) || "test-jar".equals( artifactType ) )
         {
             return new JarModule( artifact, defaultLibBundleDir, includeInApplicationXml );
         }

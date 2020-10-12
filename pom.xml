@@ -89,6 +89,7 @@
     <mavenWarPluginVersion>2.1.1</mavenWarPluginVersion>
     <mavenCompilerPluginVersion>2.5.1</mavenCompilerPluginVersion>
     <mavenEjbPluginVersion>2.3</mavenEjbPluginVersion>
+    <mavenJarPluginVersion>3.2.0</mavenJarPluginVersion>
     <invoker.skip>false</invoker.skip>
     <invoker.install.skip>${invoker.skip}</invoker.install.skip>
     <invoker.it.skip>${invoker.skip}</invoker.it.skip>
@@ -286,6 +287,7 @@
                 <extraArtifact>org.apache.maven.plugins:maven-war-plugin:${mavenWarPluginVersion}:jar</extraArtifact>
                 <extraArtifact>org.apache.maven.plugins:maven-compiler-plugin:${mavenCompilerPluginVersion}:jar</extraArtifact>
                 <extraArtifact>org.apache.maven.plugins:maven-ejb-plugin:${mavenEjbPluginVersion}:jar</extraArtifact>
+                <extraArtifact>org.apache.maven.plugins:maven-jar-plugin:${mavenJarPluginVersion}:jar</extraArtifact>
               </extraArtifacts>
               <skipInstallation>${invoker.install.skip}</skipInstallation>
               <skipInvocation>${invoker.it.skip}</skipInvocation>

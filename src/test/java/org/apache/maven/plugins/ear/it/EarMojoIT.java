@@ -995,4 +995,24 @@ public class EarMojoIT
             new String[][] { { "jar-sample-two-1.0.jar" }, { jarSampleThreeLibrary, jarSampleTwoLibrary } },
             true );
     }
+
+    /**
+     * Ensures that test JAR dependency of WAR is handled as regular JAR in terms of packaging and manifest modification
+     * when skinnyWars option is turned on.
+     */
+    public void testProject092()
+        throws Exception
+    {
+        final String warModule = "eartest-war-sample-two-1.0.war";
+        final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
+        final String jarSampleFourTestLibrary = "lib/eartest-jar-sample-four-1.0-tests.jar";
+        doTestProject( "project-092", "ear",
+            new String[] { warModule, jarSampleTwoLibrary, jarSampleThreeLibrary, jarSampleFourTestLibrary },
+            new boolean[] { false, false, false, false },
+            new String[] { warModule },
+            new boolean[] { false },
+            new String[][] { { jarSampleFourTestLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary } },
+            true );
+    }
 }
