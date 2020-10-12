@@ -964,11 +964,16 @@ public class EarMojo
         {
             return -1;
         }
-        final int moduleClassPathIndex = classPathElements.indexOf( module.getBundleFileName() );
+        int moduleClassPathIndex = classPathElements.indexOf( module.getBundleFileName() );
         if ( moduleClassPathIndex != -1 )
         {
             return moduleClassPathIndex;
         }
-        return classPathElements.indexOf( module.getArtifact().getFile().getName() );
+        moduleClassPathIndex = classPathElements.indexOf( module.getArtifact().getFile().getName() );
+        if ( moduleClassPathIndex != -1 )
+        {
+            return moduleClassPathIndex;
+        }
+        return classPathElements.indexOf( module.getUri() );
     }
 }
