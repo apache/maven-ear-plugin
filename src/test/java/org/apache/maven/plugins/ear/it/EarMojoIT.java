@@ -38,7 +38,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a single EJB and no configuration.
-     * @throws Exception in case of an error.
      */
     public void testProject001()
         throws Exception
@@ -48,7 +47,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a customized artifact location and a customized artifact name.
-     * @throws Exception in case of an error.
      */
     public void testProject002()
         throws Exception
@@ -59,7 +57,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a default bundle directory for <tt>java</tt> modules.
-     * @throws Exception in case of an error.
      */
     public void testProject003()
         throws Exception
@@ -70,7 +67,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a default bundle directory for _java_ modules and a custom location overriding the default.
-     * @throws Exception in case of an error.
      */
     public void testProject004()
         throws Exception
@@ -81,7 +77,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a custom URI.
-     * @throws Exception in case of an error.
      */
     public void testProject005()
         throws Exception
@@ -91,7 +86,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with an excluded module.
-     * @throws Exception in case of an error.
      */
     public void testProject006()
         throws Exception
@@ -102,7 +96,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a classified artifact and no extra configuration.
-     * @throws Exception in case of an error.
      */
     public void testProject007()
         throws Exception
@@ -112,7 +105,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with deployment descriptor configuration for J2EE 1.3.
-     * @throws Exception in case of an error.
      */
     public void testProject008()
         throws Exception
@@ -122,7 +114,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with deployment descriptor configuration for J2EE 1.4.
-     * @throws Exception in case of an error.
      */
     public void testProject009()
         throws Exception
@@ -132,7 +123,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with deployment descriptor configuration for Java EE 5.
-     * @throws Exception in case of an error.
      */
     public void testProject010()
         throws Exception
@@ -142,7 +132,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and make sure that deployment descriptor default settings are applied.
-     * @throws Exception in case of an error.
      */
     public void testProject011()
         throws Exception
@@ -152,7 +141,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and make sure that EAR resources are bundled within the EAR.
-     * @throws Exception in case of an error.
      */
     public void testProject012()
         throws Exception
@@ -162,7 +150,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and make sure that EAR resources in a customized resources directory are bundled within the EAR.
-     * @throws Exception in case of an error.
      */
     public void testProject013()
         throws Exception
@@ -172,7 +159,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and make sure that EAR resources are bundled within the EAR using includes and excludes.
-     * @throws Exception in case of an error.
      */
     public void testProject014()
         throws Exception
@@ -182,7 +168,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and make sure that default manifest is taken into account.
-     * @throws Exception in case of an error.
      */
     public void testProject015()
         throws Exception
@@ -196,7 +181,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and make sure that custom manifest is taken into account.
-     * @throws Exception in case of an error.
      */
     public void testProject016()
         throws Exception
@@ -218,7 +202,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and make sure that custom application.xml is taken into account.
-     * @throws Exception in case of an error.
      */
     public void testProject017()
         throws Exception
@@ -228,7 +211,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a custom final name.
-     * @throws Exception in case of an error.
      */
     public void testProject018()
         throws Exception
@@ -240,7 +222,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with unpacked archives using the unpackTypes.
-     * @throws Exception in case of an error.
      */
     public void testProject019()
         throws Exception
@@ -251,7 +232,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with unpacked archives using the unpack module attribute.
-     * @throws Exception in case of an error.
      */
     public void testProject020()
         throws Exception
@@ -262,7 +242,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with unpacked archives using both unpackTypes and the unpack module attribute.
-     * @throws Exception in case of an error.
      */
     public void testProject021()
         throws Exception
@@ -276,7 +255,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a classifier.
-     * @throws Exception in case of an error.
      */
     public void testProject022()
         throws Exception
@@ -288,7 +266,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and make sure that a single classified dependency is detected without specifying the classifier.
-     * @throws Exception in case of an error.
      */
     public void testProject023()
         throws Exception
@@ -300,7 +277,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and make sure that a single classified dependency is detected when specifying the classifier.
-     * @throws Exception in case of an error.
      */
     public void testProject024()
         throws Exception
@@ -313,7 +289,6 @@ public class EarMojoIT
     /**
      * Builds an EAR and make sure that a classified dependency with mutiple candidates is detected when specifying the
      * classifier.
-     * @throws Exception in case of an error.
      */
     public void testProject025()
         throws Exception
@@ -326,7 +301,6 @@ public class EarMojoIT
     /**
      * Builds an EAR and make sure that the build fails if a unclassifed module configuration with mutiple candidates is
      * specified.
-     * @throws Exception in case of an error.
      */
     public void testProject026()
         throws Exception
@@ -338,7 +312,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and make sure that provided dependencies are not included in the EAR.
-     * @throws Exception in case of an error.
      */
     public void testProject027()
         throws Exception
@@ -348,7 +321,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and make sure that test dependencies are not included in the EAR.
-     * @throws Exception in case of an error.
      */
     public void testProject028()
         throws Exception
@@ -358,7 +330,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and make sure that system dependencies are not included in the EAR.
-     * @throws Exception in case of an error.
      */
     public void testProject029()
         throws Exception
@@ -369,7 +340,6 @@ public class EarMojoIT
     /**
      * Builds an EAR and make sure that ejb-client dependencies are detected and not added by default in the generated
      * application.xml.
-     * @throws Exception in case of an error.
      */
     public void testProject030()
         throws Exception
@@ -381,7 +351,6 @@ public class EarMojoIT
     /**
      * Builds an EAR with a Jboss 4 configuration specifying the security domain and the unauthenticated-principal to
      * use.
-     * @throws Exception in case of an error.
      */
     public void testProject031()
         throws Exception
@@ -392,7 +361,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a Jboss 3.2 configuration specifying the jmx-name to use.
-     * @throws Exception in case of an error.
      */
     public void testProject032()
         throws Exception
@@ -403,7 +371,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a Jboss 4 configuration and Jboss specific modules.
-     * @throws Exception in case of an error.
      */
     public void testProject033()
         throws Exception
@@ -414,7 +381,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with custom security settings.
-     * @throws Exception in case of an error.
      */
     public void testProject034()
         throws Exception
@@ -425,7 +391,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a full filename mapping and make sure that custom locations are not overridden.
-     * @throws Exception in case of an error.
      */
     public void testProject035()
         throws Exception
@@ -439,7 +404,6 @@ public class EarMojoIT
     /**
      * Builds an EAR with a full filename mapping and make sure that groupIds with dots are replaced by dashes in
      * filenames.
-     * @throws Exception in case of an error.
      */
     public void testProject036()
         throws Exception
@@ -454,7 +418,6 @@ public class EarMojoIT
     /**
      * Builds an EAR and make sure that ejb-client dependencies are detected and added in the generated application.xml
      * if includeInApplicationXml is set.
-     * @throws Exception in case of an error.
      */
     public void testProject037()
         throws Exception
@@ -465,7 +428,6 @@ public class EarMojoIT
     /**
      * Builds an EAR and make sure that a non-classified dependency with mutiple candidates is detected when specifying
      * the mainArtifactId as classifier.
-     * @throws Exception in case of an error.
      */
     public void testProject038()
         throws Exception
@@ -476,7 +438,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a Jboss 4 configuration specifying specifying the loader repository to use.
-     * @throws Exception in case of an error.
      */
     public void testProject039()
         throws Exception
@@ -486,7 +447,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with deployment descriptor configuration for Java EE 5 and an alternative deployment descriptor.
-     * @throws Exception in case of an error.
      */
     public void testProject040()
         throws Exception
@@ -496,7 +456,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a Jboss 4.2 configuration specifying the module order to use.
-     * @throws Exception in case of an error.
      */
     public void testProject041()
         throws Exception
@@ -506,7 +465,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a Jboss 4.2 configuration specifying a datasource to add.
-     * @throws Exception in case of an error.
      */
     public void testProject042()
         throws Exception
@@ -516,7 +474,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a custom descriptor location (generatedDescriptorLocation setting).
-     * @throws Exception in case of an error.
      */
     public void testProject043()
         throws Exception
@@ -529,7 +486,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a custom library-directory.
-     * @throws Exception in case of an error.
      */
     public void testProject044()
         throws Exception
@@ -539,7 +495,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and filter the content of the sources directory.
-     * @throws Exception in case of an error.
      */
     public void testProject045()
         throws Exception
@@ -553,7 +508,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and filter the content of the sources directory using a custom filter file.
-     * @throws Exception in case of an error.
      */
     public void testProject046()
         throws Exception
@@ -569,7 +523,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR and filter the content with a list of extensions.
-     * @throws Exception in case of an error.
      */
     public void testProject047()
         throws Exception
@@ -583,7 +536,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a JBoss 5 configuration containing library directory.
-     * @throws Exception in case of an error.
      */
     public void testProject048()
         throws Exception
@@ -593,7 +545,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a JBoss 4.2 configuration containing a library directory.
-     * @throws Exception in case of an error.
      */
     public void testProject049()
         throws Exception
@@ -603,7 +554,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a Jboss 5 configuration containing a loader repository configuration definition.
-     * @throws Exception in case of an error.
      */
     public void testProject050()
         throws Exception
@@ -613,7 +563,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a Jboss 5 configuration containing a loader repository class definition.
-     * @throws Exception in case of an error.
      */
     public void testProject051()
         throws Exception
@@ -623,7 +572,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a Jboss 5 configuration containing a configuration parser class definition.
-     * @throws Exception in case of an error.
      */
     public void testProject052()
         throws Exception
@@ -633,7 +581,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a Jboss 5 configuration containing only the loader repo configuration
-     * @throws Exception in case of an error.
      */
     public void testProject053()
         throws Exception
@@ -643,7 +590,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with deployment descriptor configuration for Java EE 5 and no application.xml
-     * @throws Exception in case of an error.
      */
     public void testProject054()
         throws Exception
@@ -653,7 +599,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with jar dependencies added in application.xml.
-     * @throws Exception in case of an error.
      */
     public void testProject055()
         throws Exception
@@ -664,7 +609,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with deployment descriptor configuration for J2EE 1.4 and an alternative deployment descriptor.
-     * @throws Exception in case of an error.
      */
     public void testProject056()
         throws Exception
@@ -674,7 +618,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a complete JBoss 4.2 configuration and validate it matches the DTD (MEAR-104).
-     * @throws Exception in case of an error.
      */
     public void testProject057()
         throws Exception
@@ -684,7 +627,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with deployment descriptor configuration for Java EE 6.
-     * @throws Exception in case of an error.
      */
     public void testProject058()
         throws Exception
@@ -694,7 +636,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with no display name entry at all.
-     * @throws Exception in case of an error.
      */
     public void testProject059()
         throws Exception
@@ -704,8 +645,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with ejb-client packaged for J2EE 1.3 (MEAR-85)
-     *
-     * @throws Exception in case of an error.
      */
     public void testProject060()
         throws Exception
@@ -715,8 +654,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with ejb-client packaged for J2EE 1.4 (MEAR-85)
-     *
-     * @throws Exception in case of an error.
      */
     public void testProject061()
         throws Exception
@@ -726,8 +663,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with ejb-client packaged for JavaEE 5 (MEAR-85)
-     *
-     * @throws Exception in case of an error.
      */
     public void testProject062()
         throws Exception
@@ -737,8 +672,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with ejb-client packaged for JavaEE 6 (MEAR-85)
-     *
-     * @throws Exception in case of an error.
      */
     public void testProject063()
         throws Exception
@@ -748,8 +681,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with ejb-client packaged for JavaEE 5 and still put it in the root (MEAR-85)
-     *
-     * @throws Exception in case of an error.
      */
     public void testProject064()
         throws Exception
@@ -759,7 +690,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a custom moduleId.
-     * @throws Exception in case of an error.
      */
     public void testProject065()
         throws Exception
@@ -769,7 +699,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with generateModuleId enabled.
-     * @throws Exception in case of an error.
      */
     public void testProject066()
         throws Exception
@@ -779,7 +708,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with generateModuleId enabled and a custom module.
-     * @throws Exception in case of an error.
      */
     public void testProject067()
         throws Exception
@@ -789,7 +717,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with the no-version file name mapping.
-     * @throws Exception in case of an error.
      */
     public void testProject068()
         throws Exception
@@ -799,7 +726,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with a custom library-directory and JavaEE 6.
-     * @throws Exception in case of an error.
      */
     public void testProject069()
         throws Exception
@@ -809,7 +735,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with application-name and initialize-in-order tags.
-     * @throws Exception in case of an error.
      */
     public void testProject070()
         throws Exception
@@ -819,7 +744,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with application-name and initialize-in-order tags for unsupported version.
-     * @throws Exception in case of an error.
      */
     public void testProject071()
         throws Exception
@@ -829,7 +753,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with an application client module (app-client).
-     * @throws Exception in case of an error.
      */
     public void testProject072()
         throws Exception
@@ -839,7 +762,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with an application client module (app-client) and a default bundle directory for _java_ modules.
-     * @throws Exception in case of an error.
      */
     public void testProject073()
         throws Exception
@@ -851,7 +773,6 @@ public class EarMojoIT
     /**
      * Builds an EAR with custom env entries settings and J2EE 1.3. Not supported by the specification so this should be
      * ignored.
-     * @throws Exception in case of an error.
      */
     public void testProject074()
         throws Exception
@@ -862,7 +783,6 @@ public class EarMojoIT
     /**
      * Builds an EAR with custom env entries settings and J2EE 1.4. Not supported by the specification so this should be
      * ignored.
-     * @throws Exception in case of an error.
      */
     public void testProject075()
         throws Exception
@@ -873,7 +793,6 @@ public class EarMojoIT
     /**
      * Builds an EAR with custom env entries settings and JavaEE 5. Not supported by the specification so this should be
      * ignored.
-     * @throws Exception in case of an error.
      */
     public void testProject076()
         throws Exception
@@ -883,7 +802,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with custom env entries settings and JavaEE 6.
-     * @throws Exception in case of an error.
      */
     public void testProject077()
         throws Exception
@@ -893,7 +811,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with the no version for ejb file name mapping.
-     * @throws Exception in case of an error.
      */
     public void testProject078()
         throws Exception
@@ -904,7 +821,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with the 'default' library directory mode. Uses the value of the defaultLibBundleDir.
-     * @throws Exception in case of an error.
      */
     public void testProject079()
         throws Exception
@@ -914,7 +830,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with the 'empty' library directory mode. Generate an empty library-directory element.
-     * @throws Exception in case of an error.
      */
     public void testProject080()
         throws Exception
@@ -924,7 +839,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with the 'none' library directory mode. Does not generate an library-directory element.
-     * @throws Exception in case of an error.
      */
     public void testProject081()
         throws Exception
@@ -934,7 +848,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with deployment descriptor configuration for JavaEE 7.
-     * @throws Exception in case of an error.
      */
     public void testProject082()
         throws Exception
@@ -945,7 +858,6 @@ public class EarMojoIT
     /**
      * Builds an EAR with a library directory and custom env entries. The library-directory element must come first
      * (MEAR-158).
-     * @throws Exception in case of an error.
      */
     public void testProject083()
         throws Exception
@@ -955,7 +867,6 @@ public class EarMojoIT
 
     /**
      * Support of an application id (MEAR-174).
-     * @throws Exception in case of an error.
      */
     public void testProject084()
         throws Exception
@@ -965,7 +876,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with custom ejbRef entries settings and JavaEE 6.
-     * @throws Exception in case of an error.
      */
     public void testProject085()
         throws Exception
@@ -975,7 +885,6 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with custom ejbRef entries plus lookup-name entry.
-     * @throws Exception in case of an error.
      */
     public void testProject086()
         throws Exception
@@ -985,12 +894,30 @@ public class EarMojoIT
 
     /**
      * Builds an EAR with resource-ref entries.
-     * @throws Exception in case of an error.
      */
     public void testProject087()
         throws Exception
     {
         doTestProject( "project-087", new String[] { "eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar" } );
+    }
+
+    /**
+     * Builds WAR and EAR as part of multi-module project twice so that the 2nd build is guaranteed to be performed when
+     * target directories and files exist.
+     */
+    public void testProject088()
+        throws Exception
+    {
+        final String[] expectedArtifacts = {
+            "eartest-war-sample-two-1.0.war",
+            "eartest-ejb-sample-one-1.0.jar",
+            "lib/eartest-jar-sample-two-1.0.jar" };
+        final boolean[] artifactsDirectory = { false, true, false };
+        // "Clean" build - target directories and files do not exist
+        // Pass cleanBeforeExecute parameter to ensure that target location is cleaned before Mojo execution
+        doTestProject( "project-088", "ear", expectedArtifacts, artifactsDirectory, null, null, null, true );
+        // "Dirty" build - target directories and files exist
+        doTestProject( "project-088", "ear", expectedArtifacts, artifactsDirectory, null, null, null, false );
     }
 
     /**

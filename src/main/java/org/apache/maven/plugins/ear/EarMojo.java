@@ -443,7 +443,7 @@ public class EarMojo
                 {
                     getLog().info( "Copying artifact [" + module + "] to [" + module.getUri() + "] (unpacked)" );
                     // Make sure that the destination is a directory to avoid plexus nasty stuff :)
-                    if ( !destinationFile.mkdirs() )
+                    if ( !destinationFile.isDirectory() && !destinationFile.mkdirs() )
                     {
                         throw new MojoExecutionException( "Error creating " + destinationFile );
                     }
@@ -749,19 +749,21 @@ public class EarMojo
                 // Create a temporary work directory
                 // MEAR-167 use uri as directory to prevent merging of artifacts with the same artifactId
                 workDirectory = new File( new File( getTempFolder(), "temp" ), module.getUri() );
-                if ( workDirectory.mkdirs() )
+                if ( !workDirectory.isDirectory() )
                 {
-                    getLog().debug( "Created a temporary work directory: " + workDirectory.getAbsolutePath() );
-
-                    // Unpack the archive to a temporary work directory
-                    zipUnArchiver.setSourceFile( original );
-                    zipUnArchiver.setDestDirectory( workDirectory );
-                    zipUnArchiver.extract();
+                    if ( workDirectory.mkdirs() )
+                    {
+                        getLog().debug( "Created a temporary work directory: " + workDirectory.getAbsolutePath() );
+                    }
+                    else
+                    {
+                        throw new MojoFailureException( "Failed to create directory " + workDirectory );
+                    }
                 }
-                else
-                {
-                    throw new MojoFailureException( "Failed to create directory " + workDirectory );
-                }
+                // Unpack the archive to a temporary work directory
+                zipUnArchiver.setSourceFile( original );
+                zipUnArchiver.setDestDirectory( workDirectory );
+                zipUnArchiver.extract();
             }
             else
             {
