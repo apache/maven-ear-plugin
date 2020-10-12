@@ -908,16 +908,22 @@ public class EarMojoIT
     public void testProject088()
         throws Exception
     {
-        final String[] expectedArtifacts = {
-            "eartest-war-sample-two-1.0.war",
-            "eartest-ejb-sample-one-1.0.jar",
-            "lib/eartest-jar-sample-two-1.0.jar" };
+        final String warModule = "eartest-war-sample-two-1.0.war";
+        final String ejbModule = "eartest-ejb-sample-one-1.0.jar";
+        final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
+        final String[] expectedArtifacts = { warModule, ejbModule, jarSampleTwoLibrary };
         final boolean[] artifactsDirectory = { false, true, false };
+        final String[] artifactsToValidateManifest = { warModule, ejbModule };
+        final boolean[] artifactsToValidateManifestDirectory = { false, true };
+        final String[][] expectedClassPathElements = { { jarSampleTwoLibrary }, { jarSampleTwoLibrary } };
+
         // "Clean" build - target directories and files do not exist
         // Pass cleanBeforeExecute parameter to ensure that target location is cleaned before Mojo execution
-        doTestProject( "project-088", "ear", expectedArtifacts, artifactsDirectory, null, null, null, true );
+        doTestProject( "project-088", "ear", expectedArtifacts, artifactsDirectory,
+            artifactsToValidateManifest, artifactsToValidateManifestDirectory, expectedClassPathElements, true );
         // "Dirty" build - target directories and files exist
-        doTestProject( "project-088", "ear", expectedArtifacts, artifactsDirectory, null, null, null, false );
+        doTestProject( "project-088", "ear", expectedArtifacts, artifactsDirectory,
+            artifactsToValidateManifest, artifactsToValidateManifestDirectory, expectedClassPathElements, false );
     }
 
     /**
