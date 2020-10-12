@@ -948,8 +948,8 @@ public class EarMojo
     }
 
     /**
-     * Searches for the given JAR module in the list of classpath elements and if found matching returns index of
-     * class path element matching JAR module or -1 otherwise.
+     * Searches for the given JAR module in the list of classpath elements. If JAR module is found among specified
+     * classpath elements then returns index of first matching element. Returns -1 otherwise.
      *
      * @param classPathElements classpath elements to search among
      * @param module module to find among classpath elements defined by {@code classPathElements}
