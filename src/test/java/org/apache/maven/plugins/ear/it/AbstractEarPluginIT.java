@@ -68,14 +68,17 @@ public abstract class AbstractEarPluginIT
      * @param projectName the name of the project
      * @param properties extra properties to be used by the embedder
      * @param expectNoError true/false
+     * @param cleanBeforeExecute call clean plugin before execution
      * @return the base directory of the project
      */
-    protected File executeMojo( final String projectName, final Properties properties, boolean expectNoError ) throws VerificationException, IOException
+    protected File executeMojo( final String projectName, final Properties properties, boolean expectNoError,
+                                boolean cleanBeforeExecute ) throws VerificationException, IOException
     {
         System.out.println( "  Building: " + projectName );
 
         File testDir = getTestDir( projectName );
         Verifier verifier = new Verifier( testDir.getAbsolutePath() );
+        verifier.setAutoclean( cleanBeforeExecute );
         // Let's add alternate settings.xml setting so that the latest dependencies are used
         String localRepo = System.getProperty( "localRepositoryPath" );
         verifier.setLocalRepo( localRepo );
@@ -119,12 +122,38 @@ public abstract class AbstractEarPluginIT
     protected File executeMojo( final String projectName, final Properties properties )
         throws VerificationException, IOException
     {
-        return executeMojo( projectName, properties, true );
+        return executeMojo( projectName, properties, true, true );
     }
 
     /**
      * Executes the specified projects and asserts the given artifacts. Assert the deployment descriptors are valid
-     * 
+     *
+     * @param projectName the project to test
+     * @param earModuleName the name of 1st level EAR module in multi-module project or null if project is single-module
+     * @param expectedArtifacts the list of artifacts to be found in the EAR archive
+     * @param artifactsDirectory whether the artifact is an exploded artifactsDirectory or not
+     * @param cleanBeforeExecute call clean plugin before execution
+     * @return the base directory of the project
+     */
+    protected File doTestProject( final String projectName, final String earModuleName, final String[] expectedArtifacts,
+                                  final boolean[] artifactsDirectory, boolean cleanBeforeExecute )
+        throws VerificationException, IOException
+    {
+        final File baseDir = executeMojo( projectName, new Properties(), true, cleanBeforeExecute );
+        final File earDir = earModuleName == null ? baseDir : new File( baseDir, earModuleName );
+        assertEarArchive( earDir, projectName );
+        assertEarDirectory( earDir, projectName );
+
+        assertArchiveContent( earDir, projectName, expectedArtifacts, artifactsDirectory );
+
+        assertDeploymentDescriptors( earDir, projectName );
+
+        return baseDir;
+    }
+
+    /**
+     * Executes the specified projects and asserts the given artifacts. Assert the deployment descriptors are valid
+     *
      * @param projectName the project to test
      * @param expectedArtifacts the list of artifacts to be found in the EAR archive
      * @param artifactsDirectory whether the artifact is an exploded artifactsDirectory or not
@@ -134,16 +163,7 @@ public abstract class AbstractEarPluginIT
                                   final boolean[] artifactsDirectory )
         throws VerificationException, IOException
     {
-        final File baseDir = executeMojo( projectName, new Properties() );
-        assertEarArchive( baseDir, projectName );
-        assertEarDirectory( baseDir, projectName );
-        
-        assertArchiveContent( baseDir, projectName, expectedArtifacts, artifactsDirectory );
-        
-        assertDeploymentDescriptors( baseDir, projectName );
-        
-        return baseDir;
-
+        return doTestProject( projectName, null, expectedArtifacts, artifactsDirectory, true );
     }
 
     /**
