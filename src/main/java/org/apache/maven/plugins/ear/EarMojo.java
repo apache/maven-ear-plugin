@@ -449,7 +449,7 @@ public class EarMojo
                     }
                     unpack( sourceFile, destinationFile, outdatedResources );
 
-                    if ( skinnyWars && module.changeManifestClasspath() )
+                    if ( module.changeManifestClasspath() && ( skinnyWars || module.getLibDir() == null ) )
                     {
                         changeManifestClasspath( module, destinationFile, javaEEVersion );
                     }
@@ -461,7 +461,7 @@ public class EarMojo
                         getLog().info( "Copying artifact [" + module + "] to [" + module.getUri() + "]" );
                         FileUtils.copyFile( sourceFile, destinationFile );
 
-                        if ( skinnyWars && module.changeManifestClasspath() )
+                        if ( module.changeManifestClasspath() && ( skinnyWars || module.getLibDir() == null ) )
                         {
                             changeManifestClasspath( module, destinationFile, javaEEVersion );
                         }
@@ -808,8 +808,8 @@ public class EarMojo
                     // We use the original name, cause in case of outputFileNameMapping
                     // we could not not delete it and it will end up in the resulting EAR and the WAR
                     // will not be cleaned up.
-                    File artifact = new File( new File( workDirectory, module.getLibDir() ),
-                                              module.getArtifact().getFile().getName() );
+                    final File workLibDir = new File( workDirectory, module.getLibDir() );
+                    File artifact = new File( workLibDir, module.getArtifact().getFile().getName() );
 
                     // MEAR-217
                     // If WAR contains files with timestamps, but EAR strips them away (useBaseVersion=true)
@@ -818,16 +818,15 @@ public class EarMojo
                     if ( !artifact.exists() )
                     {
                         getLog().debug( "module does not exist with original file name." );
-                        artifact = new File( new File( workDirectory, module.getLibDir() ), jm.getBundleFileName() );
+                        artifact = new File( workLibDir, jm.getBundleFileName() );
                         getLog().debug( "Artifact with mapping:" + artifact.getAbsolutePath() );
                     }
 
                     if ( !artifact.exists() )
                     {
                         getLog().debug( "Artifact with mapping does not exist." );
-                        artifact = new File( new File( workDirectory, module.getLibDir() ),
-                                             jm.getArtifact().getFile().getName() );
-                        getLog().debug( "Artifact with orignal file name:" + artifact.getAbsolutePath() );
+                        artifact = new File( workLibDir, jm.getArtifact().getFile().getName() );
+                        getLog().debug( "Artifact with original file name:" + artifact.getAbsolutePath() );
                     }
 
                     if ( artifact.exists() )
@@ -847,9 +846,10 @@ public class EarMojo
                 if ( o instanceof JarModule )
                 {
                     JarModule jm = (JarModule) o;
-                    if ( classPathElements.contains( jm.getBundleFileName() ) )
+                    final int moduleClassPathIndex = findModuleInClassPathElements( classPathElements, jm );
+                    if ( moduleClassPathIndex != -1 )
                     {
-                        classPathElements.set( classPathElements.indexOf( jm.getBundleFileName() ), jm.getUri() );
+                        classPathElements.set( moduleClassPathIndex, jm.getUri() );
                     }
                     else
                     {
@@ -947,5 +947,33 @@ public class EarMojo
                 new File( getWorkDirectory(), outdatedResource ).delete();
             }
         }
+    }
+
+    /**
+     * Searches for the given JAR module in the list of classpath elements. If JAR module is found among specified
+     * classpath elements then returns index of first matching element. Returns -1 otherwise.
+     *
+     * @param classPathElements classpath elements to search among
+     * @param module module to find among classpath elements defined by {@code classPathElements}
+     * @return -1 if {@code module} was not found in {@code classPathElements} or index of item of
+     * {@code classPathElements} which matches {@code module}
+     */
+    private int findModuleInClassPathElements( final List<String> classPathElements, final JarModule module )
+    {
+        if ( classPathElements.isEmpty() )
+        {
+            return -1;
+        }
+        int moduleClassPathIndex = classPathElements.indexOf( module.getBundleFileName() );
+        if ( moduleClassPathIndex != -1 )
+        {
+            return moduleClassPathIndex;
+        }
+        moduleClassPathIndex = classPathElements.indexOf( module.getArtifact().getFile().getName() );
+        if ( moduleClassPathIndex != -1 )
+        {
+            return moduleClassPathIndex;
+        }
+        return classPathElements.indexOf( module.getUri() );
     }
 }

@@ -187,8 +187,7 @@ public class EarMojoIT
     {
         final File baseDir = doTestProject( "project-016", new String[] { "eartest-ejb-sample-one-1.0.jar" } );
 
-        final File targetFolder = new File( baseDir, "target" );
-        final File createdEarFile = new File( targetFolder, "maven-ear-plugin-test-project-016-99.0.ear" );
+        final File createdEarFile = getEarArchive( baseDir, "project-016" );
 
         final File sourceManifestFile = new File( baseDir, "src/main/ear/MANIFEST.MF" );
 
@@ -909,15 +908,91 @@ public class EarMojoIT
     public void testProject088()
         throws Exception
     {
-        final String[] expectedArtifacts = {
-            "eartest-war-sample-two-1.0.war",
-            "eartest-ejb-sample-one-1.0.jar",
-            "lib/eartest-jar-sample-two-1.0.jar" };
+        final String warModule = "eartest-war-sample-two-1.0.war";
+        final String ejbModule = "eartest-ejb-sample-one-1.0.jar";
+        final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
+        final String[] expectedArtifacts = { warModule, ejbModule, jarSampleTwoLibrary };
         final boolean[] artifactsDirectory = { false, true, false };
+        final String[] artifactsToValidateManifest = { warModule, ejbModule };
+        final boolean[] artifactsToValidateManifestDirectory = { false, true };
+        final String[][] expectedClassPathElements = { { jarSampleTwoLibrary }, { jarSampleTwoLibrary } };
+
         // "Clean" build - target directories and files do not exist
         // Pass cleanBeforeExecute parameter to ensure that target location is cleaned before Mojo execution
-        doTestProject( "project-088", "ear", expectedArtifacts, artifactsDirectory, true );
+        doTestProject( "project-088", "ear", expectedArtifacts, artifactsDirectory,
+            artifactsToValidateManifest, artifactsToValidateManifestDirectory, expectedClassPathElements, true );
         // "Dirty" build - target directories and files exist
-        doTestProject( "project-088", "ear", expectedArtifacts, artifactsDirectory, false );
+        doTestProject( "project-088", "ear", expectedArtifacts, artifactsDirectory,
+            artifactsToValidateManifest, artifactsToValidateManifestDirectory, expectedClassPathElements, false );
+    }
+
+    /**
+     * Validates modification of Class-Path entry of EAR modules manifest when
+     * <ul>
+     * <li>skinnyWars option is turned on</li>
+     * <li>skipClassPathModification option is turned off</li>
+     * </ul>
+     */
+    public void testProject089()
+        throws Exception
+    {
+        final String warModule = "eartest-war-sample-three-1.0.war";
+        final String ejbModule = "eartest-ejb-sample-three-1.0.jar";
+        final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
+        doTestProject( "project-089", "ear",
+            new String[] { warModule, ejbModule, jarSampleTwoLibrary, jarSampleThreeLibrary },
+            new boolean[] { false, false, false, false},
+            new String[] { warModule, ejbModule },
+            new boolean[] { false, false },
+            new String[][] { { jarSampleTwoLibrary, jarSampleThreeLibrary }, { jarSampleThreeLibrary, jarSampleTwoLibrary } },
+            true );
+    }
+
+    /**
+     * Validates modification of Class-Path entry of EAR modules manifest when
+     * <ul>
+     * <li>skinnyWars option is turned on</li>
+     * <li>skipClassPathModification option is turned on</li>
+     * </ul>
+     */
+    public void testProject090()
+        throws Exception
+    {
+        final String warModule = "eartest-war-sample-three-1.0.war";
+        final String ejbModule = "eartest-ejb-sample-three-1.0.jar";
+        final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
+        doTestProject( "project-090", "ear",
+            new String[] { warModule, ejbModule, jarSampleTwoLibrary, jarSampleThreeLibrary },
+            new boolean[] { false, false, false, false },
+            new String[] { warModule, ejbModule },
+            new boolean[] { false, false },
+            new String[][] { { jarSampleTwoLibrary }, { jarSampleThreeLibrary, jarSampleTwoLibrary } },
+            true );
+    }
+
+    /**
+     * Validates modification of Class-Path entry of EAR modules manifest when
+     * <ul>
+     * <li>skinnyWars option is turned off</li>
+     * <li>skipClassPathModification option is turned off</li>
+     * <li>unpacking of EJB JARs is turned on</li>
+     * </ul>
+     */
+    public void testProject091()
+        throws Exception
+    {
+        final String warModule = "eartest-war-sample-three-1.0.war";
+        final String ejbModule = "eartest-ejb-sample-three-1.0.jar";
+        final String jarSampleTwoLibrary = "eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "eartest-jar-sample-three-with-deps-1.0.jar";
+        doTestProject( "project-091", "ear",
+            new String[] { warModule, ejbModule, jarSampleTwoLibrary, jarSampleThreeLibrary },
+            new boolean[] { false, true, false, false },
+            new String[] { warModule, ejbModule },
+            new boolean[] { false, true },
+            new String[][] { { "jar-sample-two-1.0.jar" }, { jarSampleThreeLibrary, jarSampleTwoLibrary } },
+            true );
     }
 }
