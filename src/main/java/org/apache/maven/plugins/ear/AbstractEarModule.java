@@ -91,6 +91,14 @@ public abstract class AbstractEarModule
 
     private String moduleId;
 
+    /**
+     * Directory of module which contains libraries packaged into module. {@code null} means that module doesn't contain
+     * any library. Each module type can provide default value for this directory and this option can be used to
+     * override that default value. If module libraries are located at the root of module then use empty string or slash
+     * to configure that.
+     */
+    protected String libDirectory;
+
     // This is injected once the module has been built.
 
     /**
@@ -236,6 +244,14 @@ public abstract class AbstractEarModule
             bundleDir = cleanBundleDir( bundleDir );
         }
         return bundleDir;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getLibDir()
+    {
+        return libDirectory;
     }
 
     /**
@@ -426,13 +442,5 @@ public abstract class AbstractEarModule
     public boolean changeManifestClasspath()
     {
         return true;
-    }
-
-    /**
-     * @return always {@code null}
-     */
-    public String getLibDir()
-    {
-        return null;
     }
 }

@@ -995,4 +995,106 @@ public class EarMojoIT
             new String[][] { { "jar-sample-two-1.0.jar" }, { jarSampleThreeLibrary, jarSampleTwoLibrary } },
             true );
     }
+
+    /**
+     * Ensures that when
+     * <ul>
+     * <li>skinnyWars option is turned off (has default value)</li>
+     * <li>skinnyModules options is turned on</li>
+     * </ul>
+     * then removal of JARs and modification of manifest Class-Path entry is performed for WAR, SAR, HAR and
+     * RAR modules.
+     */
+    public void testProject093()
+        throws Exception
+    {
+        final String warModule = "eartest-war-sample-three-1.0.war";
+        final String sarModule = "eartest-sar-sample-two-1.0.sar";
+        final String harModule = "eartest-har-sample-two-1.0.har";
+        final String rarModule = "eartest-rar-sample-one-1.0.rar";
+        final String jarSampleOneLibrary = "libs/eartest-jar-sample-one-1.0.jar";
+        final String jarSampleTwoLibrary = "libs/eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "libs/eartest-jar-sample-three-with-deps-1.0.jar";
+        doTestProject( "project-093", "ear",
+            new String[] { warModule, sarModule, harModule, rarModule,
+                jarSampleOneLibrary, jarSampleTwoLibrary, jarSampleThreeLibrary },
+            new boolean[] { false, false, false, false,
+                false, false, false },
+            new String[] { warModule, sarModule, harModule, rarModule },
+            new boolean[] { false, false, false, false },
+            new String[][] {
+                { jarSampleTwoLibrary, jarSampleOneLibrary, jarSampleThreeLibrary },
+                { jarSampleThreeLibrary, jarSampleTwoLibrary, jarSampleOneLibrary },
+                { jarSampleOneLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary },
+                { jarSampleThreeLibrary, jarSampleTwoLibrary, jarSampleOneLibrary } },
+            true );
+    }
+
+    /**
+     * Ensures that when
+     * <ul>
+     * <li>skinnyWars option is turned on</li>
+     * <li>skinnyModules options is turned off (has default value)</li>
+     * </ul>
+     * then removal of JARs and modification of manifest Class-Path entry is performed only for WAR module and not for
+     * SAR, HAR and RAR modules.
+     */
+    public void testProject094()
+        throws Exception
+    {
+        final String warModule = "eartest-war-sample-three-1.0.war";
+        final String sarModule = "eartest-sar-sample-two-1.0.sar";
+        final String harModule = "eartest-har-sample-two-1.0.har";
+        final String rarModule = "eartest-rar-sample-one-1.0.rar";
+        final String jarSampleTwoEarLibrary = "lib/eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeEarLibrary = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
+        final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
+        final String jarSampleTwoLibrary = "jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "jar-sample-three-with-deps-1.0.jar";
+        doTestProject( "project-094", "ear",
+            new String[] { warModule, sarModule, harModule, rarModule,
+                jarSampleTwoEarLibrary, jarSampleThreeEarLibrary },
+            new boolean[] { false, false, false, false,
+                false, false },
+            new String[] { warModule, sarModule, harModule, rarModule },
+            new boolean[] { false, false, false, false },
+            new String[][] {
+                { jarSampleThreeEarLibrary, jarSampleTwoEarLibrary },
+                { jarSampleThreeLibrary, jarSampleTwoLibrary, jarSampleOneLibrary },
+                { jarSampleOneLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary },
+                { jarSampleOneLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary } },
+            true );
+    }
+
+    /**
+     * Ensures that when
+     * <ul>
+     * <li>skinnyWars option is turned off (has default value)</li>
+     * <li>skinnyModules options is turned off (has default value)</li>
+     * </ul>
+     * then removal of JARs and modification of manifest Class-Path entry is not performed for WAR, SAR, HAR and
+     * RAR modules.
+     */
+    public void testProject095()
+        throws Exception
+    {
+        final String warModule = "eartest-war-sample-three-1.0.war";
+        final String sarModule = "eartest-sar-sample-two-1.0.sar";
+        final String harModule = "eartest-har-sample-two-1.0.har";
+        final String rarModule = "eartest-rar-sample-one-1.0.rar";
+        final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
+        final String jarSampleTwoLibrary = "jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "jar-sample-three-with-deps-1.0.jar";
+        doTestProject( "project-095", "ear",
+            new String[] { warModule, sarModule, harModule, rarModule },
+            new boolean[] { false, false, false, false },
+            new String[] { warModule, sarModule, harModule, rarModule },
+            new boolean[] { false, false, false, false },
+            new String[][] {
+                { jarSampleThreeLibrary, jarSampleTwoLibrary },
+                { jarSampleThreeLibrary, jarSampleTwoLibrary, jarSampleOneLibrary },
+                { jarSampleOneLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary },
+                { jarSampleOneLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary } },
+            true );
+    }
 }
