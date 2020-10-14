@@ -20,87 +20,91 @@
 import java.io.*;
 import java.util.*;
 import java.util.jar.*;
-import java.util.regex.*;
 
-File jarFile = new File( basedir, "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-1.0.war" );
-System.out.println( "Checking for existence of " + jarFile );
-if ( !jarFile.isFile() )
+assertFileExists( File file )
 {
-    throw new IllegalStateException( "Missing file: " + jarFile );
-}
-
-JarFile jar = new JarFile( jarFile );
-
-String[] includedEntries = {
-    "WEB-INF/web.xml",
-    "META-INF/MANIFEST.MF"
-};
-for ( String included : includedEntries )
-{
-    System.out.println( "Checking for included archive entry " + included );
-    if ( jar.getEntry( included ) == null )
+    System.out.println( "Checking for existence of " + file );
+    if ( !file.isFile() )
     {
-        throw new IllegalStateException( "Missing archive entry: " + included );
+        throw new IllegalStateException( "Missing file: " + file );
     }
 }
 
-Manifest manifest = jar.getManifest();
-String manifestClassPath = manifest.getMainAttributes().getValue("Class-Path");
-System.out.println( "manifestClassPath: " + manifestClassPath );
-if ( !manifestClassPath.equals("commons-lang-commons-lang-2.5.jar eartest-jar-sample-one-1.0-20150825.210557-91.jar") )
+assertIncludes( File file, String[] includedEntries )
 {
-    throw new IllegalStateException( "Missing entry in war MANIFEST.MF: commons-lang-commons-lang-2.5.jar eartest-jar-sample-one-1.0-20150825.210557-91.jar");
-}
-
-String[] excludedEntries = {
-    "WEB-INF/lib/commons-lang-2.5.jar",
-    "WEB-INF/lib/jar-sample-one-1.0-SNAPSHOT.jar",
-    "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar"
-};
-for ( String excluded : excludedEntries )
-{
-    System.out.println( "Checking for excluded artifact " + excluded );
-    if ( jar.getEntry( excluded ) != null )
+    JarFile jar = new JarFile( file );
+    try
     {
-        throw new IllegalStateException( "Archive entry should be excluded: " + excluded );
+        for ( String included : includedEntries )
+        {
+            System.out.println( "Checking for included archive entry " + included );
+            if ( jar.getEntry( included ) == null )
+            {
+                throw new IllegalStateException( "Missing archive entry: " + included );
+            }
+        }
+    }
+    finally
+    {
+        jar.close();
     }
 }
 
-jar.close();
-
-
-File jarFile = new File( basedir, "war-module/target/war-module-1.0.war" );
-System.out.println( "Checking for existence of " + jarFile );
-if ( !jarFile.isFile() )
+assertExcludes( File file, String[] excludedEntries )
 {
-    throw new IllegalStateException( "Missing file: " + jarFile );
-}
-
-JarFile jar = new JarFile( jarFile );
-
-String[] includedEntries = {
-    "WEB-INF/web.xml",
-    "META-INF/MANIFEST.MF",
-    "WEB-INF/lib/commons-lang-2.5.jar",
-    "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar"
-};
-for ( String included : includedEntries )
-{
-    System.out.println( "Checking for included archive entry " + included );
-    if ( jar.getEntry( included ) == null )
+    JarFile jar = new JarFile( file );
+    try
     {
-        throw new IllegalStateException( "Missing archive entry: " + included );
+        for ( String excluded : excludedEntries )
+        {
+            System.out.println( "Checking for excluded artifact " + excluded );
+            if ( jar.getEntry( excluded ) != null )
+            {
+                throw new IllegalStateException( "Archive entry should be excluded: " + excluded );
+            }
+        }
+    }
+    finally
+    {
+        jar.close();
     }
 }
 
-manifest = jar.getManifest();
-manifestClassPath = manifest.getMainAttributes().getValue("Class-Path");
-System.out.println( "manifestClassPath: " + manifestClassPath );
-if ( !manifestClassPath.equals("commons-lang-2.5.jar jar-sample-one-1.0-20150825.210557-91.jar") )
+assertManifestClassPath( File file, String classPath )
 {
-    throw new IllegalStateException( "Missing entry in original war MANIFEST.MF: commons-lang-2.5.jar jar-sample-one-1.0-20150825.210557-91.jar");
+    JarFile jar = new JarFile( file );
+    try
+    {
+        Manifest manifest = jar.getManifest();
+        String manifestClassPath = manifest.getMainAttributes().getValue( "Class-Path" );
+        System.out.println( "manifestClassPath: " + manifestClassPath );
+        if ( !( classPath == null && manifestClassPath == null
+            || manifestClassPath != null && manifestClassPath.equals( classPath ) ) )
+        {
+            throw new IllegalStateException( "Missing entry in war MANIFEST.MF: " + classPath );
+        }
+    }
+    finally
+    {
+        jar.close();
+    }
 }
 
-jar.close();
+File warFile = new File( basedir, "war-module/target/war-module-1.0.war" );
+assertFileExists( warFile );
+assertIncludes( warFile, new String[] { "WEB-INF/web.xml",
+                                        "META-INF/MANIFEST.MF",
+                                        "WEB-INF/lib/commons-lang-2.5.jar",
+                                        "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar" } );
+assertManifestClassPath( warFile, "commons-lang-2.5.jar jar-sample-one-1.0-20150825.210557-91.jar" );
+
+File warModuleFile = new File( basedir, "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-1.0.war" );
+assertFileExists( warModuleFile );
+assertIncludes( warModuleFile, new String[] { "WEB-INF/web.xml",
+                                              "META-INF/MANIFEST.MF" } );
+assertExcludes( warModuleFile, new String[] { "WEB-INF/lib/commons-lang-2.5.jar",
+                                              "WEB-INF/lib/jar-sample-one-1.0-SNAPSHOT.jar",
+                                              "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar" } );
+assertManifestClassPath( warModuleFile, "commons-lang-commons-lang-2.5.jar eartest-jar-sample-one-1.0-20150825.210557-91.jar" );
 
 return true;
