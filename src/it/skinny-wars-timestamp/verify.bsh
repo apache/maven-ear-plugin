@@ -103,6 +103,7 @@ assertFileExists( warTwoFile );
 assertIncludes( warTwoFile, new String[] { "WEB-INF/web.xml",
                                            "META-INF/MANIFEST.MF",
                                            "WEB-INF/lib/jar-sample-one-1.0-SNAPSHOT.jar" } );
+assertExcludes( warTwoFile, new String[] { "WEB-INF/lib/commons-lang-2.5.jar" } );
 assertManifestClassPath( warTwoFile, "jar-sample-one-1.0-SNAPSHOT.jar" );
 
 File warModuleOneFile = new File( basedir, "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-one-1.0.war" );

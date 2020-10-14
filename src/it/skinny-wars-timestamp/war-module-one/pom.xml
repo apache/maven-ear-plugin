@@ -47,6 +47,7 @@ under the License.
         <artifactId>maven-war-plugin</artifactId>
         <version>@mavenWarPluginVersion@</version>
         <configuration>
+          <outputFileNameMapping>@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@</outputFileNameMapping>
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
