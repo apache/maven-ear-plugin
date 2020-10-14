@@ -22,16 +22,16 @@ under the License.
 <project>
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.apache.maven.its.ear.nonskinnywars</groupId>
-  <artifactId>war-module</artifactId>
+  <groupId>org.apache.maven.its.ear.skinnywars</groupId>
+  <artifactId>war-module-two</artifactId>
   <version>1.0</version>
   <packaging>war</packaging>
 
   <dependencies>
     <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.5</version>
+      <groupId>eartest</groupId>
+      <artifactId>jar-sample-one</artifactId>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
@@ -41,6 +41,16 @@ under the License.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>@mavenWarPluginVersion@</version>
+        <configuration>
+          <outputFileNameMapping>@{artifactId}@-@{baseVersion}@@{dashClassifier?}@.@{extension}@</outputFileNameMapping>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathLayoutType>custom</classpathLayoutType>
+              <customClasspathLayout>$${artifact.artifactId}-$${artifact.baseVersion}$${dashClassifier?}.$${artifact.extension}</customClasspathLayout>
+            </manifest>
+          </archive>
+        </configuration>
       </plugin>
     </plugins>
   </build>

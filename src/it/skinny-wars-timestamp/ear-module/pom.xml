@@ -40,7 +40,13 @@ under the License.
     </dependency>
     <dependency>
       <groupId>org.apache.maven.its.ear.skinnywars</groupId>
-      <artifactId>war-module</artifactId>
+      <artifactId>war-module-one</artifactId>
+      <version>1.0</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.its.ear.skinnywars</groupId>
+      <artifactId>war-module-two</artifactId>
       <version>1.0</version>
       <type>war</type>
     </dependency>
