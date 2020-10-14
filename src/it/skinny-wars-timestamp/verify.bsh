@@ -54,7 +54,8 @@ if ( !manifestClassPath.equals("commons-lang-commons-lang-2.5.jar eartest-jar-sa
 
 String[] excludedEntries = {
     "WEB-INF/lib/commons-lang-2.5.jar",
-    "WEB-INF/lib/jar-sample-one-1.0-SNAPSHOT.jar"
+    "WEB-INF/lib/jar-sample-one-1.0-SNAPSHOT.jar",
+    "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar"
 };
 for ( String excluded : excludedEntries )
 {
@@ -90,6 +91,14 @@ for ( String included : includedEntries )
     {
         throw new IllegalStateException( "Missing archive entry: " + included );
     }
+}
+
+manifest = jar.getManifest();
+manifestClassPath = manifest.getMainAttributes().getValue("Class-Path");
+System.out.println( "manifestClassPath: " + manifestClassPath );
+if ( !manifestClassPath.equals("commons-lang-2.5.jar jar-sample-one-1.0-20150825.210557-91.jar") )
+{
+    throw new IllegalStateException( "Missing entry in original war MANIFEST.MF: commons-lang-2.5.jar jar-sample-one-1.0-20150825.210557-91.jar");
 }
 
 jar.close();
