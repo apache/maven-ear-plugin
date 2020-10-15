@@ -136,9 +136,10 @@ public abstract class AbstractEarPluginIT
      * Asserts Class-Path entry of manifest of EAR modules.
      *
      * @param projectName the project to test
-     * @param earModuleName the name of 1st level EAR module in multi-module project or null if project is single-module
+     * @param earModuleName the name of 1st level EAR module in multi-module project or {@code null}
+     *                      if project is single-module
      * @param expectedArtifacts the list of artifacts to be found in the EAR archive
-     * @param artifactsDirectory whether the artifact is an exploded artifactsDirectory or not
+     * @param artifactsDirectory whether the artifact from {@code expectedArtifacts} list is an exploded or not
      * @param artifactsToValidateManifest the list of EAR archive artifacts to validate Class-Path entry of artifact
      *                                    manifest or {@code null} if there is no need to validate Class-Path entry
      * @param artifactsToValidateManifestDirectory whether the artifact from {@code artifactsToValidateManifest} list is
@@ -176,7 +177,7 @@ public abstract class AbstractEarPluginIT
      *
      * @param projectName the project to test
      * @param expectedArtifacts the list of artifacts to be found in the EAR archive
-     * @param artifactsDirectory whether the artifact is an exploded artifactsDirectory or not
+     * @param artifactsDirectory whether the artifact from {@code expectedArtifacts} list is an exploded or not
      * @return the base directory of the project
      */
     protected File doTestProject( final String projectName, final String[] expectedArtifacts,
@@ -265,6 +266,133 @@ public abstract class AbstractEarPluginIT
                           expectedFile.isDirectory() );
             assertTrue( "Artifact[" + artifactName + "] not found in ear archive", actualFiles.contains( expectedFile ) );
 
+        }
+    }
+
+    /**
+     * Asserts that given EAR archive artifacts have expected paths or don't have unexpected paths.
+     *
+     * @param baseDir the directory of the tested project
+     * @param projectName the project to test
+     * @param earModuleName the name of 1st level EAR module in multi-module project or {@code null}
+     *                      if project is single-module
+     * @param artifacts the list of artifacts to be found in the EAR archive
+     * @param artifactsDirectory whether the artifact from {@code artifacts} list is an exploded or not
+     * @param includedEntries paths which should exist in artifacts, rows should match artifacts passed in
+     *                        {@code artifacts} parameter; can be {@code null} if there is no need to assert
+     *                        existence of paths in artifacts
+     * @param excludedEntries paths which should not exist in artifacts, rows should match artifacts passed in
+     *                        {@code artifacts} parameter; can be {@code null} if there is no need to assert
+     *                        absence of paths in artifacts
+     * @throws IOException exception in case of failure during reading of artifact archive.
+     */
+    protected void assertArchiveModuleContent( final File baseDir, final String projectName, final String earModuleName,
+                                               final String[] artifacts, final boolean[] artifactsDirectory,
+                                               final String[][] includedEntries, final String[][] excludedEntries )
+        throws IOException
+    {
+        assertTrue( "Wrong parameter, artifacts mismatch directory flags",
+            artifacts.length <= artifactsDirectory.length );
+        if ( includedEntries != null )
+        {
+            assertTrue( "Rows of includedEntries parameter should match items of artifacts parameter",
+                artifacts.length <= includedEntries.length );
+        }
+        if ( excludedEntries != null )
+        {
+            assertTrue( "Rows of excludedEntries parameter should match items of artifacts parameter",
+                artifacts.length <= excludedEntries.length );
+        }
+
+        final File earDirectory = getEarDirectory( getEarModuleDirectory( baseDir, earModuleName ), projectName );
+        for ( int i = 0; i != artifacts.length; ++i )
+        {
+            final String artifactName = artifacts[i];
+            final File module = new File( earDirectory, artifactName );
+            assertTrue( "Artifact [" + artifactName + "] should exist in EAR", module.exists() );
+
+            final boolean artifactDirectory = artifactsDirectory[i];
+            assertEquals( "Artifact [" + artifactName + "] should be a " + ( artifactDirectory ? "directory" : "file" ),
+                artifactDirectory, module.isDirectory() );
+
+            if ( includedEntries == null && excludedEntries == null )
+            {
+                continue;
+            }
+
+            final boolean includedEntriesDefined =
+                includedEntries != null && includedEntries[i] != null && includedEntries[i].length != 0;
+            final boolean excludedEntriesDefined =
+                excludedEntries != null && excludedEntries[i] != null && excludedEntries[i].length != 0;
+            if ( !includedEntriesDefined && !excludedEntriesDefined )
+            {
+                continue;
+            }
+
+            if ( artifactDirectory )
+            {
+                if ( includedEntriesDefined )
+                {
+                    for ( String includedEntry : includedEntries[i] )
+                    {
+                        if ( includedEntry == null || includedEntry.length() == 0 )
+                        {
+                            continue;
+                        }
+                        final File inclusion = new File( artifactName, includedEntry );
+                        assertTrue(
+                            "Entry [" + includedEntry + "] should exist in artifact [" + artifactName + "] of EAR",
+                            inclusion.exists() );
+                    }
+                }
+                if ( excludedEntriesDefined )
+                {
+                    for ( String excludedEntry : excludedEntries[i] )
+                    {
+                        if ( excludedEntry == null || excludedEntry.length() == 0 )
+                        {
+                            continue;
+                        }
+                        final File exclusion = new File( artifactName, excludedEntry );
+                        assertFalse(
+                            "Entry [" + excludedEntry + "] should not exist in artifact [" + artifactName + "] of EAR",
+                            exclusion.exists() );
+                    }
+                }
+            }
+            else
+            {
+                try ( JarFile moduleJar = new JarFile( module ) )
+                {
+                    if ( includedEntriesDefined )
+                    {
+                        for ( String includedEntry : includedEntries[i] )
+                        {
+                            if ( includedEntry == null || includedEntry.length() == 0 )
+                            {
+                                continue;
+                            }
+                            final ZipEntry inclusion = moduleJar.getEntry( includedEntry );
+                            assertNotNull(
+                                "Entry [" + includedEntry + "] should exist in artifact [" + artifactName + "] of EAR",
+                                inclusion );
+                        }
+                    }
+                    if ( excludedEntriesDefined )
+                    {
+                        for ( String excludedEntry : excludedEntries[i] )
+                        {
+                            if ( excludedEntry == null || excludedEntry.length() == 0 )
+                            {
+                                continue;
+                            }
+                            final ZipEntry exclusion = moduleJar.getEntry( excludedEntry );
+                            assertNull( "Entry [" + excludedEntry + "] should not exist in artifact [" + artifactName
+                                + "] of EAR", exclusion );
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -425,7 +553,7 @@ public abstract class AbstractEarPluginIT
      * @param expectedClassPathElements the list of expected elements of Class-Path entry of manifest, rows should match
      *                                  artifacts passed in {@code artifacts} parameter; can be {@code null}
      *                                  if {@code artifacts} is {@code null}
-     * @throws IOException exception in case of an failure during reading of artifact manifest.
+     * @throws IOException exception in case of failure during reading of artifact manifest.
      */
     protected void assertClassPathElements( final File baseDir, String projectName, String[] artifacts,
                                           boolean[] artifactsDirectory, String[][] expectedClassPathElements )

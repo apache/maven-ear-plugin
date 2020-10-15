@@ -53,6 +53,16 @@ under the License.
     </dependency>
     <dependency>
       <groupId>eartest</groupId>
+      <artifactId>sar-sample-three</artifactId>
+      <type>sar</type>
+    </dependency>
+    <dependency>
+      <groupId>eartest</groupId>
+      <artifactId>sar-sample-four</artifactId>
+      <type>sar</type>
+    </dependency>
+    <dependency>
+      <groupId>eartest</groupId>
       <artifactId>har-sample-two</artifactId>
       <type>har</type>
     </dependency>
@@ -80,6 +90,16 @@ under the License.
               <groupId>eartest</groupId>
               <artifactId>sar-sample-two</artifactId>
               <libDirectory>libraries</libDirectory>
+            </sarModule>
+            <sarModule>
+              <groupId>eartest</groupId>
+              <artifactId>sar-sample-three</artifactId>
+              <libDirectory>/</libDirectory>
+            </sarModule>
+            <sarModule>
+              <groupId>eartest</groupId>
+              <artifactId>sar-sample-four</artifactId>
+              <libDirectory>not-existing-entry</libDirectory>
             </sarModule>
           </modules>
         </configuration>

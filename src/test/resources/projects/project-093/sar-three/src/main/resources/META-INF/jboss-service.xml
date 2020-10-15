@@ -17,21 +17,5 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-
-<!DOCTYPE jboss-app PUBLIC
-	"-//JBoss//DTD Java EE Application 5.0//EN"
-	"http://www.jboss.org/j2ee/dtd/jboss-app_5_0.dtd">
-<jboss-app>
-  <module>
-    <service>eartest-sar-sample-two-1.0.sar</service>
-  </module>
-  <module>
-    <service>eartest-sar-sample-three-1.0.sar</service>
-  </module>
-  <module>
-    <service>eartest-sar-sample-four-1.0.sar</service>
-  </module>
-  <module>
-    <har>eartest-har-sample-two-1.0.har</har>
-  </module>
-</jboss-app>
+<server>
+</server>

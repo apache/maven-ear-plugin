@@ -114,7 +114,8 @@ public interface EarModule
     boolean changeManifestClasspath();
 
     /**
-     * @return The directory of module which contains all libraries packaged within module.
+     * @return The directory of module which contains JAR libraries packaged within module. Can be {@code null},
+     * which means that module doesn't contain any packaged libraries.
      */
     String getLibDir();
 

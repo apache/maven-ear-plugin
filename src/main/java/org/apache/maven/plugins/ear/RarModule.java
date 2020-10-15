@@ -32,7 +32,7 @@ public class RarModule
 {
     private static final String RAR_MODULE = "connector";
 
-    private static final String DEFAULT_LIB_DIRECTORY = "";
+    private static final String DEFAULT_LIB_DIRECTORY = "/";
 
     /**
      * Create an instance.

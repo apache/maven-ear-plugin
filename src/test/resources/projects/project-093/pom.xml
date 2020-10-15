@@ -27,7 +27,9 @@ under the License.
   <packaging>pom</packaging>
   <modules>
     <module>war</module>
-    <module>sar</module>
+    <module>sar-two</module>
+    <module>sar-three</module>
+    <module>sar-four</module>
     <module>har</module>
     <module>rar</module>
     <module>ear</module>
@@ -62,6 +64,18 @@ under the License.
       <dependency>
         <groupId>eartest</groupId>
         <artifactId>sar-sample-two</artifactId>
+        <version>1.0</version>
+        <type>sar</type>
+      </dependency>
+      <dependency>
+        <groupId>eartest</groupId>
+        <artifactId>sar-sample-three</artifactId>
+        <version>1.0</version>
+        <type>sar</type>
+      </dependency>
+      <dependency>
+        <groupId>eartest</groupId>
+        <artifactId>sar-sample-four</artifactId>
         <version>1.0</version>
         <type>sar</type>
       </dependency>
