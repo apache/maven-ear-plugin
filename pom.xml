@@ -86,12 +86,13 @@
     <javaVersion>7</javaVersion>
     <surefire.version>2.22.2</surefire.version>
     <project.build.outputTimestamp>2020-09-26T20:10:30Z</project.build.outputTimestamp>
-    <mavenWarPluginVersion>2.1.1</mavenWarPluginVersion>
+    <mavenWarPluginVersion>3.3.1</mavenWarPluginVersion>
     <mavenCompilerPluginVersion>2.5.1</mavenCompilerPluginVersion>
     <mavenEjbPluginVersion>2.3</mavenEjbPluginVersion>
     <invoker.skip>false</invoker.skip>
     <invoker.install.skip>${invoker.skip}</invoker.install.skip>
     <invoker.it.skip>${invoker.skip}</invoker.it.skip>
+    <invoker.cloneClean>true</invoker.cloneClean>
   </properties>
 
   <dependencies>
@@ -289,6 +290,7 @@
               </extraArtifacts>
               <skipInstallation>${invoker.install.skip}</skipInstallation>
               <skipInvocation>${invoker.it.skip}</skipInvocation>
+              <cloneClean>${invoker.cloneClean}</cloneClean>
             </configuration>
           </plugin>
           <plugin>

@@ -40,6 +40,7 @@ import java.util.Objects;
 
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -56,6 +57,7 @@ import org.apache.maven.shared.filtering.MavenFileFilter;
 import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.maven.shared.filtering.MavenResourcesExecution;
 import org.apache.maven.shared.filtering.MavenResourcesFiltering;
+import org.apache.maven.shared.mapping.MappingUtils;
 import org.apache.maven.shared.utils.io.FileUtils;
 import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.ArchiverException;
@@ -70,6 +72,7 @@ import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
 import org.codehaus.plexus.archiver.zip.ZipArchiver;
 import org.codehaus.plexus.archiver.zip.ZipUnArchiver;
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
+import org.codehaus.plexus.interpolation.InterpolationException;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -84,6 +87,12 @@ import org.codehaus.plexus.util.StringUtils;
 public class EarMojo
     extends AbstractEarMojo
 {
+    /**
+     * Default file name mapping used by artifacts located in local repository.
+     */
+    private static final String ARTIFACT_DEFAULT_FILE_NAME_MAPPING =
+        "@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@";
+
     /**
      * Single directory for extra files to include in the EAR.
      */
@@ -819,14 +828,35 @@ public class EarMojo
                     {
                         getLog().debug( "module does not exist with original file name." );
                         artifact = new File( workLibDir, jm.getBundleFileName() );
-                        getLog().debug( "Artifact with mapping:" + artifact.getAbsolutePath() );
+                        getLog().debug( "Artifact with mapping: " + artifact.getAbsolutePath() );
                     }
 
                     if ( !artifact.exists() )
                     {
                         getLog().debug( "Artifact with mapping does not exist." );
                         artifact = new File( workLibDir, jm.getArtifact().getFile().getName() );
-                        getLog().debug( "Artifact with original file name:" + artifact.getAbsolutePath() );
+                        getLog().debug( "Artifact with original file name: " + artifact.getAbsolutePath() );
+                    }
+
+                    if ( !artifact.exists() )
+                    {
+                        getLog().debug( "Artifact with original file name does not exist." );
+                        final Artifact jmArtifact = jm.getArtifact();
+                        if ( jmArtifact.isSnapshot() )
+                        {
+                            try
+                            {
+                                artifact = new File( workLibDir, MappingUtils
+                                    .evaluateFileNameMapping( ARTIFACT_DEFAULT_FILE_NAME_MAPPING, jmArtifact ) );
+                                getLog()
+                                    .debug( "Artifact with default mapping file name: " + artifact.getAbsolutePath() );
+                            }
+                            catch ( InterpolationException e )
+                            {
+                                getLog().warn( "Failed to evaluate file name for [" + jm + "] module using mapping: "
+                                    + ARTIFACT_DEFAULT_FILE_NAME_MAPPING );
+                            }
+                        }
                     }
 
                     if ( artifact.exists() )
@@ -969,10 +999,28 @@ public class EarMojo
         {
             return moduleClassPathIndex;
         }
-        moduleClassPathIndex = classPathElements.indexOf( module.getArtifact().getFile().getName() );
+        final Artifact artifact = module.getArtifact();
+        moduleClassPathIndex = classPathElements.indexOf( artifact.getFile().getName() );
         if ( moduleClassPathIndex != -1 )
         {
             return moduleClassPathIndex;
+        }
+        if ( artifact.isSnapshot() )
+        {
+            try
+            {
+                moduleClassPathIndex = classPathElements
+                    .indexOf( MappingUtils.evaluateFileNameMapping( ARTIFACT_DEFAULT_FILE_NAME_MAPPING, artifact ) );
+                if ( moduleClassPathIndex != -1 )
+                {
+                    return moduleClassPathIndex;
+                }
+            }
+            catch ( InterpolationException e )
+            {
+                getLog().warn( "Failed to evaluate file name for [" + module + "] module using mapping: "
+                    + ARTIFACT_DEFAULT_FILE_NAME_MAPPING );
+            }
         }
         return classPathElements.indexOf( module.getUri() );
     }
