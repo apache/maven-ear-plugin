@@ -116,6 +116,30 @@ EAR Modules
 
   * <<moduleId>> - sets the id of the module in the generated application.xml.
 
+  * <<libDirectory>> - sets archive directory which contains Java libraries (JARs)
+  packaged into archive. Default is <<<null>>> meaning that archive doesn't
+  contain packaged libraries.
+  If libraries are located at the root of archive then use single slash ('/')
+  to configure that.
+  If <<<libDirectory>>> is <<<null>>> then <<<Class-Path>>> setting of module
+  <<<MANIFEST.MF>>> is modified to reference libraries which are packaged in EAR.
+  Modification here means:
+
+    * If <<<MANIFEST.MF>>> has no <<<Class-Path>>> setting then it is added.
+
+    * Existing elements of <<<Class-Path>>> setting which match libraries packaged
+    in EAR are replaced with references to the matching libraries in EAR.
+
+    * Other libraries packaged in EAR are appended to <<<Class-Path>>> setting in order
+    of EAR dependency on library if
+    {{{./ear-mojo.html#skipClassPathModification}skipClassPathModification}} parameter
+    is false.
+
+  If <<<libDirectory>>> is not <<<null>>> and if
+  {{{./examples/skinny-modules.html}skinny modules}} are used then <<<Class-Path>>>
+  setting in module <<<MANIFEST.MF>>> is modified and libraries of module located in
+  <<<libDirectory>>> and matching libraries of EAR are removed from module.
+
 
 * {ejbModule} Properties
 
@@ -151,6 +175,8 @@ EAR Modules
   this module.
 
   * <<moduleId>> - sets the id of the module in the generated application.xml.
+
+  * <<libDirectory>> - refer to the same name property of {{{ejbClientModule}ejbClientModule}}.
 
 
 * {jarModule} Properties
@@ -227,6 +253,8 @@ EAR Modules
 
   * <<moduleId>> - sets the id of the module in the generated application.xml.
 
+  * <<libDirectory>> - refer to the same name property of {{{ejbClientModule}ejbClientModule}}.
+
 
 * {rarModule} Properties
 
@@ -263,6 +291,11 @@ EAR Modules
 
   * <<moduleId>> - sets the id of the module in the generated application.xml.
 
+  * <<libDirectory>> - sets archive directory which contains Java libraries
+  packaged into archive. Default is '/' meaning that libraries are located
+  at the root of archive. Refer to the same name property of
+  {{{ejbClientModule}ejbClientModule}} for details.
+
 
 * {sarModule} Properties
 
@@ -295,6 +328,10 @@ EAR Modules
   to its uri. Default is false.
 
   * <<moduleId>> - sets the id of the module in the generated application.xml.
+
+  * <<libDirectory>> - sets archive directory which contains Java libraries
+  packaged into archive. Default is 'lib'. Refer to the same name property of
+  {{{ejbClientModule}ejbClientModule}} for details.
 
 
 * {webModule} Properties
@@ -334,6 +371,15 @@ EAR Modules
 
   * <<contextRoot>> - sets the context root of this web artifact.
 
+  * <<libDirectory>> - sets archive directory which contains Java libraries
+  packaged into archive. Default is 'WEB-INF/lib'. Refer to the same name property
+  of {{{ejbClientModule}ejbClientModule}} for details.
+  If <<<libDirectory>>> is not <<<null>>> and if
+  {{{./examples/skinny-wars.html}skinny WARs}} or
+  {{{./examples/skinny-modules.html}skinny modules}} are used then <<<Class-Path>>>
+  setting in module <<<MANIFEST.MF>>> is modified and libraries of module located in
+  <<<libDirectory>>> and matching libraries of EAR are removed from module.
+
 
 * {wsrModule} Properties
 
@@ -370,6 +416,10 @@ EAR Modules
 
   * <<moduleId>> - sets the id of the module in the generated application.xml.
 
+  * <<libDirectory>> - sets archive directory which contains Java libraries
+  packaged into archive. Default is 'lib'. Refer to the same name property of
+  {{{ejbClientModule}ejbClientModule}} for details.
+
 
 * {harModule} Properties
 
@@ -400,6 +450,11 @@ EAR Modules
 
   * <<unpack>> - set to true to unpack this artifact into the ear archive according
   to its uri. Default is false.
+
+  * <<libDirectory>> - sets archive directory which contains Java libraries
+  packaged into archive. Default is 'lib'. Refer to the same name property of
+  {{{ejbClientModule}ejbClientModule}} for details.
+
 
 * {appClientModule} Properties
 

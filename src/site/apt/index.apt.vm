@@ -63,13 +63,18 @@ ${project.name}
   For more information about the Java EE technology, please visit
   {{http://www.oracle.com/us/technologies/java/enterprise-edition/overview/index.html}}.
 
+* Version 3.1.1
+
+  Starting with version 3.1.1 {{{./ear-mojo.html#skinnyModules}skinnyModules}} parameter
+  and libDirectory property of EAR modules have been implemented.
+
 * Version 3.0.0
 
   Starting with version 3.0.0 the usage of <<fileNameMapping>> has been removed. If you need
-  to use a kind of file name mapping take a look at the new 
+  to use a kind of file name mapping take a look at the new
   {{{./ear-mojo.html#outputFileNameMapping}outputFileNameMapping}} which is more
   flexible.
-  
+
 * Goals Overview
 
   EAR Plugin has two goals:
@@ -108,6 +113,8 @@ ${project.name}
   * {{{./examples/filtering-advanced.html}Advanced Filtering Techniques}}
 
   * {{{./examples/skinny-wars.html}Creating Skinny WARs}}
+
+  * {{{./examples/skinny-modules.html}Creating Skinny Modules}}
 
   * {{{./examples/customizing-a-module-filename.html}Customizing A Module
   Filename}}
