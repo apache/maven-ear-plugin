@@ -41,19 +41,19 @@ Creating Skinny Modules
 
   * {{{../modules.html#harModule}HAR}}
 
- Starting with version 3.1.1 Maven EAR Plugin supports referencing
+ Starting with version 3.1.1, the Maven EAR Plugin supports referencing
  external JARs packaged within the EAR via the <<<Class-Path>>> setting
  in EAR module <<<MANIFEST.MF>>>.
 
- We need to change the EAR project's <<<pom.xml>>> to package those JARs
+ You need to change the EAR project's <<<pom.xml>>> to package those JARs
  in the EAR and to use the
  {{{../ear-mojo.html#skinnyModules}skinnyModules}} parameter.
 
  <<Note:>> In this example we package all JARs into a <<<libs/>>> directory
  within the EAR. This is just to distinguish between Java EE modules
  (which will be packaged in the root of the EAR) and Java libraries
- (which are packaged in <<<libs/>>>). Also, we use non standard
- <<<outputFileNameMapping>>> just to shorten names of files packaged
+ (which are packaged in <<<libs/>>>). Also, we use non-standard
+ <<<outputFileNameMapping>>> to shorten names of files packaged
  in EAR and to keep them close to the names used in local repository
  for a better readability.
 
@@ -127,10 +127,10 @@ Creating Skinny Modules
  you will notice that the <<<Class-Path>>> entry has been modified or added,
  if it was missing, and now has a reference to <<<libs/shared-jar-1.0.0.jar>>>.
 
- If archive representing EAR module has non standard location of libraries then
- this location can be configured using <<<libDirectory>>> property.
+ If an archive representing the EAR module has non-standard location of libraries,
+ then this location can be configured using the <<<libDirectory>>> property.
 
- Here is example for SAR which contains libraries at the root of archive
+ Here is example for SAR which contains libraries at the root of the archive
  (refer to {{{../modules.html#sarModule}sarModule}} for description of
  <<<libDirectory>>> property):
 

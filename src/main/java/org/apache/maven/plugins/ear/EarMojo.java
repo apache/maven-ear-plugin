@@ -213,8 +213,8 @@ public class EarMojo
 
     /**
      * Whether to create skinny EAR modules or not. A skinny EAR module is a WAR, SAR, HAR, RAR or WSR module that
-     * does not have all of its dependencies in it. Instead those dependencies are shared between the WARs, SARs, HARs,
-     * RARs and WSRs through the EAR. This option takes precedence over {@link #skinnyWars} option, i.e. if
+     * does not contain all of its dependencies in it. Instead those dependencies are shared between the WARs, SARs,
+     * HARs, RARs and WSRs through the EAR. This option takes precedence over {@link #skinnyWars} option. That is if
      * skinnyModules is {@code true} but {@link #skinnyWars} is {@code false} (explicitly or by default) then all
      * modules including WARs are skinny.
      *
@@ -752,7 +752,7 @@ public class EarMojo
         throws MojoFailureException
     {
         final String moduleLibDir = module.getLibDir();
-        if ( !( moduleLibDir == null || skinnyModules || skinnyWars && module instanceof WebModule ) )
+        if ( !( ( moduleLibDir == null ) || skinnyModules || ( skinnyWars && module instanceof WebModule ) ) )
         {
             return;
         }
@@ -816,7 +816,7 @@ public class EarMojo
                 classPath = new Attribute( "Class-Path", "" );
             }
 
-            if ( moduleLibDir != null && ( skinnyModules || skinnyWars && module instanceof WebModule ) )
+            if ( ( moduleLibDir != null ) && ( skinnyModules || ( skinnyWars && module instanceof WebModule ) ) )
             {
                 // Remove JAR modules
                 for ( JarModule jm : getAllJarModules() )

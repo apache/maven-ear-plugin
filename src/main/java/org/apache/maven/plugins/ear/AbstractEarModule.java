@@ -95,7 +95,7 @@ public abstract class AbstractEarModule
      * Directory of module which contains libraries packaged into module. {@code null} value means that module
      * doesn't contain any library. Each module type can provide default value for this directory and this option
      * can be used to override that default value. If module libraries are located at the root of module then use
-     * single slash (/) to configure that in POM, i.e. single slash is treated as empty string.
+     * single slash (/) to configure that in POM. That is, a single slash is treated as an empty string.
      */
     protected String libDirectory;
 
@@ -374,7 +374,7 @@ public abstract class AbstractEarModule
     }
 
     /**
-     * Cleans the path pointing to resource inside archive so that it might be used properly.
+     * Cleans the path pointing to the resource inside the archive so that it might be used properly.
      * 
      * @param path the path to clean, can be {@code null}
      * @return the cleaned path or {@code null} if given {@code path} is {@code null}
