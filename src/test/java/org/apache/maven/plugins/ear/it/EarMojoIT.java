@@ -1036,4 +1036,20 @@ public class EarMojoIT
             new String[][] { { jarSampleFourTestLibrary, jarSampleFiveLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary } },
             true );
     }
+
+    /**
+     * Ensures that artifacts with jboss-sar, jboss-har and jboss-par types are packaged in EAR and
+     * described in deployment descriptor when respective types are configured for EAR modules.
+     */
+    public void testProject094()
+        throws Exception
+    {
+        final String warModule = "eartest-war-sample-three-1.0.war";
+        final String sarSampleTwo = "eartest-sar-sample-two-1.0.sar";
+        final String harSampleTwo = "eartest-har-sample-two-1.0.har";
+        final String parSampleTwo = "eartest-par-sample-one-1.0.par";
+        final String[] artifacts = { warModule, sarSampleTwo, harSampleTwo, parSampleTwo };
+        final boolean[] artifactsDirectory = { false, false, false, false };
+        doTestProject( "project-094", "ear", artifacts, artifactsDirectory, null, null, null , true );
+    }
 }

@@ -39,7 +39,8 @@ public final class EarModuleFactory
      */
     public static final List<String> STANDARD_ARTIFACT_TYPE =
         Collections.unmodifiableList( Arrays.asList( "jar", "ejb", "par", "ejb-client", "app-client", "rar", "war",
-                                                     "sar", "wsr", "har", "test-jar" ) );
+                                                     "sar", "wsr", "har", "test-jar", "jboss-par", "jboss-sar",
+                                                     "jboss-har" ) );
 
     /**
      * Creates a new {@link EarModule} based on the specified {@link Artifact} and the specified execution
@@ -78,7 +79,7 @@ public final class EarModuleFactory
         {
             return new EjbModule( artifact );
         }
-        else if ( "par".equals( artifactType ) )
+        else if ( "par".equals( artifactType ) || "jboss-par".equals( artifactType ) )
         {
             return new ParModule( artifact );
         }
@@ -106,7 +107,7 @@ public final class EarModuleFactory
         {
             return new WebModule( artifact );
         }
-        else if ( "sar".equals( artifactType ) )
+        else if ( "sar".equals( artifactType ) || "jboss-sar".equals( artifactType ) )
         {
             return new SarModule( artifact );
         }
@@ -114,7 +115,7 @@ public final class EarModuleFactory
         {
             return new WsrModule( artifact );
         }
-        else if ( "har".equals( artifactType ) )
+        else if ( "har".equals( artifactType ) || "jboss-har".equals( artifactType ) )
         {
             return new HarModule( artifact );
         }
