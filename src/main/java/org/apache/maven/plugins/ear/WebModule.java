@@ -33,7 +33,10 @@ import java.util.Set;
 public class WebModule
     extends AbstractEarModule
 {
-    private static final String DEFAULT_ARTIFACT_TYPE = "war";
+    /**
+     * Default type of the artifact of a Web application module.
+     */
+    public static final String DEFAULT_ARTIFACT_TYPE = "war";
 
     private static final String WEB_MODULE = "web";
 

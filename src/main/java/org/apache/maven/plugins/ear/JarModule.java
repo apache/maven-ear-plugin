@@ -38,7 +38,10 @@ import java.util.Set;
 public class JarModule
     extends AbstractEarModule
 {
-    private static final String DEFAULT_ARTIFACT_TYPE = "jar";
+    /**
+     * Default type of the artifact of a non Java EE module such as third party library.
+     */
+    public static final String DEFAULT_ARTIFACT_TYPE = "jar";
 
     private Boolean includeInApplicationXml = Boolean.FALSE;
 

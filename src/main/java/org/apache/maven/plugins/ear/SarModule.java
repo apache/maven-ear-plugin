@@ -37,7 +37,10 @@ public class SarModule
     extends AbstractEarModule
     implements JbossEarModule
 {
-    private static final String DEFAULT_ARTIFACT_TYPE = "sar";
+    /**
+     * Default type of the artifact of a JBoss sar module.
+     */
+    public static final String DEFAULT_ARTIFACT_TYPE = "sar";
 
     private static final String SAR_MODULE = "connector";
 

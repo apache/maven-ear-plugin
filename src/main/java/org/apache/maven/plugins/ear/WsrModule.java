@@ -29,7 +29,10 @@ import org.apache.maven.artifact.Artifact;
 public class WsrModule
     extends RarModule
 {
-    private static final String DEFAULT_ARTIFACT_TYPE = "wsr";
+    /**
+     * Default type of the artifact of a JBoss wsr module.
+     */
+    public static final String DEFAULT_ARTIFACT_TYPE = "wsr";
 
     /**
      * Create an instance.

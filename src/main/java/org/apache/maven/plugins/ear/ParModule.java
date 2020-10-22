@@ -29,7 +29,10 @@ import org.apache.maven.artifact.Artifact;
 public class ParModule
     extends EjbModule
 {
-    private static final String DEFAULT_ARTIFACT_TYPE = "par";
+    /**
+     * Default type of the artifact of a Par module.
+     */
+    public static final String DEFAULT_ARTIFACT_TYPE = "par";
 
     /**
      * Create an instance.

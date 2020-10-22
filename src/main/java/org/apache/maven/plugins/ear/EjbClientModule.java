@@ -29,7 +29,10 @@ import org.apache.maven.artifact.Artifact;
 public class EjbClientModule
     extends JarModule
 {
-    private static final String DEFAULT_ARTIFACT_TYPE = "ejb-client";
+    /**
+     * Default type of the artifact of an ejb client module.
+     */
+    public static final String DEFAULT_ARTIFACT_TYPE = "ejb-client";
 
     /**
      * Create an instance.

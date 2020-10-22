@@ -31,7 +31,10 @@ public class HarModule
     extends AbstractEarModule
     implements JbossEarModule
 {
-    private static final String DEFAULT_ARTIFACT_TYPE = "har";
+    /**
+     * Default type of the artifact of a JBoss Hibernate archive.
+     */
+    public static final String DEFAULT_ARTIFACT_TYPE = "har";
 
     /**
      * Create an instance.

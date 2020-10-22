@@ -30,7 +30,10 @@ import org.codehaus.plexus.util.xml.XMLWriter;
 public class RarModule
     extends AbstractEarModule
 {
-    private static final String DEFAULT_ARTIFACT_TYPE = "rar";
+    /**
+     * Default type of the artifact of an Java EE connector module.
+     */
+    public static final String DEFAULT_ARTIFACT_TYPE = "rar";
 
     private static final String RAR_MODULE = "connector";
 

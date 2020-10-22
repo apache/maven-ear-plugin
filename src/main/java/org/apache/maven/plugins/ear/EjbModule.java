@@ -30,7 +30,10 @@ import org.codehaus.plexus.util.xml.XMLWriter;
 public class EjbModule
     extends AbstractEarModule
 {
-    private static final String DEFAULT_ARTIFACT_TYPE = "ejb";
+    /**
+     * Default type of the artifact of an EJB module.
+     */
+    public static final String DEFAULT_ARTIFACT_TYPE = "ejb";
 
     private static final String EJB_MODULE = "ejb";
 
