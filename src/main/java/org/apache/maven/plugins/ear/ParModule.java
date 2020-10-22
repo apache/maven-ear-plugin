@@ -29,13 +29,14 @@ import org.apache.maven.artifact.Artifact;
 public class ParModule
     extends EjbModule
 {
+    private static final String DEFAULT_ARTIFACT_TYPE = "par";
 
     /**
      * Create an instance.
      */
     public ParModule()
     {
-        super();
+        this.type = DEFAULT_ARTIFACT_TYPE;
     }
 
     /**
@@ -44,13 +45,5 @@ public class ParModule
     public ParModule( Artifact a )
     {
         super( a );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getType()
-    {
-        return "par";
     }
 }

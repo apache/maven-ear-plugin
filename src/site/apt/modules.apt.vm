@@ -85,16 +85,17 @@ EAR Modules
 
   The following configuration options are available for EjbClientModule:
 
-  * <<groupId>> - sets the groupId of the ejb-client artifact you want to
-  configure.
+  * <<groupId>> - sets the groupId of the artifact you want to configure.
 
-  * <<artifactId>> - sets the artifactId of the ejb-client artifact you want to
-  configure.
+  * <<artifactId>> - sets the artifactId of the artifact you want to configure.
 
-  * <<classifier>> - sets the classifier of the ejb-client artifact you want to
-  configure if multiple ejb-client artifacts matches the groupId/artifact.  Use
+  * <<type>> - sets the type of the artifact you want to configure.
+  Default is 'ejb-client'.
+
+  * <<classifier>> - sets the classifier of the artifact you want to
+  configure if multiple artifacts matches the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
-  the artifact without a classifier)
+  the artifact without a classifier).
 
   * <<bundleDir>> - sets the location of this artifact inside the ear archive.
   If not set, this artifact will be packaged in the root of the archive.
@@ -121,16 +122,17 @@ EAR Modules
 
   The following configuration options are available for EjbModule:
 
-  * <<groupId>> - sets the groupId of the ejb artifact you want to
-  configure.
+  * <<groupId>> - sets the groupId of the artifact you want to configure.
 
-  * <<artifactId>> - sets the artifactId of the ejb artifact you want to
-  configure.
+  * <<artifactId>> - sets the artifactId of the artifact you want to configure.
 
-  * <<classifier>> - sets the classifier of the ejb artifact you want to
-  configure if multiple ejb artifacts matches the groupId/artifact.  Use
+  * <<type>> - sets the type of the artifact you want to configure.
+  Default is 'ejb'.
+
+  * <<classifier>> - sets the classifier of the artifact you want to
+  configure if multiple artifacts matches the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
-  the artifact without a classifier)
+  the artifact without a classifier).
 
   * <<bundleDir>> - sets the location of this artifact inside the ear archive.
   If not set, this artifact will be packaged in the root of the archive.
@@ -157,16 +159,17 @@ EAR Modules
 
   The following configuration options are available for JarModule:
 
-  * <<groupId>> - sets the groupId of the jar artifact you want to
-  configure.
+  * <<groupId>> - sets the groupId of the artifact you want to configure.
 
-  * <<artifactId>> - sets the artifactId of the jar artifact you want to
-  configure.
+  * <<artifactId>> - sets the artifactId of the artifact you want to configure.
 
-  * <<classifier>> - sets the classifier of the jar artifact you want to
-  configure if multiple jar artifacts matches the groupId/artifact. Use
+  * <<type>> - sets the type of the artifact you want to configure.
+  Default is 'jar'. Use 'test-jar' if the artifact of the module is test JAR.
+
+  * <<classifier>> - sets the classifier of the artifact you want to
+  configure if multiple artifacts matches the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
-  the artifact without a classifier)
+  the artifact without a classifier).
 
   * <<bundleDir>> - sets the location of this artifact inside the ear archive.
   If not set, this artifact will be packaged in the root of the archive.
@@ -196,16 +199,17 @@ EAR Modules
 
   The following configuration options are available for ParModule:
 
-  * <<groupId>> - sets the groupId of the par artifact you want to
-  configure.
+  * <<groupId>> - sets the groupId of the artifact you want to configure.
 
-  * <<artifactId>> - sets the artifactId of the par artifact you want to
-  configure.
+  * <<artifactId>> - sets the artifactId of the artifact you want to configure.
 
-  * <<classifier>> - sets the classifier of the par artifact you want to
-  configure if multiple par artifacts matches the groupId/artifact. Use
+  * <<type>> - sets the type of the artifact you want to configure.
+  Default is 'par'.
+
+  * <<classifier>> - sets the classifier of the artifact you want to
+  configure if multiple artifacts matches the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
-  the artifact without a classifier)
+  the artifact without a classifier).
 
   * <<bundleDir>> - sets the location of this artifact inside the ear archive.
   If not set, this artifact will be packaged in the root of the archive.
@@ -232,16 +236,17 @@ EAR Modules
 
   The following configuration options are available for RarModule:
 
-  * <<groupId>> - sets the groupId of the rar artifact you want to
-  configure.
+  * <<groupId>> - sets the groupId of the artifact you want to configure.
 
-  * <<artifactId>> - sets the artifactId of the rar artifact you want to
-  configure.
+  * <<artifactId>> - sets the artifactId of the artifact you want to configure.
 
-  * <<classifier>> - sets the classifier of the rar artifact you want to
-  configure if multiple rar artifacts matches the groupId/artifact. Use
+  * <<type>> - sets the type of the artifact you want to configure.
+  Default is 'rar'.
+
+  * <<classifier>> - sets the classifier of the artifact you want to
+  configure if multiple artifacts matches the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
-  the artifact without a classifier)
+  the artifact without a classifier).
 
   * <<bundleDir>> - sets the location of this artifact inside the ear archive.
   If not set, this artifact will be packaged in the root of the archive.
@@ -268,16 +273,17 @@ EAR Modules
 
   The following configuration options are available for SarModule:
 
-  * <<groupId>> - sets the groupId of the sar artifact you want to
-  configure.
+  * <<groupId>> - sets the groupId of the artifact you want to configure.
 
-  * <<artifactId>> - sets the artifactId of the sar artifact you want to
-  configure.
+  * <<artifactId>> - sets the artifactId of the artifact you want to configure.
 
-  * <<classifier>> - sets the classifier of the sar artifact you want to
-  configure if multiple sar artifacts matches the groupId/artifact. Use
+  * <<type>> - sets the type of the artifact you want to configure.
+  Default is 'sar'.
+
+  * <<classifier>> - sets the classifier of the artifact you want to
+  configure if multiple artifacts matches the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
-  the artifact without a classifier)
+  the artifact without a classifier).
 
   * <<bundleDir>> - sets the location of this artifact inside the ear archive.
   If not set, this artifact will be packaged in the root of the archive.
@@ -301,16 +307,17 @@ EAR Modules
 
   The following configuration options are available for WebModule:
 
-  * <<groupId>> - sets the groupId of the web artifact you want to
-  configure.
+  * <<groupId>> - sets the groupId of the artifact you want to configure.
 
-  * <<artifactId>> - sets the artifactId of the web artifact you want to
-  configure.
+  * <<artifactId>> - sets the artifactId of the artifact you want to configure.
 
-  * <<classifier>> - sets the classifier of the web artifact you want to
-  configure if multiple web artifacts matches the groupId/artifact. Use
+  * <<type>> - sets the type of the artifact you want to configure.
+  Default is 'war'.
+
+  * <<classifier>> - sets the classifier of the artifact you want to
+  configure if multiple artifacts matches the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
-  the artifact without a classifier)
+  the artifact without a classifier).
 
   * <<bundleDir>> - sets the location of this artifact inside the ear archive.
   If not set, this artifact will be packaged in the root of the archive.
@@ -339,16 +346,17 @@ EAR Modules
 
   The following configuration options are available for WsrModule:
 
-  * <<groupId>> - sets the groupId of the wsr artifact you want to
-  configure.
+  * <<groupId>> - sets the groupId of the artifact you want to configure.
 
-  * <<artifactId>> - sets the artifactId of the wsr artifact you want to
-  configure.
+  * <<artifactId>> - sets the artifactId of the artifact you want to configure.
 
-  * <<classifier>> - sets the classifier of the wst artifact you want to
-  configure if multiple wsr artifacts matches the groupId/artifact. Use
+  * <<type>> - sets the type of the artifact you want to configure.
+  Default is 'wsr'.
+
+  * <<classifier>> - sets the classifier of the artifact you want to
+  configure if multiple artifacts matches the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
-  the artifact without a classifier)
+  the artifact without a classifier).
 
   * <<bundleDir>> - sets the location of this artifact inside the ear archive.
   If not set, this artifact will be packaged in the root of the archive.
@@ -375,16 +383,17 @@ EAR Modules
 
   The following configuration options are available for HarModule:
 
-  * <<groupId>> - sets the groupId of the hibernate archive artifact you
-  want to configure.
+  * <<groupId>> - sets the groupId of the artifact you want to configure.
 
-  * <<artifactId>> - sets the artifactId of the hibernate archive artifact
-  you want to configure.
+  * <<artifactId>> - sets the artifactId of artifact you want to configure.
 
-  * <<classifier>> - sets the classifier of the hibernate archive artifact
-  you want to configure if multiple hibernate archive  artifacts matches
-  the groupId/artifact.  Use the mainArtifactId ('none' by default) to define
-  the main artifact (e.g. the artifact without a classifier)
+  * <<type>> - sets the type of the artifact you want to configure.
+  Default is 'har'.
+
+  * <<classifier>> - sets the classifier of the artifact you want to
+  configure if multiple artifacts matches the groupId/artifactId/type. Use
+  the mainArtifactId ('none' by default) to define the main artifact (e.g.
+  the artifact without a classifier).
 
   * <<bundleDir>> - sets the location of this artifact inside the ear archive.
   If not set, this artifact will be packaged in the root of the archive.
@@ -405,16 +414,17 @@ EAR Modules
 
   The following configuration options are available for AppClientModule:
 
-  * <<groupId>> - sets the groupId of the application client artifact you want to
-  configure.
+  * <<groupId>> - sets the groupId of the artifact you want to configure.
 
-  * <<artifactId>> - sets the artifactId of the applicant client artifact you want to
-  configure.
+  * <<artifactId>> - sets the artifactId of the artifact you want to configure.
 
-  * <<classifier>> - sets the classifier of the application client  artifact you want to
-  configure if multiple application client artifacts matches the groupId/artifact.  Use
+  * <<type>> - sets the type of the artifact you want to configure.
+  Default is 'app-client'.
+
+  * <<classifier>> - sets the classifier of the artifact you want to
+  configure if multiple artifacts matches the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
-  the artifact without a classifier)
+  the artifact without a classifier).
 
   * <<bundleDir>> - sets the location of this artifact inside the ear archive.
   If not set, this artifact will be packaged in the root of the archive.

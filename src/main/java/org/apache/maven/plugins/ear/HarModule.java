@@ -31,11 +31,14 @@ public class HarModule
     extends AbstractEarModule
     implements JbossEarModule
 {
+    private static final String DEFAULT_ARTIFACT_TYPE = "har";
+
     /**
      * Create an instance.
      */
     public HarModule()
     {
+        this.type = DEFAULT_ARTIFACT_TYPE;
     }
 
     /**
@@ -66,13 +69,5 @@ public class HarModule
         writer.writeText( getUri() );
         writer.endElement();
         writer.endElement();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getType()
-    {
-        return "har";
     }
 }

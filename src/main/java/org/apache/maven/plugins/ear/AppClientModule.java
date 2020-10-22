@@ -30,12 +30,14 @@ import org.codehaus.plexus.util.xml.XMLWriter;
 public class AppClientModule
     extends AbstractEarModule
 {
+    private static final String DEFAULT_ARTIFACT_TYPE = "app-client";
 
     /**
      * Create an instance.
      */
     public AppClientModule()
     {
+        this.type = DEFAULT_ARTIFACT_TYPE;
     }
 
     /**
@@ -59,13 +61,5 @@ public class AppClientModule
         writeAltDeploymentDescriptor( writer, version );
 
         writer.endElement();
-    }
-
-    /**
-     * @return The type of the module.
-     */
-    public String getType()
-    {
-        return "app-client";
     }
 }

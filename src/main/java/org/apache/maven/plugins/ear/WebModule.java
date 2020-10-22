@@ -33,6 +33,8 @@ import java.util.Set;
 public class WebModule
     extends AbstractEarModule
 {
+    private static final String DEFAULT_ARTIFACT_TYPE = "war";
+
     private static final String WEB_MODULE = "web";
 
     private static final String WEB_URI_FIELD = "web-uri";
@@ -46,6 +48,7 @@ public class WebModule
      */
     public WebModule()
     {
+        this.type = DEFAULT_ARTIFACT_TYPE;
     }
 
     /**
@@ -105,14 +108,6 @@ public class WebModule
     public String getContextRoot()
     {
         return contextRoot;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getType()
-    {
-        return "war";
     }
 
     /**

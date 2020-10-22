@@ -60,6 +60,8 @@ public abstract class AbstractEarModule
 
     private String artifactId;
 
+    protected String type;
+
     private String classifier;
 
     /**
@@ -115,6 +117,7 @@ public abstract class AbstractEarModule
         this.artifact = a;
         this.groupId = a.getGroupId();
         this.artifactId = a.getArtifactId();
+        this.type = a.getType();
         this.classifier = a.getClassifier();
         this.bundleDir = null;
     }
@@ -192,6 +195,14 @@ public abstract class AbstractEarModule
             }
         }
         return uri;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getType()
+    {
+        return type;
     }
 
     /**

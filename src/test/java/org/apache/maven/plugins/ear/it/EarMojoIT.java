@@ -1015,4 +1015,25 @@ public class EarMojoIT
             new String[][] { { jarSampleFourTestLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary } },
             true );
     }
+
+    /**
+     * Ensures that test JAR dependency representing Java module is described in deployment descriptor
+     * if includeInApplicationXml property of module is {@code true}.
+     */
+    public void testProject093()
+        throws Exception
+    {
+        final String warModule = "eartest-war-sample-two-1.0.war";
+        final String jarSampleTwoLibrary = "eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "eartest-jar-sample-three-with-deps-1.0.jar";
+        final String jarSampleFourTestLibrary = "eartest-jar-sample-four-1.0-tests.jar";
+        final String jarSampleFiveLibrary = "eartest-jar-sample-five-1.0.jar";
+        doTestProject( "project-093", "ear",
+            new String[] { warModule, jarSampleTwoLibrary, jarSampleThreeLibrary, jarSampleFourTestLibrary, jarSampleFiveLibrary },
+            new boolean[] { false, false, false, false, false },
+            new String[] { warModule },
+            new boolean[] { false },
+            new String[][] { { jarSampleFourTestLibrary, jarSampleFiveLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary } },
+            true );
+    }
 }

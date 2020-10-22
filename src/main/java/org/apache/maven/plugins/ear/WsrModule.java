@@ -29,11 +29,14 @@ import org.apache.maven.artifact.Artifact;
 public class WsrModule
     extends RarModule
 {
+    private static final String DEFAULT_ARTIFACT_TYPE = "wsr";
+
     /**
      * Create an instance.
      */
     public WsrModule()
     {
+        this.type = DEFAULT_ARTIFACT_TYPE;
     }
 
     /**
@@ -42,13 +45,5 @@ public class WsrModule
     public WsrModule( Artifact a )
     {
         super( a );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getType()
-    {
-        return "wsr";
     }
 }

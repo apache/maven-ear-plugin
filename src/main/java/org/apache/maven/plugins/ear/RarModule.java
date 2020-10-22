@@ -30,6 +30,8 @@ import org.codehaus.plexus.util.xml.XMLWriter;
 public class RarModule
     extends AbstractEarModule
 {
+    private static final String DEFAULT_ARTIFACT_TYPE = "rar";
+
     private static final String RAR_MODULE = "connector";
 
     /**
@@ -37,6 +39,7 @@ public class RarModule
      */
     public RarModule()
     {
+        this.type = DEFAULT_ARTIFACT_TYPE;
     }
 
     /**
@@ -60,13 +63,5 @@ public class RarModule
         writeAltDeploymentDescriptor( writer, version );
 
         writer.endElement();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getType()
-    {
-        return "rar";
     }
 }
