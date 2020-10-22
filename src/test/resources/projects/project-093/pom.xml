@@ -65,25 +65,25 @@ under the License.
         <groupId>eartest</groupId>
         <artifactId>sar-sample-two</artifactId>
         <version>1.0</version>
-        <type>sar</type>
+        <type>jboss-sar</type>
       </dependency>
       <dependency>
         <groupId>eartest</groupId>
         <artifactId>sar-sample-three</artifactId>
         <version>1.0</version>
-        <type>sar</type>
+        <type>jboss-sar</type>
       </dependency>
       <dependency>
         <groupId>eartest</groupId>
         <artifactId>sar-sample-four</artifactId>
         <version>1.0</version>
-        <type>sar</type>
+        <type>jboss-sar</type>
       </dependency>
       <dependency>
         <groupId>eartest</groupId>
         <artifactId>har-sample-two</artifactId>
         <version>1.0</version>
-        <type>har</type>
+        <type>jboss-har</type>
       </dependency>
       <dependency>
         <groupId>eartest</groupId>

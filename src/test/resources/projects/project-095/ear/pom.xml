@@ -37,7 +37,7 @@ under the License.
     <dependency>
       <groupId>eartest</groupId>
       <artifactId>sar-sample-two</artifactId>
-      <type>sar</type>
+      <type>jboss-sar</type>
       <!--
         By some reason dependencies of SAR come into EAR as transitive dependencies while they should not,
         because SAR contains its dependencies packaged as libraries (like WAR).
@@ -55,7 +55,7 @@ under the License.
     <dependency>
       <groupId>eartest</groupId>
       <artifactId>har-sample-two</artifactId>
-      <type>har</type>
+      <type>jboss-har</type>
       <!--
         By some reason dependencies of HAR come into EAR as transitive dependencies while they should not,
         because HAR contains its dependencies packaged as libraries (like WAR).
@@ -84,6 +84,10 @@ under the License.
         <version>@project.version@</version>
         <configuration>
           <version>6</version>
+          <artifactTypeMappings>
+            <artifactTypeMapping type="jboss-sar" mapping="sar"/>
+            <artifactTypeMapping type="jboss-har" mapping="har"/>
+          </artifactTypeMappings>
           <jboss>
             <version>5</version>
           </jboss>

@@ -49,22 +49,22 @@ under the License.
     <dependency>
       <groupId>eartest</groupId>
       <artifactId>sar-sample-two</artifactId>
-      <type>sar</type>
+      <type>jboss-sar</type>
     </dependency>
     <dependency>
       <groupId>eartest</groupId>
       <artifactId>sar-sample-three</artifactId>
-      <type>sar</type>
+      <type>jboss-sar</type>
     </dependency>
     <dependency>
       <groupId>eartest</groupId>
       <artifactId>sar-sample-four</artifactId>
-      <type>sar</type>
+      <type>jboss-sar</type>
     </dependency>
     <dependency>
       <groupId>eartest</groupId>
       <artifactId>har-sample-two</artifactId>
-      <type>har</type>
+      <type>jboss-har</type>
     </dependency>
     <dependency>
       <groupId>eartest</groupId>
@@ -82,6 +82,10 @@ under the License.
           <version>6</version>
           <defaultLibBundleDir>libs</defaultLibBundleDir>
           <skinnyModules>true</skinnyModules>
+          <artifactTypeMappings>
+            <artifactTypeMapping type="jboss-sar" mapping="sar"/>
+            <artifactTypeMapping type="jboss-har" mapping="har"/>
+          </artifactTypeMappings>
           <jboss>
             <version>5</version>
           </jboss>
