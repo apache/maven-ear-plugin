@@ -41,6 +41,7 @@ under the License.
         <groupId>eartest</groupId>
         <artifactId>jar-sample-four</artifactId>
         <version>1.0</version>
+        <classifier>tests</classifier>
         <type>test-jar</type>
       </dependency>
       <dependency>
