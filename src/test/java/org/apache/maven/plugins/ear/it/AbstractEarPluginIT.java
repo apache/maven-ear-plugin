@@ -270,7 +270,7 @@ public abstract class AbstractEarPluginIT
     }
 
     /**
-     * Asserts that given EAR archive artifacts have expected paths or don't have unexpected paths.
+     * Asserts that given EAR archive artifacts have expected entries and don't have unexpected entries.
      *
      * @param baseDir the directory of the tested project
      * @param projectName the project to test
@@ -278,17 +278,17 @@ public abstract class AbstractEarPluginIT
      *                      if project is single-module
      * @param artifacts the list of artifacts to be found in the EAR archive
      * @param artifactsDirectory whether the artifact from {@code artifacts} list is an exploded or not
-     * @param includedEntries paths which should exist in artifacts, rows should match artifacts passed in
+     * @param includedEntries entries which should exist in artifacts, rows should match artifacts passed in
      *                        {@code artifacts} parameter; can be {@code null} if there is no need to assert
-     *                        existence of paths in artifacts
-     * @param excludedEntries paths which should not exist in artifacts, rows should match artifacts passed in
+     *                        existence of entries in artifacts
+     * @param excludedEntries entries which should not exist in artifacts, rows should match artifacts passed in
      *                        {@code artifacts} parameter; can be {@code null} if there is no need to assert
      *                        absence of paths in artifacts
      * @throws IOException exception in case of failure during reading of artifact archive.
      */
-    protected void assertArchiveModuleContent( final File baseDir, final String projectName, final String earModuleName,
-                                               final String[] artifacts, final boolean[] artifactsDirectory,
-                                               final String[][] includedEntries, final String[][] excludedEntries )
+    protected void assertEarModulesContent( final File baseDir, final String projectName, final String earModuleName,
+                                            final String[] artifacts, final boolean[] artifactsDirectory,
+                                            final String[][] includedEntries, final String[][] excludedEntries )
         throws IOException
     {
         assertTrue( "Wrong parameter, artifacts mismatch directory flags",
@@ -577,9 +577,17 @@ public abstract class AbstractEarPluginIT
         for ( int i = 0; i != artifacts.length; ++i )
         {
             final String moduleArtifact = artifacts[i];
-            Assert.assertArrayEquals( "Wrong elements of Class-Path entry of module [" + moduleArtifact + "] manifest",
-                expectedClassPathElements[i],
-                getClassPathElements( earFile, moduleArtifact, artifactsDirectory[i] ) );
+            final String[] classPathElements = getClassPathElements( earFile, moduleArtifact, artifactsDirectory[i] );
+            if ( expectedClassPathElements[i] == null )
+            {
+                assertNull( "Class-Path entry should not exist in module [" + moduleArtifact + "] manifest",
+                    classPathElements );
+            }
+            else
+            {
+                Assert.assertArrayEquals( "Wrong elements of Class-Path entry of module [" + moduleArtifact + "] manifest",
+                    expectedClassPathElements[i], classPathElements );
+            }
         }
     }
 
@@ -623,8 +631,13 @@ public abstract class AbstractEarPluginIT
         }
         if ( classPath == null )
         {
+            return null;
+        }
+        final String trimmedClassPath = classPath.trim();
+        if ( trimmedClassPath.length() == 0 )
+        {
             return new String[0];
         }
-        return classPath.split( " " );
+        return trimmedClassPath.split( " " );
     }
 }

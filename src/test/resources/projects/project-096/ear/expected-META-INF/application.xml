@@ -18,7 +18,7 @@ specific language governing permissions and limitations
 under the License.
 -->
 <application xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd" version="6">
-  <display-name>maven-ear-plugin-test-project-095</display-name>
+  <display-name>maven-ear-plugin-test-project-096</display-name>
   <module>
     <web>
       <web-uri>eartest-war-sample-three-1.0.war</web-uri>
@@ -28,5 +28,4 @@ under the License.
   <module>
     <connector>eartest-rar-sample-one-1.0.rar</connector>
   </module>
-  <library-directory>lib</library-directory>
 </application>

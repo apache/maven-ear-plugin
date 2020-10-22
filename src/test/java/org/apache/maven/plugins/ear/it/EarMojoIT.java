@@ -1046,7 +1046,7 @@ public class EarMojoIT
                 { jarSampleThreeEarLibrary, jarSampleTwoEarLibrary, jarSampleOneEarLibrary } },
             true );
 
-        assertArchiveModuleContent( baseDir, projectName, earModuleName, earModules, earModuleDirectory,
+        assertEarModulesContent( baseDir, projectName, earModuleName, earModules, earModuleDirectory,
             new String[][] {
                 { warModuleLibDir },
                 { sarModuleTwoLibDir },
@@ -1072,10 +1072,10 @@ public class EarMojoIT
      * then movement of JARs and modification of manifest Class-Path entry is performed only for WAR module and not for
      * SAR, HAR and RAR modules.
      */
-    public void testProject094()
+    public void testProject095()
         throws Exception
     {
-        final String projectName = "project-094";
+        final String projectName = "project-095";
         final String earModuleName = "ear";
         final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
         final String jarSampleTwoLibrary = "jar-sample-two-1.0.jar";
@@ -1100,11 +1100,11 @@ public class EarMojoIT
             new String[][] {
                 { jarSampleThreeEarLibrary, jarSampleTwoEarLibrary },
                 { jarSampleThreeLibrary, jarSampleTwoLibrary, jarSampleOneLibrary },
-                { jarSampleOneLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary },
+                null,
                 { jarSampleOneLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary } },
             true );
 
-        assertArchiveModuleContent( baseDir, projectName, earModuleName, earModules, earModuleDirectory,
+        assertEarModulesContent( baseDir, projectName, earModuleName, earModules, earModuleDirectory,
             new String[][] {
                 { warModuleLibDir },
                 { sarModuleLibDir + jarSampleOneLibrary, sarModuleLibDir + jarSampleTwoLibrary, sarModuleLibDir + jarSampleThreeLibrary },
@@ -1126,10 +1126,10 @@ public class EarMojoIT
      * then movement of JARs and modification of manifest Class-Path entry is not performed for WAR, SAR, HAR and
      * RAR modules.
      */
-    public void testProject095()
+    public void testProject096()
         throws Exception
     {
-        final String projectName = "project-095";
+        final String projectName = "project-096";
         final String earModuleName = "ear";
         final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
         final String jarSampleTwoLibrary = "jar-sample-two-1.0.jar";
@@ -1148,14 +1148,10 @@ public class EarMojoIT
         final File baseDir = doTestProject( projectName, earModuleName,
             earModules, earModuleDirectory,
             earModules, earModuleDirectory,
-            new String[][] {
-                { jarSampleThreeLibrary, jarSampleTwoLibrary },
-                { jarSampleThreeLibrary, jarSampleTwoLibrary, jarSampleOneLibrary },
-                { jarSampleOneLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary },
-                { jarSampleOneLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary } },
+            new String[][] { null, null, null, null },
             true );
 
-        assertArchiveModuleContent( baseDir, projectName, earModuleName, earModules, earModuleDirectory,
+        assertEarModulesContent( baseDir, projectName, earModuleName, earModules, earModuleDirectory,
             new String[][] {
                 { warModuleLibDir + jarSampleTwoLibrary, warModuleLibDir + jarSampleThreeLibrary },
                 { sarModuleLibDir + jarSampleOneLibrary, sarModuleLibDir + jarSampleTwoLibrary, sarModuleLibDir + jarSampleThreeLibrary },

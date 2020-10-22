@@ -31,6 +31,10 @@ under the License.
   <dependencies>
     <dependency>
       <groupId>eartest</groupId>
+      <artifactId>jar-sample-three-with-deps</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>eartest</groupId>
       <artifactId>war-sample-three</artifactId>
       <type>war</type>
     </dependency>
@@ -38,13 +42,7 @@ under the License.
       <groupId>eartest</groupId>
       <artifactId>sar-sample-two</artifactId>
       <type>jboss-sar</type>
-      <!--
-        By some reason dependencies of SAR come into EAR as transitive dependencies while they should not,
-        because SAR contains its dependencies packaged as libraries (like WAR).
-        Looks like a bug of SAR packaging, i.e. bug of JBoss Packaging Maven Plugin where
-        includesDependencies should be explicitly set to true for
-        org.apache.maven.artifact.handler.ArtifactHandler role of jboss-sar role-hint.
-       -->
+      <!-- Workaround for https://github.com/mojohaus/jboss-packaging-maven-plugin/issues/1 -->
       <exclusions>
         <exclusion>
           <groupId>*</groupId>
@@ -56,13 +54,7 @@ under the License.
       <groupId>eartest</groupId>
       <artifactId>har-sample-two</artifactId>
       <type>jboss-har</type>
-      <!--
-        By some reason dependencies of HAR come into EAR as transitive dependencies while they should not,
-        because HAR contains its dependencies packaged as libraries (like WAR).
-        Looks like a bug of HAR packaging, i.e. bug of JBoss Packaging Maven Plugin where
-        includesDependencies should be explicitly set to true for
-        org.apache.maven.artifact.handler.ArtifactHandler role of jboss-har role-hint.
-       -->
+      <!-- Workaround for https://github.com/mojohaus/jboss-packaging-maven-plugin/issues/1 -->
       <exclusions>
         <exclusion>
           <groupId>*</groupId>
@@ -84,6 +76,8 @@ under the License.
         <version>@project.version@</version>
         <configuration>
           <version>6</version>
+          <defaultLibBundleDir>lib</defaultLibBundleDir>
+          <skinnyWars>true</skinnyWars>
           <artifactTypeMappings>
             <artifactTypeMapping type="jboss-sar" mapping="sar"/>
             <artifactTypeMapping type="jboss-har" mapping="har"/>

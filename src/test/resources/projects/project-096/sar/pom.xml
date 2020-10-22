@@ -23,7 +23,7 @@ under the License.
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ear</groupId>
-    <artifactId>maven-ear-plugin-test-project-094-parent</artifactId>
+    <artifactId>maven-ear-plugin-test-project-096-parent</artifactId>
     <version>99.0</version>
   </parent>
   <groupId>eartest</groupId>
@@ -46,13 +46,6 @@ under the License.
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jboss-packaging-maven-plugin</artifactId>
         <extensions>true</extensions>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-            </manifest>
-          </archive>
-        </configuration>
       </plugin>
     </plugins>
   </build>

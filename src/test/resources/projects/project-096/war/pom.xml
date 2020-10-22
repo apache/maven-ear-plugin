@@ -17,16 +17,23 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<application xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd" version="6">
-  <display-name>maven-ear-plugin-test-project-094</display-name>
-  <module>
-    <web>
-      <web-uri>eartest-war-sample-three-1.0.war</web-uri>
-      <context-root>/war-sample-three</context-root>
-    </web>
-  </module>
-  <module>
-    <connector>eartest-rar-sample-one-1.0.rar</connector>
-  </module>
-  <library-directory>lib</library-directory>
-</application>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>ear</groupId>
+    <artifactId>maven-ear-plugin-test-project-096-parent</artifactId>
+    <version>99.0</version>
+  </parent>
+  <groupId>eartest</groupId>
+  <artifactId>war-sample-three</artifactId>
+  <version>1.0</version>
+  <packaging>war</packaging>
+  <dependencies>
+    <dependency>
+      <groupId>eartest</groupId>
+      <artifactId>jar-sample-three-with-deps</artifactId>
+    </dependency>
+  </dependencies>
+</project>

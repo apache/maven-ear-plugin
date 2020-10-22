@@ -23,34 +23,62 @@ under the License.
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ear</groupId>
-    <artifactId>maven-ear-plugin-test-project-094-parent</artifactId>
+    <artifactId>maven-ear-plugin-test-project-096-parent</artifactId>
     <version>99.0</version>
   </parent>
-  <groupId>eartest</groupId>
-  <artifactId>rar-sample-one</artifactId>
-  <version>1.0</version>
-  <packaging>rar</packaging>
+  <artifactId>maven-ear-plugin-test-project-096</artifactId>
+  <packaging>ear</packaging>
   <dependencies>
     <dependency>
       <groupId>eartest</groupId>
-      <artifactId>jar-sample-one</artifactId>
+      <artifactId>war-sample-three</artifactId>
+      <type>war</type>
     </dependency>
     <dependency>
       <groupId>eartest</groupId>
-      <artifactId>jar-sample-three-with-deps</artifactId>
+      <artifactId>sar-sample-two</artifactId>
+      <type>jboss-sar</type>
+      <!-- Workaround for https://github.com/mojohaus/jboss-packaging-maven-plugin/issues/1 -->
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>eartest</groupId>
+      <artifactId>har-sample-two</artifactId>
+      <type>jboss-har</type>
+      <!-- Workaround for https://github.com/mojohaus/jboss-packaging-maven-plugin/issues/1 -->
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>eartest</groupId>
+      <artifactId>rar-sample-one</artifactId>
+      <type>rar</type>
     </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-rar-plugin</artifactId>
+        <artifactId>maven-ear-plugin</artifactId>
+        <version>@project.version@</version>
         <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-            </manifest>
-          </archive>
+          <version>6</version>
+          <artifactTypeMappings>
+            <artifactTypeMapping type="jboss-sar" mapping="sar"/>
+            <artifactTypeMapping type="jboss-har" mapping="har"/>
+          </artifactTypeMappings>
+          <jboss>
+            <version>5</version>
+          </jboss>
         </configuration>
       </plugin>
     </plugins>
