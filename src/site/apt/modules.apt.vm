@@ -204,7 +204,9 @@ EAR Modules
   * <<artifactId>> - sets the artifactId of the artifact you want to configure.
 
   * <<type>> - sets the type of the artifact you want to configure.
-  Default is 'par'.
+  Default is 'par'. If the artifact you want to configure is built with
+  {{{https://github.com/mojohaus/jboss-packaging-maven-plugin}JBoss Packaging Maven Plugin}}
+  and has 'jboss-par' type, then that type should be specified explicitly.
 
   * <<classifier>> - sets the classifier of the artifact you want to
   configure if multiple artifacts matches the groupId/artifactId/type. Use
@@ -278,7 +280,9 @@ EAR Modules
   * <<artifactId>> - sets the artifactId of the artifact you want to configure.
 
   * <<type>> - sets the type of the artifact you want to configure.
-  Default is 'sar'.
+  Default is 'sar'. If the artifact you want to configure is built with
+  {{{https://github.com/mojohaus/jboss-packaging-maven-plugin}JBoss Packaging Maven Plugin}}
+  and has 'jboss-sar' type, then that type should be specified explicitly.
 
   * <<classifier>> - sets the classifier of the artifact you want to
   configure if multiple artifacts matches the groupId/artifactId/type. Use
@@ -388,7 +392,9 @@ EAR Modules
   * <<artifactId>> - sets the artifactId of artifact you want to configure.
 
   * <<type>> - sets the type of the artifact you want to configure.
-  Default is 'har'.
+  Default is 'har'. If the artifact you want to configure is built with
+  {{{https://github.com/mojohaus/jboss-packaging-maven-plugin}JBoss Packaging Maven Plugin}}
+  and has 'jboss-har' type, then that type should be specified explicitly.
 
   * <<classifier>> - sets the classifier of the artifact you want to
   configure if multiple artifacts matches the groupId/artifactId/type. Use
