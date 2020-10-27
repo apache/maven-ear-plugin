@@ -1000,14 +1000,14 @@ public class EarMojoIT
      * Ensures that test JAR dependency of WAR is handled as regular JAR in terms of packaging and manifest modification
      * when skinnyWars option is turned on.
      */
-    public void testProject092()
+    public void testProject095()
         throws Exception
     {
         final String warModule = "eartest-war-sample-two-1.0.war";
         final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
         final String jarSampleThreeLibrary = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
         final String jarSampleFourTestLibrary = "lib/eartest-jar-sample-four-1.0-tests.jar";
-        doTestProject( "project-092", "ear",
+        doTestProject( "project-095", "ear",
             new String[] { warModule, jarSampleTwoLibrary, jarSampleThreeLibrary, jarSampleFourTestLibrary },
             new boolean[] { false, false, false, false },
             new String[] { warModule },
@@ -1020,7 +1020,7 @@ public class EarMojoIT
      * Ensures that test JAR dependency representing Java module is described in deployment descriptor
      * if includeInApplicationXml property of module is {@code true}.
      */
-    public void testProject093()
+    public void testProject096()
         throws Exception
     {
         final String warModule = "eartest-war-sample-two-1.0.war";
@@ -1028,7 +1028,7 @@ public class EarMojoIT
         final String jarSampleThreeLibrary = "eartest-jar-sample-three-with-deps-1.0.jar";
         final String jarSampleFourTestLibrary = "eartest-jar-sample-four-1.0-tests.jar";
         final String jarSampleFiveLibrary = "eartest-jar-sample-five-1.0.jar";
-        doTestProject( "project-093", "ear",
+        doTestProject( "project-096", "ear",
             new String[] { warModule, jarSampleTwoLibrary, jarSampleThreeLibrary, jarSampleFourTestLibrary, jarSampleFiveLibrary },
             new boolean[] { false, false, false, false, false },
             new String[] { warModule },
@@ -1041,7 +1041,7 @@ public class EarMojoIT
      * Ensures that artifacts with jboss-sar, jboss-har and jboss-par types are packaged in EAR and
      * described in deployment descriptor when respective types are configured for EAR modules.
      */
-    public void testProject094()
+    public void testProject097()
         throws Exception
     {
         final String warModule = "eartest-war-sample-three-1.0.war";
@@ -1050,6 +1050,6 @@ public class EarMojoIT
         final String parSampleTwo = "eartest-par-sample-one-1.0.par";
         final String[] artifacts = { warModule, sarSampleTwo, harSampleTwo, parSampleTwo };
         final boolean[] artifactsDirectory = { false, false, false, false };
-        doTestProject( "project-094", "ear", artifacts, artifactsDirectory, null, null, null , true );
+        doTestProject( "project-097", "ear", artifacts, artifactsDirectory, null, null, null , true );
     }
 }
