@@ -287,7 +287,7 @@ public class EarMojoIT
     }
 
     /**
-     * Builds an EAR and make sure that a classified dependency with mutiple candidates is detected when specifying the
+     * Builds an EAR and make sure that a classified dependency with multiple candidates is detected when specifying the
      * classifier.
      */
     public void testProject025()
@@ -299,7 +299,7 @@ public class EarMojoIT
     }
 
     /**
-     * Builds an EAR and make sure that the build fails if a unclassifed module configuration with mutiple candidates is
+     * Builds an EAR and make sure that the build fails if a unclassifed module configuration with multiple candidates is
      * specified.
      */
     public void testProject026()
@@ -426,7 +426,7 @@ public class EarMojoIT
     }
 
     /**
-     * Builds an EAR and make sure that a non-classified dependency with mutiple candidates is detected when specifying
+     * Builds an EAR and make sure that a non-classified dependency with multiple candidates is detected when specifying
      * the mainArtifactId as classifier.
      */
     public void testProject038()
