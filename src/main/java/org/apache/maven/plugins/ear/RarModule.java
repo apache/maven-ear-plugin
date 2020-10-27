@@ -37,12 +37,15 @@ public class RarModule
 
     private static final String RAR_MODULE = "connector";
 
+    private static final String DEFAULT_LIB_DIRECTORY = "/";
+
     /**
      * Create an instance.
      */
     public RarModule()
     {
         this.type = DEFAULT_ARTIFACT_TYPE;
+        this.libDirectory = DEFAULT_LIB_DIRECTORY;
     }
 
     /**
@@ -51,6 +54,7 @@ public class RarModule
     public RarModule( Artifact a )
     {
         super( a );
+        this.libDirectory = DEFAULT_LIB_DIRECTORY;
     }
 
     /**
