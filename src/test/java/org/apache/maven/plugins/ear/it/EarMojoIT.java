@@ -1006,10 +1006,10 @@ public class EarMojoIT
      * modules. Additionally this test ensures that movement of JARs is not performed for modules which
      * libDirectory property doesn't point to the right module entry containing JAR libraries packaged into module.
      */
-    public void testProject093()
+    public void testProject092()
         throws Exception
     {
-        final String projectName = "project-093";
+        final String projectName = "project-092";
         final String earModuleName = "ear";
         final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
         final String jarSampleTwoLibrary = "jar-sample-two-1.0.jar";
@@ -1072,10 +1072,10 @@ public class EarMojoIT
      * then movement of JARs and modification of manifest Class-Path entry is performed only for WAR module and not for
      * SAR, HAR and RAR modules.
      */
-    public void testProject095()
+    public void testProject093()
         throws Exception
     {
-        final String projectName = "project-095";
+        final String projectName = "project-093";
         final String earModuleName = "ear";
         final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
         final String jarSampleTwoLibrary = "jar-sample-two-1.0.jar";
@@ -1126,10 +1126,10 @@ public class EarMojoIT
      * then movement of JARs and modification of manifest Class-Path entry is not performed for WAR, SAR, HAR and
      * RAR modules.
      */
-    public void testProject096()
+    public void testProject094()
         throws Exception
     {
-        final String projectName = "project-096";
+        final String projectName = "project-094";
         final String earModuleName = "ear";
         final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
         final String jarSampleTwoLibrary = "jar-sample-two-1.0.jar";

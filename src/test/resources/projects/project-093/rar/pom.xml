@@ -33,6 +33,10 @@ under the License.
   <dependencies>
     <dependency>
       <groupId>eartest</groupId>
+      <artifactId>jar-sample-one</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>eartest</groupId>
       <artifactId>jar-sample-three-with-deps</artifactId>
     </dependency>
   </dependencies>

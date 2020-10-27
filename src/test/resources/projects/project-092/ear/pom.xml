@@ -23,12 +23,20 @@ under the License.
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ear</groupId>
-    <artifactId>maven-ear-plugin-test-project-093-parent</artifactId>
+    <artifactId>maven-ear-plugin-test-project-092-parent</artifactId>
     <version>99.0</version>
   </parent>
-  <artifactId>maven-ear-plugin-test-project-093</artifactId>
+  <artifactId>maven-ear-plugin-test-project-092</artifactId>
   <packaging>ear</packaging>
   <dependencies>
+    <dependency>
+      <groupId>eartest</groupId>
+      <artifactId>jar-sample-one</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>eartest</groupId>
+      <artifactId>jar-sample-two</artifactId>
+    </dependency>
     <dependency>
       <groupId>eartest</groupId>
       <artifactId>jar-sample-three-with-deps</artifactId>
@@ -42,25 +50,21 @@ under the License.
       <groupId>eartest</groupId>
       <artifactId>sar-sample-two</artifactId>
       <type>jboss-sar</type>
-      <!-- Workaround for https://github.com/mojohaus/jboss-packaging-maven-plugin/issues/1 -->
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>eartest</groupId>
+      <artifactId>sar-sample-three</artifactId>
+      <type>jboss-sar</type>
+    </dependency>
+    <dependency>
+      <groupId>eartest</groupId>
+      <artifactId>sar-sample-four</artifactId>
+      <type>jboss-sar</type>
     </dependency>
     <dependency>
       <groupId>eartest</groupId>
       <artifactId>har-sample-two</artifactId>
       <type>jboss-har</type>
-      <!-- Workaround for https://github.com/mojohaus/jboss-packaging-maven-plugin/issues/1 -->
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>eartest</groupId>
@@ -76,8 +80,8 @@ under the License.
         <version>@project.version@</version>
         <configuration>
           <version>6</version>
-          <defaultLibBundleDir>lib</defaultLibBundleDir>
-          <skinnyWars>true</skinnyWars>
+          <defaultLibBundleDir>libs</defaultLibBundleDir>
+          <skinnyModules>true</skinnyModules>
           <artifactTypeMappings>
             <artifactTypeMapping type="jboss-sar" mapping="sar"/>
             <artifactTypeMapping type="jboss-har" mapping="har"/>
@@ -85,6 +89,23 @@ under the License.
           <jboss>
             <version>5</version>
           </jboss>
+          <modules>
+            <sarModule>
+              <groupId>eartest</groupId>
+              <artifactId>sar-sample-two</artifactId>
+              <libDirectory>libraries</libDirectory>
+            </sarModule>
+            <sarModule>
+              <groupId>eartest</groupId>
+              <artifactId>sar-sample-three</artifactId>
+              <libDirectory>/</libDirectory>
+            </sarModule>
+            <sarModule>
+              <groupId>eartest</groupId>
+              <artifactId>sar-sample-four</artifactId>
+              <libDirectory>not-existing-entry</libDirectory>
+            </sarModule>
+          </modules>
         </configuration>
       </plugin>
     </plugins>

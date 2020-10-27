@@ -26,12 +26,6 @@ under the License.
     <service>eartest-sar-sample-two-1.0.sar</service>
   </module>
   <module>
-    <service>eartest-sar-sample-three-1.0.sar</service>
-  </module>
-  <module>
-    <service>eartest-sar-sample-four-1.0.sar</service>
-  </module>
-  <module>
     <har>eartest-har-sample-two-1.0.har</har>
   </module>
 </jboss-app>

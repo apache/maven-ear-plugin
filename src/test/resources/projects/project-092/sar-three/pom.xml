@@ -23,13 +23,13 @@ under the License.
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ear</groupId>
-    <artifactId>maven-ear-plugin-test-project-093-parent</artifactId>
+    <artifactId>maven-ear-plugin-test-project-092-parent</artifactId>
     <version>99.0</version>
   </parent>
   <groupId>eartest</groupId>
-  <artifactId>war-sample-three</artifactId>
+  <artifactId>sar-sample-three</artifactId>
   <version>1.0</version>
-  <packaging>war</packaging>
+  <packaging>jboss-sar</packaging>
   <dependencies>
     <dependency>
       <groupId>eartest</groupId>
@@ -39,9 +39,11 @@ under the License.
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jboss-packaging-maven-plugin</artifactId>
+        <extensions>true</extensions>
         <configuration>
+          <libDirectory>\${project.build.directory}/\${project.build.finalName}</libDirectory>
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>

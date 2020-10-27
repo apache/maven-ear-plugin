@@ -17,16 +17,21 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<application xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd" version="6">
-  <display-name>maven-ear-plugin-test-project-093</display-name>
+
+<!DOCTYPE jboss-app PUBLIC
+	"-//JBoss//DTD Java EE Application 5.0//EN"
+	"http://www.jboss.org/j2ee/dtd/jboss-app_5_0.dtd">
+<jboss-app>
   <module>
-    <web>
-      <web-uri>eartest-war-sample-three-1.0.war</web-uri>
-      <context-root>/war-sample-three</context-root>
-    </web>
+    <service>eartest-sar-sample-two-1.0.sar</service>
   </module>
   <module>
-    <connector>eartest-rar-sample-one-1.0.rar</connector>
+    <service>eartest-sar-sample-three-1.0.sar</service>
   </module>
-  <library-directory>lib</library-directory>
-</application>
+  <module>
+    <service>eartest-sar-sample-four-1.0.sar</service>
+  </module>
+  <module>
+    <har>eartest-har-sample-two-1.0.har</har>
+  </module>
+</jboss-app>

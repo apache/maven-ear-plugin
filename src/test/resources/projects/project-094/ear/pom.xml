@@ -23,16 +23,12 @@ under the License.
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ear</groupId>
-    <artifactId>maven-ear-plugin-test-project-093-parent</artifactId>
+    <artifactId>maven-ear-plugin-test-project-094-parent</artifactId>
     <version>99.0</version>
   </parent>
-  <artifactId>maven-ear-plugin-test-project-093</artifactId>
+  <artifactId>maven-ear-plugin-test-project-094</artifactId>
   <packaging>ear</packaging>
   <dependencies>
-    <dependency>
-      <groupId>eartest</groupId>
-      <artifactId>jar-sample-three-with-deps</artifactId>
-    </dependency>
     <dependency>
       <groupId>eartest</groupId>
       <artifactId>war-sample-three</artifactId>
@@ -76,8 +72,6 @@ under the License.
         <version>@project.version@</version>
         <configuration>
           <version>6</version>
-          <defaultLibBundleDir>lib</defaultLibBundleDir>
-          <skinnyWars>true</skinnyWars>
           <artifactTypeMappings>
             <artifactTypeMapping type="jboss-sar" mapping="sar"/>
             <artifactTypeMapping type="jboss-har" mapping="har"/>
