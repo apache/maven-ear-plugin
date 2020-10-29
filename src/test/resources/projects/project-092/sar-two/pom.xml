@@ -41,7 +41,6 @@ under the License.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jboss-packaging-maven-plugin</artifactId>
-        <extensions>true</extensions>
         <configuration>
           <libDirectory>\${project.build.directory}/\${project.build.finalName}/libraries</libDirectory>
           <archive>
