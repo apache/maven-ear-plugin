@@ -45,7 +45,6 @@ under the License.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jboss-packaging-maven-plugin</artifactId>
-        <extensions>true</extensions>
         <configuration>
           <archive>
             <manifest>
