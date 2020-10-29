@@ -30,13 +30,4 @@ under the License.
   <artifactId>sar-sample-two</artifactId>
   <version>1.0</version>
   <packaging>jboss-sar</packaging>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jboss-packaging-maven-plugin</artifactId>
-        <extensions>true</extensions>
-      </plugin>
-    </plugins>
-  </build>
 </project>
