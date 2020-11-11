@@ -218,7 +218,7 @@ public class EarMojo
      * skinnyModules is {@code true} but {@link #skinnyWars} is {@code false} (explicitly or by default) then all
      * modules including WARs are skinny.
      *
-     * @since 3.1.1
+     * @since 3.2.0
      */
     @Parameter( defaultValue = "false" )
     private boolean skinnyModules;

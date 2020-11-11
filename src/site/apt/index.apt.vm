@@ -63,7 +63,7 @@ ${project.name}
   For more information about the Java EE technology, please visit
   {{http://www.oracle.com/us/technologies/java/enterprise-edition/overview/index.html}}.
 
-* Version 3.1.1
+* Version 3.2.0
 
   {{{./ear-mojo.html#skinnyModules}skinnyModules}} parameter and libDirectory property
   of EAR modules have been implemented.
