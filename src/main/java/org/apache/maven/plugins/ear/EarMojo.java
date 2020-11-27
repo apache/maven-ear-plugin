@@ -27,9 +27,11 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -468,7 +470,8 @@ public class EarMojo
                     if ( sourceFile.lastModified() > destinationFile.lastModified() )
                     {
                         getLog().info( "Copying artifact [" + module + "] to [" + module.getUri() + "]" );
-                        FileUtils.copyFile( sourceFile, destinationFile );
+                        Files.copy( sourceFile.toPath(), destinationFile.toPath(), LinkOption.NOFOLLOW_LINKS,
+                                   StandardCopyOption.REPLACE_EXISTING );
 
                         if ( module.changeManifestClasspath() && ( skinnyWars || module.getLibDir() == null ) )
                         {
@@ -708,7 +711,8 @@ public class EarMojo
         }
         else
         {
-            FileUtils.copyFile( source, target );
+            Files.copy( source.toPath(), target.toPath(), LinkOption.NOFOLLOW_LINKS,
+                       StandardCopyOption.REPLACE_EXISTING );
         }
     }
 
