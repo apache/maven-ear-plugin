@@ -470,9 +470,9 @@ public class EarMojo
                     if ( sourceFile.lastModified() > destinationFile.lastModified() )
                     {
                         getLog().info( "Copying artifact [" + module + "] to [" + module.getUri() + "]" );
-                        Files.copy( sourceFile.toPath(), destinationFile.toPath(), LinkOption.NOFOLLOW_LINKS,
-                                   StandardCopyOption.REPLACE_EXISTING );
-
+                        createParentIfNecessary( destinationFile );
+                        Files.copy( sourceFile.toPath(), destinationFile.toPath(),
+                            LinkOption.NOFOLLOW_LINKS, StandardCopyOption.REPLACE_EXISTING );
                         if ( module.changeManifestClasspath() && ( skinnyWars || module.getLibDir() == null ) )
                         {
                             changeManifestClasspath( module, destinationFile, javaEEVersion );
@@ -698,21 +698,26 @@ public class EarMojo
     private void copyFile( File source, File target )
         throws MavenFilteringException, IOException, MojoExecutionException
     {
+        createParentIfNecessary( target );
         if ( filtering && !isNonFilteredExtension( source.getName() ) )
         {
-            // Silly that we have to do this ourselves
-            File parentDirectory = target.getParentFile();
-            if ( parentDirectory != null && !parentDirectory.exists() )
-            {
-                Files.createDirectories( parentDirectory.toPath() );
-            }
-
             mavenFileFilter.copyFile( source, target, true, getFilterWrappers(), encoding );
         }
         else
         {
             Files.copy( source.toPath(), target.toPath(), LinkOption.NOFOLLOW_LINKS,
                        StandardCopyOption.REPLACE_EXISTING );
+        }
+    }
+
+    private void createParentIfNecessary( File target )
+        throws IOException
+    {
+        // Silly that we have to do this ourselves
+        File parentDirectory = target.getParentFile();
+        if ( parentDirectory != null && !parentDirectory.exists() )
+        {
+            Files.createDirectories( parentDirectory.toPath() );
         }
     }
 
