@@ -86,7 +86,7 @@
     <javaVersion>7</javaVersion>
     <surefire.version>2.22.2</surefire.version>
     <project.build.outputTimestamp>2020-09-26T20:10:30Z</project.build.outputTimestamp>
-    <mavenWarPluginVersion>2.1.1</mavenWarPluginVersion>
+    <mavenWarPluginVersion>3.3.1</mavenWarPluginVersion>
     <mavenCompilerPluginVersion>2.5.1</mavenCompilerPluginVersion>
     <mavenEjbPluginVersion>2.3</mavenEjbPluginVersion>
     <mavenRarPluginVersion>2.4</mavenRarPluginVersion>
@@ -94,6 +94,7 @@
     <invoker.skip>false</invoker.skip>
     <invoker.install.skip>${invoker.skip}</invoker.install.skip>
     <invoker.it.skip>${invoker.skip}</invoker.it.skip>
+    <invoker.cloneClean>true</invoker.cloneClean>
   </properties>
 
   <dependencies>
@@ -158,6 +159,12 @@
       <version>3.3.3</version>
     </dependency>
     <dependency>
+      <groupId>org.sonatype.sisu</groupId>
+      <artifactId>sisu-inject-plexus</artifactId>
+      <version>1.4.3.2</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.maven.shared</groupId>
       <artifactId>maven-verifier</artifactId>
       <version>1.6</version>
@@ -179,12 +186,6 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.13.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>2.28.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -293,6 +294,7 @@
               </extraArtifacts>
               <skipInstallation>${invoker.install.skip}</skipInstallation>
               <skipInvocation>${invoker.it.skip}</skipInvocation>
+              <cloneClean>${invoker.cloneClean}</cloneClean>
             </configuration>
           </plugin>
           <plugin>
