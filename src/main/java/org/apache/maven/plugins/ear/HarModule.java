@@ -36,12 +36,15 @@ public class HarModule
      */
     public static final String DEFAULT_ARTIFACT_TYPE = "har";
 
+    private static final String DEFAULT_LIB_DIRECTORY = "lib";
+
     /**
      * Create an instance.
      */
     public HarModule()
     {
         this.type = DEFAULT_ARTIFACT_TYPE;
+        this.libDirectory = DEFAULT_LIB_DIRECTORY;
     }
 
     /**
@@ -50,6 +53,7 @@ public class HarModule
     public HarModule( Artifact a )
     {
         super( a );
+        this.libDirectory = DEFAULT_LIB_DIRECTORY;
     }
 
     /**
