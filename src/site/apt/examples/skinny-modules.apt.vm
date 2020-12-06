@@ -41,7 +41,7 @@ Creating Skinny Modules
 
   * {{{../modules.html#harModule}HAR}}
 
- Starting with version 3.1.1, the Maven EAR Plugin supports referencing
+ Starting with version 3.2.0, the Maven EAR Plugin supports referencing
  external JARs packaged within the EAR via the <<<Class-Path>>> setting
  in EAR module <<<MANIFEST.MF>>>.
 
