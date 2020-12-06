@@ -39,6 +39,8 @@ public class WebModule
 
     private static final String CONTEXT_ROOT_FIELD = "context-root";
 
+    private static final String DEFAULT_LIB_DIRECTORY = "WEB-INF/lib";
+
     private String contextRoot;
 
     /**
@@ -46,6 +48,7 @@ public class WebModule
      */
     public WebModule()
     {
+        this.libDirectory = DEFAULT_LIB_DIRECTORY;
     }
 
     /**
@@ -55,6 +58,7 @@ public class WebModule
     {
         super( a );
         this.contextRoot = getDefaultContextRoot( a );
+        this.libDirectory = DEFAULT_LIB_DIRECTORY;
     }
 
     /**
@@ -128,13 +132,5 @@ public class WebModule
             throw new NullPointerException( "Artifact could not be null." );
         }
         return "/" + a.getArtifactId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getLibDir()
-    {
-        return "WEB-INF/lib";
     }
 }

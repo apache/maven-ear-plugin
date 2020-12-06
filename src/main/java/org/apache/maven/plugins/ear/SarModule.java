@@ -39,11 +39,14 @@ public class SarModule
 {
     private static final String SAR_MODULE = "connector";
 
+    private static final String DEFAULT_LIB_DIRECTORY = "lib";
+
     /**
      * Create an instance.
      */
     public SarModule()
     {
+        this.libDirectory = DEFAULT_LIB_DIRECTORY;
     }
 
     /**
@@ -52,6 +55,7 @@ public class SarModule
     public SarModule( Artifact a )
     {
         super( a );
+        this.libDirectory = DEFAULT_LIB_DIRECTORY;
     }
 
     /**

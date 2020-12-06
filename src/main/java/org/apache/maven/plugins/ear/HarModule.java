@@ -31,11 +31,14 @@ public class HarModule
     extends AbstractEarModule
     implements JbossEarModule
 {
+    private static final String DEFAULT_LIB_DIRECTORY = "lib";
+
     /**
      * Create an instance.
      */
     public HarModule()
     {
+        this.libDirectory = DEFAULT_LIB_DIRECTORY;
     }
 
     /**
@@ -44,6 +47,7 @@ public class HarModule
     public HarModule( Artifact a )
     {
         super( a );
+        this.libDirectory = DEFAULT_LIB_DIRECTORY;
     }
 
     /**
