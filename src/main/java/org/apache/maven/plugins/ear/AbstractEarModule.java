@@ -91,6 +91,14 @@ public abstract class AbstractEarModule
 
     private String moduleId;
 
+    /**
+     * Directory of module which contains libraries packaged into module. {@code null} value means that module
+     * doesn't contain any library. Each module type can provide default value for this directory and this option
+     * can be used to override that default value. If module libraries are located at the root of module then use
+     * single slash (/) to configure that in POM. That is, a single slash is treated as an empty string.
+     */
+    protected String libDirectory;
+
     // This is injected once the module has been built.
 
     /**
@@ -231,11 +239,17 @@ public abstract class AbstractEarModule
      */
     public String getBundleDir()
     {
-        if ( bundleDir != null )
-        {
-            bundleDir = cleanBundleDir( bundleDir );
-        }
+        bundleDir = cleanArchivePath( bundleDir );
         return bundleDir;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getLibDir()
+    {
+        libDirectory = cleanArchivePath( libDirectory );
+        return libDirectory;
     }
 
     /**
@@ -360,34 +374,34 @@ public abstract class AbstractEarModule
     }
 
     /**
-     * Cleans the bundle directory so that it might be used properly.
+     * Cleans the path pointing to the resource inside the archive so that it might be used properly.
      * 
-     * @param bundleDir the bundle directory to clean
-     * @return the cleaned bundle directory
+     * @param path the path to clean, can be {@code null}
+     * @return the cleaned path or {@code null} if given {@code path} is {@code null}
      */
-    static String cleanBundleDir( String bundleDir )
+    static String cleanArchivePath( String path )
     {
-        if ( bundleDir == null )
+        if ( path == null )
         {
             return null;
         }
 
         // Using slashes
-        bundleDir = bundleDir.replace( '\\', '/' );
+        path = path.replace( '\\', '/' );
 
-        // Remove '/' prefix if any so that directory is a relative path
-        if ( bundleDir.startsWith( "/" ) )
+        // Remove '/' prefix if any so that path is a relative path
+        if ( path.startsWith( "/" ) )
         {
-            bundleDir = bundleDir.substring( 1, bundleDir.length() );
+            path = path.substring( 1, path.length() );
         }
 
-        if ( bundleDir.length() > 0 && !bundleDir.endsWith( "/" ) )
+        if ( path.length() > 0 && !path.endsWith( "/" ) )
         {
-            // Adding '/' suffix to specify a directory structure if it is not empty
-            bundleDir = bundleDir + "/";
+            // Adding '/' suffix to specify a path structure if it is not empty
+            path = path + "/";
         }
 
-        return bundleDir;
+        return path;
     }
 
     /**
@@ -426,13 +440,5 @@ public abstract class AbstractEarModule
     public boolean changeManifestClasspath()
     {
         return true;
-    }
-
-    /**
-     * @return always {@code null}
-     */
-    public String getLibDir()
-    {
-        return null;
     }
 }

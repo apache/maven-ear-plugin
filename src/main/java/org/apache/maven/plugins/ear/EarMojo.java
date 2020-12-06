@@ -221,6 +221,18 @@ public class EarMojo
     private boolean skinnyWars;
 
     /**
+     * Whether to create skinny EAR modules or not. A skinny EAR module is a WAR, SAR, HAR, RAR or WSR module that
+     * does not contain all of its dependencies in it. Instead those dependencies are shared between the WARs, SARs,
+     * HARs, RARs and WSRs through the EAR. This option takes precedence over {@link #skinnyWars} option. That is if
+     * skinnyModules is {@code true} but {@link #skinnyWars} is {@code false} (explicitly or by default) then all
+     * modules including WARs are skinny.
+     *
+     * @since 3.2.0
+     */
+    @Parameter( defaultValue = "false" )
+    private boolean skinnyModules;
+
+    /**
      * The Plexus EAR archiver to create the output archive.
      */
     @Component( role = Archiver.class, hint = "ear" )
@@ -458,7 +470,7 @@ public class EarMojo
                     }
                     unpack( sourceFile, destinationFile, outdatedResources );
 
-                    if ( module.changeManifestClasspath() && ( skinnyWars || module.getLibDir() == null ) )
+                    if ( module.changeManifestClasspath() )
                     {
                         changeManifestClasspath( module, destinationFile, javaEEVersion );
                     }
@@ -470,7 +482,7 @@ public class EarMojo
                         getLog().info( "Copying artifact [" + module + "] to [" + module.getUri() + "]" );
                         FileUtils.copyFile( sourceFile, destinationFile );
 
-                        if ( module.changeManifestClasspath() && ( skinnyWars || module.getLibDir() == null ) )
+                        if ( module.changeManifestClasspath() )
                         {
                             changeManifestClasspath( module, destinationFile, javaEEVersion );
                         }
@@ -748,6 +760,11 @@ public class EarMojo
     private void changeManifestClasspath( EarModule module, File original, JavaEEVersion javaEEVersion )
         throws MojoFailureException
     {
+        final String moduleLibDir = module.getLibDir();
+        if ( !( ( moduleLibDir == null ) || skinnyModules || ( skinnyWars && module instanceof WebModule ) ) )
+        {
+            return;
+        }
         try
         {
             File workDirectory;
@@ -808,16 +825,16 @@ public class EarMojo
                 classPath = new Attribute( "Class-Path", "" );
             }
 
-            // Remove JAR modules
-            for ( JarModule jm : getAllJarModules() )
+            if ( ( moduleLibDir != null ) && ( skinnyModules || ( skinnyWars && module instanceof WebModule ) ) )
             {
-                if ( module.getLibDir() != null )
+                // Remove JAR modules
+                for ( JarModule jm : getAllJarModules() )
                 {
                     // MEAR-189:
                     // We use the original name, cause in case of outputFileNameMapping
                     // we could not not delete it and it will end up in the resulting EAR and the WAR
                     // will not be cleaned up.
-                    final File workLibDir = new File( workDirectory, module.getLibDir() );
+                    final File workLibDir = new File( workDirectory, moduleLibDir );
                     File artifact = new File( workLibDir, module.getArtifact().getFile().getName() );
 
                     // MEAR-217
