@@ -27,9 +27,11 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -480,9 +482,10 @@ public class EarMojo
                     if ( sourceFile.lastModified() > destinationFile.lastModified() )
                     {
                         getLog().info( "Copying artifact [" + module + "] to [" + module.getUri() + "]" );
-                        FileUtils.copyFile( sourceFile, destinationFile );
-
-                        if ( module.changeManifestClasspath() )
+                        createParentIfNecessary( destinationFile );
+                        Files.copy( sourceFile.toPath(), destinationFile.toPath(),
+                            LinkOption.NOFOLLOW_LINKS, StandardCopyOption.REPLACE_EXISTING );
+                        if ( module.changeManifestClasspath() && ( skinnyWars || module.getLibDir() == null ) )
                         {
                             changeManifestClasspath( module, destinationFile, javaEEVersion );
                         }
@@ -707,20 +710,26 @@ public class EarMojo
     private void copyFile( File source, File target )
         throws MavenFilteringException, IOException, MojoExecutionException
     {
+        createParentIfNecessary( target );
         if ( filtering && !isNonFilteredExtension( source.getName() ) )
         {
-            // Silly that we have to do this ourselves
-            File parentDirectory = target.getParentFile();
-            if ( parentDirectory != null && !parentDirectory.exists() )
-            {
-                Files.createDirectories( parentDirectory.toPath() );
-            }
-
             mavenFileFilter.copyFile( source, target, true, getFilterWrappers(), encoding );
         }
         else
         {
-            FileUtils.copyFile( source, target );
+            Files.copy( source.toPath(), target.toPath(), LinkOption.NOFOLLOW_LINKS,
+                       StandardCopyOption.REPLACE_EXISTING );
+        }
+    }
+
+    private void createParentIfNecessary( File target )
+        throws IOException
+    {
+        // Silly that we have to do this ourselves
+        File parentDirectory = target.getParentFile();
+        if ( parentDirectory != null && !parentDirectory.exists() )
+        {
+            Files.createDirectories( parentDirectory.toPath() );
         }
     }
 
