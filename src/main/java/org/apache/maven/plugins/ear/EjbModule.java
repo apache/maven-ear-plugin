@@ -30,6 +30,11 @@ import org.codehaus.plexus.util.xml.XMLWriter;
 public class EjbModule
     extends AbstractEarModule
 {
+    /**
+     * Default type of the artifact of an EJB module.
+     */
+    public static final String DEFAULT_ARTIFACT_TYPE = "ejb";
+
     private static final String EJB_MODULE = "ejb";
 
     /**
@@ -37,6 +42,7 @@ public class EjbModule
      */
     public EjbModule()
     {
+        this.type = DEFAULT_ARTIFACT_TYPE;
     }
 
     /**
@@ -60,13 +66,5 @@ public class EjbModule
         writeAltDeploymentDescriptor( writer, version );
 
         writer.endElement();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getType()
-    {
-        return EJB_MODULE;
     }
 }

@@ -29,13 +29,17 @@ import org.apache.maven.artifact.Artifact;
 public class EjbClientModule
     extends JarModule
 {
+    /**
+     * Default type of the artifact of an ejb client module.
+     */
+    public static final String DEFAULT_ARTIFACT_TYPE = "ejb-client";
 
     /**
      * Create an instance.
      */
     public EjbClientModule()
     {
-        super();
+        this.type = DEFAULT_ARTIFACT_TYPE;
     }
 
     /**
@@ -45,13 +49,5 @@ public class EjbClientModule
     public EjbClientModule( Artifact a, String defaultLibBundleDir )
     {
         super( a, defaultLibBundleDir, Boolean.FALSE );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getType()
-    {
-        return "ejb-client";
     }
 }

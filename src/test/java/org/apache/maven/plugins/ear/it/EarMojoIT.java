@@ -287,7 +287,7 @@ public class EarMojoIT
     }
 
     /**
-     * Builds an EAR and make sure that a classified dependency with mutiple candidates is detected when specifying the
+     * Builds an EAR and make sure that a classified dependency with multiple candidates is detected when specifying the
      * classifier.
      */
     public void testProject025()
@@ -299,7 +299,7 @@ public class EarMojoIT
     }
 
     /**
-     * Builds an EAR and make sure that the build fails if a unclassifed module configuration with mutiple candidates is
+     * Builds an EAR and make sure that the build fails if a unclassifed module configuration with multiple candidates is
      * specified.
      */
     public void testProject026()
@@ -426,7 +426,7 @@ public class EarMojoIT
     }
 
     /**
-     * Builds an EAR and make sure that a non-classified dependency with mutiple candidates is detected when specifying
+     * Builds an EAR and make sure that a non-classified dependency with multiple candidates is detected when specifying
      * the mainArtifactId as classifier.
      */
     public void testProject038()
@@ -1158,5 +1158,62 @@ public class EarMojoIT
                 { harModuleLibDir + jarSampleOneLibrary, harModuleLibDir + jarSampleTwoLibrary, harModuleLibDir + jarSampleThreeLibrary },
                 { rarModuleLibDir + jarSampleOneLibrary, rarModuleLibDir + jarSampleTwoLibrary, rarModuleLibDir + jarSampleThreeLibrary } } ,
             null );
+    }
+
+    /**
+     * Ensures that test JAR dependency of WAR is handled as regular JAR in terms of packaging and manifest modification
+     * when skinnyWars option is turned on.
+     */
+    public void testProject095()
+        throws Exception
+    {
+        final String warModule = "eartest-war-sample-two-1.0.war";
+        final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
+        final String jarSampleFourTestLibrary = "lib/eartest-jar-sample-four-1.0-tests.jar";
+        doTestProject( "project-095", "ear",
+            new String[] { warModule, jarSampleTwoLibrary, jarSampleThreeLibrary, jarSampleFourTestLibrary },
+            new boolean[] { false, false, false, false },
+            new String[] { warModule },
+            new boolean[] { false },
+            new String[][] { { jarSampleFourTestLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary } },
+            true );
+    }
+
+    /**
+     * Ensures that test JAR dependency representing Java module is described in deployment descriptor
+     * if includeInApplicationXml property of module is {@code true}.
+     */
+    public void testProject096()
+        throws Exception
+    {
+        final String warModule = "eartest-war-sample-two-1.0.war";
+        final String jarSampleTwoLibrary = "eartest-jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "eartest-jar-sample-three-with-deps-1.0.jar";
+        final String jarSampleFourTestLibrary = "eartest-jar-sample-four-1.0-tests.jar";
+        final String jarSampleFiveLibrary = "eartest-jar-sample-five-1.0.jar";
+        doTestProject( "project-096", "ear",
+            new String[] { warModule, jarSampleTwoLibrary, jarSampleThreeLibrary, jarSampleFourTestLibrary, jarSampleFiveLibrary },
+            new boolean[] { false, false, false, false, false },
+            new String[] { warModule },
+            new boolean[] { false },
+            new String[][] { { jarSampleFourTestLibrary, jarSampleFiveLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary } },
+            true );
+    }
+
+    /**
+     * Ensures that artifacts with jboss-sar, jboss-har and jboss-par types are packaged in EAR and
+     * described in deployment descriptor when respective types are configured for EAR modules.
+     */
+    public void testProject097()
+        throws Exception
+    {
+        final String warModule = "eartest-war-sample-three-1.0.war";
+        final String sarSampleTwo = "eartest-sar-sample-two-1.0.sar";
+        final String harSampleTwo = "eartest-har-sample-two-1.0.har";
+        final String parSampleTwo = "eartest-par-sample-one-1.0.par";
+        final String[] artifacts = { warModule, sarSampleTwo, harSampleTwo, parSampleTwo };
+        final boolean[] artifactsDirectory = { false, false, false, false };
+        doTestProject( "project-097", "ear", artifacts, artifactsDirectory, null, null, null , true );
     }
 }

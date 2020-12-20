@@ -34,12 +34,30 @@ import org.apache.maven.plugins.ear.util.JavaEEVersion;
  */
 public final class EarModuleFactory
 {
+    private static final String TEST_JAR_ARTIFACT_TYPE = "test-jar";
+    private static final String JBOSS_PAR_ARTIFACT_TYPE = "jboss-par";
+    private static final String JBOSS_SAR_ARTIFACT_TYPE = "jboss-sar";
+    private static final String JBOSS_HAR_ARTIFACT_TYPE = "jboss-har";
+
     /**
      * The list of artifact types.
      */
-    public static final List<String> STANDARD_ARTIFACT_TYPE =
-        Collections.unmodifiableList( Arrays.asList( "jar", "ejb", "par", "ejb-client", "app-client", "rar", "war",
-                                                     "sar", "wsr", "har" ) );
+    private static final List<String> STANDARD_ARTIFACT_TYPES =
+        Collections.unmodifiableList( Arrays.asList(
+            JarModule.DEFAULT_ARTIFACT_TYPE,
+            EjbModule.DEFAULT_ARTIFACT_TYPE,
+            ParModule.DEFAULT_ARTIFACT_TYPE,
+            EjbClientModule.DEFAULT_ARTIFACT_TYPE,
+            AppClientModule.DEFAULT_ARTIFACT_TYPE,
+            RarModule.DEFAULT_ARTIFACT_TYPE,
+            WebModule.DEFAULT_ARTIFACT_TYPE,
+            SarModule.DEFAULT_ARTIFACT_TYPE,
+            WsrModule.DEFAULT_ARTIFACT_TYPE,
+            HarModule.DEFAULT_ARTIFACT_TYPE,
+            TEST_JAR_ARTIFACT_TYPE,
+            JBOSS_PAR_ARTIFACT_TYPE,
+            JBOSS_SAR_ARTIFACT_TYPE,
+            JBOSS_HAR_ARTIFACT_TYPE ) );
 
     /**
      * Creates a new {@link EarModule} based on the specified {@link Artifact} and the specified execution
@@ -70,19 +88,20 @@ public final class EarModuleFactory
             throw new UnknownArtifactTypeException( e.getMessage() + " for " + artifact.getArtifactId() );
         }
 
-        if ( "jar".equals( artifactType ) )
+        if ( JarModule.DEFAULT_ARTIFACT_TYPE.equals( artifactType ) || TEST_JAR_ARTIFACT_TYPE.equals( artifactType ) )
         {
             return new JarModule( artifact, defaultLibBundleDir, includeInApplicationXml );
         }
-        else if ( "ejb".equals( artifactType ) )
+        else if ( EjbModule.DEFAULT_ARTIFACT_TYPE.equals( artifactType ) )
         {
             return new EjbModule( artifact );
         }
-        else if ( "par".equals( artifactType ) )
+        else if ( ParModule.DEFAULT_ARTIFACT_TYPE.equals( artifactType )
+            || JBOSS_PAR_ARTIFACT_TYPE.equals( artifactType ) )
         {
             return new ParModule( artifact );
         }
-        else if ( "ejb-client".equals( artifactType ) )
+        else if ( EjbClientModule.DEFAULT_ARTIFACT_TYPE.equals( artifactType ) )
         {
             // Somewhat weird way to tackle the problem described in MEAR-85
             if ( javaEEVersion.le( JavaEEVersion.ONE_DOT_FOUR ) )
@@ -94,27 +113,29 @@ public final class EarModuleFactory
                 return new EjbClientModule( artifact, defaultLibBundleDir );
             }
         }
-        else if ( "app-client".equals( artifactType ) )
+        else if ( AppClientModule.DEFAULT_ARTIFACT_TYPE.equals( artifactType ) )
         {
             return new AppClientModule( artifact );
         }
-        else if ( "rar".equals( artifactType ) )
+        else if ( RarModule.DEFAULT_ARTIFACT_TYPE.equals( artifactType ) )
         {
             return new RarModule( artifact );
         }
-        else if ( "war".equals( artifactType ) )
+        else if ( WebModule.DEFAULT_ARTIFACT_TYPE.equals( artifactType ) )
         {
             return new WebModule( artifact );
         }
-        else if ( "sar".equals( artifactType ) )
+        else if ( SarModule.DEFAULT_ARTIFACT_TYPE.equals( artifactType )
+            || JBOSS_SAR_ARTIFACT_TYPE.equals( artifactType ) )
         {
             return new SarModule( artifact );
         }
-        else if ( "wsr".equals( artifactType ) )
+        else if ( WsrModule.DEFAULT_ARTIFACT_TYPE.equals( artifactType ) )
         {
             return new WsrModule( artifact );
         }
-        else if ( "har".equals( artifactType ) )
+        else if ( HarModule.DEFAULT_ARTIFACT_TYPE.equals( artifactType )
+            || JBOSS_HAR_ARTIFACT_TYPE.equals( artifactType ) )
         {
             return new HarModule( artifact );
         }
@@ -131,7 +152,7 @@ public final class EarModuleFactory
      */
     public static List<String> getStandardArtifactTypes()
     {
-        return STANDARD_ARTIFACT_TYPE;
+        return STANDARD_ARTIFACT_TYPES;
     }
 
     /**
@@ -142,7 +163,7 @@ public final class EarModuleFactory
      */
     public static boolean isStandardArtifactType( final String type )
     {
-        return STANDARD_ARTIFACT_TYPE.contains( type );
+        return STANDARD_ARTIFACT_TYPES.contains( type );
     }
 
 }

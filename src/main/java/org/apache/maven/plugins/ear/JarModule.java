@@ -38,6 +38,11 @@ import java.util.Set;
 public class JarModule
     extends AbstractEarModule
 {
+    /**
+     * Default type of the artifact of a non Java EE module such as third party library.
+     */
+    public static final String DEFAULT_ARTIFACT_TYPE = "jar";
+
     private Boolean includeInApplicationXml = Boolean.FALSE;
 
     /**
@@ -45,7 +50,7 @@ public class JarModule
      */
     public JarModule()
     {
-        super();
+        this.type = DEFAULT_ARTIFACT_TYPE;
     }
 
     /**
@@ -93,14 +98,6 @@ public class JarModule
         // If the defaultLibBundleDir is set and no bundle dir is
         // set, set the default as bundle dir
         setLibBundleDir( earExecutionContext.getDefaultLibBundleDir() );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getType()
-    {
-        return "jar";
     }
 
     private void setLibBundleDir( String defaultLibBundleDir )

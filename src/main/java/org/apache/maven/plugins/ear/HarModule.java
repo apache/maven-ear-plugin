@@ -31,6 +31,11 @@ public class HarModule
     extends AbstractEarModule
     implements JbossEarModule
 {
+    /**
+     * Default type of the artifact of a JBoss Hibernate archive.
+     */
+    public static final String DEFAULT_ARTIFACT_TYPE = "har";
+
     private static final String DEFAULT_LIB_DIRECTORY = "lib";
 
     /**
@@ -38,6 +43,7 @@ public class HarModule
      */
     public HarModule()
     {
+        this.type = DEFAULT_ARTIFACT_TYPE;
         this.libDirectory = DEFAULT_LIB_DIRECTORY;
     }
 
@@ -70,13 +76,5 @@ public class HarModule
         writer.writeText( getUri() );
         writer.endElement();
         writer.endElement();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getType()
-    {
-        return "har";
     }
 }

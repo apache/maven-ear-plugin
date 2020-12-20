@@ -90,6 +90,7 @@
     <mavenCompilerPluginVersion>2.5.1</mavenCompilerPluginVersion>
     <mavenEjbPluginVersion>2.3</mavenEjbPluginVersion>
     <mavenRarPluginVersion>2.4</mavenRarPluginVersion>
+    <mavenJarPluginVersion>3.2.0</mavenJarPluginVersion>
     <jbossPackagingPluginVersion>2.2</jbossPackagingPluginVersion>
     <invoker.skip>false</invoker.skip>
     <invoker.install.skip>${invoker.skip}</invoker.install.skip>
@@ -290,6 +291,7 @@
                 <extraArtifact>org.apache.maven.plugins:maven-compiler-plugin:${mavenCompilerPluginVersion}:jar</extraArtifact>
                 <extraArtifact>org.apache.maven.plugins:maven-ejb-plugin:${mavenEjbPluginVersion}:jar</extraArtifact>
                 <extraArtifact>org.apache.maven.plugins:maven-rar-plugin:${mavenRarPluginVersion}:jar</extraArtifact>
+                <extraArtifact>org.apache.maven.plugins:maven-jar-plugin:${mavenJarPluginVersion}:jar</extraArtifact>
                 <extraArtifact>org.codehaus.mojo:jboss-packaging-maven-plugin:${jbossPackagingPluginVersion}:jar</extraArtifact>
               </extraArtifacts>
               <skipInstallation>${invoker.install.skip}</skipInstallation>

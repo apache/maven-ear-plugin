@@ -522,10 +522,10 @@ public class EarMojo
             unpackTypesList = Arrays.asList( unpackTypes.split( "," ) );
             for ( String type : unpackTypesList )
             {
-                if ( !EarModuleFactory.STANDARD_ARTIFACT_TYPE.contains( type ) )
+                if ( !EarModuleFactory.isStandardArtifactType( type ) )
                 {
                     throw new MojoExecutionException( "Invalid type [" + type + "] supported types are "
-                        + EarModuleFactory.STANDARD_ARTIFACT_TYPE );
+                        + EarModuleFactory.getStandardArtifactTypes() );
                 }
             }
             getLog().debug( "Initialized unpack types " + unpackTypesList );
