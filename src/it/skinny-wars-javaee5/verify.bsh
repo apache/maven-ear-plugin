@@ -78,7 +78,9 @@ assertJar( String fileName, String[] includedEntries, String[] excludedEntries, 
                 throw new IllegalStateException( "Missing Class-Path entry in MANIFEST.MF of artifact: "
                     + fileName );
             }
-            String[] actualClassPathElements = manifestClassPath.split( " " );
+            manifestClassPath = manifestClassPath.trim();
+            String[] actualClassPathElements = manifestClassPath.length() == 0 ?
+                new String[0] : manifestClassPath.split( " " );
             if ( !Arrays.equals( expectedClassPathElements, actualClassPathElements ) )
             {
                 throw new IllegalStateException( "Invalid Class-Path entry in MANIFEST.MF of artifact: "
@@ -93,12 +95,12 @@ assertJar( String fileName, String[] includedEntries, String[] excludedEntries, 
 String[] includedEntries = {
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF",
-    "WEB-INF/lib/commons-lang-2.5.jar"
+    "WEB-INF/lib/commons-lang-2.6.jar"
 };
 
 String[] excludedEntries = {};
 
-String[] expectedClassPathElements = { "commons-lang-2.5.jar" };
+String[] expectedClassPathElements = { "commons-lang-2.6.jar" };
 
 assertJar( "war-module1/target/war-module1-1.0.war", includedEntries, excludedEntries, true,
     expectedClassPathElements );
@@ -108,44 +110,40 @@ assertJar( "war-module2/target/war-module2-1.0.war", includedEntries, excludedEn
 String[] warModule3IncludedEntries = {
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF",
-    "WEB-INF/lib/commons-io-2.8.0.jar"
+    "WEB-INF/lib/commons-io-2.6.jar"
 };
 
-String[] warModule3ExcludedEntries = {
-    "WEB-INF/lib/commons-lang-2.5.jar",
-    "WEB-INF/lib/commons-lang3-3.11.jar"
+String[] warModuleExcludedEntries = {
+    "WEB-INF/lib/commons-lang-2.6.jar",
+    "WEB-INF/lib/commons-collections4-4.2.jar"
 };
 
-String[] warModule3ExpectedClassPathElements = { "commons-io-2.8.0.jar" };
+String[] warModule3ExpectedClassPathElements = { "commons-io-2.6.jar" };
 
-assertJar( "war-module3/target/war-module3-1.0.war", warModule3IncludedEntries, warModule3ExcludedEntries, true,
+assertJar( "war-module3/target/war-module3-1.0.war", warModule3IncludedEntries, warModuleExcludedEntries, true,
     warModule3ExpectedClassPathElements );
 
 String earBaseDir = "ear-module/target/ear-module-1.0/";
 String earLibDir = earBaseDir + "lib/";
 
-assertJar( earLibDir + "commons-lang-commons-lang-2.5.jar", null, null, false, null );
+assertJar( earLibDir + "commons-lang-commons-lang-2.6.jar", null, null, false, null );
 
-assertJar( earLibDir + "org.apache.commons-commons-lang3-3.11.jar", null, null, false, null );
+assertJar( earLibDir + "org.apache.commons-commons-collections4-4.2.jar", null, null, false, null );
 
 String[] includedEntries = {
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF"
 };
 
-String[] excludedEntries = {
-    "WEB-INF/lib/commons-lang-2.5.jar"
-};
+String[] warModule1ExpectedClassPathElements = { "lib/commons-lang-commons-lang-2.6.jar" };
 
-String[] expectedClassPathElements = { "lib/commons-lang-commons-lang-2.5.jar" };
+assertJar( earBaseDir + "org.apache.maven.its.ear.skinnywars-war-module1-1.0.war", includedEntries,
+    warModuleExcludedEntries, true, warModule1ExpectedClassPathElements );
 
-assertJar( earBaseDir + "org.apache.maven.its.ear.skinnywars-war-module1-1.0.war", includedEntries, excludedEntries,
-    true, expectedClassPathElements );
-
-assertJar( earBaseDir + "org.apache.maven.its.ear.skinnywars-war-module2-1.0.war", includedEntries, excludedEntries,
-    true, null );
+assertJar( earBaseDir + "org.apache.maven.its.ear.skinnywars-war-module2-1.0.war", includedEntries,
+    warModuleExcludedEntries, true, null );
 
 assertJar( earBaseDir + "org.apache.maven.its.ear.skinnywars-war-module3-1.0.war",
-    warModule3IncludedEntries, warModule3ExcludedEntries, true, warModule3ExpectedClassPathElements );
+    warModule3IncludedEntries, warModuleExcludedEntries, true, warModule3ExpectedClassPathElements );
 
 return true;

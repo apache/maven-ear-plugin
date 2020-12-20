@@ -816,15 +816,15 @@ public class EarMojo
             Attribute classPath = mf.getMainSection().getAttribute( "Class-Path" );
             List<String> classPathElements = new ArrayList<String>();
 
-            boolean classPathExisted;
+            boolean classPathExists;
             if ( classPath != null )
             {
-                classPathExisted = true;
+                classPathExists = true;
                 classPathElements.addAll( Arrays.asList( classPath.getValue().split( " " ) ) );
             }
             else
             {
-                classPathExisted = false;
+                classPathExists = false;
                 classPath = new Attribute( "Class-Path", "" );
             }
 
@@ -912,7 +912,7 @@ public class EarMojo
                     }
                 }
             }
-            if ( !skipClassPathModification || !classPathElements.isEmpty() || classPathExisted )
+            if ( !skipClassPathModification || !classPathElements.isEmpty() || classPathExists )
             {
                 classPath.setValue( StringUtils.join( classPathElements.iterator(), " " ) );
                 mf.getMainSection().addConfiguredAttribute( classPath );
