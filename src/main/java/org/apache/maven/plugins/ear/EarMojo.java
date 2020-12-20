@@ -485,7 +485,7 @@ public class EarMojo
                         createParentIfNecessary( destinationFile );
                         Files.copy( sourceFile.toPath(), destinationFile.toPath(),
                             LinkOption.NOFOLLOW_LINKS, StandardCopyOption.REPLACE_EXISTING );
-                        if ( module.changeManifestClasspath() && ( skinnyWars || module.getLibDir() == null ) )
+                        if ( module.changeManifestClasspath() )
                         {
                             changeManifestClasspath( module, destinationFile, javaEEVersion );
                         }
