@@ -38,7 +38,7 @@ public class ArtifactRepository
     private final ArtifactTypeMappingService artifactTypeMappingService;
 
     /**
-     * Creates a new repository wih the specified artifacts.
+     * Creates a new repository with the specified artifacts.
      * 
      * @param artifacts the artifacts
      * @param mainArtifactId the id to use for the main artifact (no classifier)

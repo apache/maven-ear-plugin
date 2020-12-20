@@ -47,7 +47,7 @@ public class ArtifactHandlerTestStub
 
     public String getClassifier()
     {
-        throw new UnsupportedOperationException( "not implemented ; fake artifact stub" );
+        return null;
     }
 
     public String getPackaging()
