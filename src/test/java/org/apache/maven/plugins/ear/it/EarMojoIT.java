@@ -1003,8 +1003,12 @@ public class EarMojoIT
      * <li>skinnyModules options is turned on</li>
      * </ul>
      * then movement of JARs and modification of manifest Class-Path entry is performed for WAR, SAR, HAR and RAR
-     * modules. Additionally this test ensures that movement of JARs is not performed for modules which
-     * libDirectory property doesn't point to the right module entry containing JAR libraries packaged into module.
+     * modules. Additionally this test ensures that
+     * <ul>
+     * <li>movement of JARs is not performed for modules which libDirectory property doesn't point to correct module
+     * entry containing JAR libraries packaged into module</li>
+     * <li>JAR with provided scope is removed from modules and from Class-Path entries</li>
+     * </ul>
      */
     public void testProject092()
         throws Exception
@@ -1123,8 +1127,13 @@ public class EarMojoIT
      * <li>skinnyWars option is turned off (has default value)</li>
      * <li>skinnyModules options is turned off (has default value)</li>
      * </ul>
-     * then movement of JARs and modification of manifest Class-Path entry is not performed for WAR, SAR, HAR and
-     * RAR modules.
+     * then
+     * <ul>
+     * <li>movement of JARs and modification of the manifest Class-Path entry is not performed for WAR, SAR, HAR and
+     * RAR modules</li>
+     * <li>modification of the manifest Class-Path entry is performed for EJB module</li>
+     * <li>provided JAR is removed from the manifest Class-Path entry of EJB module</li>
+     * </ul>
      */
     public void testProject094()
         throws Exception
@@ -1134,21 +1143,27 @@ public class EarMojoIT
         final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
         final String jarSampleTwoLibrary = "jar-sample-two-1.0.jar";
         final String jarSampleThreeLibrary = "jar-sample-three-with-deps-1.0.jar";
+        final String jarSampleTwoEarLibrary = "lib/eartest-" + jarSampleTwoLibrary;
+        final String jarSampleThreeEarLibrary = "lib/eartest-" + jarSampleThreeLibrary;
         final String warModule = "eartest-war-sample-three-1.0.war";
         final String sarModule = "eartest-sar-sample-two-1.0.sar";
         final String harModule = "eartest-har-sample-two-1.0.har";
         final String rarModule = "eartest-rar-sample-one-1.0.rar";
-        final String[] earModules = { warModule, sarModule, harModule, rarModule };
-        final boolean[] earModuleDirectory = { false, false, false, false };
+        final String ejbModule = "eartest-ejb-sample-three-1.0.jar";
+        final String[] earModules = { warModule, sarModule, harModule, rarModule, ejbModule };
+        final boolean[] earModuleDirectory = { false, false, false, false, false };
         final String warModuleLibDir = "WEB-INF/lib/";
         final String sarModuleLibDir = "lib/";
         final String harModuleLibDir = "lib/";
         final String rarModuleLibDir = "";
 
         final File baseDir = doTestProject( projectName, earModuleName,
+            new String[] { warModule, sarModule, harModule, rarModule, ejbModule, jarSampleTwoEarLibrary,
+                jarSampleThreeEarLibrary },
+            new boolean[] { false, false, false, false, false, false, false },
             earModules, earModuleDirectory,
-            earModules, earModuleDirectory,
-            new String[][] { null, null, null, null },
+            new String[][] { null, null, null, null,
+                new String[] { jarSampleThreeEarLibrary, jarSampleTwoEarLibrary } },
             true );
 
         assertEarModulesContent( baseDir, projectName, earModuleName, earModules, earModuleDirectory,
@@ -1156,7 +1171,8 @@ public class EarMojoIT
                 { warModuleLibDir + jarSampleTwoLibrary, warModuleLibDir + jarSampleThreeLibrary },
                 { sarModuleLibDir + jarSampleOneLibrary, sarModuleLibDir + jarSampleTwoLibrary, sarModuleLibDir + jarSampleThreeLibrary },
                 { harModuleLibDir + jarSampleOneLibrary, harModuleLibDir + jarSampleTwoLibrary, harModuleLibDir + jarSampleThreeLibrary },
-                { rarModuleLibDir + jarSampleOneLibrary, rarModuleLibDir + jarSampleTwoLibrary, rarModuleLibDir + jarSampleThreeLibrary } } ,
+                { rarModuleLibDir + jarSampleOneLibrary, rarModuleLibDir + jarSampleTwoLibrary, rarModuleLibDir + jarSampleThreeLibrary },
+                null } ,
             null );
     }
 

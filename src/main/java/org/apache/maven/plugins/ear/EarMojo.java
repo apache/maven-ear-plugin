@@ -923,6 +923,17 @@ public class EarMojo
                     }
                 }
             }
+
+            // Remove provided Jar modules from classpath
+            for ( JarModule jm : getProvidedJarModules() )
+            {
+                final int moduleClassPathIndex = findModuleInClassPathElements( classPathElements, jm );
+                if ( moduleClassPathIndex != -1 )
+                {
+                    classPathElements.remove( moduleClassPathIndex );
+                }
+            }
+
             classPath.setValue( StringUtils.join( classPathElements.iterator(), " " ) );
             mf.getMainSection().addConfiguredAttribute( classPath );
 

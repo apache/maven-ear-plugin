@@ -23,29 +23,30 @@ under the License.
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ear</groupId>
-    <artifactId>maven-ear-plugin-test-project-092-parent</artifactId>
+    <artifactId>maven-ear-plugin-test-project-094-parent</artifactId>
     <version>99.0</version>
   </parent>
   <groupId>eartest</groupId>
-  <artifactId>war-sample-three</artifactId>
+  <artifactId>ejb-sample-three</artifactId>
   <version>1.0</version>
-  <packaging>war</packaging>
+  <packaging>ejb</packaging>
   <dependencies>
     <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
+      <groupId>org.jboss.spec.javax.ejb</groupId>
+      <artifactId>jboss-ejb-api_3.1_spec</artifactId>
     </dependency>
     <dependency>
       <groupId>eartest</groupId>
-      <artifactId>jar-sample-two</artifactId>
+      <artifactId>jar-sample-three-with-deps</artifactId>
     </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
+        <artifactId>maven-ejb-plugin</artifactId>
         <configuration>
+          <ejbVersion>3.1</ejbVersion>
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>

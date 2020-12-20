@@ -41,6 +41,11 @@ under the License.
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.5</version>
+      </dependency>
+      <dependency>
         <groupId>eartest</groupId>
         <artifactId>jar-sample-one</artifactId>
         <version>1.0</version>

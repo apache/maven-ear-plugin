@@ -30,6 +30,11 @@ under the License.
   <packaging>ear</packaging>
   <dependencies>
     <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>eartest</groupId>
       <artifactId>jar-sample-one</artifactId>
     </dependency>

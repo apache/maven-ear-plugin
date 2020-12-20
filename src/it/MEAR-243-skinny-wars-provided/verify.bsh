@@ -22,92 +22,112 @@ import java.util.*;
 import java.util.jar.*;
 import java.util.regex.*;
 
-File jarFile = new File( basedir, "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-1.0.war" );
-System.out.println( "Checking for existence of " + jarFile );
-if ( !jarFile.isFile() )
+assertJar( String fileName, String[] includedEntries, String[] excludedEntries, boolean assertManifest,
+    String[] expectedClassPathElements )
 {
-    throw new IllegalStateException( "Missing file: " + jarFile );
-}
-
-JarFile jar = new JarFile( jarFile );
-
-String[] includedEntries = {
-    "WEB-INF/web.xml",
-    "META-INF/MANIFEST.MF"
-};
-for ( String included : includedEntries )
-{
-    System.out.println( "Checking for included archive entry " + included );
-    if ( jar.getEntry( included ) == null )
+    File jarFile = new File( basedir, fileName );
+    System.out.println( "Checking for existence of " + jarFile );
+    if ( !jarFile.isFile() )
     {
-        throw new IllegalStateException( "Missing archive entry: " + included );
+        throw new IllegalStateException( "Missing file: " + jarFile );
+    }
+
+    JarFile jar = new JarFile( jarFile );
+
+    if ( includedEntries != null )
+    {
+        for ( String included : includedEntries )
+        {
+            System.out.println( "Checking for included archive entry " + included );
+            if ( jar.getEntry( included ) == null )
+            {
+                throw new IllegalStateException( "Missing archive entry: " + included + ". Artifact: " + fileName );
+            }
+        }
+    }
+
+    if ( excludedEntries != null )
+    {
+        for ( String excluded : excludedEntries )
+        {
+            System.out.println( "Checking for excluded artifact " + excluded );
+            if ( jar.getEntry( excluded ) != null )
+            {
+                throw new IllegalStateException( "Archive entry should be excluded: " + excluded
+                    + ". Artifact: " + fileName );
+            }
+        }
+    }
+
+    if ( assertManifest )
+    {
+        Manifest manifest = jar.getManifest();
+        String manifestClassPath = manifest.getMainAttributes().getValue("Class-Path");
+        if ( expectedClassPathElements == null)
+        {
+            if ( manifestClassPath != null )
+            {
+                throw new IllegalStateException( "Superfluous Class-Path entry in MANIFEST.MF of artifact: "
+                    + fileName );
+            }
+        }
+        else
+        {
+            if ( manifestClassPath == null )
+            {
+                throw new IllegalStateException( "Missing Class-Path entry in MANIFEST.MF of artifact: "
+                    + fileName );
+            }
+            manifestClassPath = manifestClassPath.trim();
+            String[] actualClassPathElements = manifestClassPath.length() == 0 ?
+                new String[0] : manifestClassPath.split( " " );
+            if ( !Arrays.equals( expectedClassPathElements, actualClassPathElements ) )
+            {
+                throw new IllegalStateException( "Invalid Class-Path entry in MANIFEST.MF of artifact: "
+                    + fileName
+                    + ". Expected: " + Arrays.toString( expectedClassPathElements )
+                    + ". Actual: " + Arrays.toString( actualClassPathElements ) );
+            }
+        }
     }
 }
-
-Manifest manifest = jar.getManifest();
-String manifestClassPath = manifest.getMainAttributes().getValue("Class-Path");
-if ( manifestClassPath.contains("commons-lang-2.5.jar") )
-{
-    throw new IllegalStateException( "Surplus entry in war MANIFEST.MF: commons-lang-2.5.jar");
-}
-
-String[] excludedEntries = {
-    "WEB-INF/lib/commons-lang-2.5.jar"
-};
-for ( String excluded : excludedEntries )
-{
-    System.out.println( "Checking for excluded artifact " + excluded );
-    if ( jar.getEntry( excluded ) != null )
-    {
-        throw new IllegalStateException( "Archive entry should be excluded: " + excluded );
-    }
-}
-
-jar.close();
-
-
-File jarFile = new File( basedir, "war-module/target/war-module-1.0.war" );
-System.out.println( "Checking for existence of " + jarFile );
-if ( !jarFile.isFile() )
-{
-    throw new IllegalStateException( "Missing file: " + jarFile );
-}
-
-JarFile jar = new JarFile( jarFile );
 
 String[] includedEntries = {
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF",
     "WEB-INF/lib/commons-lang-2.5.jar"
 };
-for ( String included : includedEntries )
-{
-    System.out.println( "Checking for included archive entry " + included );
-    if ( jar.getEntry( included ) == null )
-    {
-        throw new IllegalStateException( "Missing archive entry: " + included );
-    }
-}
 
-jar.close();
+assertJar( "war-module-one/target/war-module-one-1.0.war", includedEntries, null, false, null );
 
-File earFile = new File( basedir, "ear-module/target/ear-module-1.0.ear" );
+String[] expectedClassPathElements = {
+    "commons-lang-2.5.jar"
+};
 
-JarFile ear = new JarFile( earFile );
+assertJar( "war-module-two/target/war-module-two-1.0.war", includedEntries, null, true, expectedClassPathElements );
+
+String[] includedEntries = {
+    "WEB-INF/web.xml",
+    "META-INF/MANIFEST.MF"
+};
+
+String[] excludedEntries = {
+    "WEB-INF/lib/commons-lang-2.5.jar"
+};
+
+String[] expectedClassPathElements = {};
+
+assertJar( "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-one-1.0.war",
+    includedEntries, excludedEntries, true, expectedClassPathElements );
+
+assertJar( "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-two-1.0.war",
+    includedEntries, excludedEntries, true, expectedClassPathElements );
 
 String[] excludedEntries = {
     "commons-lang-2.5.jar",
     "lib/commons-lang-2.5.jar",
 };
-for ( String excluded : excludedEntries )
-{
-    System.out.println( "Checking for excluded artifact " + excluded );
-    if ( ear.getEntry( excluded ) != null )
-    {
-        throw new IllegalStateException( "Archive entry should be excluded: " + excluded );
-    }
-}
 
-ear.close();
+assertJar( "ear-module/target/ear-module-1.0.ear", null, excludedEntries, false, null );
 
 return true;

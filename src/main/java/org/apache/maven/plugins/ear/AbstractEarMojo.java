@@ -169,6 +169,8 @@ public abstract class AbstractEarMojo
 
     private List<JarModule> allJarModules;
 
+    private List<JarModule> providedJarModules;
+
     private JbossConfiguration jbossConfiguration;
 
     /** {@inheritDoc} */
@@ -271,6 +273,7 @@ public abstract class AbstractEarMojo
         // Now we have everything let's built modules which have not been excluded
         ScopeArtifactFilter filter = new ScopeArtifactFilter( Artifact.SCOPE_RUNTIME );
         allJarModules = new ArrayList<JarModule>();
+        providedJarModules = new ArrayList<JarModule>();
         earModules = new ArrayList<EarModule>();
         for ( EarModule earModule : allModules )
         {
@@ -280,13 +283,18 @@ public abstract class AbstractEarMojo
             }
             else
             {
-                if ( earModule instanceof JarModule )
+                boolean isJarModule = earModule instanceof JarModule;
+                if ( isJarModule )
                 {
                     allJarModules.add( (JarModule) earModule );
                 }
                 if ( filter.include( earModule.getArtifact() ) )
                 {
                     earModules.add( earModule );
+                }
+                else if ( isJarModule )
+                {
+                    providedJarModules.add( (JarModule) earModule );
                 }
             }
         }
@@ -315,6 +323,18 @@ public abstract class AbstractEarMojo
             throw new IllegalStateException( "Jar modules have not been initialized" );
         }
         return allJarModules;
+    }
+
+    /**
+     * @return The list of {@link #providedJarModules}. This corresponds to provided JAR modules.
+     */
+    protected List<JarModule> getProvidedJarModules()
+    {
+        if ( providedJarModules == null )
+        {
+            throw new IllegalStateException( "Jar modules have not been initialized" );
+        }
+        return providedJarModules;
     }
 
     /**
