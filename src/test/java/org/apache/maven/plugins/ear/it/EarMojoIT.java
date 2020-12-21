@@ -1005,8 +1005,8 @@ public class EarMojoIT
      * then movement of JARs and modification of manifest Class-Path entry is performed for WAR, SAR, HAR and RAR
      * modules. Additionally this test ensures that
      * <ul>
-     * <li>movement of JARs is not performed for modules which libDirectory property doesn't point to correct module
-     * entry containing JAR libraries packaged into module</li>
+     * <li>movement of JARs is not performed for modules whose libDirectory property doesn't point to the correct module
+     * entry containing JAR libraries packaged into the module</li>
      * <li>JAR with provided scope is removed from modules and from Class-Path entries</li>
      * </ul>
      */

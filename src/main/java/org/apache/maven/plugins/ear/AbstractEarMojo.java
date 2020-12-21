@@ -326,7 +326,7 @@ public abstract class AbstractEarMojo
     }
 
     /**
-     * @return The list of {@link #providedJarModules}. This corresponds to provided JAR modules.
+     * @return the list of {@link #providedJarModules}. This corresponds to provided JAR modules.
      */
     protected List<JarModule> getProvidedJarModules()
     {
