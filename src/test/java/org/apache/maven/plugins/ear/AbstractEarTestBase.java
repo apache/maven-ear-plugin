@@ -33,7 +33,7 @@ import org.apache.maven.plugins.ear.stub.ArtifactHandlerTestStub;
 public abstract class AbstractEarTestBase
 {
 
-    public static final String DEFAULT_GROUPID = "eartest";
+    protected static final String DEFAULT_GROUPID = "eartest";
 
     private static final String DEFAULT_TYPE = "jar";
 
@@ -57,9 +57,7 @@ public abstract class AbstractEarTestBase
             String classifier = classifiers == null ? null : classifiers[i];
             Artifact artifactTestStub = new DefaultArtifact(
                 DEFAULT_GROUPID, artifactId, "1.0", "compile", DEFAULT_TYPE, classifier, artifactHandler );
-            
             result.add( artifactTestStub );
-
         }
         return result;
     }
@@ -71,6 +69,5 @@ public abstract class AbstractEarTestBase
             null, new ArtifactHandlerTestStub( "jar" ) );
         
         return artifactTestStub;
-
     }
 }
