@@ -31,11 +31,28 @@ under the License.
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
-      <version>2.5</version>
+      <version>2.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>4.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.its.ear.skinnywars</groupId>
-      <artifactId>war-module</artifactId>
+      <artifactId>war-module1</artifactId>
+      <version>1.0</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.its.ear.skinnywars</groupId>
+      <artifactId>war-module2</artifactId>
+      <version>1.0</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.its.ear.skinnywars</groupId>
+      <artifactId>war-module3</artifactId>
       <version>1.0</version>
       <type>war</type>
     </dependency>

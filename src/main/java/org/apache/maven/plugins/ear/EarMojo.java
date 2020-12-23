@@ -825,12 +825,15 @@ public class EarMojo
             Attribute classPath = mf.getMainSection().getAttribute( "Class-Path" );
             List<String> classPathElements = new ArrayList<String>();
 
+            boolean classPathExists;
             if ( classPath != null )
             {
+                classPathExists = true;
                 classPathElements.addAll( Arrays.asList( classPath.getValue().split( " " ) ) );
             }
             else
             {
+                classPathExists = false;
                 classPath = new Attribute( "Class-Path", "" );
             }
 
@@ -897,6 +900,7 @@ public class EarMojo
             }
 
             // Modify the classpath entries in the manifest
+            boolean forceClassPathModification = javaEEVersion.lt( JavaEEVersion.FIVE ) || defaultLibBundleDir == null;
             for ( EarModule o : getModules() )
             {
                 if ( o instanceof JarModule )
@@ -907,19 +911,13 @@ public class EarMojo
                     {
                         classPathElements.set( moduleClassPathIndex, jm.getUri() );
                     }
-                    else
+                    else if ( !skipClassPathModification )
                     {
-                        if ( !skipClassPathModification )
-                        {
-                            classPathElements.add( jm.getUri() );
-                        }
-                        else
-                        {
-                            if ( javaEEVersion.lt( JavaEEVersion.FIVE ) || defaultLibBundleDir == null )
-                            {
-                                classPathElements.add( jm.getUri() );
-                            }
-                        }
+                        classPathElements.add( jm.getUri() );
+                    }
+                    else if ( forceClassPathModification )
+                    {
+                        classPathElements.add( jm.getUri() );
                     }
                 }
             }
@@ -934,14 +932,17 @@ public class EarMojo
                 }
             }
 
-            classPath.setValue( StringUtils.join( classPathElements.iterator(), " " ) );
-            mf.getMainSection().addConfiguredAttribute( classPath );
-
-            // Write the manifest to disk
-            try ( FileOutputStream out = new FileOutputStream( manifestFile );
-                  OutputStreamWriter writer = new OutputStreamWriter( out, StandardCharsets.UTF_8 ) )
+            if ( !skipClassPathModification || !classPathElements.isEmpty() || classPathExists )
             {
-                mf.write( writer );
+                classPath.setValue( StringUtils.join( classPathElements.iterator(), " " ) );
+                mf.getMainSection().addConfiguredAttribute( classPath );
+
+                // Write the manifest to disk
+                try ( FileOutputStream out = new FileOutputStream( manifestFile );
+                      OutputStreamWriter writer = new OutputStreamWriter( out, StandardCharsets.UTF_8 ) )
+                {
+                    mf.write( writer );
+                }
             }
 
             if ( original.isFile() )
