@@ -911,16 +911,23 @@ public class EarMojo
                     {
                         classPathElements.set( moduleClassPathIndex, jm.getUri() );
                     }
-                    else if ( !skipClassPathModification )
-                    {
-                        classPathElements.add( jm.getUri() );
-                    }
-                    else if ( forceClassPathModification )
+                    else if ( !skipClassPathModification || forceClassPathModification )
                     {
                         classPathElements.add( jm.getUri() );
                     }
                 }
             }
+
+            // Remove provided Jar modules from classpath
+            for ( JarModule jm : getProvidedJarModules() )
+            {
+                final int moduleClassPathIndex = findModuleInClassPathElements( classPathElements, jm );
+                if ( moduleClassPathIndex != -1 )
+                {
+                    classPathElements.remove( moduleClassPathIndex );
+                }
+            }
+
             if ( !skipClassPathModification || !classPathElements.isEmpty() || classPathExists )
             {
                 classPath.setValue( StringUtils.join( classPathElements.iterator(), " " ) );
