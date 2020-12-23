@@ -911,11 +911,7 @@ public class EarMojo
                     {
                         classPathElements.set( moduleClassPathIndex, jm.getUri() );
                     }
-                    else if ( !skipClassPathModification )
-                    {
-                        classPathElements.add( jm.getUri() );
-                    }
-                    else if ( forceClassPathModification )
+                    else if ( !skipClassPathModification || forceClassPathModification )
                     {
                         classPathElements.add( jm.getUri() );
                     }
