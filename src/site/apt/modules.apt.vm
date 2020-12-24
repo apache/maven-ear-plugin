@@ -141,6 +141,13 @@ EAR Modules
   setting in module <<<MANIFEST.MF>>> is modified and libraries of module located in
   <<<libDirectory>>> and matching libraries of EAR are removed from module.
 
+  * <<classPathItem>> - defines if the module is an element of the <<<Class-Path>>> setting
+  of <<<MANIFEST.MF>>> of other modules. Default is true. Refer to the <<<classPathItem>>>
+  property of {{{jarModule}jarModule}} for the cases when the module is removed from
+  the <<<Class-Path>>> setting or added into the <<<Class-Path>>> setting or existing
+  reference to the module is updated in the <<<Class-Path>>> setting of <<<MANIFEST.MF>>>
+  of other modules.
+
 
 * {ejbModule} Properties
 
@@ -179,6 +186,13 @@ EAR Modules
   * <<moduleId>> - sets the id of the module in the generated application.xml.
 
   * <<libDirectory>> - refer to the same name property of {{{ejbClientModule}ejbClientModule}}.
+
+  * <<classPathItem>> - defines if the module is an element of the <<<Class-Path>>> setting
+  of <<<MANIFEST.MF>>> of other modules. Default is false. Refer to the <<<classPathItem>>>
+  property of {{{jarModule}jarModule}} for the cases when the module is removed from
+  the <<<Class-Path>>> setting or added into the <<<Class-Path>>> setting or existing
+  reference to the module is updated in the <<<Class-Path>>> setting of <<<MANIFEST.MF>>>
+  of other modules.
 
 
 * {jarModule} Properties
@@ -220,6 +234,50 @@ EAR Modules
   * <<includeInApplicationXml>> - set to true to if you want to generate an entry
   of this module in <<<application.xml>>>. Default is false.
 
+  * <<classPathItem>> - defines if the module is an element of the <<<Class-Path>>> setting
+  of <<<MANIFEST.MF>>> of other modules. Default is true.
+
+  The module is removed from the <<<Class-Path>>> setting of <<<MANIFEST.MF>>> of another module
+  if the <<<classPathItem>>> property is false and one of the following conditions is met:
+
+    * Another module doesn't contain all of it dependencies (refer to the <<<libDirectory>>>
+    property of particular module type).
+
+    * {{{./ear-mojo.html#skinnyWars}skinnyWars}} parameter is true and another module is
+    a {{{webModule}webModule}}.
+
+    * {{{./ear-mojo.html#skinnyModules}skinnyModules}} parameter is true.
+
+  Existing reference to the module in the <<<Class-Path>>> setting of <<<MANIFEST.MF>>>
+  of another module is updated to match location of the module in EAR if
+  the <<<classPathItem>>> property is true and one of the following conditions is met:
+
+    * Another module doesn't contain all of it dependencies (refer to the <<<libDirectory>>>
+    property of particular module type).
+
+    * {{{./ear-mojo.html#skinnyWars}skinnyWars}} parameter is true and another module is
+    a {{{webModule}webModule}}.
+
+    * {{{./ear-mojo.html#skinnyModules}skinnyModules}} parameter is true.
+
+  The module is added into the <<<Class-Path>>> setting of another module
+  if the <<<classPathItem>>> is true, there is no existing reference to the module
+  in the <<<Class-Path>>> setting and one of the following conditions is met:
+
+    * {{{./ear-mojo.html#skinnyWars}skinnyWars}} parameter is true, another module is
+    a {{{webModule}webModule}} and one of the following conditions is met:
+
+      * {{{./ear-mojo.html#skipClassPathModification}skipClassPathModification}} parameter is false.
+
+      * {{{./ear-mojo.html#version}version}} parameter is less than 5.
+
+    * {{{./ear-mojo.html#skinnyModules}skinnyModules}} parameter is true and
+    one of the following conditions is met:
+
+      * {{{./ear-mojo.html#skipClassPathModification}skipClassPathModification}} parameter is false.
+
+      * {{{./ear-mojo.html#version}version}} parameter is less than 5.
+
 
 * {parModule} Properties
 
@@ -260,6 +318,13 @@ EAR Modules
   * <<moduleId>> - sets the id of the module in the generated application.xml.
 
   * <<libDirectory>> - refer to the same name property of {{{ejbClientModule}ejbClientModule}}.
+
+  * <<classPathItem>> - defines if the module is an element of the <<<Class-Path>>> setting
+  of <<<MANIFEST.MF>>> of other modules. Default is false. Refer to the <<<classPathItem>>>
+  property of {{{jarModule}jarModule}} for the cases when the module is removed from
+  the <<<Class-Path>>> setting or added into the <<<Class-Path>>> setting or existing
+  reference to the module is updated in the <<<Class-Path>>> setting of <<<MANIFEST.MF>>>
+  of other modules.
 
 
 * {rarModule} Properties
@@ -303,6 +368,13 @@ EAR Modules
   at the root of archive. Refer to the same name property of
   {{{ejbClientModule}ejbClientModule}} for details.
 
+  * <<classPathItem>> - defines if the module is an element of the <<<Class-Path>>> setting
+  of <<<MANIFEST.MF>>> of other modules. Default is false. Refer to the <<<classPathItem>>>
+  property of {{{jarModule}jarModule}} for the cases when the module is removed from
+  the <<<Class-Path>>> setting or added into the <<<Class-Path>>> setting or existing
+  reference to the module is updated in the <<<Class-Path>>> setting of <<<MANIFEST.MF>>>
+  of other modules.
+
 
 * {sarModule} Properties
 
@@ -342,6 +414,13 @@ EAR Modules
   * <<libDirectory>> - sets archive directory which contains Java libraries
   packaged into archive. Default is 'lib'. Refer to the same name property of
   {{{ejbClientModule}ejbClientModule}} for details.
+
+  * <<classPathItem>> - defines if the module is an element of the <<<Class-Path>>> setting
+  of <<<MANIFEST.MF>>> of other modules. Default is false. Refer to the <<<classPathItem>>>
+  property of {{{jarModule}jarModule}} for the cases when the module is removed from
+  the <<<Class-Path>>> setting or added into the <<<Class-Path>>> setting or existing
+  reference to the module is updated in the <<<Class-Path>>> setting of <<<MANIFEST.MF>>>
+  of other modules.
 
 
 * {webModule} Properties
@@ -391,6 +470,13 @@ EAR Modules
   setting in module <<<MANIFEST.MF>>> is modified and libraries of module located in
   <<<libDirectory>>> and matching libraries of EAR are removed from module.
 
+  * <<classPathItem>> - defines if the module is an element of the <<<Class-Path>>> setting
+  of <<<MANIFEST.MF>>> of other modules. Default is false. Refer to the <<<classPathItem>>>
+  property of {{{jarModule}jarModule}} for the cases when the module is removed from
+  the <<<Class-Path>>> setting or added into the <<<Class-Path>>> setting or existing
+  reference to the module is updated in the <<<Class-Path>>> setting of <<<MANIFEST.MF>>>
+  of other modules.
+
 
 * {wsrModule} Properties
 
@@ -432,6 +518,13 @@ EAR Modules
   packaged into archive. Default is 'lib'. Refer to the same name property of
   {{{ejbClientModule}ejbClientModule}} for details.
 
+  * <<classPathItem>> - defines if the module is an element of the <<<Class-Path>>> setting
+  of <<<MANIFEST.MF>>> of other modules. Default is false. Refer to the <<<classPathItem>>>
+  property of {{{jarModule}jarModule}} for the cases when the module is removed from
+  the <<<Class-Path>>> setting or added into the <<<Class-Path>>> setting or existing
+  reference to the module is updated in the <<<Class-Path>>> setting of <<<MANIFEST.MF>>>
+  of other modules.
+
 
 * {harModule} Properties
 
@@ -470,6 +563,13 @@ EAR Modules
   packaged into archive. Default is 'lib'. Refer to the same name property of
   {{{ejbClientModule}ejbClientModule}} for details.
 
+  * <<classPathItem>> - defines if the module is an element of the <<<Class-Path>>> setting
+  of <<<MANIFEST.MF>>> of other modules. Default is false. Refer to the <<<classPathItem>>>
+  property of {{{jarModule}jarModule}} for the cases when the module is removed from
+  the <<<Class-Path>>> setting or added into the <<<Class-Path>>> setting or existing
+  reference to the module is updated in the <<<Class-Path>>> setting of <<<MANIFEST.MF>>>
+  of other modules.
+
 
 * {appClientModule} Properties
 
@@ -506,6 +606,13 @@ EAR Modules
   this module.
 
   * <<moduleId>> - sets the id of the module in the generated application.xml.
+
+  * <<classPathItem>> - defines if the module is an element of the <<<Class-Path>>> setting
+  of <<<MANIFEST.MF>>> of other modules. Default is false. Refer to the <<<classPathItem>>>
+  property of {{{jarModule}jarModule}} for the cases when the module is removed from
+  the <<<Class-Path>>> setting or added into the <<<Class-Path>>> setting or existing
+  reference to the module is updated in the <<<Class-Path>>> setting of <<<MANIFEST.MF>>>
+  of other modules.
 
 
 * Adding {Custom Artifact Types}

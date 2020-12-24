@@ -167,9 +167,9 @@ public abstract class AbstractEarMojo
 
     private List<EarModule> earModules;
 
-    private List<JarModule> allJarModules;
+    private List<EarModule> allEarModules;
 
-    private List<JarModule> providedJarModules;
+    private List<EarModule> providedEarModules;
 
     private JbossConfiguration jbossConfiguration;
 
@@ -272,8 +272,8 @@ public abstract class AbstractEarMojo
 
         // Now we have everything let's built modules which have not been excluded
         ScopeArtifactFilter filter = new ScopeArtifactFilter( Artifact.SCOPE_RUNTIME );
-        allJarModules = new ArrayList<JarModule>();
-        providedJarModules = new ArrayList<JarModule>();
+        allEarModules = new ArrayList<EarModule>();
+        providedEarModules = new ArrayList<EarModule>();
         earModules = new ArrayList<EarModule>();
         for ( EarModule earModule : allModules )
         {
@@ -283,18 +283,14 @@ public abstract class AbstractEarMojo
             }
             else
             {
-                boolean isJarModule = earModule instanceof JarModule;
-                if ( isJarModule )
-                {
-                    allJarModules.add( (JarModule) earModule );
-                }
+                allEarModules.add( earModule );
                 if ( filter.include( earModule.getArtifact() ) )
                 {
                     earModules.add( earModule );
                 }
-                else if ( isJarModule )
+                else
                 {
-                    providedJarModules.add( (JarModule) earModule );
+                    providedEarModules.add( earModule );
                 }
             }
         }
@@ -314,27 +310,27 @@ public abstract class AbstractEarMojo
     }
 
     /**
-     * @return The list of {@link #allJarModules}. This corresponds to all JAR modules (compile + runtime).
+     * @return The list of {@link #allEarModules}. This corresponds to all modules (provided + compile + runtime).
      */
-    protected List<JarModule> getAllJarModules()
+    protected List<EarModule> getAllEarModules()
     {
-        if ( allJarModules == null )
+        if ( allEarModules == null )
         {
-            throw new IllegalStateException( "Jar modules have not been initialized" );
+            throw new IllegalStateException( "EAR modules have not been initialized" );
         }
-        return allJarModules;
+        return allEarModules;
     }
 
     /**
-     * @return the list of {@link #providedJarModules}. This corresponds to provided JAR modules.
+     * @return the list of {@link #providedEarModules}. This corresponds to provided modules.
      */
-    protected List<JarModule> getProvidedJarModules()
+    protected List<EarModule> getProvidedEarModules()
     {
-        if ( providedJarModules == null )
+        if ( providedEarModules == null )
         {
             throw new IllegalStateException( "Jar modules have not been initialized" );
         }
-        return providedJarModules;
+        return providedEarModules;
     }
 
     /**

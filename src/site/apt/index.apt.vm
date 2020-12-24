@@ -65,8 +65,9 @@ ${project.name}
 
 * Version 3.2.0
 
-  {{{./ear-mojo.html#skinnyModules}skinnyModules}} parameter and libDirectory property
-  of EAR modules have been implemented.
+  {{{./ear-mojo.html#skinnyModules}skinnyModules}} parameter, <<<libDirectory>>> property
+  of EAR modules, <<<type>>> property of EAR modules and <<<classPathItem>>> property of
+  EAR modules have been implemented.
 
 * Version 3.0.0
 
