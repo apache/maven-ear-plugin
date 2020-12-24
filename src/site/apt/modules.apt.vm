@@ -240,7 +240,7 @@ EAR Modules
   The module is removed from the <<<Class-Path>>> setting of <<<MANIFEST.MF>>> of another module
   if the <<<classPathItem>>> property is false and one of the following conditions is met:
 
-    * Another module doesn't contain all of it dependencies (refer to the <<<libDirectory>>>
+    * Another module doesn't contain all of its dependencies (refer to the <<<libDirectory>>>
     property of particular module type).
 
     * {{{./ear-mojo.html#skinnyWars}skinnyWars}} parameter is true and another module is
@@ -252,7 +252,7 @@ EAR Modules
   of another module is updated to match location of the module in EAR if
   the <<<classPathItem>>> property is true and one of the following conditions is met:
 
-    * Another module doesn't contain all of it dependencies (refer to the <<<libDirectory>>>
+    * Another module doesn't contain all of its dependencies (refer to the <<<libDirectory>>>
     property of particular module type).
 
     * {{{./ear-mojo.html#skinnyWars}skinnyWars}} parameter is true and another module is

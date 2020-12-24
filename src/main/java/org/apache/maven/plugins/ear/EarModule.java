@@ -127,8 +127,8 @@ public interface EarModule
     String getBundleFileName();
 
     /**
-     * If module should present in the Class-Path entry of MANIFEST.mf. Doesn't impact Class-Path entry of MANIFEST.mf
-     * of modules which contain all of their dependencies unless skinnyWars / skinnyModules is turned on.
+     * If module should be included into the Class-Path entry of MANIFEST.mf. Doesn't impact Class-Path entry of
+     * MANIFEST.mf of modules which contain all of their dependencies unless skinnyWars / skinnyModules is turned on.
      */
     boolean isClassPathItem();
 
