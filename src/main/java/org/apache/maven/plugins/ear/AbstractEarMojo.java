@@ -272,9 +272,9 @@ public abstract class AbstractEarMojo
 
         // Now we have everything let's built modules which have not been excluded
         ScopeArtifactFilter filter = new ScopeArtifactFilter( Artifact.SCOPE_RUNTIME );
-        allEarModules = new ArrayList<EarModule>();
-        providedEarModules = new ArrayList<EarModule>();
-        earModules = new ArrayList<EarModule>();
+        allEarModules = new ArrayList<>();
+        providedEarModules = new ArrayList<>();
+        earModules = new ArrayList<>();
         for ( EarModule earModule : allModules )
         {
             if ( earModule.isExcluded() )

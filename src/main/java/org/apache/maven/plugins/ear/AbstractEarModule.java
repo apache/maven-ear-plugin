@@ -109,7 +109,7 @@ public abstract class AbstractEarModule
      * Class-Path entry depends on libDirectory property of another module and on skinnyWars / skinnyModules parameters
      * of EAR Plugin.
      */
-    protected Boolean classPathItem = Boolean.FALSE;
+    protected boolean classPathItem;
 
     // This is injected once the module has been built.
 
