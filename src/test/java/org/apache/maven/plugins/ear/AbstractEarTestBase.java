@@ -1,10 +1,12 @@
 package org.apache.maven.plugins.ear;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.plugins.ear.stub.ArtifactTestStub;
+import org.apache.maven.artifact.DefaultArtifact;
+import org.apache.maven.plugins.ear.stub.ArtifactHandlerTestStub;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -31,90 +33,41 @@ import org.apache.maven.plugins.ear.stub.ArtifactTestStub;
 public abstract class AbstractEarTestBase
 {
 
-    public static final String DEFAULT_GROUPID = "eartest";
+    protected static final String DEFAULT_GROUPID = "eartest";
 
-    public static final String DEFAULT_TYPE = "jar";
+    private static final String DEFAULT_TYPE = "jar";
 
     protected void setUri( EarModule module, String uri )
     {
         ( (AbstractEarModule) module ).setUri( uri );
     }
 
-    protected Set<Artifact> createArtifacts( String[] artifactsId )
+    protected Set<Artifact> createArtifacts( String[] artifactIds )
     {
-        return createArtifacts( artifactsId, null );
+        return createArtifacts( artifactIds, null );
     }
 
-    protected Set<Artifact> createArtifacts( String[] artifactsId, String[] types )
-    {
-        return createArtifacts( artifactsId, types, null );
-    }
-
-    protected Set<Artifact> createArtifacts( String[] artifactsId, String[] types, String[] groupsId )
-    {
-        return createArtifacts( artifactsId, types, groupsId, null );
-    }
-
-    protected Set<Artifact> createArtifacts( String[] artifactsId, String[] types, String[] groupsId,
-                                             String[] classifiers )
+    protected Set<Artifact> createArtifacts( String[] artifactIds, String[] classifiers )
     {
         Set<Artifact> result = new TreeSet<Artifact>();
-        if ( artifactsId == null || artifactsId.length == 0 )
+        ArtifactHandlerTestStub artifactHandler = new ArtifactHandlerTestStub( "jar" );
+        for ( int i = 0; i < artifactIds.length; i++ )
         {
-            return result;
-        }
-        for ( int i = 0; i < artifactsId.length; i++ )
-        {
-            String artifactId = artifactsId[i];
-            String type = getData( types, i, DEFAULT_TYPE );
-            String groupId = getData( groupsId, i, DEFAULT_GROUPID );
-            String classifier = getData( classifiers, i, null );
-            result.add( new ArtifactTestStub( groupId, artifactId, type, classifier ) );
-
+            String artifactId = artifactIds[i];
+            String classifier = classifiers == null ? null : classifiers[i];
+            Artifact artifactTestStub = new DefaultArtifact(
+                DEFAULT_GROUPID, artifactId, "1.0", "compile", DEFAULT_TYPE, classifier, artifactHandler );
+            result.add( artifactTestStub );
         }
         return result;
     }
 
-    protected String getData( String[] data, int i, String defaultValue )
-    {
-        if ( data == null || data[i] == null )
-        {
-            return defaultValue;
-        }
-        else
-        {
-            return data[i];
-
-        }
-    }
-
-    protected String getDefaultValue( String t, String defaultValue )
-    {
-        if ( t == null )
-        {
-            return defaultValue;
-        }
-        else
-        {
-            return t;
-        }
-    }
-
-    protected Artifact createArtifact( String artifactId, String type, String groupId, String classifier )
-    {
-        return new ArtifactTestStub( getDefaultValue( groupId, DEFAULT_GROUPID ), artifactId,
-                                     getDefaultValue( type, DEFAULT_TYPE ), classifier );
-    }
-
-    protected Artifact createArtifact( String artifactId, String type, String groupId )
-    {
-        return createArtifact( artifactId, type, groupId, null );
-
-    }
-
     protected Artifact createArtifact( String artifactId, String type )
     {
-        return createArtifact( artifactId, type, null );
-
+        Artifact artifactTestStub = new DefaultArtifact(
+            DEFAULT_GROUPID, artifactId, "1.0", "compile", Objects.toString( type, DEFAULT_TYPE ),
+            null, new ArtifactHandlerTestStub( "jar" ) );
+        
+        return artifactTestStub;
     }
 }
