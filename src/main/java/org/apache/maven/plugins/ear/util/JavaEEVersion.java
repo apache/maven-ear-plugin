@@ -176,7 +176,7 @@ public class JavaEEVersion
     {
         if ( paramVersion == null )
         {
-            throw new IllegalArgumentException( "version could not be null." );
+            throw new NullPointerException( "version cannot be null." );
         }
         // @formatter:off
         return VERSION_1_3.equals( paramVersion ) 
@@ -193,7 +193,7 @@ public class JavaEEVersion
     {
         if ( otherVersion == null )
         {
-            throw new IllegalArgumentException( "other object to compare to could not be null." );
+            throw new NullPointerException( "other object to compare to could not be null." );
         }
         return index.compareTo( otherVersion.index );
     }
