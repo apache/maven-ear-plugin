@@ -114,12 +114,12 @@ public class JavaEEVersion
     /**
      * Specifies if this version is greater or equal to the specified version.
      * 
-     * @param parmVersion the version to check
+     * @param paramVersion the version to check
      * @return true if this version is greater or equal to <tt>version</tt>
      */
-    public boolean ge( JavaEEVersion parmVersion )
+    public boolean ge( JavaEEVersion paramVersion )
     {
-        return this.compareTo( parmVersion ) >= 0;
+        return this.compareTo( paramVersion ) >= 0;
     }
 
     /**
