@@ -30,6 +30,11 @@ under the License.
   <packaging>ear</packaging>
   <dependencies>
     <dependency>
+      <groupId>org.jboss.spec.javax.ejb</groupId>
+      <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>eartest</groupId>
       <artifactId>war-sample-three</artifactId>
       <type>war</type>
@@ -63,6 +68,11 @@ under the License.
       <artifactId>rar-sample-one</artifactId>
       <type>rar</type>
     </dependency>
+    <dependency>
+      <groupId>eartest</groupId>
+      <artifactId>ejb-sample-three</artifactId>
+      <type>ejb</type>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -79,6 +89,7 @@ under the License.
           <jboss>
             <version>5</version>
           </jboss>
+          <defaultLibBundleDir>lib</defaultLibBundleDir>
         </configuration>
       </plugin>
     </plugins>

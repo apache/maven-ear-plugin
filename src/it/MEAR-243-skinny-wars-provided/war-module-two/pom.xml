@@ -23,7 +23,7 @@ under the License.
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.apache.maven.its.ear.skinnywars</groupId>
-  <artifactId>war-module</artifactId>
+  <artifactId>war-module-two</artifactId>
   <version>1.0</version>
   <packaging>war</packaging>
 
@@ -41,6 +41,13 @@ under the License.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>@mavenWarPluginVersion@</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+        </configuration>
       </plugin>
     </plugins>
   </build>
