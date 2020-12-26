@@ -1232,4 +1232,72 @@ public class EarMojoIT
         final boolean[] artifactsDirectory = { false, false, false, false };
         doTestProject( "project-097", "ear", artifacts, artifactsDirectory, null, null, null , true );
     }
+
+    /**
+     * Ensures that when skinnyModules option is turned on then
+     * <ul>
+     * <li>EAR module whose classPathItem property is {@code false} is removed from the Class-Path entry of
+     * MANIFEST.mf of other modules</li>
+     * <li>EAR module whose classPathItem property is {@code true} is added into the Class-Path entry of MANIFEST.mf
+     * or existing reference is updated to match location of the module</li>
+     * <li>EAR module is removed from WARs and RARs (from modules which include their dependencies)</li>
+     * </ul>
+     */
+    public void testProject098()
+        throws Exception
+    {
+        final String projectName = "project-098";
+        final String earModuleName = "ear";
+        final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
+        final String jarSampleTwoLibrary = "jar-sample-two-1.0.jar";
+        final String jarSampleThreeLibrary = "jar-sample-three-with-deps-1.0.jar";
+        final String ejbFourClientLibrary = "ejb-sample-four-1.0-client.jar";
+        final String jarSampleOneEarLibrary = "lib/eartest-" + jarSampleOneLibrary;
+        final String jarSampleTwoEarLibrary = "lib/eartest-" + jarSampleTwoLibrary;
+        final String jarSampleThreeEarLibrary = "lib/eartest-" + jarSampleThreeLibrary;
+        final String ejbFourClientEarLibrary = "lib/eartest-" + ejbFourClientLibrary;
+        final String ejbThreeLibrary = "ejb-sample-three-1.0.jar";
+        final String ejbFourLibrary = "ejb-sample-four-1.0.jar";
+        final String ejbThreeModule = "eartest-" + ejbThreeLibrary;
+        final String ejbFourModule = "eartest-" + ejbFourLibrary;
+        final String rarLibrary = "rar-sample-one-1.0.rar";
+        final String rarModule = "eartest-" + rarLibrary;
+        final String warModule = "eartest-war-sample-three-1.0.war";
+        final String[] earModules = { ejbThreeModule, ejbFourModule, rarModule, warModule };
+        final boolean[] earModuleDirectory = { false, false, false, false };
+        final String warModuleLibDir = "WEB-INF/lib/";
+        final String rarModuleLibDir = "";
+
+        final File baseDir = doTestProject( projectName, earModuleName,
+            new String[] { ejbThreeModule, ejbFourModule, rarModule, warModule,
+                jarSampleOneEarLibrary, jarSampleTwoEarLibrary, jarSampleThreeEarLibrary, ejbFourClientEarLibrary },
+            new boolean[] { false, false, false, false, false, false, false, false },
+            earModules, earModuleDirectory,
+            new String[][] {
+                { jarSampleThreeEarLibrary, jarSampleTwoEarLibrary, ejbFourClientEarLibrary, jarSampleOneEarLibrary },
+                { jarSampleOneEarLibrary, jarSampleTwoEarLibrary, jarSampleThreeEarLibrary, ejbFourClientEarLibrary },
+                { jarSampleThreeEarLibrary, jarSampleTwoEarLibrary, jarSampleOneEarLibrary, ejbFourClientEarLibrary },
+                { jarSampleOneEarLibrary, jarSampleThreeEarLibrary, jarSampleTwoEarLibrary, ejbFourClientEarLibrary } },
+            true );
+
+        assertEarModulesContent( baseDir, projectName, earModuleName, earModules, earModuleDirectory,
+            new String[][] { null, null, null, { warModuleLibDir } },
+            new String[][] { null, null,
+                {
+                    rarModuleLibDir + jarSampleTwoLibrary,
+                    rarModuleLibDir + jarSampleThreeLibrary,
+                    rarModuleLibDir + ejbFourLibrary,
+                    rarModuleLibDir + ejbFourClientLibrary,
+                },
+                {
+                    warModuleLibDir + jarSampleOneLibrary,
+                    rarModuleLibDir + jarSampleThreeLibrary,
+                    rarModuleLibDir + jarSampleTwoLibrary,
+                    warModuleLibDir + ejbThreeLibrary,
+                    warModuleLibDir + ejbFourLibrary,
+                    warModuleLibDir + ejbFourClientLibrary,
+                    warModuleLibDir + rarLibrary,
+                    warModuleLibDir + rarLibrary
+                } } );
+    }
 }

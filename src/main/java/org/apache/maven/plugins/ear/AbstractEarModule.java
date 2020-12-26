@@ -101,6 +101,16 @@ public abstract class AbstractEarModule
      */
     protected String libDirectory;
 
+    /**
+     * If module is considered for inclusion into the Class-Path entry of MANIFEST.mf of other modules. {@code false}
+     * value leads to removal of the module from the Class-Path entry. {@code true} value leads to modification of the
+     * reference to the module in the Class-Path entry if such reference exists or leads to adding of the module into
+     * the Class-Path entry if such reference doesn't exist. Removal, modification or adding of the reference in the
+     * Class-Path entry depends on libDirectory property of another module and on skinnyWars / skinnyModules parameters
+     * of EAR Plugin.
+     */
+    protected boolean classPathItem;
+
     // This is injected once the module has been built.
 
     /**
@@ -264,9 +274,15 @@ public abstract class AbstractEarModule
     }
 
     /**
-     * Returns the bundle file name. If null, the artifact's file name is returned.
-     * 
-     * @return the bundle file name
+     * {@inheritDoc}
+     */
+    public boolean isClassPathItem()
+    {
+        return classPathItem;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public String getBundleFileName()
     {
@@ -413,25 +429,6 @@ public abstract class AbstractEarModule
         }
 
         return path;
-    }
-
-    /**
-     * Specify if the objects are both null or both equal.
-     * 
-     * @param first the first object
-     * @param second the second object
-     * @return true if parameters are either both null or equal
-     */
-    static boolean areNullOrEqual( Object first, Object second )
-    {
-        if ( first != null )
-        {
-            return first.equals( second );
-        }
-        else
-        {
-            return second == null;
-        }
     }
 
     /**

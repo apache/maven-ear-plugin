@@ -119,4 +119,17 @@ public interface EarModule
      */
     String getLibDir();
 
+    /**
+     * Returns the bundle file name. If {@code null}, the artifact's file name is returned.
+     *
+     * @return the bundle file name
+     */
+    String getBundleFileName();
+
+    /**
+     * If module should be included into the Class-Path entry of MANIFEST.mf. Doesn't impact Class-Path entry of
+     * MANIFEST.mf of modules which contain all of their dependencies unless skinnyWars / skinnyModules is turned on.
+     */
+    boolean isClassPathItem();
+
 }

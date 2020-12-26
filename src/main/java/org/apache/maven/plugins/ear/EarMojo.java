@@ -839,9 +839,13 @@ public class EarMojo
 
             if ( ( moduleLibDir != null ) && ( skinnyModules || ( skinnyWars && module instanceof WebModule ) ) )
             {
-                // Remove JAR modules
-                for ( JarModule jm : getAllJarModules() )
+                // Remove modules
+                for ( EarModule otherModule : getAllEarModules() )
                 {
+                    if ( module.equals( otherModule ) )
+                    {
+                        continue;
+                    }
                     // MEAR-189:
                     // We use the original name, cause in case of outputFileNameMapping
                     // we could not not delete it and it will end up in the resulting EAR and the WAR
@@ -856,34 +860,35 @@ public class EarMojo
                     if ( !artifact.exists() )
                     {
                         getLog().debug( "module does not exist with original file name." );
-                        artifact = new File( workLibDir, jm.getBundleFileName() );
+                        artifact = new File( workLibDir, otherModule.getBundleFileName() );
                         getLog().debug( "Artifact with mapping: " + artifact.getAbsolutePath() );
                     }
 
                     if ( !artifact.exists() )
                     {
                         getLog().debug( "Artifact with mapping does not exist." );
-                        artifact = new File( workLibDir, jm.getArtifact().getFile().getName() );
+                        artifact = new File( workLibDir, otherModule.getArtifact().getFile().getName() );
                         getLog().debug( "Artifact with original file name: " + artifact.getAbsolutePath() );
                     }
 
                     if ( !artifact.exists() )
                     {
                         getLog().debug( "Artifact with original file name does not exist." );
-                        final Artifact jmArtifact = jm.getArtifact();
-                        if ( jmArtifact.isSnapshot() )
+                        final Artifact otherModuleArtifact = otherModule.getArtifact();
+                        if ( otherModuleArtifact.isSnapshot() )
                         {
                             try
                             {
-                                artifact = new File( workLibDir, MappingUtils
-                                    .evaluateFileNameMapping( ARTIFACT_DEFAULT_FILE_NAME_MAPPING, jmArtifact ) );
+                                artifact = new File( workLibDir, MappingUtils.evaluateFileNameMapping(
+                                        ARTIFACT_DEFAULT_FILE_NAME_MAPPING, otherModuleArtifact ) );
                                 getLog()
                                     .debug( "Artifact with default mapping file name: " + artifact.getAbsolutePath() );
                             }
                             catch ( InterpolationException e )
                             {
-                                getLog().warn( "Failed to evaluate file name for [" + jm + "] module using mapping: "
-                                    + ARTIFACT_DEFAULT_FILE_NAME_MAPPING );
+                                getLog().warn(
+                                    "Failed to evaluate file name for [" + otherModule + "] module using mapping: "
+                                        + ARTIFACT_DEFAULT_FILE_NAME_MAPPING );
                             }
                         }
                     }
@@ -900,28 +905,37 @@ public class EarMojo
             }
 
             // Modify the classpath entries in the manifest
-            boolean forceClassPathModification = javaEEVersion.lt( JavaEEVersion.FIVE ) || defaultLibBundleDir == null;
-            for ( EarModule o : getModules() )
+            final boolean forceClassPathModification =
+                javaEEVersion.lt( JavaEEVersion.FIVE ) || defaultLibBundleDir == null;
+            final boolean classPathExtension = !skipClassPathModification || forceClassPathModification;
+            for ( EarModule otherModule : getModules() )
             {
-                if ( o instanceof JarModule )
+                if ( module.equals( otherModule ) )
                 {
-                    JarModule jm = (JarModule) o;
-                    final int moduleClassPathIndex = findModuleInClassPathElements( classPathElements, jm );
-                    if ( moduleClassPathIndex != -1 )
+                    continue;
+                }
+                final int moduleClassPathIndex = findModuleInClassPathElements( classPathElements, otherModule );
+                if ( moduleClassPathIndex != -1 )
+                {
+                    if ( otherModule.isClassPathItem() )
                     {
-                        classPathElements.set( moduleClassPathIndex, jm.getUri() );
+                        classPathElements.set( moduleClassPathIndex, otherModule.getUri() );
                     }
-                    else if ( !skipClassPathModification || forceClassPathModification )
+                    else
                     {
-                        classPathElements.add( jm.getUri() );
+                        classPathElements.remove( moduleClassPathIndex );
                     }
+                }
+                else if ( otherModule.isClassPathItem() && classPathExtension )
+                {
+                    classPathElements.add( otherModule.getUri() );
                 }
             }
 
-            // Remove provided Jar modules from classpath
-            for ( JarModule jm : getProvidedJarModules() )
+            // Remove provided modules from classpath
+            for ( EarModule otherModule : getProvidedEarModules() )
             {
-                final int moduleClassPathIndex = findModuleInClassPathElements( classPathElements, jm );
+                final int moduleClassPathIndex = findModuleInClassPathElements( classPathElements, otherModule );
                 if ( moduleClassPathIndex != -1 )
                 {
                     classPathElements.remove( moduleClassPathIndex );
@@ -1022,7 +1036,7 @@ public class EarMojo
      * @return -1 if {@code module} was not found in {@code classPathElements} or index of item of
      * {@code classPathElements} which matches {@code module}
      */
-    private int findModuleInClassPathElements( final List<String> classPathElements, final JarModule module )
+    private int findModuleInClassPathElements( final List<String> classPathElements, final EarModule module )
     {
         if ( classPathElements.isEmpty() )
         {

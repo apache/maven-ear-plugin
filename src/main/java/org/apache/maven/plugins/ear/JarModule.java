@@ -51,6 +51,7 @@ public class JarModule
     public JarModule()
     {
         this.type = DEFAULT_ARTIFACT_TYPE;
+        this.classPathItem = true;
     }
 
     /**
@@ -63,7 +64,7 @@ public class JarModule
         super( a );
         setLibBundleDir( defaultLibBundleDir );
         this.includeInApplicationXml = includeInApplicationXml;
-
+        this.classPathItem = true;
     }
 
     /**
