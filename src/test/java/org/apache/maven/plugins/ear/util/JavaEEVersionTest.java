@@ -103,16 +103,9 @@ public class JavaEEVersionTest
         assertEquals( "5", JavaEEVersion.FIVE.getVersion() );
     }
 
-    public void testGetJavaEEVersionValid()
+    public void testGetJavaEEVersionValid() throws InvalidJavaEEVersion
     {
-        try
-        {
-            assertEquals( JavaEEVersion.SIX, JavaEEVersion.getJavaEEVersion( "6" ) );
-        }
-        catch ( InvalidJavaEEVersion invalidJavaEEVersion )
-        {
-            fail( "No exception should have been thrown but got [" + invalidJavaEEVersion.getMessage() + "]" );
-        }
+        assertEquals( JavaEEVersion.SIX, JavaEEVersion.getJavaEEVersion( "6" ) );
     }
 
     public void testGetJavaEEVersionInvalid()
@@ -122,24 +115,20 @@ public class JavaEEVersionTest
             JavaEEVersion.getJavaEEVersion( "2.4" );
             fail( "Should have failed to get an invalid version." );
         }
-        catch ( InvalidJavaEEVersion e )
+        catch ( InvalidJavaEEVersion expected )
         {
             // OK
         }
     }
 
-    public void testGetJavaEEVersionNull()
+    public void testGetJavaEEVersionNull() throws InvalidJavaEEVersion
     {
         try
         {
             JavaEEVersion.getJavaEEVersion( null );
             fail( "Should have failed to get a 'null' version." );
         }
-        catch ( InvalidJavaEEVersion e )
-        {
-            fail( "Should have failed with an illegal argument exception instead." );
-        }
-        catch ( IllegalArgumentException e )
+        catch ( NullPointerException expected )
         {
             // OK
         }

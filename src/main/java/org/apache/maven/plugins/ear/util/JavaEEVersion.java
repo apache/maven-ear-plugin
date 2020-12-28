@@ -114,12 +114,12 @@ public class JavaEEVersion
     /**
      * Specifies if this version is greater or equal to the specified version.
      * 
-     * @param parmVersion the version to check
+     * @param paramVersion the version to check
      * @return true if this version is greater or equal to <tt>version</tt>
      */
-    public boolean ge( JavaEEVersion parmVersion )
+    public boolean ge( JavaEEVersion paramVersion )
     {
-        return this.compareTo( parmVersion ) >= 0;
+        return this.compareTo( paramVersion ) >= 0;
     }
 
     /**
@@ -176,7 +176,7 @@ public class JavaEEVersion
     {
         if ( paramVersion == null )
         {
-            throw new IllegalArgumentException( "version could not be null." );
+            throw new NullPointerException( "version cannot be null." );
         }
         // @formatter:off
         return VERSION_1_3.equals( paramVersion ) 
@@ -193,7 +193,7 @@ public class JavaEEVersion
     {
         if ( otherVersion == null )
         {
-            throw new IllegalArgumentException( "other object to compare to could not be null." );
+            throw new NullPointerException( "other object to compare to could not be null." );
         }
         return index.compareTo( otherVersion.index );
     }
