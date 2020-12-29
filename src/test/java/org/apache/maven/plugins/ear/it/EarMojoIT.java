@@ -56,7 +56,7 @@ public class EarMojoIT
     }
 
     /**
-     * Builds an EAR with a default bundle directory for <tt>java</tt> modules.
+     * Builds an EAR with a default bundle directory for {@code java} modules.
      */
     public void testProject003()
         throws Exception

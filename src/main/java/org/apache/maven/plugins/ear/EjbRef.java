@@ -75,7 +75,7 @@ public class EjbRef
     }
 
     /**
-     * Appends the <tt>XML</tt> representation of this env-entry.
+     * Appends the {@code XML} representation of this env-entry.
      * 
      * @param writer the writer to use
      */

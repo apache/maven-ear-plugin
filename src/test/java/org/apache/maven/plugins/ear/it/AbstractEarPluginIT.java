@@ -467,8 +467,8 @@ public abstract class AbstractEarPluginIT
     /**
      * Asserts that the deployment descriptors have been generated successfully.
      * 
-     * This test assumes that deployment descriptors are located in the <tt>expected-META-INF</tt> directory of the
-     * project. Note that the <tt>MANIFEST.mf</tt> file is ignored and is not tested.
+     * This test assumes that deployment descriptors are located in the {@code expected-META-INF} directory of the
+     * project. Note that the {@code MANIFEST.mf} file is ignored and is not tested.
      * 
      * @param baseDir the directory of the tested project
      * @param projectName the name of the project

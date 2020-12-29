@@ -33,6 +33,9 @@ public class InvalidJavaEEVersion
      */
     private static final long serialVersionUID = 3189028517550801372L;
 
+    /**
+     * The invalid version
+     */
     private final String invalidVersion;
 
     /**

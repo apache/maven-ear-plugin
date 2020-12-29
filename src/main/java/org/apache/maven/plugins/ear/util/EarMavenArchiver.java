@@ -103,10 +103,10 @@ public class EarMavenArchiver
     }
 
     /**
-     * Generates the <tt>Class-Path</tt> entry of the manifest according to the list of ear modules.
+     * Generates the {@code Class-Path} entry of the manifest according to the list of ear modules.
      * 
      * @param classPathPrefix the classpath prefix to use
-     * @return the <tt>Class-Path</tt> entry
+     * @return the {@code Class-Path} entry
      */
     protected String generateClassPathEntry( String classPathPrefix )
     {

@@ -115,7 +115,7 @@ public class JavaEEVersion
      * Specifies if this version is greater or equal to the specified version.
      * 
      * @param paramVersion the version to check
-     * @return true if this version is greater or equal to <tt>version</tt>
+     * @return true if this version is greater or equal to {@code version}
      */
     public boolean ge( JavaEEVersion paramVersion )
     {
@@ -126,7 +126,7 @@ public class JavaEEVersion
      * Specifies if this version is greater than the specified version.
      * 
      * @param paramVersion the version to check
-     * @return true if this version is greater to <tt>version</tt>
+     * @return true if this version is greater to {@code version}
      */
     public boolean gt( JavaEEVersion paramVersion )
     {
@@ -137,7 +137,7 @@ public class JavaEEVersion
      * Specifies if this version is equal to the specified version.
      * 
      * @param paramVersion the version to check
-     * @return true if this version is equal to <tt>version</tt>
+     * @return true if this version is equal to {@code version}
      */
     public boolean eq( JavaEEVersion paramVersion )
     {
@@ -148,7 +148,7 @@ public class JavaEEVersion
      * Specifies if this version is less or equal to the specified version.
      * 
      * @param paramVersion the version to check
-     * @return true if this version is less or equal to <tt>version</tt>
+     * @return true if this version is less or equal to {@code version}
      */
     public boolean le( JavaEEVersion paramVersion )
     {
@@ -159,7 +159,7 @@ public class JavaEEVersion
      * Specifies if this version is less than the specified version.
      * 
      * @param paramVersion the version to check
-     * @return true if this version is less or equal to <tt>version</tt>
+     * @return true if this version is less or equal to {@code version}
      */
     public boolean lt( JavaEEVersion paramVersion )
     {
@@ -170,7 +170,7 @@ public class JavaEEVersion
      * Checks if the specified version string is valid.
      * 
      * @param paramVersion the version string to check
-     * @return <tt>true</tt> if the version is valid
+     * @return {@code true} if the version is valid
      */
     private static boolean isValid( String paramVersion )
     {

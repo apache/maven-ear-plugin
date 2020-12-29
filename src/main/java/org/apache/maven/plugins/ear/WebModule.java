@@ -108,7 +108,7 @@ public class WebModule
     /**
      * Returns the context root to use for the web module.
      *
-     * Note that this might return <tt>null</tt> till the artifact has been resolved.
+     * Note that this might return {@code null} till the artifact has been resolved.
      * 
      * @return the context root
      */
@@ -118,7 +118,7 @@ public class WebModule
     }
 
     /**
-     * Generates a default context root for the given artifact, based on the <tt>artifactId</tt>.
+     * Generates a default context root for the given artifact, based on the {@code artifactId}.
      * 
      * @param a the artifact
      * @return a context root for the artifact

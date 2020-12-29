@@ -86,7 +86,7 @@ class SecurityRole
     }
 
     /**
-     * Appends the <tt>XML</tt> representation of this security role.
+     * Appends the {@code XML} representation of this security role.
      * 
      * @param writer the writer to use
      */

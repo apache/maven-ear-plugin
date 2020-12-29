@@ -275,7 +275,7 @@ class JbossConfiguration
      * <module-order>implicit</module-order> The implicit value indicates the deployment would follow the order which
      * would be specified in the DeploymentSorter.
      * <p/>
-     * Returns <tt>null</tt> if no module order is set.
+     * Returns {@code null} if no module order is set.
      * <p/>
      * Only available in JBoss 4.2 and 4.3. Has no effect in JBoss 5 and is not added when mentioned version is used.
      * 
@@ -287,7 +287,7 @@ class JbossConfiguration
     }
 
     /**
-     * Returns the list of datasources to include in the <tt>jboss-app.xml</tt> file as services. Each element of the
+     * Returns the list of datasources to include in the {@code jboss-app.xml} file as services. Each element of the
      * list is the relative path to the datasource file contained in the EAR archive.
      * 
      * @return the list of datasources paths
@@ -298,7 +298,7 @@ class JbossConfiguration
     }
 
     /**
-     * Returns the library directory to include in the <tt>jboss-app.xml</tt> file. It tells JBoss where to find
+     * Returns the library directory to include in the {@code jboss-app.xml} file. It tells JBoss where to find
      * non-Java EE libraries included in the EAR.
      * 
      * @return the library directory
@@ -309,10 +309,10 @@ class JbossConfiguration
     }
 
     /**
-     * Returns the class loader repository configuration to include in the <tt>jboss-app.xml</tt> file. The content of
+     * Returns the class loader repository configuration to include in the {@code jboss-app.xml} file. The content of
      * this element is handed to the class loader, thereby altering it's default behaviour.
      * <p/>
-     * This element is added as a child to the <tt>loader-repository</tt> element. If the element is not present in the
+     * This element is added as a child to the {@code loader-repository} element. If the element is not present in the
      * configuration, it will be added.
      * <p/>
      * Example: &lt;loader-repository-config>java2ParentDelegaton=true&lt;/loader-repository-config>
@@ -325,10 +325,10 @@ class JbossConfiguration
     }
 
     /**
-     * Returns the class loader repository class to include in the <tt>jboss-app.xml</tt> file. It tells JBoss which
+     * Returns the class loader repository class to include in the {@code jboss-app.xml} file. It tells JBoss which
      * loader repository implementation to use.
      * <p/>
-     * This element is added as an attribute to the <tt>loader-repository</tt> element, therefore it is not added if no
+     * This element is added as an attribute to the {@code loader-repository} element, therefore it is not added if no
      * such element configuration is present.
      * <p/>
      * Example: &lt;loader-repository-class>org.mindbug.jboss.AlternateLoaderRepository&lt;/loader-repository-class>
@@ -341,10 +341,10 @@ class JbossConfiguration
     }
 
     /**
-     * Returns the class loader's configuration parser class to include in the <tt>jboss-app.xml</tt> file. It tells
-     * JBoss how to parse the configuration given in the <tt>loader-repository-config</tt> element.
+     * Returns the class loader's configuration parser class to include in the {@code jboss-app.xml} file. It tells
+     * JBoss how to parse the configuration given in the {@code loader-repository-config} element.
      * <p/>
-     * This element is added as an attribute to the <tt>loader-repository-config</tt> element, therefore it is not added
+     * This element is added as an attribute to the {@code loader-repository-config} element, therefore it is not added
      * if no such element configuration is present.
      * <p/>
      * Example: &lt;config-parser-class>org.mindbug.jboss.AlternateLoaderRepositoryConfigParser&lt;/config-parser-class>

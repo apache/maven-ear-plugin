@@ -113,7 +113,7 @@ public class ArtifactTypeMappingService
     }
 
     /**
-     * Specify whether the <tt>customType</tt> could be mapped to the <tt>standardType</tt>.
+     * Specify whether the {@code customType} could be mapped to the {@code standardType}.
      * 
      * @param standardType the standard type (ejb, jar, war, ...)
      * @param customType a user-defined type
@@ -131,7 +131,7 @@ public class ArtifactTypeMappingService
     }
 
     /**
-     * Returns the standard type for the specified <tt>type</tt>. If the specified type is already a standard type, the
+     * Returns the standard type for the specified {@code type}. If the specified type is already a standard type, the
      * orignal type is returned.
      * 
      * @param type a type

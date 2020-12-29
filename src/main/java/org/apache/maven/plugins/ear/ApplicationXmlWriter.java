@@ -26,7 +26,7 @@ import org.apache.maven.plugins.ear.util.JavaEEVersion;
 import org.codehaus.plexus.util.xml.XMLWriter;
 
 /**
- * An <code>XmlWriter</code> based implementation used to generate an <tt>application.xml</tt> file.
+ * An <code>XmlWriter</code> based implementation used to generate an {@code application.xml} file.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */

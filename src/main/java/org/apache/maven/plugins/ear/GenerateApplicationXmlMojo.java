@@ -99,14 +99,14 @@ public class GenerateApplicationXmlMojo
     private String description;
 
     /**
-     * Defines how the <tt>library-directory</tt> element should be written in the application.xml file.
+     * Defines how the {@code library-directory} element should be written in the application.xml file.
      * <p/>
      * Three special values can be set:
      * <ul>
-     * <li><code>DEFAULT</code> (default) generates a <tt>library-directory</tt> element with the value of the
-     * <tt>defaultLibBundleDir</tt> parameter</li>
-     * <li><code>EMPTY</code> generates an empty <tt>library-directory</tt> element. Per spec, this disables the
-     * scanning of jar files in the <tt>lib</tt> directory of the ear file</li>
+     * <li><code>DEFAULT</code> (default) generates a {@code library-directory} element with the value of the
+     * {@code defaultLibBundleDir} parameter</li>
+     * <li><code>EMPTY</code> generates an empty {@code library-directory} element. Per spec, this disables the
+     * scanning of jar files in the {@code lib} directory of the ear file</li>
      * <li><code>NONE</code> does not write the library-directory element at all. A corner case that can be used in
      * Oracle Weblogic to delegate the classloading to the container</li>
      * </ul>
@@ -505,7 +505,7 @@ public class GenerateApplicationXmlMojo
     }
 
     /**
-     * Returns the value to use for the <tt>library-directory</tt> element, based on the library directory mode.
+     * Returns the value to use for the {@code library-directory} element, based on the library directory mode.
      */
     private String getActualLibraryDirectory()
         throws EarPluginException

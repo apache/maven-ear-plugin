@@ -28,7 +28,7 @@ import org.apache.maven.plugins.ear.util.ArtifactTypeMappingService;
 import org.apache.maven.plugins.ear.util.JavaEEVersion;
 
 /**
- * Builds an {@link EarModule} based on an <tt>Artifact</tt>.
+ * Builds an {@link EarModule} based on an {@code Artifact}.
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */

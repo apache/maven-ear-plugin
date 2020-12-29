@@ -60,6 +60,9 @@ public abstract class AbstractEarModule
 
     private String artifactId;
 
+    /**
+     * The type of the artifact
+     */
     protected String type;
 
     private String classifier;

@@ -36,7 +36,7 @@ public interface EarModule
     /**
      * Returns the {@link Artifact} representing this module.
      * 
-     * Note that this might return <tt>null</tt> till the module has been resolved.
+     * Note that this might return {@code null} till the module has been resolved.
      * 
      * @return the artifact
      * @see #resolveArtifact(java.util.Set)
@@ -44,9 +44,9 @@ public interface EarModule
     Artifact getArtifact();
 
     /**
-     * Returns the <tt>URI</tt> for this module.
+     * Returns the {@code URI} for this module.
      * 
-     * @return the <tt>URI</tt>
+     * @return the {@code URI}
      */
     String getUri();
 
@@ -84,10 +84,10 @@ public interface EarModule
     String getAltDeploymentDescriptor();
 
     /**
-     * Appends the <tt>XML</tt> representation of this module.
+     * Appends the {@code XML} representation of this module.
      * 
      * @param writer the writer to use
-     * @param version the version of the <tt>application.xml</tt> file
+     * @param version the version of the {@code application.xml} file
      * @param generateId whether an id should be generated
      */
     void appendModule( XMLWriter writer, String version, Boolean generateId );
@@ -129,6 +129,8 @@ public interface EarModule
     /**
      * If module should be included into the Class-Path entry of MANIFEST.mf. Doesn't impact Class-Path entry of
      * MANIFEST.mf of modules which contain all of their dependencies unless skinnyWars / skinnyModules is turned on.
+     *
+     * @return {@code }True} if module should be included into the Class-Path entry of MANIFEST.mf
      */
     boolean isClassPathItem();
 
