@@ -83,9 +83,10 @@ import org.codehaus.plexus.util.StringUtils;
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-// CHECKSTYLE_OFF: LineLength
-@Mojo( name = "ear", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true, requiresDependencyResolution = ResolutionScope.TEST )
-// CHECKSTYLE_ON: LineLength
+@Mojo( name = "ear",
+       defaultPhase = LifecyclePhase.PACKAGE,
+       threadSafe = true,
+       requiresDependencyResolution = ResolutionScope.TEST )
 public class EarMojo
     extends AbstractEarMojo
 {

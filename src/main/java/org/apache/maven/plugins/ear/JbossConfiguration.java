@@ -121,9 +121,8 @@ class JbossConfiguration
             }
             else
             {
-                // CHECKSTYLE_OFF: LineLength
-                throw new EarPluginException( "Invalid JBoss configuration, version[" + version + "] is not supported." );
-                // CHECKSTYLE_ON: LineLength
+                throw new EarPluginException(
+                        "Invalid JBoss configuration, version[" + version + "] is not supported." );
             }
             this.securityDomain = securityDomain;
             this.unauthenticatedPrincipal = unauthenticatedPrincipal;

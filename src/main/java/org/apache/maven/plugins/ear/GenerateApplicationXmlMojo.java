@@ -45,9 +45,10 @@ import org.codehaus.plexus.util.FileUtils;
  * 
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-// CHECKSTYLE_OFF: LineLength
-@Mojo( name = "generate-application-xml", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true, requiresDependencyResolution = ResolutionScope.TEST )
-// CHECKSTYLE_ON: LineLength
+@Mojo( name = "generate-application-xml",
+       defaultPhase = LifecyclePhase.GENERATE_RESOURCES,
+       threadSafe = true,
+       requiresDependencyResolution = ResolutionScope.TEST )
 public class GenerateApplicationXmlMojo
     extends AbstractEarMojo
 {
@@ -365,7 +366,6 @@ public class GenerateApplicationXmlMojo
             getLog().debug( "buildEnvEntries: allEnvEntries size:" + allEnvEntries.length );
             for ( PlexusConfiguration envEntry : allEnvEntries )
             {
-                // CHECKSTYLE_OFF: LineLength
                 final String childDescription =
                     interpolate( ssi, envEntry.getChild( EnvEntry.DESCRIPTION ).getValue() );
                 final String childEnvEntryName =
@@ -376,7 +376,6 @@ public class GenerateApplicationXmlMojo
                     interpolate( ssi, envEntry.getChild( EnvEntry.ENV_ENTRY_VALUE ).getValue() );
                 final String childEnvLookupNameValue =
                     interpolate( ssi, envEntry.getChild( EnvEntry.ENV_LOOKUP_NAME ).getValue() );
-                // CHECKSTYLE_ON: LineLength
 
                 try
                 {
@@ -421,14 +420,12 @@ public class GenerateApplicationXmlMojo
 
             for ( PlexusConfiguration ejbEntry : allEjbEntries )
             {
-                // CHECKSTYLE_OFF: LineLength
                 final String childDescription =
                     interpolate( ssi, ejbEntry.getChild( EnvEntry.DESCRIPTION ).getValue() );
                 final String childEjbEntryName = interpolate( ssi, ejbEntry.getChild( EjbRef.EJB_NAME ).getValue() );
                 final String childEjbEntryType = interpolate( ssi, ejbEntry.getChild( EjbRef.EJB_TYPE ).getValue() );
                 final String childEjbLookupNameValue =
                     interpolate( ssi, ejbEntry.getChild( EjbRef.EJB_LOOKUP_NAME ).getValue() );
-                // CHECKSTYLE_ON: LineLength
 
                 try
                 {
@@ -479,7 +476,6 @@ public class GenerateApplicationXmlMojo
             {
                 getLog().debug( "Resources resEntry:" + resEntry.getName() );
 
-                // CHECKSTYLE_OFF: LineLength
                 final String childResRefName =
                     interpolate( ssi, resEntry.getChild( ResourceRef.RESOURCE_REF_NAME ).getValue() );
                 final String childResType =
@@ -488,13 +484,11 @@ public class GenerateApplicationXmlMojo
                     interpolate( ssi, resEntry.getChild( ResourceRef.RESOURCE_AUTH ).getValue() );
                 final String childResRefLookupName =
                     interpolate( ssi, resEntry.getChild( ResourceRef.LOOKUP_NAME ).getValue() );
-                // CHECKSTYLE_ON: LineLength
 
                 try
                 {
-                    // CHECKSTYLE_OFF: LineLength
-                    result.add( new ResourceRef( childResRefName, childResType, childResRefAuth, childResRefLookupName ) );
-                    // CHECKSTYLE_ON: LineLength
+                    result.add(
+                            new ResourceRef( childResRefName, childResType, childResRefAuth, childResRefLookupName ) );
                 }
                 catch ( IllegalArgumentException e )
                 {

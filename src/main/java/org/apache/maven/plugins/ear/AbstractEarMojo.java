@@ -123,10 +123,9 @@ public abstract class AbstractEarMojo
      * 
      * @since 3.0.0
      */
-    // CHECKSTYLE_OFF: LineLength
-    @Parameter( defaultValue = "@{groupId}@-@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@", required = true )
+    @Parameter( defaultValue = "@{groupId}@-@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@",
+                required = true )
     private String outputFileNameMapping;
-    // CHECKSTYLE_ON: LineLength
 
     /**
      * When using a {@link #outputFileNameMapping} with versions, either use the {@code baseVersion} or the

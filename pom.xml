@@ -26,7 +26,7 @@
     <artifactId>maven-plugins</artifactId>
     <groupId>org.apache.maven.plugins</groupId>
     <version>34</version>
-    <relativePath>../../pom/maven/maven-plugins/pom.xml</relativePath>
+    <relativePath/>
   </parent>
 
   <artifactId>maven-ear-plugin</artifactId>
@@ -85,7 +85,6 @@
     <mavenVersion>3.1.1</mavenVersion>
     <javaVersion>7</javaVersion>
     <surefire.version>2.22.2</surefire.version>
-    <project.build.outputTimestamp>2020-09-26T20:10:30Z</project.build.outputTimestamp>
     <mavenWarPluginVersion>3.3.1</mavenWarPluginVersion>
     <mavenCompilerPluginVersion>2.5.1</mavenCompilerPluginVersion>
     <mavenEjbPluginVersion>3.1.0</mavenEjbPluginVersion>
@@ -96,6 +95,8 @@
     <invoker.install.skip>${invoker.skip}</invoker.install.skip>
     <invoker.it.skip>${invoker.skip}</invoker.it.skip>
     <invoker.cloneClean>true</invoker.cloneClean>
+    <checkstyle.violation.ignore>ParameterNumber,MethodLength</checkstyle.violation.ignore>
+    <project.build.outputTimestamp>2020-09-26T20:10:30Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
