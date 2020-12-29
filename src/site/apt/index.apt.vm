@@ -60,8 +60,7 @@ ${project.name}
   For available configuration options for these artifacts, please see the
   {{{./modules.html}modules configuration}}.
 
-  For more information about the Java EE technology, please visit
-  {{http://www.oracle.com/us/technologies/java/enterprise-edition/overview/index.html}}.
+  For more information about the Java EE technology, please visit {{https://www.oracle.com/java/technologies/java-ee-glance.html}}.
 
 * Version 3.2.0
 
