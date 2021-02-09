@@ -80,7 +80,7 @@
   </contributors>
 
   <properties>
-    <mavenArchiverVersion>3.5.0</mavenArchiverVersion>
+    <mavenArchiverVersion>3.5.1</mavenArchiverVersion>
     <mavenFilteringVersion>3.2.0</mavenFilteringVersion>
     <mavenVersion>3.1.1</mavenVersion>
     <javaVersion>7</javaVersion>
