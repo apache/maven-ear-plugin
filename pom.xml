@@ -82,7 +82,7 @@
   <properties>
     <mavenArchiverVersion>3.5.1</mavenArchiverVersion>
     <mavenFilteringVersion>3.2.0</mavenFilteringVersion>
-    <mavenVersion>3.1.1</mavenVersion>
+    <mavenVersion>3.8.2</mavenVersion>
     <javaVersion>7</javaVersion>
     <surefire.version>2.22.2</surefire.version>
     <mavenWarPluginVersion>3.3.1</mavenWarPluginVersion>
