@@ -80,10 +80,10 @@
   </contributors>
 
   <properties>
-    <mavenArchiverVersion>3.5.1</mavenArchiverVersion>
-    <mavenFilteringVersion>3.2.0</mavenFilteringVersion>
-    <mavenVersion>3.1.1</mavenVersion>
-    <javaVersion>7</javaVersion>
+    <mavenArchiverVersion>3.5.3-SNAPSHOT</mavenArchiverVersion>
+    <mavenFilteringVersion>3.3.0-SNAPSHOT</mavenFilteringVersion>
+    <mavenVersion>4.0.0-alpha-1-SNAPSHOT</mavenVersion>
+    <javaVersion>8</javaVersion>
     <surefire.version>2.22.2</surefire.version>
     <mavenWarPluginVersion>3.3.1</mavenWarPluginVersion>
     <mavenCompilerPluginVersion>2.5.1</mavenCompilerPluginVersion>
@@ -159,7 +159,7 @@
     <dependency>
       <groupId>org.apache.maven.shared</groupId>
       <artifactId>maven-shared-utils</artifactId>
-      <version>3.3.3</version>
+      <version>4.0.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -262,7 +262,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0-M3</version>
+          <version>3.0.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -278,6 +278,22 @@
         <configuration>
           <escapeString>\</escapeString>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>extra-enforcer-rules</artifactId>
+            <version>1.5.1</version>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-dependency-tree</artifactId>
+            <version>3.1.0</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
