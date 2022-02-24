@@ -46,7 +46,6 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -313,7 +312,7 @@ public class EarMojo
 
     /** {@inheritDoc} */
     public void execute()
-        throws MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
         // Initializes ear modules
         super.execute();
@@ -435,7 +434,7 @@ public class EarMojo
     private void copyModules( final JavaEEVersion javaEEVersion, 
                               List<String> unpackTypesList, 
                               Collection<String> outdatedResources )
-        throws MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
         final Path workingDir = getWorkDirectory().toPath();
 

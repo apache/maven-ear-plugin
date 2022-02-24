@@ -28,7 +28,6 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.ear.util.ArtifactTypeMappingService;
 import org.apache.maven.plugins.ear.util.JavaEEVersion;
@@ -174,7 +173,7 @@ public abstract class AbstractEarMojo
 
     /** {@inheritDoc} */
     public void execute()
-        throws MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
         if ( fileNameMapping != null )
         {

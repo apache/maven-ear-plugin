@@ -22,7 +22,6 @@ package org.apache.maven.plugins.ear;
 import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.ear.util.ArtifactRepository;
 import org.apache.maven.shared.mapping.MappingUtils;
 import org.codehaus.plexus.interpolation.InterpolationException;
