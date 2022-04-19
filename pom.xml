@@ -80,22 +80,22 @@
   </contributors>
 
   <properties>
-    <mavenArchiverVersion>3.5.1</mavenArchiverVersion>
+    <mavenArchiverVersion>3.5.2</mavenArchiverVersion>
     <mavenFilteringVersion>3.2.0</mavenFilteringVersion>
-    <mavenVersion>3.1.1</mavenVersion>
+    <mavenVersion>3.2.5</mavenVersion>
     <javaVersion>7</javaVersion>
-    <surefire.version>2.22.2</surefire.version>
-    <mavenWarPluginVersion>3.3.1</mavenWarPluginVersion>
-    <mavenCompilerPluginVersion>2.5.1</mavenCompilerPluginVersion>
+    <surefire.version>3.0.0-M6</surefire.version>
+    <mavenWarPluginVersion>3.3.2</mavenWarPluginVersion>
+    <mavenCompilerPluginVersion>3.10.1</mavenCompilerPluginVersion>
     <mavenEjbPluginVersion>3.1.0</mavenEjbPluginVersion>
     <mavenRarPluginVersion>2.4</mavenRarPluginVersion>
-    <mavenJarPluginVersion>3.2.0</mavenJarPluginVersion>
+    <mavenJarPluginVersion>3.2.2</mavenJarPluginVersion>
     <jbossPackagingPluginVersion>2.2</jbossPackagingPluginVersion>
     <invoker.skip>false</invoker.skip>
     <invoker.install.skip>${invoker.skip}</invoker.install.skip>
     <invoker.it.skip>${invoker.skip}</invoker.it.skip>
     <invoker.cloneClean>true</invoker.cloneClean>
-    <mavenPluginToolsVersion>3.6.0</mavenPluginToolsVersion><!-- required for Java 11 generated Mojo -->
+    <mavenPluginToolsVersion>3.6.4</mavenPluginToolsVersion><!-- required for Java 11 generated Mojo -->
     <checkstyle.violation.ignore>ParameterNumber,MethodLength</checkstyle.violation.ignore>
     <project.build.outputTimestamp>2020-12-30T10:47:20Z</project.build.outputTimestamp>
   </properties>
@@ -121,6 +121,18 @@
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
+      <artifactId>maven-model</artifactId>
+      <version>${mavenVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-settings</artifactId>
+      <version>${mavenVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
       <artifactId>maven-archiver</artifactId>
       <version>${mavenArchiverVersion}</version>
     </dependency>
@@ -132,7 +144,7 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-archiver</artifactId>
-      <version>4.2.5</version>
+      <version>4.2.7</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
