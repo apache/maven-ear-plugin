@@ -263,9 +263,14 @@
           <version>3.1.2</version>
         </plugin>
         <plugin>
+          <!-- remove after parent upgrade -->
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.3.1</version>
+          <version>3.3.2</version>
+          <configuration>
+            <detectLinks>false</detectLinks>
+            <tagletArtifacts combine.self="override"/>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

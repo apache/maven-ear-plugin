@@ -1300,4 +1300,13 @@ public class EarMojoIT
                     warModuleLibDir + rarLibrary
                 } } );
     }
+
+    /**
+     * Builds an EAR with deployment descriptor configuration for JakartaEE 9.
+     */
+    public void testProject099()
+            throws Exception
+    {
+        doTestProject( "project-099", new String[] { "eartest-ejb-sample-one-1.0.jar" } );
+    }
 }
