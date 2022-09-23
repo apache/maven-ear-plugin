@@ -1309,4 +1309,13 @@ public class EarMojoIT
     {
         doTestProject( "project-099", new String[] { "eartest-ejb-sample-one-1.0.jar" } );
     }
+
+    /**
+     * Builds an EAR with deployment descriptor configuration for JakartaEE 10.
+     */
+    public void testProject100()
+            throws Exception
+    {
+        doTestProject( "project-100", new String[] { "eartest-ejb-sample-one-1.0.jar" } );
+    }
 }
