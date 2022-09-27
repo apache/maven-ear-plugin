@@ -25,7 +25,7 @@
   <parent>
     <artifactId>maven-plugins</artifactId>
     <groupId>org.apache.maven.plugins</groupId>
-    <version>34</version>
+    <version>37</version>
     <relativePath />
   </parent>
 
@@ -84,7 +84,6 @@
     <mavenFilteringVersion>3.2.0</mavenFilteringVersion>
     <mavenVersion>3.1.1</mavenVersion>
     <javaVersion>7</javaVersion>
-    <surefire.version>2.22.2</surefire.version>
     <mavenWarPluginVersion>3.3.1</mavenWarPluginVersion>
     <mavenCompilerPluginVersion>2.5.1</mavenCompilerPluginVersion>
     <mavenEjbPluginVersion>3.1.0</mavenEjbPluginVersion>
@@ -94,8 +93,6 @@
     <invoker.skip>false</invoker.skip>
     <invoker.install.skip>${invoker.skip}</invoker.install.skip>
     <invoker.it.skip>${invoker.skip}</invoker.it.skip>
-    <invoker.cloneClean>true</invoker.cloneClean>
-    <mavenPluginToolsVersion>3.6.0</mavenPluginToolsVersion><!-- required for Java 11 generated Mojo -->
     <checkstyle.violation.ignore>ParameterNumber,MethodLength</checkstyle.violation.ignore>
     <project.build.outputTimestamp>2020-12-30T10:47:20Z</project.build.outputTimestamp>
   </properties>
@@ -105,16 +102,31 @@
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
       <version>${mavenVersion}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-artifact</artifactId>
       <version>${mavenVersion}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
       <version>${mavenVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-model</artifactId>
+      <version>${mavenVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-settings</artifactId>
+      <version>${mavenVersion}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
@@ -215,6 +227,7 @@
         <filtering>true</filtering>
       </testResource>
     </testResources>
+
     <pluginManagement>
       <plugins>
         <plugin>
@@ -249,33 +262,9 @@
             </excludes>
           </configuration>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.9.1</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.1.1</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0-M3</version>
-        </plugin>
-        <plugin>
-          <!-- remove after parent upgrade -->
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.3.2</version>
-          <configuration>
-            <detectLinks>false</detectLinks>
-            <tagletArtifacts combine.self="override"/>
-          </configuration>
-        </plugin>
       </plugins>
     </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -318,7 +307,6 @@
               </extraArtifacts>
               <skipInstallation>${invoker.install.skip}</skipInstallation>
               <skipInvocation>${invoker.it.skip}</skipInvocation>
-              <cloneClean>${invoker.cloneClean}</cloneClean>
             </configuration>
           </plugin>
           <plugin>
@@ -356,7 +344,6 @@
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
-              <version>3.8.1</version>
               <configuration>
                 <showDeprecation>true</showDeprecation>
                 <release>${javaVersion}</release>
