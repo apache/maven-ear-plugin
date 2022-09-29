@@ -89,8 +89,6 @@ public abstract class AbstractEarPluginIT
         String localRepo = System.getProperty( "localRepositoryPath" );
         verifier.setLocalRepo( localRepo );
 
-        String httpsProtocols = System.getProperty( "https.protocols" );
-        verifier.setSystemProperty( "https.protocols", httpsProtocols );
         verifier.getCliOptions().add( "-s \"" + settingsFile.getAbsolutePath() + "\"" );//
         verifier.getCliOptions().add( "-X" );
         verifier.setLocalRepo( localRepo );

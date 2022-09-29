@@ -83,7 +83,7 @@
     <mavenArchiverVersion>3.5.1</mavenArchiverVersion>
     <mavenFilteringVersion>3.2.0</mavenFilteringVersion>
     <mavenVersion>3.1.1</mavenVersion>
-    <javaVersion>7</javaVersion>
+    <javaVersion>8</javaVersion>
     <mavenWarPluginVersion>3.3.1</mavenWarPluginVersion>
     <mavenCompilerPluginVersion>2.5.1</mavenCompilerPluginVersion>
     <mavenEjbPluginVersion>3.1.0</mavenEjbPluginVersion>
