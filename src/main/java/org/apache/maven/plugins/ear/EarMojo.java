@@ -55,6 +55,7 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.plugins.ear.util.EarMavenArchiver;
 import org.apache.maven.plugins.ear.util.JavaEEVersion;
 import org.apache.maven.project.MavenProjectHelper;
+import org.apache.maven.shared.filtering.FilterWrapper;
 import org.apache.maven.shared.filtering.MavenFileFilter;
 import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.maven.shared.filtering.MavenResourcesExecution;
@@ -303,7 +304,7 @@ public class EarMojo
     @Parameter( defaultValue = "${session}", readonly = true, required = true )
     private MavenSession session;
 
-    private List<FileUtils.FilterWrapper> filterWrappers;
+    private List<FilterWrapper> filterWrappers;
 
     /**
      * @since 2.9
@@ -743,7 +744,7 @@ public class EarMojo
         return !mavenResourcesFiltering.filteredFileExtension( fileName, nonFilteredFileExtensions );
     }
 
-    private List<FileUtils.FilterWrapper> getFilterWrappers()
+    private List<FilterWrapper> getFilterWrappers()
         throws MojoExecutionException
     {
         if ( filterWrappers == null )
