@@ -169,7 +169,7 @@ public class EarMojo
      * The location of a custom application.xml file to be used within the EAR file.
      */
     @Parameter
-    private String applicationXml;
+    private File applicationXml;
 
     /**
      * The directory for the generated EAR.
@@ -376,12 +376,12 @@ public class EarMojo
                 }
             }
 
-            if ( applicationXml != null && !"".equals( applicationXml ) )
+            if ( applicationXml != null )
             {
                 // rename to application.xml
                 getLog().info( "Including custom application.xml[" + applicationXml + "]" );
                 File metaInfDir = new File( getWorkDirectory(), META_INF );
-                copyFile( new File( applicationXml ), new File( metaInfDir, "/application.xml" ) );
+                copyFile( applicationXml, new File( metaInfDir, "/application.xml" ) );
                 outdatedResources.remove( Paths.get( "META-INF/application.xml" ).toString() );
             }
         }
@@ -538,7 +538,7 @@ public class EarMojo
     /**
      * @return {@link #applicationXml}
      */
-    public String getApplicationXml()
+    public File getApplicationXml()
     {
         return applicationXml;
     }
@@ -546,7 +546,7 @@ public class EarMojo
     /**
      * @param applicationXml {@link #applicationXml}
      */
-    public void setApplicationXml( String applicationXml )
+    public void setApplicationXml( File applicationXml )
     {
         this.applicationXml = applicationXml;
     }
