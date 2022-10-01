@@ -38,10 +38,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.TestCase;
 
-import org.apache.maven.it.VerificationException;
-import org.apache.maven.it.Verifier;
-import org.apache.maven.it.util.ResourceExtractor;
 import org.apache.maven.plugins.ear.util.ResourceEntityResolver;
+import org.apache.maven.shared.verifier.VerificationException;
+import org.apache.maven.shared.verifier.Verifier;
+import org.apache.maven.shared.verifier.util.ResourceExtractor;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Assert;
@@ -89,14 +89,14 @@ public abstract class AbstractEarPluginIT
         String localRepo = System.getProperty( "localRepositoryPath" );
         verifier.setLocalRepo( localRepo );
 
-        verifier.getCliOptions().add( "-s \"" + settingsFile.getAbsolutePath() + "\"" );//
-        verifier.getCliOptions().add( "-X" );
-        verifier.setLocalRepo( localRepo );
+        verifier.addCliArguments( "-s", settingsFile.getAbsolutePath() );//
+        verifier.addCliArgument( "-X" );
+        verifier.addCliArgument( "package" );
 
         // On linux and MacOS X, an exception is thrown if a build failure occurs underneath
         try
         {
-            verifier.executeGoal( "package" );
+            verifier.execute();
         }
         catch ( VerificationException e )
         {
@@ -112,7 +112,6 @@ public abstract class AbstractEarPluginIT
         {
             verifier.verifyErrorFreeLog();
         }
-        verifier.resetStreams();
         return testDir;
     }
 
