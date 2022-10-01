@@ -81,7 +81,7 @@
 
   <properties>
     <mavenArchiverVersion>3.5.1</mavenArchiverVersion>
-    <mavenFilteringVersion>3.2.0</mavenFilteringVersion>
+    <mavenFilteringVersion>3.3.0</mavenFilteringVersion>
     <mavenVersion>3.1.1</mavenVersion>
     <javaVersion>8</javaVersion>
     <mavenWarPluginVersion>3.3.1</mavenWarPluginVersion>
@@ -177,7 +177,7 @@
     <dependency>
       <groupId>org.apache.maven.shared</groupId>
       <artifactId>maven-verifier</artifactId>
-      <version>1.7.2</version>
+      <version>1.8.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
