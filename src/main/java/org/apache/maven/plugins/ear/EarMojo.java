@@ -476,7 +476,7 @@ public class EarMojo
 
                     if ( module.changeManifestClasspath() )
                     {
-                        changeManifestClasspath( module, destinationFile, javaEEVersion );
+                        changeManifestClasspath( module, destinationFile, javaEEVersion, outdatedResources );
                     }
                 }
                 else
@@ -489,7 +489,7 @@ public class EarMojo
                             LinkOption.NOFOLLOW_LINKS, StandardCopyOption.REPLACE_EXISTING );
                         if ( module.changeManifestClasspath() )
                         {
-                            changeManifestClasspath( module, destinationFile, javaEEVersion );
+                            changeManifestClasspath( module, destinationFile, javaEEVersion, outdatedResources );
                         }
                     }
                     else
@@ -689,19 +689,16 @@ public class EarMojo
     public void unpack( File source, final File destDir, final Collection<String> outdatedResources )
         throws ArchiverException, NoSuchArchiverException, IOException
     {
+        Path destPath = destDir.toPath();
+
         UnArchiver unArchiver = archiverManager.getUnArchiver( "zip" );
         unArchiver.setSourceFile( source );
         unArchiver.setDestDirectory( destDir );
         unArchiver.setFileMappers( new FileMapper[] {
-            new FileMapper()
+            pName ->
             {
-                @Override
-                public String getMappedFileName( String pName )
-                {
-                    Path destFile = destDir.toPath().resolve( pName );
-                    outdatedResources.remove( getWorkDirectory().toPath().relativize( destFile ).toString() );
-                    return pName;
-                }
+                removeFromOutdatedResources( destPath.resolve( pName ), outdatedResources );
+                return pName;
             }
         } );
 
@@ -768,7 +765,8 @@ public class EarMojo
         return filterWrappers;
     }
 
-    private void changeManifestClasspath( EarModule module, File original, JavaEEVersion javaEEVersion )
+    private void changeManifestClasspath( EarModule module, File original, JavaEEVersion javaEEVersion,
+                                          Collection<String> outdatedResources )
         throws MojoFailureException
     {
         final String moduleLibDir = module.getLibDir();
@@ -955,6 +953,8 @@ public class EarMojo
                 {
                     mf.write( writer );
                 }
+
+                removeFromOutdatedResources( manifestFile.toPath(), outdatedResources );
             }
 
             if ( original.isFile() )
@@ -983,8 +983,7 @@ public class EarMojo
         // Read the manifest from disk
         try ( FileInputStream in = new FileInputStream( manifestFile ) )
         {
-            Manifest manifest = new Manifest( in );
-            return manifest;
+            return new Manifest( in );
         }
     }
 
@@ -1012,20 +1011,36 @@ public class EarMojo
                 getLog().warn( "Can't detect outdated resources", e );
             } 
         }
+
+        getLog().debug( "initOutdatedResources: " + outdatedResources );
         return outdatedResources;
     }
 
     private void deleteOutdatedResources( final Collection<String> outdatedResources )
     {
+        getLog().debug( "deleteOutdatedResources: " + outdatedResources );
         final long startTime = session.getStartTime().getTime();
-        
+
+        getLog().debug( "deleteOutdatedResources session startTime: " + startTime );
+
         for ( String outdatedResource : outdatedResources )
         {
-            if ( new File( getWorkDirectory(), outdatedResource ).lastModified() < startTime )
+            File resourceFile = new File( getWorkDirectory(), outdatedResource );
+            if ( resourceFile.lastModified() < startTime )
             {
                 getLog().info( "deleting outdated resource " + outdatedResource );
-                new File( getWorkDirectory(), outdatedResource ).delete();
+                getLog().debug( outdatedResource + " last modified: " + resourceFile.lastModified() );
+                resourceFile.delete();
             }
+        }
+    }
+
+    private void removeFromOutdatedResources( Path destination, Collection<String> outdatedResources )
+    {
+        Path relativeDestFile = getWorkDirectory().toPath().relativize( destination );
+        if ( outdatedResources.remove( relativeDestFile.toString() ) )
+        {
+            getLog().debug( "Remove from outdatedResources: " + relativeDestFile );
         }
     }
 
