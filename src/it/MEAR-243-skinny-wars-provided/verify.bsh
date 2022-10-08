@@ -95,13 +95,13 @@ assertJar( String fileName, String[] includedEntries, String[] excludedEntries, 
 String[] includedEntries = {
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF",
-    "WEB-INF/lib/commons-lang-2.5.jar"
+    "WEB-INF/lib/commons-lang-2.6.jar"
 };
 
 assertJar( "war-module-one/target/war-module-one-1.0.war", includedEntries, null, false, null );
 
 String[] expectedClassPathElements = {
-    "commons-lang-2.5.jar"
+    "commons-lang-2.6.jar"
 };
 
 assertJar( "war-module-two/target/war-module-two-1.0.war", includedEntries, null, true, expectedClassPathElements );
@@ -112,7 +112,7 @@ String[] includedEntries = {
 };
 
 String[] excludedEntries = {
-    "WEB-INF/lib/commons-lang-2.5.jar"
+    "WEB-INF/lib/commons-lang-2.6.jar"
 };
 
 String[] expectedClassPathElements = {};
@@ -124,8 +124,8 @@ assertJar( "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars
     includedEntries, excludedEntries, true, expectedClassPathElements );
 
 String[] excludedEntries = {
-    "commons-lang-2.5.jar",
-    "lib/commons-lang-2.5.jar",
+    "commons-lang-2.6.jar",
+    "lib/commons-lang-2.6.jar",
 };
 
 assertJar( "ear-module/target/ear-module-1.0.ear", null, excludedEntries, false, null );

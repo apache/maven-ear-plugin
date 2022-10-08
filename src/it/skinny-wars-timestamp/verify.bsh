@@ -94,34 +94,34 @@ File warOneFile = new File( basedir, "war-module-one/target/war-module-one-1.0.w
 assertFileExists( warOneFile );
 assertIncludes( warOneFile, new String[] { "WEB-INF/web.xml",
                                            "META-INF/MANIFEST.MF",
-                                           "WEB-INF/lib/commons-lang-2.5.jar",
+                                           "WEB-INF/lib/commons-lang-2.6.jar",
                                            "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar" } );
-assertManifestClassPath( warOneFile, "commons-lang-2.5.jar jar-sample-one-1.0-20150825.210557-91.jar" );
+assertManifestClassPath( warOneFile, "commons-lang-2.6.jar jar-sample-one-1.0-20150825.210557-91.jar" );
 
 File warTwoFile = new File( basedir, "war-module-two/target/war-module-two-1.0.war" );
 assertFileExists( warTwoFile );
 assertIncludes( warTwoFile, new String[] { "WEB-INF/web.xml",
                                            "META-INF/MANIFEST.MF",
                                            "WEB-INF/lib/jar-sample-one-1.0-SNAPSHOT.jar" } );
-assertExcludes( warTwoFile, new String[] { "WEB-INF/lib/commons-lang-2.5.jar" } );
+assertExcludes( warTwoFile, new String[] { "WEB-INF/lib/commons-lang-2.6.jar" } );
 assertManifestClassPath( warTwoFile, "jar-sample-one-1.0-SNAPSHOT.jar" );
 
 File warModuleOneFile = new File( basedir, "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-one-1.0.war" );
 assertFileExists( warModuleOneFile );
 assertIncludes( warModuleOneFile, new String[] { "WEB-INF/web.xml",
                                                  "META-INF/MANIFEST.MF" } );
-assertExcludes( warModuleOneFile, new String[] { "WEB-INF/lib/commons-lang-2.5.jar",
+assertExcludes( warModuleOneFile, new String[] { "WEB-INF/lib/commons-lang-2.6.jar",
                                                  "WEB-INF/lib/jar-sample-one-1.0-SNAPSHOT.jar",
                                                  "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar" } );
-assertManifestClassPath( warModuleOneFile, "commons-lang-commons-lang-2.5.jar eartest-jar-sample-one-1.0-20150825.210557-91.jar" );
+assertManifestClassPath( warModuleOneFile, "commons-lang-commons-lang-2.6.jar eartest-jar-sample-one-1.0-20150825.210557-91.jar" );
 
 File warModuleTwoFile = new File( basedir, "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-two-1.0.war" );
 assertFileExists( warModuleTwoFile );
 assertIncludes( warModuleTwoFile, new String[] { "WEB-INF/web.xml",
                                                  "META-INF/MANIFEST.MF" } );
-assertExcludes( warModuleTwoFile, new String[] { "WEB-INF/lib/commons-lang-2.5.jar",
+assertExcludes( warModuleTwoFile, new String[] { "WEB-INF/lib/commons-lang-2.6.jar",
                                                  "WEB-INF/lib/jar-sample-one-1.0-SNAPSHOT.jar",
                                                  "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar" } );
-assertManifestClassPath( warModuleTwoFile, "eartest-jar-sample-one-1.0-20150825.210557-91.jar commons-lang-commons-lang-2.5.jar" );
+assertManifestClassPath( warModuleTwoFile, "eartest-jar-sample-one-1.0-20150825.210557-91.jar commons-lang-commons-lang-2.6.jar" );
 
 return true;
