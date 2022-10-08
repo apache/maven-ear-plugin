@@ -110,7 +110,7 @@ assertJar( "war-module2/target/war-module2-1.0.war", includedEntries, excludedEn
 String[] warModule3IncludedEntries = {
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF",
-    "WEB-INF/lib/commons-io-2.6.jar"
+    "WEB-INF/lib/commons-io-2.11.0.jar"
 };
 
 String[] warModuleExcludedEntries = {
@@ -118,7 +118,7 @@ String[] warModuleExcludedEntries = {
     "WEB-INF/lib/commons-collections4-4.2.jar"
 };
 
-String[] warModule3ExpectedClassPathElements = { "commons-io-2.6.jar" };
+String[] warModule3ExpectedClassPathElements = { "commons-io-2.11.0.jar" };
 
 assertJar( "war-module3/target/war-module3-1.0.war", warModule3IncludedEntries, warModuleExcludedEntries, true,
     warModule3ExpectedClassPathElements );

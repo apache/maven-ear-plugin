@@ -84,12 +84,16 @@
     <mavenFilteringVersion>3.3.0</mavenFilteringVersion>
     <mavenVersion>3.2.5</mavenVersion>
     <javaVersion>8</javaVersion>
-    <mavenWarPluginVersion>3.3.1</mavenWarPluginVersion>
-    <mavenCompilerPluginVersion>2.5.1</mavenCompilerPluginVersion>
-    <mavenEjbPluginVersion>3.1.0</mavenEjbPluginVersion>
+
+    <!-- plugins used in IT tests -->
+    <mavenWarPluginVersion>3.3.2</mavenWarPluginVersion>
+    <mavenCompilerPluginVersion>3.10.1</mavenCompilerPluginVersion>
+    <mavenEjbPluginVersion>3.2.1</mavenEjbPluginVersion>
+    <!-- m-rar-p from version 3.0.0 require Maven 3.3.9 -->
     <mavenRarPluginVersion>2.4</mavenRarPluginVersion>
-    <mavenJarPluginVersion>3.2.0</mavenJarPluginVersion>
+    <mavenJarPluginVersion>3.3.0</mavenJarPluginVersion>
     <jbossPackagingPluginVersion>2.2</jbossPackagingPluginVersion>
+
     <invoker.skip>false</invoker.skip>
     <invoker.install.skip>${invoker.skip}</invoker.install.skip>
     <invoker.it.skip>${invoker.skip}</invoker.it.skip>
@@ -171,7 +175,7 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.6</version>
+      <version>2.11.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -332,6 +336,13 @@
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
+              <dependencies>
+                <dependency>
+                  <groupId>org.apache.maven.shared</groupId>
+                  <artifactId>maven-common-artifact-filters</artifactId>
+                  <version>3.3.2</version>
+                </dependency>
+              </dependencies>
               <configuration>
                 <showDeprecation>true</showDeprecation>
                 <release>${javaVersion}</release>

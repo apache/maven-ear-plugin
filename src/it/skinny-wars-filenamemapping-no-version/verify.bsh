@@ -52,7 +52,7 @@ if ( !manifestClassPath.equals("lib/commons-lang.jar") )
 }
 
 String[] excludedEntries = {
-    "WEB-INF/lib/commons-lang-2.5.jar"
+    "WEB-INF/lib/commons-lang-2.6.jar"
 };
 for ( String excluded : excludedEntries )
 {
@@ -78,7 +78,7 @@ JarFile jar = new JarFile( jarFile );
 String[] includedEntries = {
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF",
-    "WEB-INF/lib/commons-lang-2.5.jar"
+    "WEB-INF/lib/commons-lang-2.6.jar"
 };
 for ( String included : includedEntries )
 {

@@ -45,7 +45,7 @@ for ( String included : includedEntries )
 }
 
 String[] excludedEntries = {
-    "commons-lang-2.5.jar"
+    "commons-lang-2.6.jar"
 };
 for ( String excluded : excludedEntries )
 {
