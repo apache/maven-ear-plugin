@@ -438,8 +438,6 @@ public class EarMojo
                               Collection<String> outdatedResources )
         throws MojoExecutionException, MojoFailureException
     {
-        final Path workingDir = getWorkDirectory().toPath();
-
         try
         {
             for ( EarModule module : getModules() )
@@ -497,7 +495,7 @@ public class EarMojo
                         getLog().debug( "Skipping artifact [" + module + "], as it is already up to date at ["
                             + module.getUri() + "]" );
                     }
-                    outdatedResources.remove( workingDir.relativize( destinationFile.toPath() ).toString() );
+                    removeFromOutdatedResources( destinationFile.toPath(), outdatedResources );
                 }
             }
         }
@@ -1037,7 +1035,7 @@ public class EarMojo
 
     private void removeFromOutdatedResources( Path destination, Collection<String> outdatedResources )
     {
-        Path relativeDestFile = getWorkDirectory().toPath().relativize( destination );
+        Path relativeDestFile = getWorkDirectory().toPath().relativize( destination.normalize() );
         if ( outdatedResources.remove( relativeDestFile.toString() ) )
         {
             getLog().debug( "Remove from outdatedResources: " + relativeDestFile );

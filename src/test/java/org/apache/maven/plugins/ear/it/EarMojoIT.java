@@ -1318,4 +1318,18 @@ public class EarMojoIT
     {
         doTestProject( "project-100", new String[] { "eartest-ejb-sample-one-1.0.jar" } );
     }
+
+    /**
+     * Ensure that {@code defaultLibBundleDir} with dot at begin don't remove artifacts during second execution.
+     */
+    public void testProject101() throws Exception
+    {
+        String[] expectedArtifacts = new String[] {
+            "eartest-jar-sample-one-1.0.jar", "eartest-jar-sample-two-1.0.jar", "eartest-jar-sample-three-with-deps-1.0.jar" };
+
+        boolean[] artifactsDirectory = new boolean[expectedArtifacts.length];
+
+        doTestProject( "project-101", expectedArtifacts, true );
+        doTestProject( "project-101", expectedArtifacts, false );
+    }
 }

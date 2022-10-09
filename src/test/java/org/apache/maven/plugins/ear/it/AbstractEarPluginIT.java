@@ -197,6 +197,20 @@ public abstract class AbstractEarPluginIT
         return doTestProject( projectName, expectedArtifacts, new boolean[expectedArtifacts.length] );
     }
 
+    /**
+     * Executes the specified projects and asserts the given artifacts as artifacts (non directory)
+     *
+     * @param projectName the project to test
+     * @param expectedArtifacts the list of artifacts to be found in the EAR archive
+     * @param cleanBeforeExecute call clean plugin before execution
+     * @return the base directory of the project
+     */
+    protected File doTestProject( final String projectName, final String[] expectedArtifacts, boolean cleanBeforeExecute)
+        throws VerificationException, IOException
+    {
+        return doTestProject( projectName, null, expectedArtifacts, new boolean[expectedArtifacts.length], null, null, null, cleanBeforeExecute );
+    }
+
     protected void assertEarArchive( final File baseDir, final String projectName )
     {
         assertTrue( "EAR archive does not exist", getEarArchive( baseDir, projectName ).exists() );
