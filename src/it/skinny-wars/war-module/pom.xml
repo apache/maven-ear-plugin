@@ -35,6 +35,10 @@ under the License.
     </dependency>
   </dependencies>
 
+  <properties>
+    <project.build.outputTimestamp>2020-05-01T12:12:12Z</project.build.outputTimestamp>
+  </properties>
+
   <build>
     <plugins>
       <plugin>

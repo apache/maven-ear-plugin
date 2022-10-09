@@ -19,24 +19,27 @@ package org.apache.maven.plugins.ear;
  * under the License.
  */
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.ProviderMismatchException;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -72,8 +75,6 @@ import org.codehaus.plexus.archiver.jar.Manifest.Attribute;
 import org.codehaus.plexus.archiver.jar.ManifestException;
 import org.codehaus.plexus.archiver.manager.ArchiverManager;
 import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
-import org.codehaus.plexus.archiver.zip.ZipArchiver;
-import org.codehaus.plexus.archiver.zip.ZipUnArchiver;
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.interpolation.InterpolationException;
 import org.codehaus.plexus.util.DirectoryScanner;
@@ -249,18 +250,6 @@ public class EarMojo
     private JarArchiver jarArchiver;
 
     /**
-     * The Plexus Zip archiver for Skinny WAR repackaging.
-     */
-    @Component( role = Archiver.class, hint = "zip" )
-    private ZipArchiver zipArchiver;
-
-    /**
-     * The Plexus Zip Un archiver for Skinny WAR repackaging.
-     */
-    @Component( role = UnArchiver.class, hint = "zip" )
-    private ZipUnArchiver zipUnArchiver;
-
-    /**
      * The archive configuration to use. See <a href="https://maven.apache.org/shared/maven-archiver/">Maven Archiver
      * Reference</a>.
      */
@@ -306,12 +295,6 @@ public class EarMojo
 
     private List<FilterWrapper> filterWrappers;
 
-    /**
-     * @since 2.9
-     */
-    @Parameter( defaultValue = "true" )
-    private boolean useJvmChmod = true;
-
     /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException, MojoFailureException
@@ -341,14 +324,7 @@ public class EarMojo
         archiver.setCreatedBy( "Maven EAR Plugin", "org.apache.maven.plugins", "maven-ear-plugin" );
 
         // configure for Reproducible Builds based on outputTimestamp value
-        Date reproducibleLastModifiedDate = archiver.configureReproducible( outputTimestamp );
-
-        zipArchiver.setUseJvmChmod( useJvmChmod );
-        if ( reproducibleLastModifiedDate != null )
-        {
-            zipArchiver.configureReproducible( reproducibleLastModifiedDate );
-        }
-        zipUnArchiver.setUseJvmChmod( useJvmChmod );
+        archiver.configureReproducibleBuild( outputTimestamp );
 
         final JavaEEVersion javaEEVersion = JavaEEVersion.getJavaEEVersion( version );
 
@@ -772,56 +748,58 @@ public class EarMojo
         {
             return;
         }
+
+        // for new created items
+        FileTime outputFileTime = MavenArchiver.parseBuildOutputTimestamp( outputTimestamp )
+            .map( FileTime::from )
+            .orElse( null );
+
+        FileSystem fileSystem = null;
+
         try
         {
-            File workDirectory;
+            Path workDirectory;
 
             // Handle the case that the destination might be a directory (project-038)
+            // We can get FileSystems only for files
             if ( original.isFile() )
             {
-                // Create a temporary work directory
-                // MEAR-167 use uri as directory to prevent merging of artifacts with the same artifactId
-                workDirectory = new File( new File( getTempFolder(), "temp" ), module.getUri() );
-                if ( !workDirectory.isDirectory() )
-                {
-                    if ( workDirectory.mkdirs() )
-                    {
-                        getLog().debug( "Created a temporary work directory: " + workDirectory.getAbsolutePath() );
-                    }
-                    else
-                    {
-                        throw new MojoFailureException( "Failed to create directory " + workDirectory );
-                    }
-                }
-                // Unpack the archive to a temporary work directory
-                zipUnArchiver.setSourceFile( original );
-                zipUnArchiver.setDestDirectory( workDirectory );
-                zipUnArchiver.extract();
+                fileSystem = FileSystems.newFileSystem(
+                    original.toPath(), Thread.currentThread().getContextClassLoader() );
+                workDirectory = fileSystem.getRootDirectories().iterator().next();
             }
             else
             {
-                workDirectory = original;
+                workDirectory = original.toPath();
             }
 
             // Create a META-INF/MANIFEST.MF file if it doesn't exist (project-038)
-            File metaInfDirectory = new File( workDirectory, "META-INF" );
-            boolean newMetaInfCreated = metaInfDirectory.mkdirs();
-            if ( newMetaInfCreated )
+            Path metaInfDirectory = workDirectory.resolve( "META-INF" );
+            if ( !Files.exists( metaInfDirectory ) )
             {
+                Files.createDirectory( metaInfDirectory );
+                if ( outputFileTime != null )
+                {
+                    Files.setLastModifiedTime( metaInfDirectory, outputFileTime );
+                }
                 getLog().debug(
                     "This project did not have a META-INF directory before, so a new directory was created." );
             }
-            File manifestFile = new File( metaInfDirectory, "MANIFEST.MF" );
-            boolean newManifestCreated = manifestFile.createNewFile();
-            if ( newManifestCreated )
+            Path manifestFile = metaInfDirectory.resolve( "MANIFEST.MF" );
+            if ( !Files.exists( manifestFile ) )
             {
+                Files.createFile( manifestFile );
+                if ( outputFileTime != null )
+                {
+                    Files.setLastModifiedTime( manifestFile, outputFileTime );
+                }
                 getLog().debug(
                     "This project did not have a META-INF/MANIFEST.MF file before, so a new file was created." );
             }
 
             Manifest mf = readManifest( manifestFile );
             Attribute classPath = mf.getMainSection().getAttribute( "Class-Path" );
-            List<String> classPathElements = new ArrayList<String>();
+            List<String> classPathElements = new ArrayList<>();
 
             boolean classPathExists;
             if ( classPath != null )
@@ -848,28 +826,28 @@ public class EarMojo
                     // We use the original name, cause in case of outputFileNameMapping
                     // we could not not delete it and it will end up in the resulting EAR and the WAR
                     // will not be cleaned up.
-                    final File workLibDir = new File( workDirectory, moduleLibDir );
-                    File artifact = new File( workLibDir, module.getArtifact().getFile().getName() );
+                    final Path workLibDir = workDirectory.resolve( moduleLibDir );
+                    Path artifact = workLibDir.resolve( module.getArtifact().getFile().getName() );
 
                     // MEAR-217
                     // If WAR contains files with timestamps, but EAR strips them away (useBaseVersion=true)
-                    // the artifact is not found. Therefore respect the current fileNameMapping additionally.
+                    // the artifact is not found. Therefore, respect the current fileNameMapping additionally.
 
-                    if ( !artifact.exists() )
+                    if ( !Files.exists( artifact ) )
                     {
                         getLog().debug( "module does not exist with original file name." );
-                        artifact = new File( workLibDir, otherModule.getBundleFileName() );
-                        getLog().debug( "Artifact with mapping: " + artifact.getAbsolutePath() );
+                        artifact = workLibDir.resolve( otherModule.getBundleFileName() );
+                        getLog().debug( "Artifact with mapping: " + artifact.toAbsolutePath() );
                     }
 
-                    if ( !artifact.exists() )
+                    if ( !Files.exists( artifact ) )
                     {
                         getLog().debug( "Artifact with mapping does not exist." );
-                        artifact = new File( workLibDir, otherModule.getArtifact().getFile().getName() );
-                        getLog().debug( "Artifact with original file name: " + artifact.getAbsolutePath() );
+                        artifact = workLibDir.resolve( otherModule.getArtifact().getFile().getName() );
+                        getLog().debug( "Artifact with original file name: " + artifact.toAbsolutePath() );
                     }
 
-                    if ( !artifact.exists() )
+                    if ( !Files.exists( artifact ) )
                     {
                         getLog().debug( "Artifact with original file name does not exist." );
                         final Artifact otherModuleArtifact = otherModule.getArtifact();
@@ -877,10 +855,10 @@ public class EarMojo
                         {
                             try
                             {
-                                artifact = new File( workLibDir, MappingUtils.evaluateFileNameMapping(
+                                artifact = workLibDir.resolve( MappingUtils.evaluateFileNameMapping(
                                         ARTIFACT_DEFAULT_FILE_NAME_MAPPING, otherModuleArtifact ) );
                                 getLog()
-                                    .debug( "Artifact with default mapping file name: " + artifact.getAbsolutePath() );
+                                    .debug( "Artifact with default mapping file name: " + artifact.toAbsolutePath() );
                             }
                             catch ( InterpolationException e )
                             {
@@ -891,13 +869,10 @@ public class EarMojo
                         }
                     }
 
-                    if ( artifact.exists() )
+                    if ( Files.exists( artifact ) )
                     {
                         getLog().debug( " -> Artifact to delete: " + artifact );
-                        if ( !artifact.delete() )
-                        {
-                            getLog().error( "Could not delete '" + artifact + "'" );
-                        }
+                        Files.delete( artifact );
                     }
                 }
             }
@@ -945,41 +920,50 @@ public class EarMojo
                 classPath.setValue( StringUtils.join( classPathElements.iterator(), " " ) );
                 mf.getMainSection().addConfiguredAttribute( classPath );
 
-                // Write the manifest to disk
-                try ( FileOutputStream out = new FileOutputStream( manifestFile );
-                      OutputStreamWriter writer = new OutputStreamWriter( out, StandardCharsets.UTF_8 ) )
+                // Write the manifest to disk, preserve timestamp
+                FileTime lastModifiedTime = Files.getLastModifiedTime( manifestFile );
+                try ( BufferedWriter writer = Files.newBufferedWriter( manifestFile, StandardCharsets.UTF_8,
+                                                                       StandardOpenOption.WRITE,
+                                                                       StandardOpenOption.CREATE,
+                                                                       StandardOpenOption.TRUNCATE_EXISTING ) )
                 {
                     mf.write( writer );
                 }
-
-                removeFromOutdatedResources( manifestFile.toPath(), outdatedResources );
+                Files.setLastModifiedTime( manifestFile, lastModifiedTime );
+                removeFromOutdatedResources( manifestFile, outdatedResources );
             }
 
-            if ( original.isFile() )
+            if ( fileSystem != null )
             {
-                // Pack up the archive again from the work directory
-                if ( !original.delete() )
-                {
-                    getLog().error( "Could not delete original artifact file " + original );
-                }
-
-                getLog().debug( "Zipping module" );
-                zipArchiver.setDestFile( original );
-                zipArchiver.addDirectory( workDirectory );
-                zipArchiver.createArchive();
+                fileSystem.close();
+                fileSystem = null;
             }
         }
         catch ( ManifestException | IOException | ArchiverException e )
         {
             throw new MojoFailureException( e.getMessage(), e );
         }
+        finally
+        {
+            if ( fileSystem != null )
+            {
+                try
+                {
+                    fileSystem.close();
+                }
+                catch ( IOException e )
+                {
+                    // ignore here
+                }
+            }
+        }
     }
 
-    private static Manifest readManifest( File manifestFile )
+    private static Manifest readManifest( Path manifestFile )
         throws IOException
     {
         // Read the manifest from disk
-        try ( FileInputStream in = new FileInputStream( manifestFile ) )
+        try ( InputStream in = Files.newInputStream( manifestFile ) )
         {
             return new Manifest( in );
         }
@@ -1035,7 +1019,16 @@ public class EarMojo
 
     private void removeFromOutdatedResources( Path destination, Collection<String> outdatedResources )
     {
-        Path relativeDestFile = getWorkDirectory().toPath().relativize( destination.normalize() );
+        Path relativeDestFile;
+        try
+        {
+            relativeDestFile = getWorkDirectory().toPath().relativize( destination.normalize() );
+        }
+        catch ( ProviderMismatchException e )
+        {
+            relativeDestFile = destination.normalize();
+        }
+
         if ( outdatedResources.remove( relativeDestFile.toString() ) )
         {
             getLog().debug( "Remove from outdatedResources: " + relativeDestFile );
