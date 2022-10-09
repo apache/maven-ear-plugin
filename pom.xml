@@ -299,6 +299,7 @@
               </extraArtifacts>
               <skipInstallation>${invoker.install.skip}</skipInstallation>
               <skipInvocation>${invoker.it.skip}</skipInvocation>
+              <ignoreFailures>${maven.test.failure.ignore}</ignoreFailures>
             </configuration>
           </plugin>
           <plugin>

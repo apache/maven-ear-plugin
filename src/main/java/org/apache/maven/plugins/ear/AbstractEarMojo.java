@@ -158,12 +158,6 @@ public abstract class AbstractEarMojo
     @Parameter
     private String mainArtifactId = "none";
 
-    /**
-     * temp folder location.
-     */
-    @Parameter( defaultValue = "${project.build.directory}", required = true )
-    private File tempFolder;
-
     private List<EarModule> earModules;
 
     private List<EarModule> allEarModules;
@@ -354,14 +348,6 @@ public abstract class AbstractEarMojo
     protected JbossConfiguration getJbossConfiguration()
     {
         return jbossConfiguration;
-    }
-
-    /**
-     * @return {@link #tempFolder}
-     */
-    public File getTempFolder()
-    {
-        return tempFolder;
     }
 
     /**
