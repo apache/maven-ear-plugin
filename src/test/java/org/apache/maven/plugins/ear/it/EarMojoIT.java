@@ -215,7 +215,7 @@ public class EarMojoIT
     public void testProject018()
         throws Exception
     {
-        final File baseDir = executeMojo( "project-018", new Properties() );
+        final File baseDir = executeMojo( "project-018" );
         final File expectedFile = new File( baseDir, "target/my-custom-file.ear" );
         assertTrue( "EAR archive not found", expectedFile.exists() );
     }
@@ -259,7 +259,7 @@ public class EarMojoIT
     public void testProject022()
         throws Exception
     {
-        final File baseDir = executeMojo( "project-022", new Properties() );
+        final File baseDir = executeMojo( "project-022" );
         final File expectedFile = new File( baseDir, "target/maven-ear-plugin-test-project-022-99.0-myclassifier.ear" );
         assertTrue( "EAR archive not found", expectedFile.exists() );
     }
@@ -305,7 +305,7 @@ public class EarMojoIT
     public void testProject026()
         throws Exception
     {
-        final File baseDir = executeMojo( "project-026", new Properties(), false, true );
+        final File baseDir = executeMojo( "project-026", false, true );
         // Stupido, checks that the ear archive is not there
         assertFalse( "Execution should have failed", getEarArchive( baseDir, "project-026" ).exists() );
     }

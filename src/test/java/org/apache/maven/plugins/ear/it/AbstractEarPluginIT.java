@@ -72,12 +72,11 @@ public abstract class AbstractEarPluginIT
      * Execute the EAR plugin for the specified project.
      * 
      * @param projectName the name of the project
-     * @param properties extra properties to be used by the embedder
      * @param expectNoError true/false
      * @param cleanBeforeExecute call clean plugin before execution
      * @return the base directory of the project
      */
-    protected File executeMojo( final String projectName, final Properties properties, boolean expectNoError,
+    protected File executeMojo( final String projectName, boolean expectNoError,
                                 boolean cleanBeforeExecute ) throws VerificationException, IOException
     {
         System.out.println( "  Building: " + projectName );
@@ -119,13 +118,12 @@ public abstract class AbstractEarPluginIT
      * Execute the EAR plugin for the specified project.
      * 
      * @param projectName the name of the project
-     * @param properties extra properties to be used by the embedder
      * @return the base directory of the project
      */
-    protected File executeMojo( final String projectName, final Properties properties )
+    protected File executeMojo( final String projectName )
         throws VerificationException, IOException
     {
-        return executeMojo( projectName, properties, true, true );
+        return executeMojo( projectName, true, true );
     }
 
     /**
@@ -156,7 +154,7 @@ public abstract class AbstractEarPluginIT
                                   final boolean cleanBeforeExecute )
         throws VerificationException, IOException
     {
-        final File baseDir = executeMojo( projectName, new Properties(), true, cleanBeforeExecute );
+        final File baseDir = executeMojo( projectName, true, cleanBeforeExecute );
 
         final File earModuleDir = getEarModuleDirectory( baseDir, earModuleName );
         assertEarArchive( earModuleDir, projectName );
