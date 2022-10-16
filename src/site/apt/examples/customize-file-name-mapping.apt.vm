@@ -27,14 +27,11 @@
 
 Customizing The File Name Mapping
 
-
-    @Parameter( defaultValue = "@{groupId}@-@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@", required = true )
-    private String outputFileNameMapping;
-
-
-  It might happen that you need to change the naming of the artifacts within the EAR file. 
+  It might happen that you need to change the naming of the artifacts within the EAR file.
   This can be achieved by using the <<<outputFileNameMapping>>>. The following shows how it could be 
-  configured in your pom file. In this example the default value is given as a starting point.
+  configured in your pom file.
+
+  In this example the default value is given as a starting point.
 
 +--------
   <build>
@@ -71,7 +68,14 @@ Customizing The File Name Mapping
     </plugins>
   </build>
 +---------
-  
-  Just a some words about the <<<@{dashClassifier?}@>>> which expands to a classifier including the preceding
-  dash which is needed to separate it from other parts of the artifact.
-  
+
+  * <<<@\{dashClassifier?\}@>>> - expands to a classifier including the preceding
+  dash which is needed to separate it from other parts of the artifact
+
+  * <<<@\{version\}@>>> - expands to artifact version,
+  for <<<SNAPSHOT>>> artifacts can contain timestamp postfix instead of <<<SNAPSHOT>>>
+
+  * <<<@\{baseVersion\}@>>> - expands to base artifact version,
+  for <<<SNAPSHOT>>> artifacts we will always have <<<SNAPSHOT>>> postfix
+
+  []
