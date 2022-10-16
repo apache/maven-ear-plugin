@@ -72,7 +72,7 @@ ${project.name}
 
   Starting with version 3.0.0 the usage of <<fileNameMapping>> has been removed. If you need
   to use a kind of file name mapping take a look at the new
-  {{{./ear-mojo.html#outputFileNameMapping}outputFileNameMapping}} which is more
+  {{{./examples/customize-file-name-mapping.html}outputFileNameMapping}} which is more
   flexible.
 
 * Goals Overview

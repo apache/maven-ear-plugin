@@ -118,22 +118,15 @@ public abstract class AbstractEarMojo
 
     /**
      * The file name mapping to use for all dependencies included in the EAR file. The mapping between artifacts and the
-     * file names which is used within the EAR file. Details see
-     * <a href="http://maven.apache.org/shared/maven-mapping/index.html">Maven Mapping Reference</a>.
-     * 
+     * file names which is used within the EAR file.
+     * Details see
+     * <a href="./examples/customize-file-name-mapping.html">Customizing The File Name Mapping</a>.
+     *
      * @since 3.0.0
      */
     @Parameter( defaultValue = "@{groupId}@-@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@",
                 required = true )
     private String outputFileNameMapping;
-
-    /**
-     * When using a {@link #outputFileNameMapping} with versions, either use the {@code baseVersion} or the
-     * {@code version}. When the artifact is a SNAPSHOT, {@code version} will always return a value with a
-     * {@code -SNAPSHOT} postfix instead of the possible timestamped value.
-     */
-    @Parameter
-    private Boolean useBaseVersion;
 
     /**
      * Directory that resources are copied to during the build.
@@ -209,12 +202,6 @@ public abstract class AbstractEarMojo
         EarExecutionContext earExecutionContext =
             new EarExecutionContext( project, mainArtifactId, defaultLibBundleDir, jbossConfiguration,
                                      outputFileNameMapping, typeMappingService );
-
-        if ( useBaseVersion != null )
-        {
-            getLog().warn( "Using useBaseVersion not yet fixed." );
-            // earExecutionContext.getOutputFileNameMapping().setUseBaseVersion( useBaseVersion );
-        }
 
         getLog().debug( "Resolving ear modules ..." );
         List<EarModule> allModules = new ArrayList<EarModule>();
