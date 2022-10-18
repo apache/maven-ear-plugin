@@ -60,7 +60,19 @@ ${project.name}
   For available configuration options for these artifacts, please see the
   {{{./modules.html}modules configuration}}.
 
-  For more information about the Java EE technology, please visit {{https://www.oracle.com/java/technologies/java-ee-glance.html}}.
+  For more information please visit
+  {{{https://jakarta.ee/}Jakarta EE}}
+  {{{https://www.oracle.com/java/technologies/java-ee-glance.html}Java EE at a glance}}.
+
+* Version 3.3.0
+
+  * Require <Java 8> and <Maven 3.2.5> at least.
+
+  * Support <Jakarta EE 9> and <10>.
+
+  * Use <ZipFileSystem> during <EAR> packaging - whole modules re-packaging is not needed.
+
+  []
 
 * Version 3.2.0
 

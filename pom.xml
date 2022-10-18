@@ -30,7 +30,7 @@
   </parent>
 
   <artifactId>maven-ear-plugin</artifactId>
-  <version>3.2.1-SNAPSHOT</version>
+  <version>3.3.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Apache Maven EAR Plugin</name>
@@ -98,7 +98,7 @@
     <invoker.install.skip>${invoker.skip}</invoker.install.skip>
     <invoker.it.skip>${invoker.skip}</invoker.it.skip>
     <checkstyle.violation.ignore>ParameterNumber,MethodLength</checkstyle.violation.ignore>
-    <project.build.outputTimestamp>2020-12-30T10:47:20Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2022-10-18T14:25:58Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
