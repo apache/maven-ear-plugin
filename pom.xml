@@ -30,7 +30,7 @@
   </parent>
 
   <artifactId>maven-ear-plugin</artifactId>
-  <version>3.3.0</version>
+  <version>3.3.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Apache Maven EAR Plugin</name>
@@ -44,7 +44,7 @@
     <connection>scm:git:https://gitbox.apache.org/repos/asf/maven-ear-plugin.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/maven-ear-plugin.git</developerConnection>
     <url>https://github.com/apache/maven-ear-plugin/tree/${project.scm.tag}</url>
-    <tag>maven-ear-plugin-3.3.0</tag>
+    <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>JIRA</system>
@@ -98,7 +98,7 @@
     <invoker.install.skip>${invoker.skip}</invoker.install.skip>
     <invoker.it.skip>${invoker.skip}</invoker.it.skip>
     <checkstyle.violation.ignore>ParameterNumber,MethodLength</checkstyle.violation.ignore>
-    <project.build.outputTimestamp>2022-10-18T15:57:30Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2022-10-18T15:58:21Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
