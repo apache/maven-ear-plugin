@@ -41,6 +41,11 @@ under the License.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>@mavenWarPluginVersion@</version>
+        <configuration>
+          <archive>
+            <compress>false</compress>
+          </archive>
+        </configuration>
       </plugin>
     </plugins>
   </build>

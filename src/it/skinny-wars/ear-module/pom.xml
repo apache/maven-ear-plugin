@@ -53,6 +53,9 @@ under the License.
         <version>@project.version@</version>
         <configuration>
           <skinnyWars>true</skinnyWars>
+          <archive>
+            <compress>false</compress>
+          </archive>
         </configuration>
       </plugin>
     </plugins>
