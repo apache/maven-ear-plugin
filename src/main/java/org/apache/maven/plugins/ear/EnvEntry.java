@@ -57,7 +57,8 @@ class EnvEntry
         {
             throw new IllegalArgumentException( ENV_ENTRY_NAME + " in " + ENV_ENTRY + " element cannot be null." );
         }
-        else if ( (type == null || type.isEmpty()) && (value == null || value.isEmpty()) )
+        else if ( ( type == null || type.isEmpty() ) && ( value == null || value.isEmpty() ) )
+
         {
             throw new IllegalArgumentException( ENV_ENTRY_TYPE + " in " + ENV_ENTRY + " element cannot be null if no "
                 + ENV_ENTRY_VALUE + " was specified." );

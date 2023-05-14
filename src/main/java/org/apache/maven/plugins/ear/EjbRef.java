@@ -59,7 +59,7 @@ public class EjbRef
         {
             throw new IllegalArgumentException( EJB_NAME + " in " + EJB_REF + " element cannot be null." );
         }
-        else if ( (type == null || type.isEmpty()) && (lookupName == null || lookupName.isEmpty()) )
+        else if ( ( type == null || type.isEmpty() ) && ( lookupName == null || lookupName.isEmpty() ) )
         {
             throw new IllegalArgumentException( EJB_TYPE + " in " + EJB_REF + " element cannot be null if no "
                 + EJB_LOOKUP_NAME + " was specified." );
