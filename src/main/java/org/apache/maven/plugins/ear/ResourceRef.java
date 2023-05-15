@@ -19,7 +19,6 @@ package org.apache.maven.plugins.ear;
  * under the License.
  */
 
-import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.xml.XMLWriter;
 
 /**
@@ -72,12 +71,12 @@ public class ResourceRef
      */
    public ResourceRef( String name, String type, String auth, String lookupName )
     {
-        if ( StringUtils.isEmpty( name ) )
+        if ( name == null || name.isEmpty() )
         {
             throw new IllegalArgumentException( RESOURCE_REF_NAME + " in " + RESOURCE_REF_NAME
                 + " element cannot be null." );
         }
-        else if ( StringUtils.isEmpty( type ) && StringUtils.isEmpty( auth ) )
+        else if ( ( type == null || type.isEmpty() ) && ( auth == null || auth.isEmpty() ) )
         {
             throw new IllegalArgumentException( RESOURCE_TYPE + " in " + RESOURCE_REF_NAME
                 + " element cannot be null " );

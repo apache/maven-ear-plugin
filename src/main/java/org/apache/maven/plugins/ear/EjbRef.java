@@ -19,7 +19,6 @@ package org.apache.maven.plugins.ear;
  * under the License.
  */
 
-import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.xml.XMLWriter;
 
 /**
@@ -56,11 +55,11 @@ public class EjbRef
      */
     public EjbRef( String description, String name, String type, String lookupName )
     {
-        if ( StringUtils.isEmpty( name ) )
+        if ( name == null || name.isEmpty() )
         {
             throw new IllegalArgumentException( EJB_NAME + " in " + EJB_REF + " element cannot be null." );
         }
-        else if ( StringUtils.isEmpty( type ) && StringUtils.isEmpty( lookupName ) )
+        else if ( ( type == null || type.isEmpty() ) && ( lookupName == null || lookupName.isEmpty() ) )
         {
             throw new IllegalArgumentException( EJB_TYPE + " in " + EJB_REF + " element cannot be null if no "
                 + EJB_LOOKUP_NAME + " was specified." );

@@ -562,7 +562,7 @@ public class EarMojo
      */
     public String[] getPackagingExcludes()
     {
-        if ( StringUtils.isEmpty( packagingExcludes ) )
+        if ( packagingExcludes == null || packagingExcludes.isEmpty() )
         {
             return new String[0];
         }
@@ -585,7 +585,7 @@ public class EarMojo
      */
     public String[] getPackagingIncludes()
     {
-        if ( StringUtils.isEmpty( packagingIncludes ) )
+        if ( packagingIncludes == null || packagingIncludes.isEmpty() )
         {
             return new String[] { "**" };
         }
