@@ -204,7 +204,7 @@ public abstract class AbstractEarMojo
                                      outputFileNameMapping, typeMappingService );
 
         getLog().debug( "Resolving ear modules ..." );
-        List<EarModule> allModules = new ArrayList<EarModule>();
+        List<EarModule> allModules = new ArrayList<>();
         try
         {
             if ( modules != null && modules.length > 0 )
@@ -394,7 +394,7 @@ public abstract class AbstractEarMojo
             final String jmxName = jboss.getChild( JbossConfiguration.JMX_NAME ).getValue();
             final String moduleOrder = jboss.getChild( JbossConfiguration.MODULE_ORDER ).getValue();
 
-            final List<String> dataSources = new ArrayList<String>();
+            final List<String> dataSources = new ArrayList<>();
             final PlexusConfiguration dataSourcesEl = jboss.getChild( JbossConfiguration.DATASOURCES );
             if ( dataSourcesEl != null )
             {

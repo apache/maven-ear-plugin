@@ -492,7 +492,7 @@ public class EarMojo
     private List<String> createUnpackList()
         throws MojoExecutionException
     {
-        List<String> unpackTypesList = new ArrayList<String>();
+        List<String> unpackTypesList = new ArrayList<>();
         if ( unpackTypes != null )
         {
             unpackTypesList = Arrays.asList( unpackTypes.split( "," ) );
@@ -532,7 +532,7 @@ public class EarMojo
      */
     protected String[] getExcludes()
     {
-        List<String> excludeList = new ArrayList<String>( FileUtils.getDefaultExcludesAsList() );
+        List<String> excludeList = new ArrayList<>( FileUtils.getDefaultExcludesAsList() );
         if ( earSourceExcludes != null && !"".equals( earSourceExcludes ) )
         {
             excludeList.addAll( Arrays.asList( StringUtils.split( earSourceExcludes, "," ) ) );

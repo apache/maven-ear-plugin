@@ -36,7 +36,7 @@ public class EarMavenArchiverTest
     extends AbstractEarTestBase
 {
 
-    private List<EarModule> modules = new ArrayList<EarModule>();
+    private List<EarModule> modules = new ArrayList<>();
 
     @Test
     public void testSimpleEjbModule()
