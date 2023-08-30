@@ -49,7 +49,7 @@ public abstract class AbstractEarTestBase
 
     protected Set<Artifact> createArtifacts( String[] artifactIds, String[] classifiers )
     {
-        Set<Artifact> result = new TreeSet<Artifact>();
+        Set<Artifact> result = new TreeSet<>();
         ArtifactHandlerTestStub artifactHandler = new ArtifactHandlerTestStub( "jar" );
         for ( int i = 0; i < artifactIds.length; i++ )
         {

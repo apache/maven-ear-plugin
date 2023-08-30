@@ -129,7 +129,7 @@ public class ArtifactRepository
      */
     public Set<Artifact> getArtifacts( String groupId, String artifactId, String type )
     {
-        final Set<Artifact> result = new TreeSet<Artifact>();
+        final Set<Artifact> result = new TreeSet<>();
         for ( Artifact a : artifacts )
         {
             // If the groupId, the artifactId and if the

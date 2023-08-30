@@ -254,7 +254,7 @@ public abstract class AbstractEarPluginIT
         File dir = getEarDirectory( baseDir, projectName );
 
         // Let's build the expected directories sort list
-        final List<File> expectedDirectories = new ArrayList<File>();
+        final List<File> expectedDirectories = new ArrayList<>();
         for ( int i = 0; i < artifactsDirectory.length; i++ )
         {
             if ( artifactsDirectory[i] )
@@ -407,7 +407,7 @@ public abstract class AbstractEarPluginIT
 
     private static List<File> buildArchiveContentFiles( final File baseDir, final List<File> expectedDirectories )
     {
-        final List<File> result = new ArrayList<File>();
+        final List<File> result = new ArrayList<>();
         addFiles( baseDir, result, expectedDirectories );
 
         return result;

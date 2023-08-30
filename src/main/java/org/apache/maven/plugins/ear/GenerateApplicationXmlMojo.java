@@ -288,7 +288,7 @@ public class GenerateApplicationXmlMojo
     private List<SecurityRole> buildSecurityRoles()
         throws EarPluginException
     {
-        final List<SecurityRole> result = new ArrayList<SecurityRole>();
+        final List<SecurityRole> result = new ArrayList<>();
         if ( security == null )
         {
             return result;
@@ -349,7 +349,7 @@ public class GenerateApplicationXmlMojo
     private List<EnvEntry> buildEnvEntries()
         throws EarPluginException
     {
-        final List<EnvEntry> result = new ArrayList<EnvEntry>();
+        final List<EnvEntry> result = new ArrayList<>();
         if ( envEntries == null )
         {
             return result;
@@ -404,7 +404,7 @@ public class GenerateApplicationXmlMojo
     private List<EjbRef> buildEjbEntries()
         throws EarPluginException
     {
-        final List<EjbRef> result = new ArrayList<EjbRef>();
+        final List<EjbRef> result = new ArrayList<>();
         if ( ejbRefs == null )
         {
             return result;
@@ -454,7 +454,7 @@ public class GenerateApplicationXmlMojo
     private List<ResourceRef> buildResourceRefs()
         throws EarPluginException
     {
-        final List<ResourceRef> result = new ArrayList<ResourceRef>();
+        final List<ResourceRef> result = new ArrayList<>();
         if ( resourceRefs == null )
         {
             return result;

@@ -54,8 +54,8 @@ public class ArtifactTypeMappingService
      */
     public ArtifactTypeMappingService()
     {
-        this.typeMappings = new HashMap<String, List<String>>();
-        this.customMappings = new HashMap<String, String>();
+        this.typeMappings = new HashMap<>();
+        this.customMappings = new HashMap<>();
         init();
     }
 
@@ -170,7 +170,7 @@ public class ArtifactTypeMappingService
         // Initialize the mapping with the standard artifact types
         for ( String type : EarModuleFactory.getStandardArtifactTypes() )
         {
-            List<String> typeMapping = new ArrayList<String>();
+            List<String> typeMapping = new ArrayList<>();
             typeMapping.add( type );
             this.typeMappings.put( type, typeMapping );
         }

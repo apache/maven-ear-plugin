@@ -47,7 +47,7 @@ public class JavaEEVersion
 
     private static final String VERSION_10 = "10";
 
-    private static final Map<String, JavaEEVersion> VERSION_MAP = new HashMap<String, JavaEEVersion>();
+    private static final Map<String, JavaEEVersion> VERSION_MAP = new HashMap<>();
 
     /**
      * Represents the J2EE 1.3 version.
