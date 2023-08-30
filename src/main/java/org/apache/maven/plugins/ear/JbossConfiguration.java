@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package org.apache.maven.plugins.ear;
 
 /*
@@ -23,11 +41,10 @@ import java.util.List;
 
 /**
  * The JBoss specific configuration, used to generate the jboss-app.xml deployment descriptor file
- * 
+ *
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-class JbossConfiguration
-{
+class JbossConfiguration {
     static final String VERSION_3_2 = "3.2";
 
     static final String VERSION_4 = "4";
@@ -90,39 +107,33 @@ class JbossConfiguration
 
     private final String libraryDirectory;
 
-    JbossConfiguration( String version, String securityDomain, String unauthenticatedPrincipal, String jmxName,
-                               String loaderRepository, String moduleOrder, List<String> dataSources,
-                               String libraryDirectory, String loaderRepositoryConfig, String loaderRepositoryClass,
-                               String configParserClass )
-        throws EarPluginException
-    {
-        if ( version == null )
-        {
-            throw new EarPluginException( "jboss version could not be null." );
-        }
-        else
-        {
+    JbossConfiguration(
+            String version,
+            String securityDomain,
+            String unauthenticatedPrincipal,
+            String jmxName,
+            String loaderRepository,
+            String moduleOrder,
+            List<String> dataSources,
+            String libraryDirectory,
+            String loaderRepositoryConfig,
+            String loaderRepositoryClass,
+            String configParserClass)
+            throws EarPluginException {
+        if (version == null) {
+            throw new EarPluginException("jboss version could not be null.");
+        } else {
             this.version = version;
-            if ( version.equals( JbossConfiguration.VERSION_3_2 ) )
-            {
+            if (version.equals(JbossConfiguration.VERSION_3_2)) {
                 this.jbossThreeDotTwo = true;
-            }
-            else if ( version.equals( JbossConfiguration.VERSION_4 ) )
-            {
+            } else if (version.equals(JbossConfiguration.VERSION_4)) {
                 this.jbossFour = true;
-            }
-            else if ( version.equals( JbossConfiguration.VERSION_4_2 ) )
-            {
+            } else if (version.equals(JbossConfiguration.VERSION_4_2)) {
                 this.jbossFourDotTwo = true;
-            }
-            else if ( version.equals( JbossConfiguration.VERSION_5 ) )
-            {
+            } else if (version.equals(JbossConfiguration.VERSION_5)) {
                 this.jbossFive = true;
-            }
-            else
-            {
-                throw new EarPluginException(
-                        "Invalid JBoss configuration, version[" + version + "] is not supported." );
+            } else {
+                throw new EarPluginException("Invalid JBoss configuration, version[" + version + "] is not supported.");
             }
             this.securityDomain = securityDomain;
             this.unauthenticatedPrincipal = unauthenticatedPrincipal;
@@ -139,71 +150,64 @@ class JbossConfiguration
 
     /**
      * Returns the targeted version of JBoss.
-     * 
+     *
      * @return the jboss version
      */
-    public String getVersion()
-    {
+    public String getVersion() {
         return version;
     }
 
     /**
      * Returns true if the targeted JBoss version is 3.2.
-     * 
+     *
      * @return if the targeted version is 3.2
      */
-    public boolean isJbossThreeDotTwo()
-    {
+    public boolean isJbossThreeDotTwo() {
         return jbossThreeDotTwo;
     }
 
     /**
      * Returns true if the targeted JBoss version is 4.
-     * 
+     *
      * @return if the targeted version is 4
      */
-    public boolean isJbossFour()
-    {
+    public boolean isJbossFour() {
         return jbossFour;
     }
 
     /**
      * Returns true if the targeted JBoss version if 4 or higher (that is 4, 4.2 or 5).
-     * 
+     *
      * @return true if the targeted version is 4+
      */
-    public boolean isJbossFourOrHigher()
-    {
+    public boolean isJbossFourOrHigher() {
         return jbossFour || jbossFourDotTwo || jbossFive;
     }
 
     /**
      * Returns true if the targeted JBoss version is 4.2.
-     * 
+     *
      * @return if the targeted version is 4.2
      */
-    public boolean isJbossFourDotTwo()
-    {
+    public boolean isJbossFourDotTwo() {
         return jbossFourDotTwo;
     }
 
     /**
      * Returns true if the targeted JBoss version if 4.2 or higher (that is 4.2 or 5).
-     * 
+     *
      * @return true if the targeted version is 4.2+
      */
-    public boolean isJbossFourDotTwoOrHigher()
-    {
+    public boolean isJbossFourDotTwoOrHigher() {
         return jbossFourDotTwo || jbossFive;
     }
 
     /**
      * Returns true if the targeted JBoss version is 5.
-     * 
+     *
      * @return if the targeted version is 5
      */
-    public boolean isJbossFive()
-    {
+    public boolean isJbossFive() {
         return jbossFive;
     }
 
@@ -216,11 +220,10 @@ class JbossConfiguration
      * container-configuration level.
      * <p/>
      * Only available as from JBoss 4.
-     * 
+     *
      * @return the JNDI name of the security manager
      */
-    public String getSecurityDomain()
-    {
+    public String getSecurityDomain() {
         return securityDomain;
     }
 
@@ -230,22 +233,20 @@ class JbossConfiguration
      * privileges to call any other beans.
      * <p/>
      * Only available as from JBoss 4.
-     * 
+     *
      * @return the unauthenticated principal
      */
-    public String getUnauthenticatedPrincipal()
-    {
+    public String getUnauthenticatedPrincipal() {
         return unauthenticatedPrincipal;
     }
 
     /**
      * The jmx-name element allows one to specify the JMX ObjectName to use for the MBean associated with the ear
      * module. This must be a unique name and valid JMX ObjectName string.
-     * 
+     *
      * @return the object name of the ear mbean
      */
-    public String getJmxName()
-    {
+    public String getJmxName() {
         return jmxName;
     }
 
@@ -257,11 +258,10 @@ class JbossConfiguration
      * Example:
      * </P>
      * &lt;loader-repository>jboss.test:loader=cts-cmp2v1-sar.ear&lt;/loader-repository>
-     * 
+     *
      * @return the object name of the ear mbean
      */
-    public String getLoaderRepository()
-    {
+    public String getLoaderRepository() {
         return loaderRepository;
     }
 
@@ -278,33 +278,30 @@ class JbossConfiguration
      * Returns {@code null} if no module order is set.
      * <p/>
      * Only available in JBoss 4.2 and 4.3. Has no effect in JBoss 5 and is not added when mentioned version is used.
-     * 
+     *
      * @return the module order
      */
-    public String getModuleOrder()
-    {
+    public String getModuleOrder() {
         return moduleOrder;
     }
 
     /**
      * Returns the list of datasources to include in the {@code jboss-app.xml} file as services. Each element of the
      * list is the relative path to the datasource file contained in the EAR archive.
-     * 
+     *
      * @return the list of datasources paths
      */
-    public List<String> getDataSources()
-    {
+    public List<String> getDataSources() {
         return dataSources;
     }
 
     /**
      * Returns the library directory to include in the {@code jboss-app.xml} file. It tells JBoss where to find
      * non-Java EE libraries included in the EAR.
-     * 
+     *
      * @return the library directory
      */
-    public String getLibraryDirectory()
-    {
+    public String getLibraryDirectory() {
         return libraryDirectory;
     }
 
@@ -316,11 +313,10 @@ class JbossConfiguration
      * configuration, it will be added.
      * <p/>
      * Example: &lt;loader-repository-config>java2ParentDelegaton=true&lt;/loader-repository-config>
-     * 
+     *
      * @return the class loader repository configuration
      */
-    public String getLoaderRepositoryConfig()
-    {
+    public String getLoaderRepositoryConfig() {
         return loaderRepositoryConfig;
     }
 
@@ -332,11 +328,10 @@ class JbossConfiguration
      * such element configuration is present.
      * <p/>
      * Example: &lt;loader-repository-class>org.mindbug.jboss.AlternateLoaderRepository&lt;/loader-repository-class>
-     * 
+     *
      * @return the class loader repository class
      */
-    public String getLoaderRepositoryClass()
-    {
+    public String getLoaderRepositoryClass() {
         return loaderRepositoryClass;
     }
 
@@ -348,11 +343,10 @@ class JbossConfiguration
      * if no such element configuration is present.
      * <p/>
      * Example: &lt;config-parser-class>org.mindbug.jboss.AlternateLoaderRepositoryConfigParser&lt;/config-parser-class>
-     * 
+     *
      * @return the class loader's configuration parser class
      */
-    public String getConfigParserClass()
-    {
+    public String getConfigParserClass() {
         return configParserClass;
     }
 }

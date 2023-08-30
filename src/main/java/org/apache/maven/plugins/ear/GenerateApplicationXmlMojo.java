@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package org.apache.maven.plugins.ear;
 
 /*
@@ -42,16 +60,15 @@ import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Generates the EAR deployment descriptor file(s).
- * 
+ *
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-@Mojo( name = "generate-application-xml",
-       defaultPhase = LifecyclePhase.GENERATE_RESOURCES,
-       threadSafe = true,
-       requiresDependencyResolution = ResolutionScope.TEST )
-public class GenerateApplicationXmlMojo
-    extends AbstractEarMojo
-{
+@Mojo(
+        name = "generate-application-xml",
+        defaultPhase = LifecyclePhase.GENERATE_RESOURCES,
+        threadSafe = true,
+        requiresDependencyResolution = ResolutionScope.TEST)
+public class GenerateApplicationXmlMojo extends AbstractEarMojo {
 
     /**
      * The DEFAULT library folder.
@@ -71,13 +88,13 @@ public class GenerateApplicationXmlMojo
     /**
      * Whether the application.xml should be generated or not.
      */
-    @Parameter( defaultValue = "true" )
+    @Parameter(defaultValue = "true")
     private Boolean generateApplicationXml = Boolean.TRUE;
 
     /**
      * Whether a module ID should be generated if none is specified.
      */
-    @Parameter( defaultValue = "false" )
+    @Parameter(defaultValue = "false")
     private Boolean generateModuleId = Boolean.FALSE;
 
     /**
@@ -89,13 +106,13 @@ public class GenerateApplicationXmlMojo
     /**
      * Display name of the application to be used when the application.xml file is auto-generated.
      */
-    @Parameter( defaultValue = "${project.artifactId}" )
+    @Parameter(defaultValue = "${project.artifactId}")
     private String displayName;
 
     /**
      * Description of the application to be used when the application.xml file is auto-generated.
      */
-    @Parameter( defaultValue = "${project.description}" )
+    @Parameter(defaultValue = "${project.description}")
     private String description;
 
     /**
@@ -113,7 +130,7 @@ public class GenerateApplicationXmlMojo
      * <p/>
      * Since JavaEE5.
      */
-    @Parameter( defaultValue = DEFAULT )
+    @Parameter(defaultValue = DEFAULT)
     private String libraryDirectoryMode;
 
     /**
@@ -127,7 +144,7 @@ public class GenerateApplicationXmlMojo
 
     /**
      * Defines the application id used when generating the deployment descriptor.
-     * 
+     *
      * @since 2.9
      */
     @Parameter
@@ -142,13 +159,13 @@ public class GenerateApplicationXmlMojo
     /**
      * The env-entries to be added to the auto-generated application.xml file. Since JavaEE6.
      */
-    @Parameter( alias = "env-entries" )
+    @Parameter(alias = "env-entries")
     private PlexusConfiguration envEntries;
 
     /**
      * The {@code ejb-ref} entries.
      */
-    @Parameter( alias = "ejb-refs" )
+    @Parameter(alias = "ejb-refs")
     private PlexusConfiguration ejbRefs;
 
     /**
@@ -160,159 +177,135 @@ public class GenerateApplicationXmlMojo
     /**
      * {@inheritDoc}
      */
-    public void execute()
-        throws MojoExecutionException, MojoFailureException
-    {
+    public void execute() throws MojoExecutionException, MojoFailureException {
         // Initializes ear modules
         super.execute();
 
         // Handle application.xml
-        if ( !generateApplicationXml )
-        {
-            getLog().debug( "Generation of application.xml is disabled" );
-        }
-        else
-        {
-            final JavaEEVersion javaEEVersion = JavaEEVersion.getJavaEEVersion( version );
+        if (!generateApplicationXml) {
+            getLog().debug("Generation of application.xml is disabled");
+        } else {
+            final JavaEEVersion javaEEVersion = JavaEEVersion.getJavaEEVersion(version);
 
             // Generate deployment descriptor and copy it to the build directory
-            getLog().info( "Generating application.xml" );
-            try
-            {
-                generateStandardDeploymentDescriptor( javaEEVersion );
-            }
-            catch ( EarPluginException e )
-            {
-                throw new MojoExecutionException( "Failed to generate application.xml", e );
+            getLog().info("Generating application.xml");
+            try {
+                generateStandardDeploymentDescriptor(javaEEVersion);
+            } catch (EarPluginException e) {
+                throw new MojoExecutionException("Failed to generate application.xml", e);
             }
 
-            try
-            {
-                FileUtils.copyFileToDirectory( new File( generatedDescriptorLocation, "application.xml" ),
-                                               new File( getWorkDirectory(), "META-INF" ) );
-            }
-            catch ( IOException e )
-            {
-                throw new MojoExecutionException( "Unable to copy application.xml to final destination", e );
+            try {
+                FileUtils.copyFileToDirectory(
+                        new File(generatedDescriptorLocation, "application.xml"),
+                        new File(getWorkDirectory(), "META-INF"));
+            } catch (IOException e) {
+                throw new MojoExecutionException("Unable to copy application.xml to final destination", e);
             }
         }
 
         // Handle jboss-app.xml
-        if ( getJbossConfiguration() == null )
-        {
-            getLog().debug( "Generation of jboss-app.xml is disabled" );
-        }
-        else
-        {
+        if (getJbossConfiguration() == null) {
+            getLog().debug("Generation of jboss-app.xml is disabled");
+        } else {
             // Generate deployment descriptor and copy it to the build directory
-            getLog().info( "Generating jboss-app.xml" );
-            try
-            {
+            getLog().info("Generating jboss-app.xml");
+            try {
                 generateJbossDeploymentDescriptor();
-            }
-            catch ( EarPluginException e )
-            {
-                throw new MojoExecutionException( "Failed to generate jboss-app.xml", e );
+            } catch (EarPluginException e) {
+                throw new MojoExecutionException("Failed to generate jboss-app.xml", e);
             }
 
-            try
-            {
-                FileUtils.copyFileToDirectory( new File( generatedDescriptorLocation, "jboss-app.xml" ),
-                                               new File( getWorkDirectory(), "META-INF" ) );
-            }
-            catch ( IOException e )
-            {
-                throw new MojoExecutionException( "Unable to copy jboss-app.xml to final destination", e );
+            try {
+                FileUtils.copyFileToDirectory(
+                        new File(generatedDescriptorLocation, "jboss-app.xml"),
+                        new File(getWorkDirectory(), "META-INF"));
+            } catch (IOException e) {
+                throw new MojoExecutionException("Unable to copy jboss-app.xml to final destination", e);
             }
         }
     }
 
     /**
      * Generates the deployment descriptor.
-     * 
+     *
      * @param javaEEVersion {@link JavaEEVersion}
      * @throws EarPluginException if the configuration is invalid
      */
-    protected void generateStandardDeploymentDescriptor( JavaEEVersion javaEEVersion )
-        throws EarPluginException
-    {
-        File outputDir = new File( generatedDescriptorLocation );
-        if ( !outputDir.exists() )
-        {
-            if ( !outputDir.mkdirs() )
-            {
-                throw new EarPluginException( "Error creating " + outputDir );
+    protected void generateStandardDeploymentDescriptor(JavaEEVersion javaEEVersion) throws EarPluginException {
+        File outputDir = new File(generatedDescriptorLocation);
+        if (!outputDir.exists()) {
+            if (!outputDir.mkdirs()) {
+                throw new EarPluginException("Error creating " + outputDir);
             }
         }
 
-        File descriptor = new File( outputDir, "application.xml" );
+        File descriptor = new File(outputDir, "application.xml");
 
-        final ApplicationXmlWriter writer = new ApplicationXmlWriter( javaEEVersion, encoding, generateModuleId );
-        final ApplicationXmlWriterContext context =
-            new ApplicationXmlWriterContext( descriptor, getModules(), buildSecurityRoles(), buildEnvEntries(),
-                                             buildEjbEntries(), buildResourceRefs(), displayName, description,
-                                             getActualLibraryDirectory(), applicationName,
-                                             initializeInOrder ).setApplicationId( applicationId );
-        writer.write( context );
+        final ApplicationXmlWriter writer = new ApplicationXmlWriter(javaEEVersion, encoding, generateModuleId);
+        final ApplicationXmlWriterContext context = new ApplicationXmlWriterContext(
+                        descriptor,
+                        getModules(),
+                        buildSecurityRoles(),
+                        buildEnvEntries(),
+                        buildEjbEntries(),
+                        buildResourceRefs(),
+                        displayName,
+                        description,
+                        getActualLibraryDirectory(),
+                        applicationName,
+                        initializeInOrder)
+                .setApplicationId(applicationId);
+        writer.write(context);
     }
 
     /**
      * Generates the JBoss deployment descriptor.
-     * 
+     *
      * @throws EarPluginException if the configuration is invalid
      */
-    protected void generateJbossDeploymentDescriptor()
-        throws EarPluginException
-    {
-        File outputDir = new File( generatedDescriptorLocation );
-        if ( !outputDir.exists() )
-        {
-            if ( !outputDir.mkdirs() )
-            {
-                throw new EarPluginException( "Error creating " + outputDir );
+    protected void generateJbossDeploymentDescriptor() throws EarPluginException {
+        File outputDir = new File(generatedDescriptorLocation);
+        if (!outputDir.exists()) {
+            if (!outputDir.mkdirs()) {
+                throw new EarPluginException("Error creating " + outputDir);
             }
         }
 
-        File descriptor = new File( outputDir, "jboss-app.xml" );
+        File descriptor = new File(outputDir, "jboss-app.xml");
 
-        JbossAppXmlWriter writer = new JbossAppXmlWriter( encoding );
-        writer.write( descriptor, getJbossConfiguration(), getModules() );
+        JbossAppXmlWriter writer = new JbossAppXmlWriter(encoding);
+        writer.write(descriptor, getJbossConfiguration(), getModules());
     }
 
     /**
      * Builds the security roles based on the configuration.
-     * 
+     *
      * @return a list of SecurityRole object(s)
      * @throws EarPluginException if the configuration is invalid
      */
-    private List<SecurityRole> buildSecurityRoles()
-        throws EarPluginException
-    {
+    private List<SecurityRole> buildSecurityRoles() throws EarPluginException {
         final List<SecurityRole> result = new ArrayList<>();
-        if ( security == null )
-        {
+        if (security == null) {
             return result;
         }
-        final PlexusConfiguration[] securityRoles = security.getChildren( SecurityRole.SECURITY_ROLE );
+        final PlexusConfiguration[] securityRoles = security.getChildren(SecurityRole.SECURITY_ROLE);
 
-        for ( PlexusConfiguration securityRole : securityRoles )
-        {
-            final String id = securityRole.getAttribute( SecurityRole.ID_ATTRIBUTE );
-            final String childRoleName = securityRole.getChild( SecurityRole.ROLE_NAME ).getValue();
+        for (PlexusConfiguration securityRole : securityRoles) {
+            final String id = securityRole.getAttribute(SecurityRole.ID_ATTRIBUTE);
+            final String childRoleName =
+                    securityRole.getChild(SecurityRole.ROLE_NAME).getValue();
             final String childRoleNameId =
-                securityRole.getChild( SecurityRole.ROLE_NAME ).getAttribute( SecurityRole.ID_ATTRIBUTE );
-            final String childDescription = securityRole.getChild( SecurityRole.DESCRIPTION ).getValue();
+                    securityRole.getChild(SecurityRole.ROLE_NAME).getAttribute(SecurityRole.ID_ATTRIBUTE);
+            final String childDescription =
+                    securityRole.getChild(SecurityRole.DESCRIPTION).getValue();
             final String childDescriptionId =
-                securityRole.getChild( SecurityRole.DESCRIPTION ).getAttribute( SecurityRole.ID_ATTRIBUTE );
+                    securityRole.getChild(SecurityRole.DESCRIPTION).getAttribute(SecurityRole.ID_ATTRIBUTE);
 
-            if ( childRoleName == null )
-            {
-                throw new EarPluginException( "Invalid security-role configuration, role-name could not be null." );
-            }
-            else
-            {
-                result.add( new SecurityRole( childRoleName, childRoleNameId, id, childDescription,
-                                              childDescriptionId ) );
+            if (childRoleName == null) {
+                throw new EarPluginException("Invalid security-role configuration, role-name could not be null.");
+            } else {
+                result.add(new SecurityRole(childRoleName, childRoleNameId, id, childDescription, childDescriptionId));
             }
         }
         return result;
@@ -321,211 +314,169 @@ public class GenerateApplicationXmlMojo
     /**
      * This help method was needed otherwise the interpolate method of interpolator will make an empty string of a
      * {@code null} element which results in supplemental elements for env-entry.
-     * 
+     *
      * @param interpolator The interpolator
      * @param element The element
      * @return The interpolated elements.
      * @throws InterpolationException in case of an error.
      */
-    private String interpolate( Interpolator interpolator, String element )
-        throws InterpolationException
-    {
-        if ( element == null )
-        {
+    private String interpolate(Interpolator interpolator, String element) throws InterpolationException {
+        if (element == null) {
             return element;
-        }
-        else
-        {
-            return interpolator.interpolate( element );
+        } else {
+            return interpolator.interpolate(element);
         }
     }
 
     /**
      * Builds the env-entries based on the configuration.
-     * 
+     *
      * @return a list of EnvEntry object(s)
      * @throws EarPluginException if the configuration is invalid
      */
-    private List<EnvEntry> buildEnvEntries()
-        throws EarPluginException
-    {
+    private List<EnvEntry> buildEnvEntries() throws EarPluginException {
         final List<EnvEntry> result = new ArrayList<>();
-        if ( envEntries == null )
-        {
+        if (envEntries == null) {
             return result;
         }
-        try
-        {
+        try {
             StringSearchInterpolator ssi = new StringSearchInterpolator();
-            ValueSource vs = new MapBasedValueSource( project.getProperties() );
-            ssi.addValueSource( vs );
+            ValueSource vs = new MapBasedValueSource(project.getProperties());
+            ssi.addValueSource(vs);
 
-            final PlexusConfiguration[] allEnvEntries = envEntries.getChildren( EnvEntry.ENV_ENTRY );
+            final PlexusConfiguration[] allEnvEntries = envEntries.getChildren(EnvEntry.ENV_ENTRY);
 
-            getLog().debug( "buildEnvEntries: allEnvEntries size:" + allEnvEntries.length );
-            for ( PlexusConfiguration envEntry : allEnvEntries )
-            {
+            getLog().debug("buildEnvEntries: allEnvEntries size:" + allEnvEntries.length);
+            for (PlexusConfiguration envEntry : allEnvEntries) {
                 final String childDescription =
-                    interpolate( ssi, envEntry.getChild( EnvEntry.DESCRIPTION ).getValue() );
-                final String childEnvEntryName =
-                    interpolate( ssi, envEntry.getChild( EnvEntry.ENV_ENTRY_NAME ).getValue() );
-                final String childEnvEntryType =
-                    interpolate( ssi, envEntry.getChild( EnvEntry.ENV_ENTRY_TYPE ).getValue() );
-                final String childEnvEntryValue =
-                    interpolate( ssi, envEntry.getChild( EnvEntry.ENV_ENTRY_VALUE ).getValue() );
-                final String childEnvLookupNameValue =
-                    interpolate( ssi, envEntry.getChild( EnvEntry.ENV_LOOKUP_NAME ).getValue() );
+                        interpolate(ssi, envEntry.getChild(EnvEntry.DESCRIPTION).getValue());
+                final String childEnvEntryName = interpolate(
+                        ssi, envEntry.getChild(EnvEntry.ENV_ENTRY_NAME).getValue());
+                final String childEnvEntryType = interpolate(
+                        ssi, envEntry.getChild(EnvEntry.ENV_ENTRY_TYPE).getValue());
+                final String childEnvEntryValue = interpolate(
+                        ssi, envEntry.getChild(EnvEntry.ENV_ENTRY_VALUE).getValue());
+                final String childEnvLookupNameValue = interpolate(
+                        ssi, envEntry.getChild(EnvEntry.ENV_LOOKUP_NAME).getValue());
 
-                try
-                {
-                    result.add( new EnvEntry( childDescription, childEnvEntryName, childEnvEntryType,
-                                              childEnvEntryValue, childEnvLookupNameValue ) );
-                }
-                catch ( IllegalArgumentException e )
-                {
-                    throw new EarPluginException( "Invalid env-entry [" + envEntry + "]", e );
+                try {
+                    result.add(new EnvEntry(
+                            childDescription,
+                            childEnvEntryName,
+                            childEnvEntryType,
+                            childEnvEntryValue,
+                            childEnvLookupNameValue));
+                } catch (IllegalArgumentException e) {
+                    throw new EarPluginException("Invalid env-entry [" + envEntry + "]", e);
                 }
             }
             return result;
+        } catch (InterpolationException e) {
+            throw new EarPluginException("Interpolation exception:", e);
         }
-        catch ( InterpolationException e )
-        {
-            throw new EarPluginException( "Interpolation exception:", e );
-        }
-
     }
 
     /**
      * Builds the ejb-ref based on the configuration.
-     * 
+     *
      * @return a list of EjbRef object(s)
      * @throws EarPluginException if the configuration is invalid
      */
-    private List<EjbRef> buildEjbEntries()
-        throws EarPluginException
-    {
+    private List<EjbRef> buildEjbEntries() throws EarPluginException {
         final List<EjbRef> result = new ArrayList<>();
-        if ( ejbRefs == null )
-        {
+        if (ejbRefs == null) {
             return result;
         }
-        try
-        {
+        try {
             StringSearchInterpolator ssi = new StringSearchInterpolator();
-            ValueSource vs = new MapBasedValueSource( project.getProperties() );
-            ssi.addValueSource( vs );
+            ValueSource vs = new MapBasedValueSource(project.getProperties());
+            ssi.addValueSource(vs);
 
-            final PlexusConfiguration[] allEjbEntries = ejbRefs.getChildren( EjbRef.EJB_REF );
+            final PlexusConfiguration[] allEjbEntries = ejbRefs.getChildren(EjbRef.EJB_REF);
 
-            for ( PlexusConfiguration ejbEntry : allEjbEntries )
-            {
+            for (PlexusConfiguration ejbEntry : allEjbEntries) {
                 final String childDescription =
-                    interpolate( ssi, ejbEntry.getChild( EnvEntry.DESCRIPTION ).getValue() );
-                final String childEjbEntryName = interpolate( ssi, ejbEntry.getChild( EjbRef.EJB_NAME ).getValue() );
-                final String childEjbEntryType = interpolate( ssi, ejbEntry.getChild( EjbRef.EJB_TYPE ).getValue() );
-                final String childEjbLookupNameValue =
-                    interpolate( ssi, ejbEntry.getChild( EjbRef.EJB_LOOKUP_NAME ).getValue() );
+                        interpolate(ssi, ejbEntry.getChild(EnvEntry.DESCRIPTION).getValue());
+                final String childEjbEntryName =
+                        interpolate(ssi, ejbEntry.getChild(EjbRef.EJB_NAME).getValue());
+                final String childEjbEntryType =
+                        interpolate(ssi, ejbEntry.getChild(EjbRef.EJB_TYPE).getValue());
+                final String childEjbLookupNameValue = interpolate(
+                        ssi, ejbEntry.getChild(EjbRef.EJB_LOOKUP_NAME).getValue());
 
-                try
-                {
-                    result.add( new EjbRef( childDescription, childEjbEntryName, childEjbEntryType,
-                                            childEjbLookupNameValue ) );
-                }
-                catch ( IllegalArgumentException e )
-                {
-                    throw new EarPluginException( "Invalid ejb-ref [" + ejbEntry + "]", e );
+                try {
+                    result.add(new EjbRef(
+                            childDescription, childEjbEntryName, childEjbEntryType, childEjbLookupNameValue));
+                } catch (IllegalArgumentException e) {
+                    throw new EarPluginException("Invalid ejb-ref [" + ejbEntry + "]", e);
                 }
             }
             return result;
+        } catch (InterpolationException e) {
+            throw new EarPluginException("Interpolation exception:", e);
         }
-        catch ( InterpolationException e )
-        {
-            throw new EarPluginException( "Interpolation exception:", e );
-        }
-
     }
 
     /**
      * Builds the <code>resource-ref</code> based on the configuration.
-     * 
+     *
      * @return a list of ResourceRef object(s)
      * @throws EarPluginException if the configuration is invalid
      */
-    private List<ResourceRef> buildResourceRefs()
-        throws EarPluginException
-    {
+    private List<ResourceRef> buildResourceRefs() throws EarPluginException {
         final List<ResourceRef> result = new ArrayList<>();
-        if ( resourceRefs == null )
-        {
+        if (resourceRefs == null) {
             return result;
         }
-        try
-        {
-            getLog().debug( "Resources found" );
+        try {
+            getLog().debug("Resources found");
             StringSearchInterpolator ssi = new StringSearchInterpolator();
-            ValueSource vs = new MapBasedValueSource( project.getProperties() );
-            ssi.addValueSource( vs );
+            ValueSource vs = new MapBasedValueSource(project.getProperties());
+            ssi.addValueSource(vs);
 
             // TODO: Check if this is a good idea hard code that here? Better idea?
-            final PlexusConfiguration[] allResourceRefEntries = resourceRefs.getChildren( "resourceRef" );
+            final PlexusConfiguration[] allResourceRefEntries = resourceRefs.getChildren("resourceRef");
 
-            getLog().debug( "allResourceRefEntries length: " + allResourceRefEntries.length );
-            for ( PlexusConfiguration resEntry : allResourceRefEntries )
-            {
-                getLog().debug( "Resources resEntry:" + resEntry.getName() );
+            getLog().debug("allResourceRefEntries length: " + allResourceRefEntries.length);
+            for (PlexusConfiguration resEntry : allResourceRefEntries) {
+                getLog().debug("Resources resEntry:" + resEntry.getName());
 
-                final String childResRefName =
-                    interpolate( ssi, resEntry.getChild( ResourceRef.RESOURCE_REF_NAME ).getValue() );
-                final String childResType =
-                    interpolate( ssi, resEntry.getChild( ResourceRef.RESOURCE_TYPE ).getValue() );
-                final String childResRefAuth =
-                    interpolate( ssi, resEntry.getChild( ResourceRef.RESOURCE_AUTH ).getValue() );
-                final String childResRefLookupName =
-                    interpolate( ssi, resEntry.getChild( ResourceRef.LOOKUP_NAME ).getValue() );
+                final String childResRefName = interpolate(
+                        ssi, resEntry.getChild(ResourceRef.RESOURCE_REF_NAME).getValue());
+                final String childResType = interpolate(
+                        ssi, resEntry.getChild(ResourceRef.RESOURCE_TYPE).getValue());
+                final String childResRefAuth = interpolate(
+                        ssi, resEntry.getChild(ResourceRef.RESOURCE_AUTH).getValue());
+                final String childResRefLookupName = interpolate(
+                        ssi, resEntry.getChild(ResourceRef.LOOKUP_NAME).getValue());
 
-                try
-                {
-                    result.add(
-                            new ResourceRef( childResRefName, childResType, childResRefAuth, childResRefLookupName ) );
-                }
-                catch ( IllegalArgumentException e )
-                {
-                    throw new EarPluginException( "Invalid resource-ref [" + resEntry + "]", e );
+                try {
+                    result.add(new ResourceRef(childResRefName, childResType, childResRefAuth, childResRefLookupName));
+                } catch (IllegalArgumentException e) {
+                    throw new EarPluginException("Invalid resource-ref [" + resEntry + "]", e);
                 }
             }
             return result;
+        } catch (InterpolationException e) {
+            throw new EarPluginException("Interpolation exception:", e);
         }
-        catch ( InterpolationException e )
-        {
-            throw new EarPluginException( "Interpolation exception:", e );
-        }
-
     }
 
     /**
      * Returns the value to use for the {@code library-directory} element, based on the library directory mode.
      */
-    private String getActualLibraryDirectory()
-        throws EarPluginException
-    {
+    private String getActualLibraryDirectory() throws EarPluginException {
         final String mode = libraryDirectoryMode == null ? DEFAULT : libraryDirectoryMode.toUpperCase();
 
-        if ( DEFAULT.equals( mode ) )
-        {
+        if (DEFAULT.equals(mode)) {
             return defaultLibBundleDir;
-        }
-        else if ( EMPTY.equals( mode ) )
-        {
+        } else if (EMPTY.equals(mode)) {
             return "";
-        }
-        else if ( NONE.equals( mode ) )
-        {
+        } else if (NONE.equals(mode)) {
             return null;
-        }
-        else
-        {
-            throw new EarPluginException( "Unsupported library directory mode [" + libraryDirectoryMode
-                + "] Supported modes " + ( Arrays.asList( DEFAULT, EMPTY, NONE ) ) );
+        } else {
+            throw new EarPluginException("Unsupported library directory mode [" + libraryDirectoryMode
+                    + "] Supported modes " + (Arrays.asList(DEFAULT, EMPTY, NONE)));
         }
     }
 }
