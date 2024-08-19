@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package org.apache.maven.plugins.ear;
 
 /*
@@ -30,12 +48,10 @@ import org.codehaus.plexus.util.xml.XMLWriter;
 
 /**
  * A base implementation of an {@link EarModule}.
- * 
+ *
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-public abstract class AbstractEarModule
-    implements EarModule
-{
+public abstract class AbstractEarModule implements EarModule {
 
     /**
      * The module element.
@@ -124,17 +140,14 @@ public abstract class AbstractEarModule
     /**
      * Empty constructor to be used when the module is built based on the configuration.
      */
-    public AbstractEarModule()
-    {
-    }
+    public AbstractEarModule() {}
 
     /**
      * Creates an ear module from the artifact.
-     * 
+     *
      * @param a the artifact
      */
-    public AbstractEarModule( Artifact a )
-    {
+    public AbstractEarModule(Artifact a) {
         this.artifact = a;
         this.groupId = a.getGroupId();
         this.artifactId = a.getArtifactId();
@@ -146,38 +159,29 @@ public abstract class AbstractEarModule
     /**
      * {@inheritDoc}
      */
-    public void setEarExecutionContext( EarExecutionContext earExecutionContext )
-    {
+    public void setEarExecutionContext(EarExecutionContext earExecutionContext) {
         this.earExecutionContext = earExecutionContext;
     }
 
     /** {@inheritDoc} */
-    public void resolveArtifact( Set<Artifact> artifacts )
-        throws EarPluginException, MojoFailureException
-    {
+    public void resolveArtifact(Set<Artifact> artifacts) throws EarPluginException, MojoFailureException {
         // If the artifact is already set no need to resolve it
-        if ( artifact == null )
-        {
+        if (artifact == null) {
             // Make sure that at least the groupId and the artifactId are specified
-            if ( groupId == null || artifactId == null )
-            {
-                throw new MojoFailureException( "Could not resolve artifact[" + groupId + ":" + artifactId + ":"
-                    + getType() + "]" );
+            if (groupId == null || artifactId == null) {
+                throw new MojoFailureException(
+                        "Could not resolve artifact[" + groupId + ":" + artifactId + ":" + getType() + "]");
             }
             final ArtifactRepository ar = earExecutionContext.getArtifactRepository();
-            artifact = ar.getUniqueArtifact( groupId, artifactId, getType(), classifier );
+            artifact = ar.getUniqueArtifact(groupId, artifactId, getType(), classifier);
             // Artifact has not been found
-            if ( artifact == null )
-            {
-                Set<Artifact> candidates = ar.getArtifacts( groupId, artifactId, getType() );
-                if ( candidates.size() > 1 )
-                {
-                    throw new MojoFailureException( "Artifact[" + this + "] has " + candidates.size()
-                        + " candidates, please provide a classifier." );
-                }
-                else
-                {
-                    throw new MojoFailureException( "Artifact[" + this + "] is not a dependency of the project." );
+            if (artifact == null) {
+                Set<Artifact> candidates = ar.getArtifacts(groupId, artifactId, getType());
+                if (candidates.size() > 1) {
+                    throw new MojoFailureException("Artifact[" + this + "] has " + candidates.size()
+                            + " candidates, please provide a classifier.");
+                } else {
+                    throw new MojoFailureException("Artifact[" + this + "] is not a dependency of the project.");
                 }
             }
         }
@@ -186,32 +190,25 @@ public abstract class AbstractEarModule
     /**
      * @return {@link #artifact}
      */
-    public Artifact getArtifact()
-    {
+    public Artifact getArtifact() {
         return artifact;
     }
 
     /**
      * @return {@link #moduleId}
      */
-    public String getModuleId()
-    {
+    public String getModuleId() {
         return moduleId;
     }
 
     /**
      * @return Return the URI.
      */
-    public String getUri()
-    {
-        if ( uri == null )
-        {
-            if ( getBundleDir() == null )
-            {
+    public String getUri() {
+        if (uri == null) {
+            if (getBundleDir() == null) {
                 uri = getBundleFileName();
-            }
-            else
-            {
+            } else {
                 uri = getBundleDir() + getBundleFileName();
             }
         }
@@ -221,83 +218,71 @@ public abstract class AbstractEarModule
     /**
      * {@inheritDoc}
      */
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
     /**
      * Returns the artifact's groupId.
-     * 
+     *
      * @return {@link #groupId}
      */
-    public String getGroupId()
-    {
+    public String getGroupId() {
         return groupId;
     }
 
     /**
      * Returns the artifact's Id.
-     * 
+     *
      * @return {@link #artifactId}
      */
-    public String getArtifactId()
-    {
+    public String getArtifactId() {
         return artifactId;
     }
 
     /**
      * Returns the artifact's classifier.
-     * 
+     *
      * @return the artifact classifier
      */
-    public String getClassifier()
-    {
+    public String getClassifier() {
         return classifier;
     }
 
     /**
      * Returns the bundle directory. If null, the module is bundled in the root of the EAR.
-     * 
+     *
      * @return the custom bundle directory
      */
-    public String getBundleDir()
-    {
-        bundleDir = cleanArchivePath( bundleDir );
+    public String getBundleDir() {
+        bundleDir = cleanArchivePath(bundleDir);
         return bundleDir;
     }
 
     /**
      * {@inheritDoc}
      */
-    public String getLibDir()
-    {
-        libDirectory = cleanArchivePath( libDirectory );
+    public String getLibDir() {
+        libDirectory = cleanArchivePath(libDirectory);
         return libDirectory;
     }
 
     /**
      * {@inheritDoc}
      */
-    public boolean isClassPathItem()
-    {
+    public boolean isClassPathItem() {
         return classPathItem;
     }
 
     /**
      * {@inheritDoc}
      */
-    public String getBundleFileName()
-    {
-        if ( bundleFileName == null )
-        {
-            try
-            {
+    public String getBundleFileName() {
+        if (bundleFileName == null) {
+            try {
                 String outputFileNameMapping = earExecutionContext.getOutputFileNameMapping();
-                bundleFileName = MappingUtils.evaluateFileNameMapping( outputFileNameMapping, artifact );
-            }
-            catch ( InterpolationException e )
-            {
+                bundleFileName = MappingUtils.evaluateFileNameMapping(outputFileNameMapping, artifact);
+            } catch (InterpolationException e) {
                 // We currently ignore this here, cause assumption is that
                 // has already been happened before..
                 // FIXME: Should be checked first.
@@ -312,121 +297,105 @@ public abstract class AbstractEarModule
      * The alt-dd element specifies an optional URI to the post-assembly version of the deployment descriptor file for a
      * particular Java EE module. The URI must specify the full pathname of the deployment descriptor file relative to
      * the application's root directory.
-     * 
+     *
      * @return the alternative deployment descriptor for this module
      */
-    public String getAltDeploymentDescriptor()
-    {
+    public String getAltDeploymentDescriptor() {
         return altDeploymentDescriptor;
     }
 
     /**
      * Specify whether this module should be excluded or not.
-     * 
+     *
      * @return true if this module should be skipped, false otherwise
      */
-    public boolean isExcluded()
-    {
+    public boolean isExcluded() {
         return excluded;
     }
 
     /**
      * @return {@link #unpack}
      */
-    public Boolean shouldUnpack()
-    {
+    public Boolean shouldUnpack() {
         return unpack;
     }
 
     /**
      * Writes the alternative deployment descriptor if necessary.
-     * 
+     *
      * @param writer the writer to use
      * @param version the java EE version in use
      */
-    protected void writeAltDeploymentDescriptor( XMLWriter writer, String version )
-    {
-        if ( getAltDeploymentDescriptor() != null )
-        {
-            writer.startElement( ALT_DD );
-            writer.writeText( getAltDeploymentDescriptor() );
+    protected void writeAltDeploymentDescriptor(XMLWriter writer, String version) {
+        if (getAltDeploymentDescriptor() != null) {
+            writer.startElement(ALT_DD);
+            writer.writeText(getAltDeploymentDescriptor());
             writer.endElement();
         }
     }
 
     /**
      * Starts a new {@link #MODULE_ELEMENT} on the specified writer, possibly including an id attribute.
-     * 
+     *
      * @param writer the XML writer.
      * @param generateId whether an id should be generated
      */
-    protected void startModuleElement( XMLWriter writer, Boolean generateId )
-    {
-        writer.startElement( MODULE_ELEMENT );
+    protected void startModuleElement(XMLWriter writer, Boolean generateId) {
+        writer.startElement(MODULE_ELEMENT);
 
         // If a moduleId is specified, always include it
-        if ( getModuleId() != null )
-        {
-            writer.addAttribute( "id", getModuleId() );
-        }
-        else if ( generateId )
-        {
+        if (getModuleId() != null) {
+            writer.addAttribute("id", getModuleId());
+        } else if (generateId) {
             // No module id was specified but one should be generated.
             // FIXME: Should we use the mapping using outputFileNameMapping instead
             // of doing this on our own?
             Artifact theArtifact = getArtifact();
             String generatedId = theArtifact.getType().toUpperCase() + "_" + theArtifact.getGroupId() + "."
-                + theArtifact.getArtifactId();
-            if ( null != theArtifact.getClassifier() && theArtifact.getClassifier().trim().length() > 0 )
-            {
+                    + theArtifact.getArtifactId();
+            if (null != theArtifact.getClassifier()
+                    && theArtifact.getClassifier().trim().length() > 0) {
                 generatedId += "-" + theArtifact.getClassifier().trim();
             }
-            writer.addAttribute( "id", generatedId );
+            writer.addAttribute("id", generatedId);
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append( getType() ).append( ":" ).append( groupId ).append( ":" ).append( artifactId );
-        if ( classifier != null )
-        {
-            sb.append( ":" ).append( classifier );
+        sb.append(getType()).append(":").append(groupId).append(":").append(artifactId);
+        if (classifier != null) {
+            sb.append(":").append(classifier);
         }
-        if ( artifact != null )
-        {
-            sb.append( ":" ).append( artifact.getVersion() );
+        if (artifact != null) {
+            sb.append(":").append(artifact.getVersion());
         }
         return sb.toString();
     }
 
     /**
      * Cleans the path pointing to the resource inside the archive so that it might be used properly.
-     * 
+     *
      * @param path the path to clean, can be {@code null}
      * @return the cleaned path or {@code null} if given {@code path} is {@code null}
      */
-    static String cleanArchivePath( String path )
-    {
-        if ( path == null )
-        {
+    static String cleanArchivePath(String path) {
+        if (path == null) {
             return null;
         }
 
         // Using slashes
-        path = path.replace( '\\', '/' );
+        path = path.replace('\\', '/');
 
         // Remove '/' prefix if any so that path is a relative path
-        if ( path.startsWith( "/" ) )
-        {
-            path = path.substring( 1, path.length() );
+        if (path.startsWith("/")) {
+            path = path.substring(1, path.length());
         }
 
-        if ( path.length() > 0 && !path.endsWith( "/" ) )
-        {
+        if (path.length() > 0 && !path.endsWith("/")) {
             // Adding '/' suffix to specify a path structure if it is not empty
             path = path + "/";
         }
@@ -436,20 +405,17 @@ public abstract class AbstractEarModule
 
     /**
      * Sets the URI of the module explicitly for testing purposes.
-     * 
+     *
      * @param uri the uri
      */
-    void setUri( String uri )
-    {
+    void setUri(String uri) {
         this.uri = uri;
-
     }
 
     /**
      * @return always {@code true}
      */
-    public boolean changeManifestClasspath()
-    {
+    public boolean changeManifestClasspath() {
         return true;
     }
 }
