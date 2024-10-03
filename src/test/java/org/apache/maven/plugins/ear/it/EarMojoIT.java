@@ -1332,4 +1332,13 @@ public class EarMojoIT
         doTestProject( "project-101", expectedArtifacts, true );
         doTestProject( "project-101", expectedArtifacts, false );
     }
+
+    /**
+     * Builds an EAR with deployment descriptor configuration for JakartaEE 11.
+     */
+    public void testProject102()
+            throws Exception
+    {
+        doTestProject( "project-102", new String[] { "eartest-ejb-sample-one-1.0.jar" } );
+    }
 }
