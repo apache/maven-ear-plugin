@@ -90,6 +90,10 @@ final class ApplicationXmlWriter
             {
                 writer = initializeRootElementTen( w );
             }
+            else if ( JavaEEVersion.ELEVEN.eq( version ) )
+            {
+                writer = initializeRootElementEleven( w );
+            }
     
             // writer is still on root element, so we can still add this attribute
             if ( context.getApplicationId() != null )
@@ -300,6 +304,18 @@ final class ApplicationXmlWriter
         writer.addAttribute( "xsi:schemaLocation",
             "https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/application_10.xsd" );
         writer.addAttribute( "version", "10" );
+        return writer;
+    }
+
+    private XMLWriter initializeRootElementEleven( Writer w )
+    {
+        XMLWriter writer = initializeXmlWriter( w, null );
+        writer.startElement( APPLICATION_ELEMENT );
+        writer.addAttribute( "xmlns", "https://jakarta.ee/xml/ns/jakartaee" );
+        writer.addAttribute( "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance" );
+        writer.addAttribute( "xsi:schemaLocation",
+            "https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/application_11.xsd" );
+        writer.addAttribute( "version", "11" );
         return writer;
     }
 }
