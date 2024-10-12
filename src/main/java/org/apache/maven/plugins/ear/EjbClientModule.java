@@ -1,5 +1,3 @@
-package org.apache.maven.plugins.ear;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.plugins.ear;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,17 +16,16 @@ package org.apache.maven.plugins.ear;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.plugins.ear;
 
 import org.apache.maven.artifact.Artifact;
 
 /**
  * The {@link EarModule} implementation for an ejb client module.
- * 
+ *
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-public class EjbClientModule
-    extends JarModule
-{
+public class EjbClientModule extends JarModule {
     /**
      * Default type of the artifact of an ejb client module.
      */
@@ -37,8 +34,7 @@ public class EjbClientModule
     /**
      * Create an instance.
      */
-    public EjbClientModule()
-    {
+    public EjbClientModule() {
         this.type = DEFAULT_ARTIFACT_TYPE;
     }
 
@@ -46,8 +42,7 @@ public class EjbClientModule
      * @param a {@link Artifact}
      * @param defaultLibBundleDir The default lib bundle directory.
      */
-    public EjbClientModule( Artifact a, String defaultLibBundleDir )
-    {
-        super( a, defaultLibBundleDir, Boolean.FALSE );
+    public EjbClientModule(Artifact a, String defaultLibBundleDir) {
+        super(a, defaultLibBundleDir, Boolean.FALSE);
     }
 }

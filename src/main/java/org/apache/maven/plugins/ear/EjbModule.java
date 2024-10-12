@@ -1,5 +1,3 @@
-package org.apache.maven.plugins.ear;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.plugins.ear;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,18 +16,17 @@ package org.apache.maven.plugins.ear;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.plugins.ear;
 
 import org.apache.maven.artifact.Artifact;
 import org.codehaus.plexus.util.xml.XMLWriter;
 
 /**
  * The {@link EarModule} implementation for an EJB module.
- * 
+ *
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-public class EjbModule
-    extends AbstractEarModule
-{
+public class EjbModule extends AbstractEarModule {
     /**
      * Default type of the artifact of an EJB module.
      */
@@ -40,30 +37,27 @@ public class EjbModule
     /**
      * Create an instance.
      */
-    public EjbModule()
-    {
+    public EjbModule() {
         this.type = DEFAULT_ARTIFACT_TYPE;
     }
 
     /**
      * @param a {@link Artifact}
      */
-    public EjbModule( Artifact a )
-    {
-        super( a );
+    public EjbModule(Artifact a) {
+        super(a);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void appendModule( XMLWriter writer, String version, Boolean generateId )
-    {
-        startModuleElement( writer, generateId );
-        writer.startElement( EJB_MODULE );
-        writer.writeText( getUri() );
+    public void appendModule(XMLWriter writer, String version, Boolean generateId) {
+        startModuleElement(writer, generateId);
+        writer.startElement(EJB_MODULE);
+        writer.writeText(getUri());
         writer.endElement();
 
-        writeAltDeploymentDescriptor( writer, version );
+        writeAltDeploymentDescriptor(writer, version);
 
         writer.endElement();
     }

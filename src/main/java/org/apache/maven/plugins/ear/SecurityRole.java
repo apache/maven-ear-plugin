@@ -1,5 +1,3 @@
-package org.apache.maven.plugins.ear;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.plugins.ear;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,16 +16,16 @@ package org.apache.maven.plugins.ear;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.plugins.ear;
 
 import org.codehaus.plexus.util.xml.XMLWriter;
 
 /**
  * The representation of a security-role entry within an application.xml file.
- * 
+ *
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-class SecurityRole
-{
+class SecurityRole {
 
     protected static final String SECURITY_ROLE = "security-role";
 
@@ -47,11 +45,9 @@ class SecurityRole
 
     private final String descriptionId;
 
-    SecurityRole( String roleName, String roleNameId, String roleId, String description, String descriptionId )
-    {
-        if ( roleName == null )
-        {
-            throw new NullPointerException( "role-name in security-role element could not be null." );
+    SecurityRole(String roleName, String roleNameId, String roleId, String description, String descriptionId) {
+        if (roleName == null) {
+            throw new NullPointerException("role-name in security-role element could not be null.");
         }
         this.roleName = roleName;
         this.roleNameId = roleNameId;
@@ -60,75 +56,62 @@ class SecurityRole
         this.descriptionId = descriptionId;
     }
 
-    public String getRoleName()
-    {
+    public String getRoleName() {
         return roleName;
     }
 
-    public String getRoleNameId()
-    {
+    public String getRoleNameId() {
         return roleNameId;
     }
 
-    public String getRoleId()
-    {
+    public String getRoleId() {
         return roleId;
     }
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public String getDescriptionId()
-    {
+    public String getDescriptionId() {
         return descriptionId;
     }
 
     /**
      * Appends the {@code XML} representation of this security role.
-     * 
+     *
      * @param writer the writer to use
      */
-    public void appendSecurityRole( XMLWriter writer )
-    {
-        writer.startElement( SECURITY_ROLE );
+    public void appendSecurityRole(XMLWriter writer) {
+        writer.startElement(SECURITY_ROLE);
 
         // role id
-        if ( getRoleId() != null )
-        {
-            writer.addAttribute( ID_ATTRIBUTE, getRoleId() );
+        if (getRoleId() != null) {
+            writer.addAttribute(ID_ATTRIBUTE, getRoleId());
         }
 
         // description
-        if ( getDescription() != null )
-        {
-            writer.startElement( DESCRIPTION );
-            if ( getDescriptionId() != null )
-            {
-                writer.addAttribute( ID_ATTRIBUTE, getDescriptionId() );
+        if (getDescription() != null) {
+            writer.startElement(DESCRIPTION);
+            if (getDescriptionId() != null) {
+                writer.addAttribute(ID_ATTRIBUTE, getDescriptionId());
             }
-            writer.writeText( getDescription() );
+            writer.writeText(getDescription());
             writer.endElement();
-
         }
 
         // role name
-        writer.startElement( ROLE_NAME );
-        if ( getRoleNameId() != null )
-        {
-            writer.addAttribute( ID_ATTRIBUTE, getRoleNameId() );
+        writer.startElement(ROLE_NAME);
+        if (getRoleNameId() != null) {
+            writer.addAttribute(ID_ATTRIBUTE, getRoleNameId());
         }
-        writer.writeText( getRoleName() );
+        writer.writeText(getRoleName());
         writer.endElement();
 
         // end of security-role
         writer.endElement();
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "Security role " + getRoleName();
     }
-
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.plugins.ear;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.plugins.ear;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,50 +16,44 @@ package org.apache.maven.plugins.ear;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.plugins.ear;
 
 /**
  * The base exception of the EAR plugin.
- * 
+ *
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-public class EarPluginException
-    extends Exception
-{
+public class EarPluginException extends Exception {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -5540929953103327928L;
 
     /**
      * Create an instance.
      */
-    public EarPluginException()
-    {
-    }
+    public EarPluginException() {}
 
     /**
      * @param message The message for the exception.
      */
-    public EarPluginException( String message )
-    {
-        super( message );
+    public EarPluginException(String message) {
+        super(message);
     }
 
     /**
      * @param cause {@link Throwable}
      */
-    public EarPluginException( Throwable cause )
-    {
-        super( cause );
+    public EarPluginException(Throwable cause) {
+        super(cause);
     }
 
     /**
      * @param message The message to emit.
      * @param cause {@link Throwable}
      */
-    public EarPluginException( String message, Throwable cause )
-    {
-        super( message, cause );
+    public EarPluginException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

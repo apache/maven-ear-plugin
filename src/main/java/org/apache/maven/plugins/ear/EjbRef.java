@@ -1,5 +1,3 @@
-package org.apache.maven.plugins.ear;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.plugins.ear;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,17 +16,17 @@ package org.apache.maven.plugins.ear;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.plugins.ear;
 
 import org.codehaus.plexus.util.xml.XMLWriter;
 
 /**
  * Representation of {@code ejb-ref} element in {@code application.xml} file.
- * 
+ *
  * @author Karl Heinz Marbaise
  * @since 2.10
  */
-public class EjbRef
-{
+public class EjbRef {
     static final String DESCRIPTION = "description";
 
     static final String EJB_REF = "ejb-ref";
@@ -53,120 +51,102 @@ public class EjbRef
      * @param type The ejb-ref-type
      * @param lookupName The lookupname.
      */
-    public EjbRef( String description, String name, String type, String lookupName )
-    {
-        if ( name == null || name.isEmpty() )
-        {
-            throw new IllegalArgumentException( EJB_NAME + " in " + EJB_REF + " element cannot be null." );
-        }
-        else if ( ( type == null || type.isEmpty() ) && ( lookupName == null || lookupName.isEmpty() ) )
-        {
-            throw new IllegalArgumentException( EJB_TYPE + " in " + EJB_REF + " element cannot be null if no "
-                + EJB_LOOKUP_NAME + " was specified." );
-
+    public EjbRef(String description, String name, String type, String lookupName) {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException(EJB_NAME + " in " + EJB_REF + " element cannot be null.");
+        } else if ((type == null || type.isEmpty()) && (lookupName == null || lookupName.isEmpty())) {
+            throw new IllegalArgumentException(EJB_TYPE + " in " + EJB_REF + " element cannot be null if no "
+                    + EJB_LOOKUP_NAME + " was specified.");
         }
 
         this.description = description;
         this.name = name;
         this.type = type;
         this.lookupName = lookupName;
-
     }
 
     /**
      * Appends the {@code XML} representation of this env-entry.
-     * 
+     *
      * @param writer the writer to use
      */
-    public void appendEjbRefEntry( XMLWriter writer )
-    {
-        writer.startElement( EJB_REF );
+    public void appendEjbRefEntry(XMLWriter writer) {
+        writer.startElement(EJB_REF);
 
         // description
-        if ( getDescription() != null )
-        {
-            doWriteElement( writer, DESCRIPTION, getDescription() );
+        if (getDescription() != null) {
+            doWriteElement(writer, DESCRIPTION, getDescription());
         }
 
         // ejb name
-        doWriteElement( writer, EJB_NAME, getName() );
+        doWriteElement(writer, EJB_NAME, getName());
 
         // ejb-type
-        if ( getType() != null )
-        {
-            doWriteElement( writer, EJB_TYPE, getType() );
+        if (getType() != null) {
+            doWriteElement(writer, EJB_TYPE, getType());
         }
 
         // lookup-name
-        if ( getLookupName() != null )
-        {
-            doWriteElement( writer, EJB_LOOKUP_NAME, getLookupName() );
+        if (getLookupName() != null) {
+            doWriteElement(writer, EJB_LOOKUP_NAME, getLookupName());
         }
 
         // end of ejb-ref
         writer.endElement();
     }
 
-    private void doWriteElement( XMLWriter writer, String element, String text )
-    {
-        writer.startElement( element );
-        writer.writeText( text );
+    private void doWriteElement(XMLWriter writer, String element, String text) {
+        writer.startElement(element);
+        writer.writeText(text);
         writer.endElement();
     }
 
     /**
      * @return {@link #name}
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     /**
      * @param name {@link #name}
      */
-    public void setName( String name )
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
     /**
      * @return {@link #type}
      */
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
     /**
      * @param type {@link #type}
      */
-    public void setType( String type )
-    {
+    public void setType(String type) {
         this.type = type;
     }
 
     /**
      * @return {@link #lookupName}
      */
-    public String getLookupName()
-    {
+    public String getLookupName() {
         return lookupName;
     }
 
     /**
      * @param lookupName {@link #lookupName}
      */
-    public void setLookupName( String lookupName )
-    {
+    public void setLookupName(String lookupName) {
         this.lookupName = lookupName;
     }
 
     /**
      * @return {@link #description}
      */
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 }
