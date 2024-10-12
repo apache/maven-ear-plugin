@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import groovy.xml.XmlParser
 
 def latin1File = new File( basedir, "latin-1/target/application.xml" )
 assert latin1File.exists()
