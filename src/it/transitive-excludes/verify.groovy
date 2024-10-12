@@ -31,7 +31,7 @@ Enumeration entries = ear.entries();
 while( entries.hasMoreElements() )
 {
   JarEntry entry = (JarEntry) entries.nextElement();
-  if( entry.getName().endsWith( ".jar" ) && !"org.apache.maven-maven-core-3.0.jar".equals( entry.getName() ) )
+  if( entry.getName().endsWith( ".jar" ) && !"org.apache.maven-maven-core-3.9.9.jar".equals( entry.getName() ) )
   {
     throw new IllegalStateException( "Unexpected archive entry: " + entry.getName() );
   }
