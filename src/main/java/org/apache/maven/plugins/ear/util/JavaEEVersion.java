@@ -44,6 +44,8 @@ public class JavaEEVersion implements Comparable<JavaEEVersion> {
 
     private static final String VERSION_10 = "10";
 
+    private static final String VERSION_11 = "11";
+
     private static final Map<String, JavaEEVersion> VERSION_MAP = new HashMap<>();
 
     /**
@@ -85,6 +87,11 @@ public class JavaEEVersion implements Comparable<JavaEEVersion> {
      * Represents the JakartaEE 10 version.
      */
     public static final JavaEEVersion TEN = new JavaEEVersion(Integer.valueOf(7), VERSION_10);
+
+    /**
+     * Represents the JakartaEE 11 version.
+     */
+    public static final JavaEEVersion ELEVEN = new JavaEEVersion(Integer.valueOf(8), VERSION_11);
 
     private final Integer index;
 
@@ -185,7 +192,8 @@ public class JavaEEVersion implements Comparable<JavaEEVersion> {
                 || VERSION_7.equals(paramVersion)
                 || VERSION_8.equals(paramVersion)
                 || VERSION_9.equals(paramVersion)
-                || VERSION_10.equals(paramVersion);
+                || VERSION_10.equals(paramVersion)
+                || VERSION_11.equals(paramVersion);
         // @formatter:on
     }
 
