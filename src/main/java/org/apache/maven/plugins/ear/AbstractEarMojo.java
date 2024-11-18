@@ -116,7 +116,7 @@ public abstract class AbstractEarMojo extends AbstractMojo {
     /**
      * The file name mapping to use for all dependencies included in the EAR file. The mapping between artifacts and the
      * file names which is used within the EAR file.
-     * Details see
+     * See
      * <a href="./examples/customize-file-name-mapping.html">Customizing The File Name Mapping</a>.
      *
      * @since 3.0.0
@@ -134,17 +134,13 @@ public abstract class AbstractEarMojo extends AbstractMojo {
 
     /**
      * The JBoss specific configuration.
-     *
-     * @parameter
      */
     @Parameter
     private PlexusConfiguration jboss;
 
     /**
-     * The id to use to define the main artifact (e.g. the artifact without a classifier) when there is multiple
+     * The id to use to define the main artifact (e.g. the artifact without a classifier) when there are multiple
      * candidates.
-     *
-     * @parameter
      */
     @Parameter
     private String mainArtifactId = "none";
@@ -254,7 +250,7 @@ public abstract class AbstractEarMojo extends AbstractMojo {
     }
 
     /**
-     * @return The list of {@link #earModules}. This corresponds to modules needed at runtime.
+     * @return the list of {@link #earModules}. This corresponds to modules needed at runtime.
      */
     protected List<EarModule> getModules() {
         if (earModules == null) {
@@ -264,7 +260,7 @@ public abstract class AbstractEarMojo extends AbstractMojo {
     }
 
     /**
-     * @return The list of {@link #allEarModules}. This corresponds to all modules (provided + compile + runtime).
+     * @return the list of {@link #allEarModules}. This corresponds to all modules (provided + compile + runtime).
      */
     protected List<EarModule> getAllEarModules() {
         if (allEarModules == null) {
