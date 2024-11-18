@@ -230,7 +230,7 @@ public abstract class AbstractEarMojo extends AbstractMojo {
             throw new MojoExecutionException("Failed to initialize ear modules", e);
         }
 
-        // Now we have everything let's built modules which have not been excluded
+        // Now we have everything. Let's build modules which have not been excluded
         ScopeArtifactFilter filter = new ScopeArtifactFilter(Artifact.SCOPE_RUNTIME);
         allEarModules = new ArrayList<>();
         providedEarModules = new ArrayList<>();
