@@ -18,6 +18,8 @@
  */
 package org.apache.maven.plugins.ear;
 
+import javax.inject.Inject;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -264,24 +266,16 @@ public class EarMojo extends AbstractEarMojo {
     @Parameter(defaultValue = "${project.build.outputTimestamp}")
     private String outputTimestamp;
 
-    /**
-     */
-    @Component
     private MavenProjectHelper projectHelper;
 
     /**
      * The archive manager.
      */
-    @Component
     private ArchiverManager archiverManager;
 
-    /**
-     */
     @Component(role = MavenFileFilter.class, hint = "default")
     private MavenFileFilter mavenFileFilter;
 
-    /**
-     */
     @Component(role = MavenResourcesFiltering.class, hint = "default")
     private MavenResourcesFiltering mavenResourcesFiltering;
 
@@ -293,7 +287,20 @@ public class EarMojo extends AbstractEarMojo {
 
     private List<FilterWrapper> filterWrappers;
 
+    @Inject
+    public EarMojo(
+            MavenProjectHelper projectHelper,
+            ArchiverManager archiverManager,
+            MavenFileFilter mavenFileFilter,
+            MavenResourcesFiltering mavenResourcesFiltering) {
+        this.projectHelper = projectHelper;
+        this.archiverManager = archiverManager;
+        this.mavenFileFilter = mavenFileFilter;
+        this.mavenResourcesFiltering = mavenResourcesFiltering;
+    }
+
     /** {@inheritDoc} */
+    @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         // Initializes ear modules
         super.execute();
