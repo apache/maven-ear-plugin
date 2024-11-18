@@ -105,10 +105,9 @@ public abstract class AbstractEarMojo extends AbstractMojo {
     private Boolean includeLibInApplicationXml = Boolean.FALSE;
 
     /**
-     * Only here to identify migration issues. The usage of this parameter will fail the build. If you need file name
-     * mapping please use {@link #outputFileNameMapping} instead.
+     * Only here to identify migration issues. The usage of this parameter will fail the build.
      *
-     * @deprecated
+     * @deprecated use {@link #outputFileNameMapping}
      */
     @Deprecated
     @Parameter
