@@ -51,7 +51,6 @@ import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -66,7 +65,6 @@ import org.apache.maven.shared.filtering.MavenResourcesExecution;
 import org.apache.maven.shared.filtering.MavenResourcesFiltering;
 import org.apache.maven.shared.mapping.MappingUtils;
 import org.apache.maven.shared.utils.io.FileUtils;
-import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.UnArchiver;
 import org.codehaus.plexus.archiver.ear.EarArchiver;
@@ -240,13 +238,11 @@ public class EarMojo extends AbstractEarMojo {
     /**
      * The Plexus EAR archiver to create the output archive.
      */
-    @Component(role = Archiver.class, hint = "ear")
     private EarArchiver earArchiver;
 
     /**
-     * The Plexus JAR archiver to create the output archive if not EAR application descriptor is provided (JavaEE 5+).
+     * The Plexus JAR archiver to create the output archive if no EAR application descriptor is provided (JavaEE 5+).
      */
-    @Component(role = Archiver.class, hint = "jar")
     private JarArchiver jarArchiver;
 
     /**
@@ -273,10 +269,8 @@ public class EarMojo extends AbstractEarMojo {
      */
     private ArchiverManager archiverManager;
 
-    @Component(role = MavenFileFilter.class, hint = "default")
     private MavenFileFilter mavenFileFilter;
 
-    @Component(role = MavenResourcesFiltering.class, hint = "default")
     private MavenResourcesFiltering mavenResourcesFiltering;
 
     /**
@@ -289,10 +283,14 @@ public class EarMojo extends AbstractEarMojo {
 
     @Inject
     public EarMojo(
+            EarArchiver earArchiver,
+            JarArchiver jarArchiver,
             MavenProjectHelper projectHelper,
             ArchiverManager archiverManager,
             MavenFileFilter mavenFileFilter,
             MavenResourcesFiltering mavenResourcesFiltering) {
+        this.earArchiver = earArchiver;
+        this.jarArchiver = jarArchiver;
         this.projectHelper = projectHelper;
         this.archiverManager = archiverManager;
         this.mavenFileFilter = mavenFileFilter;
