@@ -110,6 +110,7 @@ public abstract class AbstractEarMojo extends AbstractMojo {
      *
      * @deprecated
      */
+    @Deprecated
     @Parameter
     private String fileNameMapping;
 
@@ -158,6 +159,7 @@ public abstract class AbstractEarMojo extends AbstractMojo {
     private JbossConfiguration jbossConfiguration;
 
     /** {@inheritDoc} */
+    @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (fileNameMapping != null) {
             getLog().error("fileNameMapping has been removed with version 3.0.0. You are still using it.");
@@ -197,12 +199,9 @@ public abstract class AbstractEarMojo extends AbstractMojo {
         getLog().debug("Resolving ear modules ...");
         List<EarModule> allModules = new ArrayList<>();
         try {
-            if (modules != null && modules.length > 0) {
+            if (modules != null) {
                 // Let's validate user-defined modules
-                EarModule module;
-
-                for (EarModule module1 : modules) {
-                    module = module1;
+                for (EarModule module : modules) {
                     getLog().debug("Resolving ear module[" + module + "]");
                     module.setEarExecutionContext(earExecutionContext);
                     module.resolveArtifact(project.getArtifacts());
