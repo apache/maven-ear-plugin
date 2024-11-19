@@ -20,12 +20,11 @@ package org.apache.maven.plugins.ear.it;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.file.Files;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import org.apache.commons.io.IOUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.ReaderFactory;
 
 /**
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
@@ -132,14 +131,14 @@ public class EarMojoIT extends AbstractEarPluginIT {
     }
 
     /**
-     * Builds an EAR and make sure that EAR resources are bundled within the EAR using includes and excludes.
+     * Builds an EAR and makes sure that EAR resources are bundled within the EAR using includes and excludes.
      */
     public void testProject014() throws Exception {
         doTestProject("project-014", new String[] {"LICENSE.txt", "eartest-ejb-sample-one-1.0.jar"});
     }
 
     /**
-     * Builds an EAR and make sure that default manifest is taken into account.
+     * Builds an EAR and makes sure that default manifest is taken into account.
      */
     public void testProject015() throws Exception {
         final File baseDir = doTestProject("project-015", new String[] {"eartest-ejb-sample-one-1.0.jar"});
@@ -150,7 +149,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
     }
 
     /**
-     * Builds an EAR and make sure that custom manifest is taken into account.
+     * Builds an EAR and makes sure that custom manifest is taken into account.
      */
     public void testProject016() throws Exception {
         final File baseDir = doTestProject("project-016", new String[] {"eartest-ejb-sample-one-1.0.jar"});
@@ -168,7 +167,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
     }
 
     /**
-     * Builds an EAR and make sure that custom application.xml is taken into account.
+     * Builds an EAR and makes sure that custom application.xml is taken into account.
      */
     public void testProject017() throws Exception {
         doTestProject("project-017", new String[] {"eartest-ejb-sample-one-1.0.jar"});
@@ -307,7 +306,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
     }
 
     /**
-     * Builds an EAR with a Jboss 4 configuration specifying the security domain and the unauthenticated-principal to
+     * Builds an EAR with a JBoss 4 configuration specifying the security domain and the unauthenticated-principal to
      * use.
      */
     public void testProject031() throws Exception {
@@ -315,14 +314,14 @@ public class EarMojoIT extends AbstractEarPluginIT {
     }
 
     /**
-     * Builds an EAR with a Jboss 3.2 configuration specifying the jmx-name to use.
+     * Builds an EAR with a JBoss 3.2 configuration specifying the jmx-name to use.
      */
     public void testProject032() throws Exception {
         doTestProject("project-032", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
     /**
-     * Builds an EAR with a Jboss 4 configuration and Jboss specific modules.
+     * Builds an EAR with a JBoss 4 configuration and JBoss specific modules.
      */
     public void testProject033() throws Exception {
         doTestProject("project-033", new String[] {
@@ -391,7 +390,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
     }
 
     /**
-     * Builds an EAR with a Jboss 4 configuration specifying specifying the loader repository to use.
+     * Builds an EAR with a JBoss 4 configuration specifying specifying the loader repository to use.
      */
     public void testProject039() throws Exception {
         doTestProject("project-039", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
@@ -405,14 +404,14 @@ public class EarMojoIT extends AbstractEarPluginIT {
     }
 
     /**
-     * Builds an EAR with a Jboss 4.2 configuration specifying the module order to use.
+     * Builds an EAR with a JBoss 4.2 configuration specifying the module order to use.
      */
     public void testProject041() throws Exception {
         doTestProject("project-041", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
     /**
-     * Builds an EAR with a Jboss 4.2 configuration specifying a datasource to add.
+     * Builds an EAR with a JBoss 4.2 configuration specifying a datasource to add.
      */
     public void testProject042() throws Exception {
         doTestProject("project-042", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
@@ -444,7 +443,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
         final File baseDir =
                 doTestProject("project-045", new String[] {"README.txt", "eartest-ejb-sample-one-1.0.jar"});
         final File actualReadme = new File(getEarDirectory(baseDir, "project-045"), "README.txt");
-        final String content = IOUtils.toString(ReaderFactory.newReader(actualReadme, "UTF-8"));
+        final String content = new String(Files.readAllBytes(actualReadme.toPath()), "UTF-8");
         assertTrue("application name and version was not filtered properly", content.contains("my-app 99.0"));
         assertTrue("Escaping did not work properly", content.contains("will not be filtered ${application.name}."));
     }
@@ -456,7 +455,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
         final File baseDir =
                 doTestProject("project-046", new String[] {"README.txt", "eartest-ejb-sample-one-1.0.jar"});
         final File actualReadme = new File(getEarDirectory(baseDir, "project-046"), "README.txt");
-        final String content = IOUtils.toString(ReaderFactory.newReader(actualReadme, "UTF-8"));
+        final String content = new String(Files.readAllBytes(actualReadme.toPath()), "UTF-8");
         assertTrue("application name and version was not filtered properly", content.contains("my-app 99.0"));
         assertTrue("application build was not filtered properly", content.contains("(Build 2)"));
         assertTrue(
@@ -471,7 +470,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
         final File baseDir =
                 doTestProject("project-047", new String[] {"README.txt", "eartest-ejb-sample-one-1.0.jar"});
         final File actualReadme = new File(getEarDirectory(baseDir, "project-047"), "README.txt");
-        final String content = IOUtils.toString(ReaderFactory.newReader(actualReadme, "UTF-8"));
+        final String content = new String(Files.readAllBytes(actualReadme.toPath()), "UTF-8");
         assertTrue("application name and version should not have been filtered", !content.contains("my-app 99.0"));
         assertTrue("original properties not found", content.contains("${application.name} ${project.version}"));
     }
@@ -491,28 +490,28 @@ public class EarMojoIT extends AbstractEarPluginIT {
     }
 
     /**
-     * Builds an EAR with a Jboss 5 configuration containing a loader repository configuration definition.
+     * Builds an EAR with a JBoss 5 configuration containing a loader repository configuration definition.
      */
     public void testProject050() throws Exception {
         doTestProject("project-050", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
     /**
-     * Builds an EAR with a Jboss 5 configuration containing a loader repository class definition.
+     * Builds an EAR with a JBoss 5 configuration containing a loader repository class definition.
      */
     public void testProject051() throws Exception {
         doTestProject("project-051", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
     /**
-     * Builds an EAR with a Jboss 5 configuration containing a configuration parser class definition.
+     * Builds an EAR with a JBoss 5 configuration containing a configuration parser class definition.
      */
     public void testProject052() throws Exception {
         doTestProject("project-052", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
     /**
-     * Builds an EAR with a Jboss 5 configuration containing only the loader repo configuration
+     * Builds an EAR with a JBoss 5 configuration containing only the loader repo configuration
      */
     public void testProject053() throws Exception {
         doTestProject("project-053", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
@@ -1197,7 +1196,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
     }
 
     /**
-     * Ensures that artifacts with jboss-sar, jboss-har and jboss-par types are packaged in EAR and
+     * Ensures that artifacts with JBoss-sar, JBoss-har and JBoss-par types are packaged in EAR and
      * described in deployment descriptor when respective types are configured for EAR modules.
      */
     public void testProject097() throws Exception {
@@ -1311,7 +1310,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
     }
 
     /**
-     * Ensure that {@code defaultLibBundleDir} with dot at begin don't remove artifacts during second execution.
+     * Ensure that {@code defaultLibBundleDir} with dot at beginning don't remove artifacts during second execution.
      */
     public void testProject101() throws Exception {
         String[] expectedArtifacts = new String[] {
@@ -1319,8 +1318,6 @@ public class EarMojoIT extends AbstractEarPluginIT {
             "eartest-jar-sample-two-1.0.jar",
             "eartest-jar-sample-three-with-deps-1.0.jar"
         };
-
-        boolean[] artifactsDirectory = new boolean[expectedArtifacts.length];
 
         doTestProject("project-101", expectedArtifacts, true);
         doTestProject("project-101", expectedArtifacts, false);
