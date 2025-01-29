@@ -46,6 +46,8 @@ public class JavaEEVersion implements Comparable<JavaEEVersion> {
 
     private static final String VERSION_11 = "11";
 
+    // Please remember to add new versions to the Javadoc of AbstractEarMojo.version
+
     private static final Map<String, JavaEEVersion> VERSION_MAP = new HashMap<>();
 
     /**
