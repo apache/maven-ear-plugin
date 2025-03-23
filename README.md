@@ -75,7 +75,6 @@ Additional Resources
 + [Apache Maven Bluesky Account](https://bsky.app/profile/maven.apache.org)
 + [Apache Maven Mastodon Account](https://mastodon.social/deck/@ASFMavenProject@fosstodon.org)
 
-
 [license]: https://www.apache.org/licenses/LICENSE-2.0
 [ml-list]: https://maven.apache.org/mailing-lists.html
 [code-style]: https://maven.apache.org/developers/conventions/code.html
