@@ -17,7 +17,3 @@
 
 _extends: maven-gh-actions-shared
 
-tag-template: maven-ear-plugin-$RESOLVED_VERSION
-
-include-pre-releases: true
-prerelease: true

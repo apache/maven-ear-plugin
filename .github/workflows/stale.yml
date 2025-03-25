@@ -19,7 +19,7 @@ name: Stale
 
 on:
   schedule:
-    - cron: '16 4 * * *'
+    - cron: '42 2 * * *'
   issue_comment:
     types: [ 'created' ]
 
