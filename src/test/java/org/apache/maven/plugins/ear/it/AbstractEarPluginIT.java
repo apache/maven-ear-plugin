@@ -18,6 +18,10 @@
  */
 package org.apache.maven.plugins.ear.it;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -29,9 +33,7 @@ import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+
 import junit.framework.TestCase;
 import org.apache.maven.plugins.ear.util.ResourceEntityResolver;
 import org.apache.maven.shared.verifier.VerificationException;
