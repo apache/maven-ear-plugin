@@ -52,9 +52,9 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public abstract class AbstractEarPluginIT extends TestCase {
 
-    private final String FINAL_NAME_PREFIX = "maven-ear-plugin-test-";
+    private static final String FINAL_NAME_PREFIX = "maven-ear-plugin-test-";
 
-    private final String FINAL_NAME_SUFFIX = "-99.0";
+    private static final String FINAL_NAME_SUFFIX = "-99.0";
 
     /**
      * The base directory.
