@@ -91,7 +91,6 @@ class EnvEntry {
      * @param writer the writer to use
      */
     public void appendEnvEntry(XMLWriter writer) {
-        System.out.println("appendEnvEntry()");
         writer.startElement(ENV_ENTRY);
 
         // description
