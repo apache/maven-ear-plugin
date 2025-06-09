@@ -57,7 +57,11 @@ public abstract class AbstractEarMojo extends AbstractMojo {
     public static final String UTF_8 = "UTF-8";
 
     /**
-     * The version of the application.xml to generate. Valid values are 1.3, 1.4, 5, 6, 7, 8, 9, 10 and 11.
+     * The schema version of generated <code>application.xml</code> descriptor.
+     * <p>
+     * Valid values are 1.3, 1.4, 5, 6, 7, 8, 9, 10 and 11.
+     * <p>
+     * See: <a href="https://jakarta.ee/xml/ns/jakartaee/">Jakarta EE XML Schemas</a>
      */
     @Parameter(defaultValue = "7")
     protected String version;
