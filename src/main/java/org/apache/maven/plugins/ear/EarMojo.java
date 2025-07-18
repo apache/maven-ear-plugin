@@ -339,7 +339,7 @@ public class EarMojo extends AbstractEarMojo {
             File earSourceDir = earSourceDirectory;
 
             if (earSourceDir.exists()) {
-                getLog().info("Copy ear sources to " + getWorkDirectory().getAbsolutePath());
+                getLog().debug("Copy ear sources to " + getWorkDirectory().getAbsolutePath());
                 String[] fileNames = getEarFiles(earSourceDir);
                 for (String fileName : fileNames) {
                     copyFile(new File(earSourceDir, fileName), new File(getWorkDirectory(), fileName));
@@ -349,7 +349,7 @@ public class EarMojo extends AbstractEarMojo {
 
             if (applicationXml != null) {
                 // rename to application.xml
-                getLog().info("Including custom application.xml[" + applicationXml + "]");
+                getLog().debug("Including custom application.xml[" + applicationXml + "]");
                 File metaInfDir = new File(getWorkDirectory(), META_INF);
                 copyFile(applicationXml, new File(metaInfDir, "/application.xml"));
                 outdatedResources.remove(Paths.get("META-INF/application.xml").toString());
@@ -414,7 +414,7 @@ public class EarMojo extends AbstractEarMojo {
                 if ((unpackTypesList.contains(module.getType())
                                 && (module.shouldUnpack() == null || module.shouldUnpack()))
                         || (module.shouldUnpack() != null && module.shouldUnpack())) {
-                    getLog().info("Copying artifact [" + module + "] to [" + module.getUri() + "] (unpacked)");
+                    getLog().debug("Copying artifact [" + module + "] to [" + module.getUri() + "] (unpacked)");
                     // Make sure that the destination is a directory to avoid plexus nasty stuff :)
                     if (!destinationFile.isDirectory() && !destinationFile.mkdirs()) {
                         throw new MojoExecutionException("Error creating " + destinationFile);
@@ -426,7 +426,7 @@ public class EarMojo extends AbstractEarMojo {
                     }
                 } else {
                     if (sourceFile.lastModified() > destinationFile.lastModified()) {
-                        getLog().info("Copying artifact [" + module + "] to [" + module.getUri() + "]");
+                        getLog().debug("Copying artifact [" + module + "] to [" + module.getUri() + "]");
                         createParentIfNecessary(destinationFile);
                         Files.copy(
                                 sourceFile.toPath(),
@@ -874,7 +874,7 @@ public class EarMojo extends AbstractEarMojo {
         for (String outdatedResource : outdatedResources) {
             File resourceFile = new File(getWorkDirectory(), outdatedResource);
             if (resourceFile.lastModified() < startTime) {
-                getLog().info("deleting outdated resource " + outdatedResource);
+                getLog().debug("deleting outdated resource " + outdatedResource);
                 getLog().debug(outdatedResource + " last modified: " + resourceFile.lastModified());
                 resourceFile.delete();
             }
