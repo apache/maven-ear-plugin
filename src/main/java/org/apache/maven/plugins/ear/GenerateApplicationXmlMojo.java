@@ -169,7 +169,7 @@ public class GenerateApplicationXmlMojo extends AbstractEarMojo {
             final JavaEEVersion javaEEVersion = JavaEEVersion.getJavaEEVersion(version);
 
             // Generate deployment descriptor and copy it to the build directory
-            getLog().info("Generating application.xml");
+            getLog().debug("Generating application.xml");
             try {
                 generateStandardDeploymentDescriptor(javaEEVersion);
             } catch (EarPluginException e) {
@@ -190,7 +190,7 @@ public class GenerateApplicationXmlMojo extends AbstractEarMojo {
             getLog().debug("Generation of jboss-app.xml is disabled");
         } else {
             // Generate deployment descriptor and copy it to the build directory
-            getLog().info("Generating jboss-app.xml");
+            getLog().debug("Generating jboss-app.xml");
             try {
                 generateJbossDeploymentDescriptor();
             } catch (EarPluginException e) {
