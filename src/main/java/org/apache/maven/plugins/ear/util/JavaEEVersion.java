@@ -106,9 +106,9 @@ public class JavaEEVersion implements Comparable<JavaEEVersion> {
     }
 
     /**
-     * @param paramVersion The version.
+     * @param paramVersion the version
      * @return {@link JavaEEVersion}
-     * @throws InvalidJavaEEVersion in case of a wrong version.
+     * @throws InvalidJavaEEVersion in case of a wrong version
      */
     public static JavaEEVersion getJavaEEVersion(String paramVersion) throws InvalidJavaEEVersion {
         if (!isValid(paramVersion)) {
@@ -199,7 +199,9 @@ public class JavaEEVersion implements Comparable<JavaEEVersion> {
         // @formatter:on
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public int compareTo(JavaEEVersion otherVersion) {
         if (otherVersion == null) {
             throw new NullPointerException("other object to compare to could not be null.");

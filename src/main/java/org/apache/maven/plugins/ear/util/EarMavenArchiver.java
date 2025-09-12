@@ -56,9 +56,9 @@ public class EarMavenArchiver extends MavenArchiver {
     /**
      * @param project {@link MavenProject}
      * @param config {@link MavenArchiveConfiguration}
+     * @return manifest
+     * @throws DependencyResolutionRequiredException in case of an resolution error
      * @throws ManifestException in case of an error
-     * @throws DependencyResolutionRequiredException in case of an resolution error.
-     * @return Manifest
      * @deprecated
      */
     public Manifest getManifest(MavenProject project, MavenArchiveConfiguration config)
@@ -66,7 +66,9 @@ public class EarMavenArchiver extends MavenArchiver {
         return this.getManifest(null, project, config);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public Manifest getManifest(MavenSession session, MavenProject project, MavenArchiveConfiguration config)
             throws ManifestException, DependencyResolutionRequiredException {
         final Manifest manifest = super.getManifest(session, project, config);
@@ -110,7 +112,7 @@ public class EarMavenArchiver extends MavenArchiver {
 
     /**
      * @param config {@link MavenArchiveConfiguration}
-     * @return The class path entry.
+     * @return the class path entry
      */
     protected String getUserSuppliedClassPathEntry(MavenArchiveConfiguration config) {
         if (config.getManifestEntries() != null) {

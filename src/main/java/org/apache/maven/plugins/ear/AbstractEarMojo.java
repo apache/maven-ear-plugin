@@ -103,7 +103,7 @@ public abstract class AbstractEarMojo extends AbstractMojo {
     protected String defaultLibBundleDir;
 
     /**
-     * Should libraries be added in application.xml
+     * Should libraries be added in application.xml.
      */
     @Parameter(defaultValue = "false")
     private Boolean includeLibInApplicationXml = Boolean.FALSE;
@@ -157,7 +157,9 @@ public abstract class AbstractEarMojo extends AbstractMojo {
 
     private JbossConfiguration jbossConfiguration;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (fileNameMapping != null) {

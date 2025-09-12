@@ -25,9 +25,6 @@ package org.apache.maven.plugins.ear;
  */
 public class UnknownArtifactTypeException extends EarPluginException {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 2738931967722457793L;
 
     /**
@@ -36,7 +33,7 @@ public class UnknownArtifactTypeException extends EarPluginException {
     public UnknownArtifactTypeException() {}
 
     /**
-     * @param message The message of the problem.
+     * @param message the message of the problem
      */
     public UnknownArtifactTypeException(String message) {
         super(message);

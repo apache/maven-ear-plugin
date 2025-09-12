@@ -30,7 +30,6 @@ import org.codehaus.plexus.util.xml.XMLWriter;
  */
 /**
  * @author kama
- *
  */
 public class SarModule extends AbstractEarModule implements JbossEarModule {
     /**

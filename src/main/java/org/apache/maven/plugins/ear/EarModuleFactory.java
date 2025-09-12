@@ -65,7 +65,7 @@ public final class EarModuleFactory {
      * @param defaultLibBundleDir the default bundle dir for {@link org.apache.maven.plugins.ear.JarModule}
      * @param includeInApplicationXml should {@link org.apache.maven.plugins.ear.JarModule} be included in application
      *            Xml
-     * @param typeMappingService The artifact type mapping service
+     * @param typeMappingService the artifact type mapping service
      * @return an ear module for this artifact
      * @throws UnknownArtifactTypeException if the artifact is not handled
      */

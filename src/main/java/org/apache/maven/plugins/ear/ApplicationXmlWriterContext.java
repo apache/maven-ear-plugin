@@ -134,7 +134,7 @@ class ApplicationXmlWriterContext {
     /**
      * Returns the list of {@link ResourceRef}.
      *
-     * @return the resource-ref elements.
+     * @return the resource-ref elements
      */
     public List<ResourceRef> getResourceRefs() {
         return resourceRefs;

@@ -21,7 +21,7 @@ package org.apache.maven.plugins.ear;
 import java.util.List;
 
 /**
- * The JBoss specific configuration, used to generate the jboss-app.xml deployment descriptor file
+ * The JBoss specific configuration, used to generate the jboss-app.xml deployment descriptor file.
  *
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
