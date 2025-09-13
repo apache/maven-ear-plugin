@@ -26,7 +26,7 @@ import java.util.List;
 import org.codehaus.plexus.util.xml.XMLWriter;
 
 /**
- * An {@code XmlWriter} based implementation used to generate a {@code jboss-app.xml} file
+ * An {@code XmlWriter} based implementation used to generate a {@code jboss-app.xml} file.
  *
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */

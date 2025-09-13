@@ -101,17 +101,17 @@ public interface EarModule {
     void resolveArtifact(Set<Artifact> artifacts) throws EarPluginException, MojoFailureException;
 
     /**
-     * @param earExecutionContext The execution context.
+     * @param earExecutionContext the execution context
      */
     void setEarExecutionContext(EarExecutionContext earExecutionContext);
 
     /**
-     * @return the state if manifest classpath will be changed or not.
+     * @return the state if manifest classpath will be changed or not
      */
     boolean changeManifestClasspath();
 
     /**
-     * @return The directory of the module which contains the JAR libraries packaged within the module.
+     * @return the directory of the module which contains the JAR libraries packaged within the module.
      * Can be {@code null}, which means that module doesn't contain any packaged libraries.
      */
     String getLibDir();

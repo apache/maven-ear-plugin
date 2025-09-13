@@ -40,7 +40,7 @@ public class EjbClientModule extends JarModule {
 
     /**
      * @param a {@link Artifact}
-     * @param defaultLibBundleDir The default lib bundle directory.
+     * @param defaultLibBundleDir the default lib bundle directory
      */
     public EjbClientModule(Artifact a, String defaultLibBundleDir) {
         super(a, defaultLibBundleDir, Boolean.FALSE);

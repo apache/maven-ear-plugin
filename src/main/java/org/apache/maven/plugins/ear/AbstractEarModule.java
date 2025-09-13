@@ -58,7 +58,7 @@ public abstract class AbstractEarModule implements EarModule {
     private String artifactId;
 
     /**
-     * The type of the artifact
+     * The type of the artifact.
      */
     protected String type;
 
@@ -75,14 +75,14 @@ public abstract class AbstractEarModule implements EarModule {
     protected String bundleFileName;
 
     /**
-     * excluded by default {@code false}.
+     * Excluded by default {@code false}.
      */
     protected Boolean excluded = Boolean.FALSE;
 
     private String uri;
 
     /**
-     * unpack
+     * Unpack.
      */
     protected Boolean unpack = null;
 
@@ -144,7 +144,9 @@ public abstract class AbstractEarModule implements EarModule {
         this.earExecutionContext = earExecutionContext;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void resolveArtifact(Set<Artifact> artifacts) throws EarPluginException, MojoFailureException {
         // If the artifact is already set no need to resolve it
         if (artifact == null) {
@@ -183,7 +185,7 @@ public abstract class AbstractEarModule implements EarModule {
     }
 
     /**
-     * @return Return the URI.
+     * @return return the URI
      */
     public String getUri() {
         if (uri == null) {
@@ -318,7 +320,7 @@ public abstract class AbstractEarModule implements EarModule {
     /**
      * Starts a new {@link #MODULE_ELEMENT} on the specified writer, possibly including an id attribute.
      *
-     * @param writer the XML writer.
+     * @param writer the XML writer
      * @param generateId whether an id should be generated
      */
     protected void startModuleElement(XMLWriter writer, Boolean generateId) {

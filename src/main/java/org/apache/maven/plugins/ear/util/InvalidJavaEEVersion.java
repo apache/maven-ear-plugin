@@ -25,19 +25,16 @@ import org.apache.maven.plugin.MojoExecutionException;
  */
 public class InvalidJavaEEVersion extends MojoExecutionException {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 3189028517550801372L;
 
     /**
-     * The invalid version
+     * The invalid version.
      */
     private final String invalidVersion;
 
     /**
-     * @param message The message for the error
-     * @param invalidVersion The invalid version.
+     * @param message the message for the error
+     * @param invalidVersion the invalid version
      */
     public InvalidJavaEEVersion(String message, String invalidVersion) {
         super(message);
@@ -45,7 +42,7 @@ public class InvalidJavaEEVersion extends MojoExecutionException {
     }
 
     /**
-     * @return The invalid version.
+     * @return the invalid version
      */
     public String getInvalidVersion() {
         return invalidVersion;

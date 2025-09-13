@@ -52,8 +52,8 @@ public class JarModule extends AbstractEarModule {
 
     /**
      * @param a {@link Artifact}
-     * @param defaultLibBundleDir The default library bundle directory.
-     * @param includeInApplicationXml Include the application xml or not.
+     * @param defaultLibBundleDir the default library bundle directory
+     * @param includeInApplicationXml include the application xml or not
      */
     public JarModule(Artifact a, String defaultLibBundleDir, Boolean includeInApplicationXml) {
         super(a);

@@ -46,10 +46,10 @@ public class EjbRef {
     private String lookupName;
 
     /**
-     * @param description The ejb-ref description.
-     * @param name The ejb-ref-name.
-     * @param type The ejb-ref-type
-     * @param lookupName The lookupname.
+     * @param description the ejb-ref description
+     * @param name the ejb-ref-name
+     * @param type the ejb-ref-type
+     * @param lookupName the lookupname
      */
     public EjbRef(String description, String name, String type, String lookupName) {
         if (name == null || name.isEmpty()) {

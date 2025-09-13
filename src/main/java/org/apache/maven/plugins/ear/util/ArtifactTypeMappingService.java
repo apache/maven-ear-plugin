@@ -119,7 +119,7 @@ public class ArtifactTypeMappingService {
      *
      * @param type a type
      * @return the standard type (ejb, jar, war, ...) for this type
-     * @throws UnknownArtifactTypeException In case of missing mappings types.
+     * @throws UnknownArtifactTypeException in case of missing mappings types
      */
     public String getStandardType(final String type) throws UnknownArtifactTypeException {
         if (type == null) {

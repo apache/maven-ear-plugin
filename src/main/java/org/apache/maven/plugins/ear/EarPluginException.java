@@ -25,9 +25,6 @@ package org.apache.maven.plugins.ear;
  */
 public class EarPluginException extends Exception {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -5540929953103327928L;
 
     /**
@@ -36,7 +33,7 @@ public class EarPluginException extends Exception {
     public EarPluginException() {}
 
     /**
-     * @param message The message for the exception.
+     * @param message the message for the exception
      */
     public EarPluginException(String message) {
         super(message);
@@ -50,7 +47,7 @@ public class EarPluginException extends Exception {
     }
 
     /**
-     * @param message The message to emit.
+     * @param message the message to emit
      * @param cause {@link Throwable}
      */
     public EarPluginException(String message, Throwable cause) {

@@ -62,10 +62,10 @@ public class ResourceRef {
     private String lookupName;
 
     /**
-     * @param name The res-ref-name.
-     * @param type The res-type
-     * @param auth The res-auth.
-     * @param lookupName The lookup-name.
+     * @param name the res-ref-name
+     * @param type the res-type
+     * @param auth the res-auth
+     * @param lookupName the lookup-name
      */
     public ResourceRef(String name, String type, String auth, String lookupName) {
         if (name == null || name.isEmpty()) {

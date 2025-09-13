@@ -297,7 +297,9 @@ public class EarMojo extends AbstractEarMojo {
         this.mavenResourcesFiltering = mavenResourcesFiltering;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         // Initializes ear modules
@@ -510,7 +512,7 @@ public class EarMojo extends AbstractEarMojo {
     }
 
     /**
-     * @return The array with the packaging excludes.
+     * @return the array with the packaging excludes
      */
     public String[] getPackagingExcludes() {
         if (packagingExcludes == null || packagingExcludes.isEmpty()) {
@@ -593,8 +595,8 @@ public class EarMojo extends AbstractEarMojo {
      * @param destDir where to put the unpacked files
      * @param outdatedResources currently outdated resources
      * @throws ArchiverException a corrupt archive
-     * @throws NoSuchArchiverException if we don't have an appropriate archiver
      * @throws IOException in case of a general IOException
+     * @throws NoSuchArchiverException if we don't have an appropriate archiver
      */
     public void unpack(File source, final File destDir, final Collection<String> outdatedResources)
             throws ArchiverException, NoSuchArchiverException, IOException {

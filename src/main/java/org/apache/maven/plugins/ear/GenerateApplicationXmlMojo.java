@@ -296,10 +296,10 @@ public class GenerateApplicationXmlMojo extends AbstractEarMojo {
      * This help method was needed otherwise the interpolate method of interpolator will make an empty string of a
      * {@code null} element which results in supplemental elements for env-entry.
      *
-     * @param interpolator The interpolator
-     * @param element The element
-     * @return The interpolated elements.
-     * @throws InterpolationException in case of an error.
+     * @param interpolator the interpolator
+     * @param element the element
+     * @return the interpolated elements
+     * @throws InterpolationException in case of an error
      */
     private String interpolate(Interpolator interpolator, String element) throws InterpolationException {
         if (element == null) {

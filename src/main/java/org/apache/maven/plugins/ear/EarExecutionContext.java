@@ -38,10 +38,10 @@ public class EarExecutionContext {
 
     /**
      * @param project {@link MavenProject}
-     * @param mainArtifactId The artifactId.
-     * @param defaultLibBundleDir The defaultLibBundleDir.
+     * @param mainArtifactId the artifactId
+     * @param defaultLibBundleDir the defaultLibBundleDir
      * @param jbossConfiguration {@link JbossConfiguration}
-     * @param fileNameMappingName file name mapping.
+     * @param fileNameMappingName file name mapping
      * @param typeMappingService {@link ArtifactTypeMappingService}
      */
     public EarExecutionContext(
