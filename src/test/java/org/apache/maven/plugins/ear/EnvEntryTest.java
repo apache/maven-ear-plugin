@@ -18,10 +18,11 @@
  */
 package org.apache.maven.plugins.ear;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Stephane Nicoll
@@ -50,24 +51,32 @@ public class EnvEntryTest {
         assertEnvEntry(envEntry, null, NAME, null, VALUE, LOOKUP_NAME);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void createWithoutName() {
-        new EnvEntry(DESCRIPTION, null, TYPE, VALUE, LOOKUP_NAME);
+        assertThrows(IllegalArgumentException.class, () -> {
+            new EnvEntry(DESCRIPTION, null, TYPE, VALUE, LOOKUP_NAME);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void createWithEmptyName() {
-        new EnvEntry(DESCRIPTION, "", TYPE, VALUE, LOOKUP_NAME);
+        assertThrows(IllegalArgumentException.class, () -> {
+            new EnvEntry(DESCRIPTION, "", TYPE, VALUE, LOOKUP_NAME);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void createWithNullTypeAndNoValue() {
-        new EnvEntry(DESCRIPTION, NAME, null, null, LOOKUP_NAME);
+        assertThrows(IllegalArgumentException.class, () -> {
+            new EnvEntry(DESCRIPTION, NAME, null, null, LOOKUP_NAME);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void createWithEmptyTypeAndNoValue() {
-        new EnvEntry(DESCRIPTION, NAME, "", null, LOOKUP_NAME);
+        assertThrows(IllegalArgumentException.class, () -> {
+            new EnvEntry(DESCRIPTION, NAME, "", null, LOOKUP_NAME);
+        });
     }
 
     @Test
@@ -77,12 +86,12 @@ public class EnvEntryTest {
 
     private void assertEnvEntry(
             EnvEntry actual, String description, String name, String type, String value, String lookupName) {
-        assertNotNull("Env entry could not be null", actual);
-        assertNotNull("ToString could not be null", actual.toString());
-        assertEquals("Wrong env entry description for [" + actual + "]", description, actual.getDescription());
-        assertEquals("Wrong env entry name for [" + actual + "]", name, actual.getName());
-        assertEquals("Wrong env entry type for [" + actual + "]", type, actual.getType());
-        assertEquals("Wrong env entry value for [" + actual + "]", value, actual.getValue());
-        assertEquals("Wrong env entry value for [" + actual + "]", lookupName, actual.getLookupName());
+        assertNotNull(actual, "Env entry could not be null");
+        assertNotNull(actual.toString(), "ToString could not be null");
+        assertEquals(description, actual.getDescription(), "Wrong env entry description for [" + actual + "]");
+        assertEquals(name, actual.getName(), "Wrong env entry name for [" + actual + "]");
+        assertEquals(type, actual.getType(), "Wrong env entry type for [" + actual + "]");
+        assertEquals(value, actual.getValue(), "Wrong env entry value for [" + actual + "]");
+        assertEquals(lookupName, actual.getLookupName(), "Wrong env entry value for [" + actual + "]");
     }
 }

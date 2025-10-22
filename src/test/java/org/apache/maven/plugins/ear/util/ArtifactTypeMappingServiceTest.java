@@ -18,37 +18,46 @@
  */
 package org.apache.maven.plugins.ear.util;
 
-import junit.framework.TestCase;
 import org.apache.maven.plugins.ear.EarModuleFactory;
 import org.apache.maven.plugins.ear.EarPluginException;
 import org.apache.maven.plugins.ear.UnknownArtifactTypeException;
 import org.codehaus.plexus.configuration.PlexusConfigurationException;
 import org.codehaus.plexus.configuration.xml.XmlPlexusConfiguration;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Tests for the {@link ArtifactTypeMappingService}
  *
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-public class ArtifactTypeMappingServiceTest extends TestCase {
+public class ArtifactTypeMappingServiceTest {
 
+    @Test
     public void testDefaultConfiguration() {
         ArtifactTypeMappingService service = getDefaultService();
         for (String type : EarModuleFactory.getStandardArtifactTypes()) {
-            assertTrue("Standard type could not be found", service.isMappedToType(type, type));
+            assertTrue(service.isMappedToType(type, type), "Standard type could not be found");
         }
     }
 
+    @Test
     public void testIsMappedToTypeForUnknownType() {
         ArtifactTypeMappingService service = getDefaultService();
         assertFalse(service.isMappedToType("rar", "MyKoolCustomType"));
     }
 
+    @Test
     public void testIsMappedToTypeForKnownType() {
         ArtifactTypeMappingService service = getServiceWithRarMappingToMyRar();
         assertTrue(service.isMappedToType("rar", "MyRar"));
     }
 
+    @Test
     public void testGetStandardTypeForUknonwnType() {
         try {
             ArtifactTypeMappingService service = getDefaultService();
@@ -59,6 +68,7 @@ public class ArtifactTypeMappingServiceTest extends TestCase {
         }
     }
 
+    @Test
     public void testGetStandardTypeForKnownType() {
         try {
             ArtifactTypeMappingService service = getServiceWithRarMappingToMyRar();
@@ -68,6 +78,7 @@ public class ArtifactTypeMappingServiceTest extends TestCase {
         }
     }
 
+    @Test
     public void testConfigWithSameCustomType() {
         try {
             XmlPlexusConfiguration rootConfig = new XmlPlexusConfiguration("dummy");
@@ -93,6 +104,7 @@ public class ArtifactTypeMappingServiceTest extends TestCase {
         }
     }
 
+    @Test
     public void testConfigWithUnknownStandardType() {
         try {
             XmlPlexusConfiguration rootConfig = new XmlPlexusConfiguration("dummy");
@@ -113,6 +125,7 @@ public class ArtifactTypeMappingServiceTest extends TestCase {
         }
     }
 
+    @Test
     public void testConfigWithNoType() {
         try {
             XmlPlexusConfiguration rootConfig = new XmlPlexusConfiguration("dummy");
@@ -132,6 +145,7 @@ public class ArtifactTypeMappingServiceTest extends TestCase {
         }
     }
 
+    @Test
     public void testConfigWithNoMapping() {
         try {
             XmlPlexusConfiguration rootConfig = new XmlPlexusConfiguration("dummy");
