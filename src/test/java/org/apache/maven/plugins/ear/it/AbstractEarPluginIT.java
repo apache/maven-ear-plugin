@@ -34,23 +34,29 @@ import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 
-import junit.framework.TestCase;
 import org.apache.maven.plugins.ear.util.ResourceEntityResolver;
 import org.apache.maven.shared.verifier.VerificationException;
 import org.apache.maven.shared.verifier.Verifier;
 import org.apache.maven.shared.verifier.util.ResourceExtractor;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLAssert;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Base class for ear test cases.
  *
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-public abstract class AbstractEarPluginIT extends TestCase {
+public abstract class AbstractEarPluginIT {
 
     private static final String FINAL_NAME_PREFIX = "maven-ear-plugin-test-";
 
@@ -209,14 +215,14 @@ public abstract class AbstractEarPluginIT extends TestCase {
 
     protected void assertEarArchive(final File baseDir, final String projectName) {
         assertTrue(
-                "EAR archive does not exist",
-                getEarArchive(baseDir, projectName).exists());
+                getEarArchive(baseDir, projectName).exists(),
+                "EAR archive does not exist");
     }
 
     protected void assertEarDirectory(final File baseDir, final String projectName) {
         assertTrue(
-                "EAR archive directory does not exist",
-                getEarDirectory(baseDir, projectName).exists());
+                getEarDirectory(baseDir, projectName).exists(),
+                "EAR archive directory does not exist");
     }
 
     protected File getEarModuleDirectory(final File baseDir, final String earModuleName) {
@@ -246,7 +252,7 @@ public abstract class AbstractEarPluginIT extends TestCase {
             final boolean[] artifactsDirectory) {
         // sanity check
         assertEquals(
-                "Wrong parameter, artifacts mismatch directory flags", artifactNames.length, artifactsDirectory.length);
+                artifactNames.length, artifactsDirectory.length, "Wrong parameter, artifacts mismatch directory flags");
 
         File dir = getEarDirectory(baseDir, projectName);
 
@@ -259,17 +265,17 @@ public abstract class AbstractEarPluginIT extends TestCase {
         }
 
         final List<File> actualFiles = buildArchiveContentFiles(dir, expectedDirectories);
-        assertEquals("Artifacts mismatch " + actualFiles, artifactNames.length, actualFiles.size());
+        assertEquals(artifactNames.length, actualFiles.size(), "Artifacts mismatch " + actualFiles);
         for (int i = 0; i < artifactNames.length; i++) {
             String artifactName = artifactNames[i];
             final boolean isDirectory = artifactsDirectory[i];
             File expectedFile = new File(dir, artifactName);
 
             assertEquals(
-                    "Artifact[" + artifactName + "] not in the right form (exploded/archive",
                     isDirectory,
-                    expectedFile.isDirectory());
-            assertTrue("Artifact[" + artifactName + "] not found in ear archive", actualFiles.contains(expectedFile));
+                    expectedFile.isDirectory(),
+                    "Artifact[" + artifactName + "] not in the right form (exploded/archive");
+            assertTrue(actualFiles.contains(expectedFile), "Artifact[" + artifactName + "] not found in ear archive");
         }
     }
 
@@ -300,29 +306,29 @@ public abstract class AbstractEarPluginIT extends TestCase {
             final String[][] excludedEntries)
             throws IOException {
         assertTrue(
-                "Wrong parameter, artifacts mismatch directory flags", artifacts.length <= artifactsDirectory.length);
+                artifacts.length <= artifactsDirectory.length, "Wrong parameter, artifacts mismatch directory flags");
         if (includedEntries != null) {
             assertTrue(
-                    "Rows of includedEntries parameter should match items of artifacts parameter",
-                    artifacts.length <= includedEntries.length);
+                    artifacts.length <= includedEntries.length,
+                    "Rows of includedEntries parameter should match items of artifacts parameter");
         }
         if (excludedEntries != null) {
             assertTrue(
-                    "Rows of excludedEntries parameter should match items of artifacts parameter",
-                    artifacts.length <= excludedEntries.length);
+                    artifacts.length <= excludedEntries.length,
+                    "Rows of excludedEntries parameter should match items of artifacts parameter");
         }
 
         final File earDirectory = getEarDirectory(getEarModuleDirectory(baseDir, earModuleName), projectName);
         for (int i = 0; i != artifacts.length; ++i) {
             final String artifactName = artifacts[i];
             final File module = new File(earDirectory, artifactName);
-            assertTrue("Artifact [" + artifactName + "] should exist in EAR", module.exists());
+            assertTrue(module.exists(), "Artifact [" + artifactName + "] should exist in EAR");
 
             final boolean artifactDirectory = artifactsDirectory[i];
             assertEquals(
-                    "Artifact [" + artifactName + "] should be a " + (artifactDirectory ? "directory" : "file"),
                     artifactDirectory,
-                    module.isDirectory());
+                    module.isDirectory(),
+                    "Artifact [" + artifactName + "] should be a " + (artifactDirectory ? "directory" : "file"));
 
             if (includedEntries == null && excludedEntries == null) {
                 continue;
@@ -344,8 +350,8 @@ public abstract class AbstractEarPluginIT extends TestCase {
                         }
                         final File inclusion = new File(artifactName, includedEntry);
                         assertTrue(
-                                "Entry [" + includedEntry + "] should exist in artifact [" + artifactName + "] of EAR",
-                                inclusion.exists());
+                                inclusion.exists(),
+                                "Entry [" + includedEntry + "] should exist in artifact [" + artifactName + "] of EAR");
                     }
                 }
                 if (excludedEntriesDefined) {
@@ -355,9 +361,9 @@ public abstract class AbstractEarPluginIT extends TestCase {
                         }
                         final File exclusion = new File(artifactName, excludedEntry);
                         assertFalse(
+                                exclusion.exists(),
                                 "Entry [" + excludedEntry + "] should not exist in artifact [" + artifactName
-                                        + "] of EAR",
-                                exclusion.exists());
+                                        + "] of EAR");
                     }
                 }
             } else {
@@ -369,9 +375,9 @@ public abstract class AbstractEarPluginIT extends TestCase {
                             }
                             final ZipEntry inclusion = moduleJar.getEntry(includedEntry);
                             assertNotNull(
+                                    inclusion,
                                     "Entry [" + includedEntry + "] should exist in artifact [" + artifactName
-                                            + "] of EAR",
-                                    inclusion);
+                                            + "] of EAR");
                         }
                     }
                     if (excludedEntriesDefined) {
@@ -381,9 +387,9 @@ public abstract class AbstractEarPluginIT extends TestCase {
                             }
                             final ZipEntry exclusion = moduleJar.getEntry(excludedEntry);
                             assertNull(
+                                    exclusion,
                                     "Entry [" + excludedEntry + "] should not exist in artifact [" + artifactName
-                                            + "] of EAR",
-                                    exclusion);
+                                            + "] of EAR");
                         }
                     }
                 }
@@ -457,15 +463,15 @@ public abstract class AbstractEarPluginIT extends TestCase {
         final File[] expectedDeploymentDescriptors = getDeploymentDescriptors(new File(baseDir, "expected-META-INF"));
 
         if (expectedDeploymentDescriptors == null) {
-            assertNull("No deployment descriptor was expected", actualDeploymentDescriptors);
+            assertNull(actualDeploymentDescriptors, "No deployment descriptor was expected");
         } else {
-            assertNotNull("Missing deployment descriptor", actualDeploymentDescriptors);
+            assertNotNull(actualDeploymentDescriptors, "Missing deployment descriptor");
 
             // Make sure we have the same number of files
             assertEquals(
-                    "Number of Deployment descriptor(s) mismatch",
                     expectedDeploymentDescriptors.length,
-                    actualDeploymentDescriptors.length);
+                    actualDeploymentDescriptors.length,
+                    "Number of Deployment descriptor(s) mismatch");
 
             // Sort the files so that we have the same behavior here
             Arrays.sort(expectedDeploymentDescriptors);
@@ -476,9 +482,9 @@ public abstract class AbstractEarPluginIT extends TestCase {
                 File actualDeploymentDescriptor = actualDeploymentDescriptors[i];
 
                 assertEquals(
-                        "File name mismatch",
                         expectedDeploymentDescriptor.getName(),
-                        actualDeploymentDescriptor.getName());
+                        actualDeploymentDescriptor.getName(),
+                        "File name mismatch");
 
                 try {
                     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -536,15 +542,15 @@ public abstract class AbstractEarPluginIT extends TestCase {
             return;
         }
 
-        assertNotNull("artifactsDirectory should be provided if artifacts is provided", artifactsDirectory);
+        assertNotNull(artifactsDirectory, "artifactsDirectory should be provided if artifacts is provided");
         assertTrue(
-                "Size of artifactsDirectory should match size of artifacts parameter",
-                artifacts.length <= artifactsDirectory.length);
+                artifacts.length <= artifactsDirectory.length,
+                "Size of artifactsDirectory should match size of artifacts parameter");
         assertNotNull(
-                "expectedClassPathElements should be provided if artifacts is provided", expectedClassPathElements);
+                expectedClassPathElements, "expectedClassPathElements should be provided if artifacts is provided");
         assertTrue(
-                "Rows of expectedClassPathElements parameter should match items of artifacts parameter",
-                artifacts.length <= expectedClassPathElements.length);
+                artifacts.length <= expectedClassPathElements.length,
+                "Rows of expectedClassPathElements parameter should match items of artifacts parameter");
 
         final File earFile = getEarArchive(baseDir, projectName);
         for (int i = 0; i != artifacts.length; ++i) {
@@ -552,13 +558,13 @@ public abstract class AbstractEarPluginIT extends TestCase {
             final String[] classPathElements = getClassPathElements(earFile, moduleArtifact, artifactsDirectory[i]);
             if (expectedClassPathElements[i] == null) {
                 assertNull(
-                        "Class-Path entry should not exist in module [" + moduleArtifact + "] manifest",
-                        classPathElements);
+                        classPathElements,
+                        "Class-Path entry should not exist in module [" + moduleArtifact + "] manifest");
             } else {
-                Assert.assertArrayEquals(
-                        "Wrong elements of Class-Path entry of module [" + moduleArtifact + "] manifest",
+                Assertions.assertArrayEquals(
                         expectedClassPathElements[i],
-                        classPathElements);
+                        classPathElements,
+                        "Wrong elements of Class-Path entry of module [" + moduleArtifact + "] manifest");
             }
         }
     }
@@ -576,11 +582,11 @@ public abstract class AbstractEarPluginIT extends TestCase {
         final String classPath;
         try (JarFile earJarFile = new JarFile(earFile)) {
             final ZipEntry moduleEntry = earJarFile.getEntry(artifact);
-            assertNotNull("Artifact [" + artifact + "] should exist in EAR", moduleEntry);
+            assertNotNull(moduleEntry, "Artifact [" + artifact + "] should exist in EAR");
             if (directory) {
                 final String manifestEntryName = artifact + "/META-INF/MANIFEST.MF";
                 final ZipEntry manifestEntry = earJarFile.getEntry(manifestEntryName);
-                assertNotNull(manifestEntryName + " manifest file should exist in EAR", manifestEntry);
+                assertNotNull(manifestEntry, manifestEntryName + " manifest file should exist in EAR");
                 try (InputStream manifestInputStream = earJarFile.getInputStream(manifestEntry)) {
                     final Manifest manifest = new Manifest(manifestInputStream);
                     classPath = manifest.getMainAttributes().getValue("Class-Path");
@@ -589,7 +595,7 @@ public abstract class AbstractEarPluginIT extends TestCase {
                 try (InputStream moduleInputStream = earJarFile.getInputStream(moduleEntry);
                         JarInputStream moduleJarInputStream = new JarInputStream(moduleInputStream)) {
                     final Manifest manifest = moduleJarInputStream.getManifest();
-                    assertNotNull("Artifact [" + artifact + "] of EAR should have manifest", manifest);
+                    assertNotNull(manifest, "Artifact [" + artifact + "] of EAR should have manifest");
                     classPath = manifest.getMainAttributes().getValue("Class-Path");
                 }
             }
