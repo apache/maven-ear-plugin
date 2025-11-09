@@ -24,9 +24,9 @@ import java.util.List;
 import org.apache.maven.plugins.ear.AbstractEarTestBase;
 import org.apache.maven.plugins.ear.EarModule;
 import org.apache.maven.plugins.ear.EjbModule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
