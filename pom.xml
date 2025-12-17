@@ -80,7 +80,7 @@
   <properties>
     <mavenArchiverVersion>3.6.5</mavenArchiverVersion>
     <mavenFilteringVersion>3.4.0</mavenFilteringVersion>
-    <mavenVersion>3.9.11</mavenVersion>
+    <mavenVersion>3.9.12</mavenVersion>
     <javaVersion>8</javaVersion>
 
     <!-- plugins used in IT tests -->
