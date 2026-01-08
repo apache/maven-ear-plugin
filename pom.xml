@@ -84,11 +84,11 @@
     <javaVersion>8</javaVersion>
 
     <!-- plugins used in IT tests -->
-    <mavenWarPluginVersion>3.3.2</mavenWarPluginVersion>
-    <mavenCompilerPluginVersion>3.10.1</mavenCompilerPluginVersion>
+    <mavenWarPluginVersion>${version.maven-war-plugin}</mavenWarPluginVersion>
+    <mavenCompilerPluginVersion>${version.maven-compiler-plugin}</mavenCompilerPluginVersion>
     <mavenEjbPluginVersion>3.2.1</mavenEjbPluginVersion>
     <mavenRarPluginVersion>3.0.0</mavenRarPluginVersion>
-    <mavenJarPluginVersion>3.3.0</mavenJarPluginVersion>
+    <mavenJarPluginVersion>${version.maven-jar-plugin}</mavenJarPluginVersion>
     <jbossPackagingPluginVersion>2.2</jbossPackagingPluginVersion>
 
     <invoker.skip>false</invoker.skip>
@@ -302,7 +302,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-invoker-plugin</artifactId>
-            <version>3.9.1</version>
             <configuration>
               <streamLogs>false</streamLogs>
               <!-- NOTE: Must be synced with the repo path used by AbstractEarPluginIT -->
@@ -321,7 +320,6 @@
               </extraArtifacts>
               <skipInstallation>${invoker.install.skip}</skipInstallation>
               <skipInvocation>${invoker.it.skip}</skipInvocation>
-              <ignoreFailures>${maven.test.failure.ignore}</ignoreFailures>
             </configuration>
           </plugin>
           <plugin>
@@ -346,33 +344,6 @@
             </executions>
           </plugin>
         </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>java11</id>
-      <activation>
-        <jdk>[11,)</jdk>
-      </activation>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <configuration>
-                <showDeprecation>true</showDeprecation>
-                <release>${javaVersion}</release>
-              </configuration>
-              <dependencies>
-                <dependency>
-                  <groupId>org.apache.maven.shared</groupId>
-                  <artifactId>maven-common-artifact-filters</artifactId>
-                  <version>3.4.0</version>
-                </dependency>
-              </dependencies>
-            </plugin>
-          </plugins>
-        </pluginManagement>
       </build>
     </profile>
   </profiles>
