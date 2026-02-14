@@ -31,14 +31,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 /**
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-public class ArtifactRepositoryTest extends AbstractEarTestBase {
+class ArtifactRepositoryTest extends AbstractEarTestBase {
 
     private static final String MAIN_ARTIFACT_ID = "none";
 
     private ArtifactTypeMappingService artifactTypeMappingService = new ArtifactTypeMappingService();
 
     @Test
-    public void testEmptyRepository() {
+    void testEmptyRepository() {
         Set<Artifact> artifacts = new HashSet<>();
         ArtifactRepository repo = new ArtifactRepository(artifacts, MAIN_ARTIFACT_ID, artifactTypeMappingService);
         assertNull(repo.getUniqueArtifact("ear", "ar", "jar"));
@@ -47,7 +47,7 @@ public class ArtifactRepositoryTest extends AbstractEarTestBase {
     }
 
     @Test
-    public void testRepositoryWithOneUnclassifiedArtifact() {
+    void testRepositoryWithOneUnclassifiedArtifact() {
         ArtifactRepository repo = new ArtifactRepository(
                 createArtifacts(new String[] {"myartifact"}), MAIN_ARTIFACT_ID, artifactTypeMappingService);
         assertNotNull(repo.getUniqueArtifact(DEFAULT_GROUPID, "myartifact", "jar"));
@@ -55,7 +55,7 @@ public class ArtifactRepositoryTest extends AbstractEarTestBase {
     }
 
     @Test
-    public void testRepositoryWithOneClassifiedArtifact() {
+    void testRepositoryWithOneClassifiedArtifact() {
         ArtifactRepository repo = new ArtifactRepository(
                 createArtifacts(new String[] {"myartifact"}, new String[] {"classified"}),
                 MAIN_ARTIFACT_ID,
@@ -66,7 +66,7 @@ public class ArtifactRepositoryTest extends AbstractEarTestBase {
     }
 
     @Test
-    public void testRepositoryWithMultipleClassifiedArtifacts() {
+    void testRepositoryWithMultipleClassifiedArtifacts() {
         ArtifactRepository repo = new ArtifactRepository(
                 createArtifacts(
                         new String[] {"myartifact", "myartifact", "myartifact"},
@@ -82,7 +82,7 @@ public class ArtifactRepositoryTest extends AbstractEarTestBase {
     }
 
     @Test
-    public void testRepositoryWithMultipleClassifiedArtifactsAndMainArtifact() {
+    void testRepositoryWithMultipleClassifiedArtifactsAndMainArtifact() {
         ArtifactRepository repo = new ArtifactRepository(
                 createArtifacts(
                         new String[] {"myartifact", "myartifact", "myartifact"},

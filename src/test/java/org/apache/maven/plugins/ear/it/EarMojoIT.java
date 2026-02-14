@@ -34,13 +34,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-public class EarMojoIT extends AbstractEarPluginIT {
+class EarMojoIT extends AbstractEarPluginIT {
 
     /**
      * Builds an EAR with a single EJB and no configuration.
      */
     @Test
-    public void testProject001() throws Exception {
+    void testProject001() throws Exception {
         doTestProject("project-001", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -48,7 +48,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a customized artifact location and a customized artifact name.
      */
     @Test
-    public void testProject002() throws Exception {
+    void testProject002() throws Exception {
         doTestProject("project-002", new String[] {"APP-INF/lib/eartest-ejb-sample-one-1.0.jar", "ejb-sample-two.jar"});
     }
 
@@ -56,7 +56,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a default bundle directory for {@code java} modules.
      */
     @Test
-    public void testProject003() throws Exception {
+    void testProject003() throws Exception {
         doTestProject("project-003", new String[] {
             "eartest-ejb-sample-one-1.0.jar",
             "APP-INF/lib/eartest-jar-sample-one-1.0.jar",
@@ -68,7 +68,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a default bundle directory for _java_ modules and a custom location overriding the default.
      */
     @Test
-    public void testProject004() throws Exception {
+    void testProject004() throws Exception {
         doTestProject("project-004", new String[] {
             "eartest-ejb-sample-one-1.0.jar",
             "eartest-jar-sample-one-1.0.jar",
@@ -80,7 +80,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a custom URI.
      */
     @Test
-    public void testProject005() throws Exception {
+    void testProject005() throws Exception {
         doTestProject("project-005", new String[] {"eartest-ejb-sample-one-1.0.jar", "libs/another-name.jar"});
     }
 
@@ -88,7 +88,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with an excluded module.
      */
     @Test
-    public void testProject006() throws Exception {
+    void testProject006() throws Exception {
         doTestProject("project-006", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-jar-sample-two-1.0.jar"});
     }
 
@@ -96,7 +96,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a classified artifact and no extra configuration.
      */
     @Test
-    public void testProject007() throws Exception {
+    void testProject007() throws Exception {
         doTestProject("project-007", new String[] {"eartest-ejb-sample-one-1.0-classified.jar"});
     }
 
@@ -104,7 +104,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with deployment descriptor configuration for J2EE 1.3.
      */
     @Test
-    public void testProject008() throws Exception {
+    void testProject008() throws Exception {
         doTestProject("project-008", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -112,7 +112,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with deployment descriptor configuration for J2EE 1.4.
      */
     @Test
-    public void testProject009() throws Exception {
+    void testProject009() throws Exception {
         doTestProject("project-009", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -120,7 +120,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with deployment descriptor configuration for Java EE 5.
      */
     @Test
-    public void testProject010() throws Exception {
+    void testProject010() throws Exception {
         doTestProject("project-010", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -128,7 +128,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and make sure that deployment descriptor default settings are applied.
      */
     @Test
-    public void testProject011() throws Exception {
+    void testProject011() throws Exception {
         doTestProject("project-011", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -136,7 +136,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and make sure that EAR resources are bundled within the EAR.
      */
     @Test
-    public void testProject012() throws Exception {
+    void testProject012() throws Exception {
         doTestProject("project-012", new String[] {"README.txt", "LICENSE.txt", "eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -144,7 +144,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and make sure that EAR resources in a customized resources directory are bundled within the EAR.
      */
     @Test
-    public void testProject013() throws Exception {
+    void testProject013() throws Exception {
         doTestProject("project-013", new String[] {"README.txt", "LICENSE.txt", "eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -152,7 +152,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and makes sure that EAR resources are bundled within the EAR using includes and excludes.
      */
     @Test
-    public void testProject014() throws Exception {
+    void testProject014() throws Exception {
         doTestProject("project-014", new String[] {"LICENSE.txt", "eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -160,7 +160,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and makes sure that default manifest is taken into account.
      */
     @Test
-    public void testProject015() throws Exception {
+    void testProject015() throws Exception {
         final File baseDir = doTestProject("project-015", new String[] {"eartest-ejb-sample-one-1.0.jar"});
         final File expectedManifest = new File(baseDir, "src/main/application/META-INF/MANIFEST.MF");
         final File actualManifest = new File(getEarDirectory(baseDir, "project-015"), "META-INF/MANIFEST.MF");
@@ -172,7 +172,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and makes sure that custom manifest is taken into account.
      */
     @Test
-    public void testProject016() throws Exception {
+    void testProject016() throws Exception {
         final File baseDir = doTestProject("project-016", new String[] {"eartest-ejb-sample-one-1.0.jar"});
 
         final File createdEarFile = getEarArchive(baseDir, "project-016");
@@ -191,7 +191,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and makes sure that custom application.xml is taken into account.
      */
     @Test
-    public void testProject017() throws Exception {
+    void testProject017() throws Exception {
         doTestProject("project-017", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -199,7 +199,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a custom final name.
      */
     @Test
-    public void testProject018() throws Exception {
+    void testProject018() throws Exception {
         final File baseDir = executeMojo("project-018");
         final File expectedFile = new File(baseDir, "target/my-custom-file.ear");
         assertTrue(expectedFile.exists(), "EAR archive not found");
@@ -209,7 +209,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with unpacked archives using the unpackTypes.
      */
     @Test
-    public void testProject019() throws Exception {
+    void testProject019() throws Exception {
         doTestProject(
                 "project-019",
                 new String[] {
@@ -222,7 +222,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with unpacked archives using the unpack module attribute.
      */
     @Test
-    public void testProject020() throws Exception {
+    void testProject020() throws Exception {
         doTestProject(
                 "project-020",
                 new String[] {
@@ -235,7 +235,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with unpacked archives using both unpackTypes and the unpack module attribute.
      */
     @Test
-    public void testProject021() throws Exception {
+    void testProject021() throws Exception {
         doTestProject(
                 "project-021",
                 new String[] {
@@ -252,7 +252,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a classifier.
      */
     @Test
-    public void testProject022() throws Exception {
+    void testProject022() throws Exception {
         final File baseDir = executeMojo("project-022");
         final File expectedFile = new File(baseDir, "target/maven-ear-plugin-test-project-022-99.0-myclassifier.ear");
         assertTrue(expectedFile.exists(), "EAR archive not found");
@@ -262,7 +262,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and make sure that a single classified dependency is detected without specifying the classifier.
      */
     @Test
-    public void testProject023() throws Exception {
+    void testProject023() throws Exception {
         doTestProject(
                 "project-023",
                 new String[] {"eartest-ejb-sample-one-1.0-classified.jar", "eartest-ejb-sample-two-1.0.jar"},
@@ -273,7 +273,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and make sure that a single classified dependency is detected when specifying the classifier.
      */
     @Test
-    public void testProject024() throws Exception {
+    void testProject024() throws Exception {
         doTestProject(
                 "project-024",
                 new String[] {"eartest-ejb-sample-one-1.0-classified.jar", "eartest-ejb-sample-two-1.0.jar"},
@@ -285,7 +285,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * classifier.
      */
     @Test
-    public void testProject025() throws Exception {
+    void testProject025() throws Exception {
         doTestProject(
                 "project-025",
                 new String[] {"eartest-ejb-sample-one-1.0-classified.jar", "eartest-ejb-sample-one-1.0.jar"},
@@ -297,7 +297,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * specified.
      */
     @Test
-    public void testProject026() throws Exception {
+    void testProject026() throws Exception {
         final File baseDir = executeMojo("project-026", false, true);
         // Stupido, checks that the ear archive is not there
         assertFalse(getEarArchive(baseDir, "project-026").exists(), "Execution should have failed");
@@ -307,7 +307,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and make sure that provided dependencies are not included in the EAR.
      */
     @Test
-    public void testProject027() throws Exception {
+    void testProject027() throws Exception {
         doTestProject("project-027", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -315,7 +315,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and make sure that test dependencies are not included in the EAR.
      */
     @Test
-    public void testProject028() throws Exception {
+    void testProject028() throws Exception {
         doTestProject("project-028", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -323,7 +323,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and make sure that system dependencies are not included in the EAR.
      */
     @Test
-    public void testProject029() throws Exception {
+    void testProject029() throws Exception {
         doTestProject("project-029", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -332,7 +332,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * application.xml.
      */
     @Test
-    public void testProject030() throws Exception {
+    void testProject030() throws Exception {
         doTestProject(
                 "project-030",
                 new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0-client.jar"});
@@ -343,7 +343,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * use.
      */
     @Test
-    public void testProject031() throws Exception {
+    void testProject031() throws Exception {
         doTestProject("project-031", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -351,7 +351,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a JBoss 3.2 configuration specifying the jmx-name to use.
      */
     @Test
-    public void testProject032() throws Exception {
+    void testProject032() throws Exception {
         doTestProject("project-032", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -359,7 +359,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a JBoss 4 configuration and JBoss specific modules.
      */
     @Test
-    public void testProject033() throws Exception {
+    void testProject033() throws Exception {
         doTestProject("project-033", new String[] {
             "eartest-ejb-sample-one-1.0.jar",
             "eartest-ejb-sample-two-1.0.jar",
@@ -372,7 +372,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with custom security settings.
      */
     @Test
-    public void testProject034() throws Exception {
+    void testProject034() throws Exception {
         doTestProject("project-034", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -380,7 +380,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a full filename mapping and make sure that custom locations are not overridden.
      */
     @Test
-    public void testProject035() throws Exception {
+    void testProject035() throws Exception {
         doTestProject("project-035", new String[] {
             "foo/eartest-ejb-sample-one-1.0.jar",
             "eartest-ejb-sample-two-1.0.jar",
@@ -395,7 +395,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * filenames.
      */
     @Test
-    public void testProject036() throws Exception {
+    void testProject036() throws Exception {
         doTestProject("project-036", new String[] {
             "foo/eartest-ejb-sample-one-1.0.jar",
             "eartest-ejb-sample-two-1.0.jar",
@@ -412,7 +412,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * if includeInApplicationXml is set.
      */
     @Test
-    public void testProject037() throws Exception {
+    void testProject037() throws Exception {
         doTestProject(
                 "project-037",
                 new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0-client.jar"});
@@ -423,7 +423,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * the mainArtifactId as classifier.
      */
     @Test
-    public void testProject038() throws Exception {
+    void testProject038() throws Exception {
         doTestProject(
                 "project-038",
                 new String[] {"eartest-ejb-sample-one-1.0-classified.jar", "eartest-ejb-sample-one-1.0.jar"},
@@ -434,7 +434,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a JBoss 4 configuration specifying specifying the loader repository to use.
      */
     @Test
-    public void testProject039() throws Exception {
+    void testProject039() throws Exception {
         doTestProject("project-039", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -442,7 +442,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with deployment descriptor configuration for Java EE 5 and an alternative deployment descriptor.
      */
     @Test
-    public void testProject040() throws Exception {
+    void testProject040() throws Exception {
         doTestProject("project-040", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -450,7 +450,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a JBoss 4.2 configuration specifying the module order to use.
      */
     @Test
-    public void testProject041() throws Exception {
+    void testProject041() throws Exception {
         doTestProject("project-041", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -458,7 +458,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a JBoss 4.2 configuration specifying a datasource to add.
      */
     @Test
-    public void testProject042() throws Exception {
+    void testProject042() throws Exception {
         doTestProject("project-042", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -466,7 +466,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a custom descriptor location (generatedDescriptorLocation setting).
      */
     @Test
-    public void testProject043() throws Exception {
+    void testProject043() throws Exception {
         final File baseDir = doTestProject("project-043", new String[] {"eartest-ejb-sample-one-1.0.jar"});
         final File expectedApplicationXml = new File(baseDir, "target/custom-descriptor-dir/application.xml");
         assertTrue(expectedApplicationXml.exists(), "Application.xml file not found");
@@ -477,7 +477,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a custom library-directory.
      */
     @Test
-    public void testProject044() throws Exception {
+    void testProject044() throws Exception {
         doTestProject(
                 "project-044",
                 new String[] {"eartest-ejb-sample-one-1.0.jar", "myLibs/eartest-jar-sample-one-1.0.jar"});
@@ -487,7 +487,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and filter the content of the sources directory.
      */
     @Test
-    public void testProject045() throws Exception {
+    void testProject045() throws Exception {
         final File baseDir =
                 doTestProject("project-045", new String[] {"README.txt", "eartest-ejb-sample-one-1.0.jar"});
         final File actualReadme = new File(getEarDirectory(baseDir, "project-045"), "README.txt");
@@ -500,7 +500,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and filter the content of the sources directory using a custom filter file.
      */
     @Test
-    public void testProject046() throws Exception {
+    void testProject046() throws Exception {
         final File baseDir =
                 doTestProject("project-046", new String[] {"README.txt", "eartest-ejb-sample-one-1.0.jar"});
         final File actualReadme = new File(getEarDirectory(baseDir, "project-046"), "README.txt");
@@ -516,7 +516,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR and filter the content with a list of extensions.
      */
     @Test
-    public void testProject047() throws Exception {
+    void testProject047() throws Exception {
         final File baseDir =
                 doTestProject("project-047", new String[] {"README.txt", "eartest-ejb-sample-one-1.0.jar"});
         final File actualReadme = new File(getEarDirectory(baseDir, "project-047"), "README.txt");
@@ -529,7 +529,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a JBoss 5 configuration containing library directory.
      */
     @Test
-    public void testProject048() throws Exception {
+    void testProject048() throws Exception {
         doTestProject("project-048", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -537,7 +537,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a JBoss 4.2 configuration containing a library directory.
      */
     @Test
-    public void testProject049() throws Exception {
+    void testProject049() throws Exception {
         doTestProject("project-049", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -545,7 +545,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a JBoss 5 configuration containing a loader repository configuration definition.
      */
     @Test
-    public void testProject050() throws Exception {
+    void testProject050() throws Exception {
         doTestProject("project-050", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -553,7 +553,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a JBoss 5 configuration containing a loader repository class definition.
      */
     @Test
-    public void testProject051() throws Exception {
+    void testProject051() throws Exception {
         doTestProject("project-051", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -561,7 +561,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a JBoss 5 configuration containing a configuration parser class definition.
      */
     @Test
-    public void testProject052() throws Exception {
+    void testProject052() throws Exception {
         doTestProject("project-052", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -569,7 +569,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a JBoss 5 configuration containing only the loader repo configuration
      */
     @Test
-    public void testProject053() throws Exception {
+    void testProject053() throws Exception {
         doTestProject("project-053", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -577,7 +577,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with deployment descriptor configuration for Java EE 5 and no application.xml
      */
     @Test
-    public void testProject054() throws Exception {
+    void testProject054() throws Exception {
         doTestProject("project-054", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -585,7 +585,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with jar dependencies added in application.xml.
      */
     @Test
-    public void testProject055() throws Exception {
+    void testProject055() throws Exception {
         doTestProject("project-055", new String[] {
             "eartest-jar-sample-one-1.0.jar",
             "eartest-jar-sample-two-1.0.jar",
@@ -597,7 +597,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with deployment descriptor configuration for J2EE 1.4 and an alternative deployment descriptor.
      */
     @Test
-    public void testProject056() throws Exception {
+    void testProject056() throws Exception {
         doTestProject("project-056", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -605,7 +605,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a complete JBoss 4.2 configuration and validate it matches the DTD (MEAR-104).
      */
     @Test
-    public void testProject057() throws Exception {
+    void testProject057() throws Exception {
         doTestProject("project-057", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -613,7 +613,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with deployment descriptor configuration for Java EE 6.
      */
     @Test
-    public void testProject058() throws Exception {
+    void testProject058() throws Exception {
         doTestProject("project-058", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -621,7 +621,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with no display name entry at all.
      */
     @Test
-    public void testProject059() throws Exception {
+    void testProject059() throws Exception {
         doTestProject("project-059", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -629,7 +629,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with ejb-client packaged for J2EE 1.3 (MEAR-85)
      */
     @Test
-    public void testProject060() throws Exception {
+    void testProject060() throws Exception {
         doTestProject(
                 "project-060",
                 new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0-client.jar"});
@@ -639,7 +639,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with ejb-client packaged for J2EE 1.4 (MEAR-85)
      */
     @Test
-    public void testProject061() throws Exception {
+    void testProject061() throws Exception {
         doTestProject(
                 "project-061",
                 new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0-client.jar"});
@@ -649,7 +649,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with ejb-client packaged for JavaEE 5 (MEAR-85)
      */
     @Test
-    public void testProject062() throws Exception {
+    void testProject062() throws Exception {
         doTestProject(
                 "project-062",
                 new String[] {"eartest-ejb-sample-one-1.0.jar", "lib/eartest-ejb-sample-two-1.0-client.jar"});
@@ -659,7 +659,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with ejb-client packaged for JavaEE 6 (MEAR-85)
      */
     @Test
-    public void testProject063() throws Exception {
+    void testProject063() throws Exception {
         doTestProject("project-063", new String[] {"lib/eartest-ejb-sample-two-1.0-client.jar"});
     }
 
@@ -667,7 +667,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with ejb-client packaged for JavaEE 5 and still put it in the root (MEAR-85)
      */
     @Test
-    public void testProject064() throws Exception {
+    void testProject064() throws Exception {
         doTestProject(
                 "project-064",
                 new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0-client.jar"});
@@ -677,7 +677,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a custom moduleId.
      */
     @Test
-    public void testProject065() throws Exception {
+    void testProject065() throws Exception {
         doTestProject("project-065", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -685,7 +685,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with generateModuleId enabled.
      */
     @Test
-    public void testProject066() throws Exception {
+    void testProject066() throws Exception {
         doTestProject("project-066", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -693,7 +693,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with generateModuleId enabled and a custom module.
      */
     @Test
-    public void testProject067() throws Exception {
+    void testProject067() throws Exception {
         doTestProject("project-067", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -701,7 +701,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with the no-version file name mapping.
      */
     @Test
-    public void testProject068() throws Exception {
+    void testProject068() throws Exception {
         doTestProject("project-068", new String[] {"eartest-ejb-sample-one.jar", "eartest-ejb-sample-two.jar"});
     }
 
@@ -709,7 +709,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with a custom library-directory and JavaEE 6.
      */
     @Test
-    public void testProject069() throws Exception {
+    void testProject069() throws Exception {
         doTestProject(
                 "project-069",
                 new String[] {"eartest-ejb-sample-one-1.0.jar", "myLibs/eartest-jar-sample-one-1.0.jar"});
@@ -719,7 +719,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with application-name and initialize-in-order tags.
      */
     @Test
-    public void testProject070() throws Exception {
+    void testProject070() throws Exception {
         doTestProject("project-070", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-jar-sample-one-1.0.jar"});
     }
 
@@ -727,7 +727,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with application-name and initialize-in-order tags for unsupported version.
      */
     @Test
-    public void testProject071() throws Exception {
+    void testProject071() throws Exception {
         doTestProject("project-071", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-jar-sample-one-1.0.jar"});
     }
 
@@ -735,7 +735,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with an application client module (app-client).
      */
     @Test
-    public void testProject072() throws Exception {
+    void testProject072() throws Exception {
         doTestProject(
                 "project-072",
                 new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-app-client-sample-one-1.0.jar"});
@@ -745,7 +745,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with an application client module (app-client) and a default bundle directory for _java_ modules.
      */
     @Test
-    public void testProject073() throws Exception {
+    void testProject073() throws Exception {
         doTestProject("project-073", new String[] {
             "eartest-ejb-sample-one-1.0.jar",
             "eartest-app-client-sample-one-1.0.jar",
@@ -759,7 +759,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * ignored.
      */
     @Test
-    public void testProject074() throws Exception {
+    void testProject074() throws Exception {
         doTestProject("project-074", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -768,7 +768,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * ignored.
      */
     @Test
-    public void testProject075() throws Exception {
+    void testProject075() throws Exception {
         doTestProject("project-075", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -777,7 +777,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * ignored.
      */
     @Test
-    public void testProject076() throws Exception {
+    void testProject076() throws Exception {
         doTestProject("project-076", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -785,7 +785,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with custom env entries settings and JavaEE 6.
      */
     @Test
-    public void testProject077() throws Exception {
+    void testProject077() throws Exception {
         doTestProject("project-077", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -793,7 +793,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with the no version for ejb file name mapping.
      */
     @Test
-    public void testProject078() throws Exception {
+    void testProject078() throws Exception {
         doTestProject("project-078", new String[] {"ejb-sample-one.jar", "war-sample-one.war", "jar-sample-two.jar"});
     }
 
@@ -801,7 +801,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with the 'default' library directory mode. Uses the value of the defaultLibBundleDir.
      */
     @Test
-    public void testProject079() throws Exception {
+    void testProject079() throws Exception {
         doTestProject(
                 "project-079",
                 new String[] {"eartest-ejb-sample-one-1.0.jar", "myLibs/eartest-jar-sample-one-1.0.jar"});
@@ -811,7 +811,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with the 'empty' library directory mode. Generate an empty library-directory element.
      */
     @Test
-    public void testProject080() throws Exception {
+    void testProject080() throws Exception {
         doTestProject(
                 "project-080",
                 new String[] {"eartest-ejb-sample-one-1.0.jar", "myLibs/eartest-jar-sample-one-1.0.jar"});
@@ -821,7 +821,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with the 'none' library directory mode. Does not generate an library-directory element.
      */
     @Test
-    public void testProject081() throws Exception {
+    void testProject081() throws Exception {
         doTestProject(
                 "project-081",
                 new String[] {"eartest-ejb-sample-one-1.0.jar", "myLibs/eartest-jar-sample-one-1.0.jar"});
@@ -831,7 +831,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with deployment descriptor configuration for JavaEE 7.
      */
     @Test
-    public void testProject082() throws Exception {
+    void testProject082() throws Exception {
         doTestProject("project-082", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -840,7 +840,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * (MEAR-158).
      */
     @Test
-    public void testProject083() throws Exception {
+    void testProject083() throws Exception {
         doTestProject("project-083", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -848,7 +848,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Support of an application id (MEAR-174).
      */
     @Test
-    public void testProject084() throws Exception {
+    void testProject084() throws Exception {
         doTestProject("project-084", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -856,7 +856,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with custom ejbRef entries settings and JavaEE 6.
      */
     @Test
-    public void testProject085() throws Exception {
+    void testProject085() throws Exception {
         doTestProject("project-085", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -864,7 +864,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with custom ejbRef entries plus lookup-name entry.
      */
     @Test
-    public void testProject086() throws Exception {
+    void testProject086() throws Exception {
         doTestProject("project-086", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -872,7 +872,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with resource-ref entries.
      */
     @Test
-    public void testProject087() throws Exception {
+    void testProject087() throws Exception {
         doTestProject("project-087", new String[] {"eartest-ejb-sample-one-1.0.jar", "eartest-ejb-sample-two-1.0.jar"});
     }
 
@@ -881,7 +881,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * target directories and files exist.
      */
     @Test
-    public void testProject088() throws Exception {
+    void testProject088() throws Exception {
         final String warModule = "eartest-war-sample-two-1.0.war";
         final String ejbModule = "eartest-ejb-sample-one-1.0.jar";
         final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
@@ -922,7 +922,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * </ul>
      */
     @Test
-    public void testProject089() throws Exception {
+    void testProject089() throws Exception {
         final String warModule = "eartest-war-sample-three-1.0.war";
         final String ejbModule = "eartest-ejb-sample-three-1.0.jar";
         final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
@@ -948,7 +948,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * </ul>
      */
     @Test
-    public void testProject090() throws Exception {
+    void testProject090() throws Exception {
         final String warModule = "eartest-war-sample-three-1.0.war";
         final String ejbModule = "eartest-ejb-sample-three-1.0.jar";
         final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
@@ -973,7 +973,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * </ul>
      */
     @Test
-    public void testProject091() throws Exception {
+    void testProject091() throws Exception {
         final String warModule = "eartest-war-sample-three-1.0.war";
         final String ejbModule = "eartest-ejb-sample-three-1.0.jar";
         final String jarSampleTwoLibrary = "eartest-jar-sample-two-1.0.jar";
@@ -1004,7 +1004,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * </ul>
      */
     @Test
-    public void testProject092() throws Exception {
+    void testProject092() throws Exception {
         final String projectName = "project-092";
         final String earModuleName = "ear";
         final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
@@ -1093,7 +1093,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * SAR, HAR and RAR modules.
      */
     @Test
-    public void testProject093() throws Exception {
+    void testProject093() throws Exception {
         final String projectName = "project-093";
         final String earModuleName = "ear";
         final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
@@ -1176,7 +1176,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * </ul>
      */
     @Test
-    public void testProject094() throws Exception {
+    void testProject094() throws Exception {
         final String projectName = "project-094";
         final String earModuleName = "ear";
         final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
@@ -1248,7 +1248,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * when skinnyWars option is turned on.
      */
     @Test
-    public void testProject095() throws Exception {
+    void testProject095() throws Exception {
         final String warModule = "eartest-war-sample-two-1.0.war";
         final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
         final String jarSampleThreeLibrary = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
@@ -1269,7 +1269,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * if includeInApplicationXml property of module is {@code true}.
      */
     @Test
-    public void testProject096() throws Exception {
+    void testProject096() throws Exception {
         final String warModule = "eartest-war-sample-two-1.0.war";
         final String jarSampleTwoLibrary = "eartest-jar-sample-two-1.0.jar";
         final String jarSampleThreeLibrary = "eartest-jar-sample-three-with-deps-1.0.jar";
@@ -1299,7 +1299,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * described in deployment descriptor when respective types are configured for EAR modules.
      */
     @Test
-    public void testProject097() throws Exception {
+    void testProject097() throws Exception {
         final String warModule = "eartest-war-sample-three-1.0.war";
         final String sarSampleTwo = "eartest-sar-sample-two-1.0.sar";
         final String harSampleTwo = "eartest-har-sample-two-1.0.har";
@@ -1320,7 +1320,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * </ul>
      */
     @Test
-    public void testProject098() throws Exception {
+    void testProject098() throws Exception {
         final String projectName = "project-098";
         final String earModuleName = "ear";
         final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
@@ -1400,7 +1400,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with deployment descriptor configuration for JakartaEE 9.
      */
     @Test
-    public void testProject099() throws Exception {
+    void testProject099() throws Exception {
         doTestProject("project-099", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -1408,7 +1408,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with deployment descriptor configuration for JakartaEE 10.
      */
     @Test
-    public void testProject100() throws Exception {
+    void testProject100() throws Exception {
         doTestProject("project-100", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 
@@ -1416,7 +1416,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Ensure that {@code defaultLibBundleDir} with dot at beginning don't remove artifacts during second execution.
      */
     @Test
-    public void testProject101() throws Exception {
+    void testProject101() throws Exception {
         String[] expectedArtifacts = new String[] {
             "eartest-jar-sample-one-1.0.jar",
             "eartest-jar-sample-two-1.0.jar",
@@ -1431,7 +1431,7 @@ public class EarMojoIT extends AbstractEarPluginIT {
      * Builds an EAR with deployment descriptor configuration for JakartaEE 11.
      */
     @Test
-    public void testProject102() throws Exception {
+    void testProject102() throws Exception {
         doTestProject("project-102", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
 }

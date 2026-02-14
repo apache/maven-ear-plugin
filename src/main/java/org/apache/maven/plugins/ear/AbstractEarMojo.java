@@ -314,12 +314,7 @@ public abstract class AbstractEarMojo extends AbstractMojo {
     }
 
     private static boolean isArtifactRegistered(Artifact a, List<EarModule> currentList) {
-        for (EarModule em : currentList) {
-            if (em.getArtifact().equals(a)) {
-                return true;
-            }
-        }
-        return false;
+        return currentList.stream().anyMatch(em -> em.getArtifact().equals(a));
     }
 
     /**

@@ -24,12 +24,8 @@ import org.codehaus.plexus.util.xml.XMLWriter;
 /**
  * The {@link EarModule} implementation for a JBoss sar module.
  *
- * @author Stephane Nicoll <snicoll@apache.org>
- * @author $Author: khmarbaise $ (last edit)
- * @version $Revision: 1645331 $
- */
-/**
- * @author kama
+ * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
+ * @author <a href="khmarbaise@apache.org">Karl Heinz Marbaise</a>
  */
 public class SarModule extends AbstractEarModule implements JbossEarModule {
     /**

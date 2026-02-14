@@ -27,7 +27,7 @@ import org.codehaus.plexus.util.xml.XMLWriter;
  * @since 2.10
  */
 public class EjbRef {
-    static final String DESCRIPTION = "description";
+    static final String DESCRIPTION_TAG = "description";
 
     static final String EJB_REF = "ejb-ref";
 
@@ -75,7 +75,7 @@ public class EjbRef {
 
         // description
         if (getDescription() != null) {
-            doWriteElement(writer, DESCRIPTION, getDescription());
+            doWriteElement(writer, DESCRIPTION_TAG, getDescription());
         }
 
         // ejb name

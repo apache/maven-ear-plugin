@@ -337,7 +337,7 @@ public abstract class AbstractEarModule implements EarModule {
             String generatedId = theArtifact.getType().toUpperCase() + "_" + theArtifact.getGroupId() + "."
                     + theArtifact.getArtifactId();
             if (null != theArtifact.getClassifier()
-                    && theArtifact.getClassifier().trim().length() > 0) {
+                    && !theArtifact.getClassifier().trim().isEmpty()) {
                 generatedId += "-" + theArtifact.getClassifier().trim();
             }
             writer.addAttribute("id", generatedId);
@@ -375,10 +375,10 @@ public abstract class AbstractEarModule implements EarModule {
 
         // Remove '/' prefix if any so that path is a relative path
         if (path.startsWith("/")) {
-            path = path.substring(1, path.length());
+            path = path.substring(1);
         }
 
-        if (path.length() > 0 && !path.endsWith("/")) {
+        if (!path.isEmpty() && !path.endsWith("/")) {
             // Adding '/' suffix to specify a path structure if it is not empty
             path = path + "/";
         }

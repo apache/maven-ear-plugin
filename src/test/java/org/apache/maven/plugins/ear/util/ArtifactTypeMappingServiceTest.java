@@ -35,10 +35,10 @@ import static org.junit.jupiter.api.Assertions.fail;
  *
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-public class ArtifactTypeMappingServiceTest {
+class ArtifactTypeMappingServiceTest {
 
     @Test
-    public void testDefaultConfiguration() {
+    void testDefaultConfiguration() {
         ArtifactTypeMappingService service = getDefaultService();
         for (String type : EarModuleFactory.getStandardArtifactTypes()) {
             assertTrue(service.isMappedToType(type, type), "Standard type could not be found");
@@ -46,19 +46,19 @@ public class ArtifactTypeMappingServiceTest {
     }
 
     @Test
-    public void testIsMappedToTypeForUnknownType() {
+    void testIsMappedToTypeForUnknownType() {
         ArtifactTypeMappingService service = getDefaultService();
         assertFalse(service.isMappedToType("rar", "MyKoolCustomType"));
     }
 
     @Test
-    public void testIsMappedToTypeForKnownType() {
+    void testIsMappedToTypeForKnownType() {
         ArtifactTypeMappingService service = getServiceWithRarMappingToMyRar();
         assertTrue(service.isMappedToType("rar", "MyRar"));
     }
 
     @Test
-    public void testGetStandardTypeForUknonwnType() {
+    void testGetStandardTypeForUknonwnType() {
         try {
             ArtifactTypeMappingService service = getDefaultService();
             service.getStandardType("MyKoolCustomType");
@@ -69,7 +69,7 @@ public class ArtifactTypeMappingServiceTest {
     }
 
     @Test
-    public void testGetStandardTypeForKnownType() {
+    void testGetStandardTypeForKnownType() {
         try {
             ArtifactTypeMappingService service = getServiceWithRarMappingToMyRar();
             assertEquals("rar", service.getStandardType("MyRar"));
@@ -79,7 +79,7 @@ public class ArtifactTypeMappingServiceTest {
     }
 
     @Test
-    public void testConfigWithSameCustomType() {
+    void testConfigWithSameCustomType() {
         try {
             XmlPlexusConfiguration rootConfig = new XmlPlexusConfiguration("dummy");
             XmlPlexusConfiguration childConfig =
@@ -105,7 +105,7 @@ public class ArtifactTypeMappingServiceTest {
     }
 
     @Test
-    public void testConfigWithUnknownStandardType() {
+    void testConfigWithUnknownStandardType() {
         try {
             XmlPlexusConfiguration rootConfig = new XmlPlexusConfiguration("dummy");
             XmlPlexusConfiguration childConfig =
@@ -126,7 +126,7 @@ public class ArtifactTypeMappingServiceTest {
     }
 
     @Test
-    public void testConfigWithNoType() {
+    void testConfigWithNoType() {
         try {
             XmlPlexusConfiguration rootConfig = new XmlPlexusConfiguration("dummy");
             XmlPlexusConfiguration childConfig =
@@ -146,7 +146,7 @@ public class ArtifactTypeMappingServiceTest {
     }
 
     @Test
-    public void testConfigWithNoMapping() {
+    void testConfigWithNoMapping() {
         try {
             XmlPlexusConfiguration rootConfig = new XmlPlexusConfiguration("dummy");
             XmlPlexusConfiguration childConfig =

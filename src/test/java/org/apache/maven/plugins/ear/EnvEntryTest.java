@@ -27,60 +27,60 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * @author Stephane Nicoll
  */
-public class EnvEntryTest {
+class EnvEntryTest {
 
-    public static final String DESCRIPTION = "description";
+    private static final String DESCRIPTION = "description";
 
-    public static final String NAME = "name";
+    private static final String NAME = "name";
 
-    public static final String TYPE = Integer.class.getName();
+    private static final String TYPE = Integer.class.getName();
 
-    public static final String VALUE = "34";
+    private static final String VALUE = "34";
 
-    public static final String LOOKUP_NAME = "lookupName";
+    private static final String LOOKUP_NAME = "lookupName";
 
     @Test
-    public void createComplete() {
+    void createComplete() {
         final EnvEntry envEntry = new EnvEntry(DESCRIPTION, NAME, TYPE, VALUE, LOOKUP_NAME);
         assertEnvEntry(envEntry, DESCRIPTION, NAME, TYPE, VALUE, LOOKUP_NAME);
     }
 
     @Test
-    public void createWithoutTypeButValue() {
+    void createWithoutTypeButValue() {
         final EnvEntry envEntry = new EnvEntry(null, NAME, null, VALUE, LOOKUP_NAME);
         assertEnvEntry(envEntry, null, NAME, null, VALUE, LOOKUP_NAME);
     }
 
     @Test
-    public void createWithoutName() {
+    void createWithoutName() {
         assertThrows(IllegalArgumentException.class, () -> {
             new EnvEntry(DESCRIPTION, null, TYPE, VALUE, LOOKUP_NAME);
         });
     }
 
     @Test
-    public void createWithEmptyName() {
+    void createWithEmptyName() {
         assertThrows(IllegalArgumentException.class, () -> {
             new EnvEntry(DESCRIPTION, "", TYPE, VALUE, LOOKUP_NAME);
         });
     }
 
     @Test
-    public void createWithNullTypeAndNoValue() {
+    void createWithNullTypeAndNoValue() {
         assertThrows(IllegalArgumentException.class, () -> {
             new EnvEntry(DESCRIPTION, NAME, null, null, LOOKUP_NAME);
         });
     }
 
     @Test
-    public void createWithEmptyTypeAndNoValue() {
+    void createWithEmptyTypeAndNoValue() {
         assertThrows(IllegalArgumentException.class, () -> {
             new EnvEntry(DESCRIPTION, NAME, "", null, LOOKUP_NAME);
         });
     }
 
     @Test
-    public void createWithEmptyLookupName() {
+    void createWithEmptyLookupName() {
         new EnvEntry(DESCRIPTION, NAME, TYPE, VALUE, null);
     }
 

@@ -47,53 +47,54 @@ public class JavaEEVersion implements Comparable<JavaEEVersion> {
     private static final String VERSION_11 = "11";
 
     // Please remember to add new versions to the Javadoc of AbstractEarMojo.version
+    // and increase the capacity in the HashMap constructor accordingly.
 
-    private static final Map<String, JavaEEVersion> VERSION_MAP = new HashMap<>();
+    private static final Map<String, JavaEEVersion> VERSION_MAP = new HashMap<>(9);
 
     /**
      * Represents the J2EE 1.3 version.
      */
-    public static final JavaEEVersion ONE_DOT_THREE = new JavaEEVersion(Integer.valueOf(0), VERSION_1_3);
+    public static final JavaEEVersion ONE_DOT_THREE = new JavaEEVersion(0, VERSION_1_3);
 
     /**
      * Represents the J2EE 1.4 version.
      */
-    public static final JavaEEVersion ONE_DOT_FOUR = new JavaEEVersion(Integer.valueOf(1), VERSION_1_4);
+    public static final JavaEEVersion ONE_DOT_FOUR = new JavaEEVersion(1, VERSION_1_4);
 
     /**
      * Represents the JavaEE 5 version.
      */
-    public static final JavaEEVersion FIVE = new JavaEEVersion(Integer.valueOf(2), VERSION_5);
+    public static final JavaEEVersion FIVE = new JavaEEVersion(2, VERSION_5);
 
     /**
      * Represents the JavaEE 6 version.
      */
-    public static final JavaEEVersion SIX = new JavaEEVersion(Integer.valueOf(3), VERSION_6);
+    public static final JavaEEVersion SIX = new JavaEEVersion(3, VERSION_6);
 
     /**
      * Represents the JavaEE 7 version.
      */
-    public static final JavaEEVersion SEVEN = new JavaEEVersion(Integer.valueOf(4), VERSION_7);
+    public static final JavaEEVersion SEVEN = new JavaEEVersion(4, VERSION_7);
 
     /**
      * Represents the JavaEE 8 version.
      */
-    public static final JavaEEVersion EIGHT = new JavaEEVersion(Integer.valueOf(5), VERSION_8);
+    public static final JavaEEVersion EIGHT = new JavaEEVersion(5, VERSION_8);
 
     /**
      * Represents the JakartaEE 9 version.
      */
-    public static final JavaEEVersion NINE = new JavaEEVersion(Integer.valueOf(6), VERSION_9);
+    public static final JavaEEVersion NINE = new JavaEEVersion(6, VERSION_9);
 
     /**
      * Represents the JakartaEE 10 version.
      */
-    public static final JavaEEVersion TEN = new JavaEEVersion(Integer.valueOf(7), VERSION_10);
+    public static final JavaEEVersion TEN = new JavaEEVersion(7, VERSION_10);
 
     /**
      * Represents the JakartaEE 11 version.
      */
-    public static final JavaEEVersion ELEVEN = new JavaEEVersion(Integer.valueOf(8), VERSION_11);
+    public static final JavaEEVersion ELEVEN = new JavaEEVersion(8, VERSION_11);
 
     private final Integer index;
 

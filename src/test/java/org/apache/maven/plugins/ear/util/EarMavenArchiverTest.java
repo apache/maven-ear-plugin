@@ -31,12 +31,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-public class EarMavenArchiverTest extends AbstractEarTestBase {
+class EarMavenArchiverTest extends AbstractEarTestBase {
 
     private List<EarModule> modules = new ArrayList<>();
 
     @Test
-    public void testSimpleEjbModule() {
+    void testSimpleEjbModule() {
         final EarModule module = new EjbModule(createArtifact("foo", "ejb"));
         setUri(module, "foo-1.0.jar");
         modules.add(module);
@@ -46,7 +46,7 @@ public class EarMavenArchiverTest extends AbstractEarTestBase {
     }
 
     @Test
-    public void testSimpleJarModuleWithCustomBundleDir() {
+    void testSimpleJarModuleWithCustomBundleDir() {
         final EarModule module = new EjbModule(createArtifact("foo", "jar"));
         setUri(module, "libs/foo-1.0.jar");
         modules.add(module);
@@ -56,7 +56,7 @@ public class EarMavenArchiverTest extends AbstractEarTestBase {
     }
 
     @Test
-    public void testTwoModules() {
+    void testTwoModules() {
         final EarModule module = new EjbModule(createArtifact("foo", "ejb"));
         setUri(module, "foo-1.0.jar");
         modules.add(module);

@@ -28,10 +28,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  *
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
-public class EarModuleTest {
+class EarModuleTest {
 
     @Test
-    public void testCleanArchivePath() {
+    void testCleanArchivePath() {
         assertEquals("APP-INF/lib/", AbstractEarModule.cleanArchivePath("APP-INF/lib"));
         assertEquals("APP-INF/lib/", AbstractEarModule.cleanArchivePath("APP-INF/lib/"));
         assertEquals("APP-INF/lib/", AbstractEarModule.cleanArchivePath("/APP-INF/lib"));

@@ -57,7 +57,7 @@ public abstract class AbstractEarTestBase {
     }
 
     protected Artifact createArtifact(String artifactId, String type) {
-        Artifact artifactTestStub = new DefaultArtifact(
+        return new DefaultArtifact(
                 DEFAULT_GROUPID,
                 artifactId,
                 "1.0",
@@ -65,7 +65,5 @@ public abstract class AbstractEarTestBase {
                 Objects.toString(type, DEFAULT_TYPE),
                 null,
                 new ArtifactHandlerTestStub("jar"));
-
-        return artifactTestStub;
     }
 }

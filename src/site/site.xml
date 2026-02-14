@@ -53,6 +53,7 @@ under the License.
       <item name="Specifying Security Roles For The Generated application.xml" href="examples/specifying-security-roles-for-the-generated-application-xml.html"/>
       <item name="Specifying Environment Entries In application.xml" href="examples/specifying-env-entries-for-the-generated-application-xml.html"/>
       <item name="Specifying Resource Ref entries For The Generated application.xml" href="examples/specifying-resource-ref-entries-for-the-generated-application-xml.html"/>
+      <item name="Specifying Ejb Ref entries For The Generated application.xml" href="examples/specifying-ejb-ref-entries-for-the-generated-application-xml.html"/>
       <item name="Generating jboss-app.xml" href="examples/generating-jboss-app.html"/>
       <item name="Customize file name mapping" href="examples/customize-file-name-mapping.html"/>
       <item name="Generating modules ID" href="examples/generating-modules-id.html"/>

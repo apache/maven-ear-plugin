@@ -22,111 +22,101 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Stephane Nicoll
  */
-public class JavaEEVersionTest {
+class JavaEEVersionTest {
 
     @Test
-    public void testGtSameVersion() {
+    void testGtSameVersion() {
         assertFalse(JavaEEVersion.FIVE.gt(JavaEEVersion.FIVE));
     }
 
     @Test
-    public void testGtNextVersion() {
+    void testGtNextVersion() {
         assertFalse(JavaEEVersion.FIVE.gt(JavaEEVersion.SIX));
     }
 
     @Test
-    public void testGtPreviousVersion() {
+    void testGtPreviousVersion() {
         assertTrue(JavaEEVersion.FIVE.gt(JavaEEVersion.ONE_DOT_FOUR));
     }
 
     @Test
-    public void testGeSameVersion() {
+    void testGeSameVersion() {
         assertTrue(JavaEEVersion.FIVE.ge(JavaEEVersion.FIVE));
     }
 
     @Test
-    public void testGePreviousVersion() {
+    void testGePreviousVersion() {
         assertTrue(JavaEEVersion.FIVE.ge(JavaEEVersion.ONE_DOT_FOUR));
     }
 
     @Test
-    public void testGeNextVersion() {
+    void testGeNextVersion() {
         assertFalse(JavaEEVersion.FIVE.ge(JavaEEVersion.SIX));
     }
 
     @Test
-    public void testLtSameVersion() {
+    void testLtSameVersion() {
         assertFalse(JavaEEVersion.FIVE.lt(JavaEEVersion.FIVE));
     }
 
     @Test
-    public void testLtPreviousVersion() {
+    void testLtPreviousVersion() {
         assertFalse(JavaEEVersion.FIVE.lt(JavaEEVersion.ONE_DOT_FOUR));
     }
 
     @Test
-    public void testLtNextVersion() {
+    void testLtNextVersion() {
         assertTrue(JavaEEVersion.FIVE.lt(JavaEEVersion.SIX));
     }
 
     @Test
-    public void testLeSameVersion() {
+    void testLeSameVersion() {
         assertTrue(JavaEEVersion.FIVE.le(JavaEEVersion.FIVE));
     }
 
     @Test
-    public void testLePreviousVersion() {
+    void testLePreviousVersion() {
         assertFalse(JavaEEVersion.FIVE.le(JavaEEVersion.ONE_DOT_FOUR));
     }
 
     @Test
-    public void testLeNextVersion() {
+    void testLeNextVersion() {
         assertTrue(JavaEEVersion.FIVE.le(JavaEEVersion.SIX));
     }
 
     @Test
-    public void testEqSameVersion() {
+    void testEqSameVersion() {
         assertTrue(JavaEEVersion.FIVE.eq(JavaEEVersion.FIVE));
     }
 
     @Test
-    public void testEqAnotherVersion() {
+    void testEqAnotherVersion() {
         assertFalse(JavaEEVersion.FIVE.eq(JavaEEVersion.ONE_DOT_THREE));
     }
 
     @Test
-    public void testGetVersion() {
+    void testGetVersion() {
         assertEquals("5", JavaEEVersion.FIVE.getVersion());
     }
 
     @Test
-    public void testGetJavaEEVersionValid() throws InvalidJavaEEVersion {
+    void testGetJavaEEVersionValid() throws InvalidJavaEEVersion {
         assertEquals(JavaEEVersion.SIX, JavaEEVersion.getJavaEEVersion("6"));
     }
 
     @Test
-    public void testGetJavaEEVersionInvalid() {
-        try {
-            JavaEEVersion.getJavaEEVersion("2.4");
-            fail("Should have failed to get an invalid version.");
-        } catch (InvalidJavaEEVersion expected) {
-            // OK
-        }
+    void testGetJavaEEVersionInvalid() {
+        assertThrows(InvalidJavaEEVersion.class, () -> JavaEEVersion.getJavaEEVersion("2.4"));
     }
 
     @Test
-    public void testGetJavaEEVersionNull() throws InvalidJavaEEVersion {
-        try {
-            JavaEEVersion.getJavaEEVersion(null);
-            fail("Should have failed to get a 'null' version.");
-        } catch (NullPointerException expected) {
-            // OK
-        }
+    void testGetJavaEEVersionNull() {
+        assertThrows(NullPointerException.class, () -> JavaEEVersion.getJavaEEVersion(null));
     }
 }
