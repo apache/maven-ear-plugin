@@ -86,8 +86,8 @@
     <!-- plugins used in IT tests -->
     <mavenWarPluginVersion>${version.maven-war-plugin}</mavenWarPluginVersion>
     <mavenCompilerPluginVersion>${version.maven-compiler-plugin}</mavenCompilerPluginVersion>
-    <mavenEjbPluginVersion>3.2.1</mavenEjbPluginVersion>
-    <mavenRarPluginVersion>3.0.0</mavenRarPluginVersion>
+    <mavenEjbPluginVersion>3.3.0</mavenEjbPluginVersion>
+    <mavenRarPluginVersion>3.1.0</mavenRarPluginVersion>
     <mavenJarPluginVersion>${version.maven-jar-plugin}</mavenJarPluginVersion>
     <jbossPackagingPluginVersion>2.2</jbossPackagingPluginVersion>
 
