@@ -89,6 +89,7 @@
     <mavenEjbPluginVersion>3.2.1</mavenEjbPluginVersion>
     <mavenRarPluginVersion>3.0.0</mavenRarPluginVersion>
     <mavenJarPluginVersion>${version.maven-jar-plugin}</mavenJarPluginVersion>
+    <mavenResourcesPluginVersion>${version.maven-resources-plugin}</mavenResourcesPluginVersion>
     <jbossPackagingPluginVersion>2.2</jbossPackagingPluginVersion>
 
     <invoker.skip>false</invoker.skip>
