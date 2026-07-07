@@ -174,8 +174,8 @@ final class ApplicationXmlWriter extends AbstractXmlWriter {
         writer.startElement(APPLICATION_ELEMENT);
         writer.addAttribute("xmlns", xmlns);
         writer.addAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        String schemaFile = version.getVersion().replace('.', '_');
-        writer.addAttribute("xsi:schemaLocation", xmlns + " " + xmlns + "/application_" + schemaFile + ".xsd");
+        String schemaVersion = version.getVersion().replace('.', '_');
+        writer.addAttribute("xsi:schemaLocation", xmlns + " " + xmlns + "/application_" + schemaVersion + ".xsd");
         writer.addAttribute("version", version.getVersion());
         return writer;
     }
