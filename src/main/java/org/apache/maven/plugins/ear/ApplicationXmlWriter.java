@@ -53,22 +53,8 @@ final class ApplicationXmlWriter extends AbstractXmlWriter {
             XMLWriter writer = null;
             if (JavaEEVersion.ONE_DOT_THREE.eq(version)) {
                 writer = initializeRootElementOneDotThree(w);
-            } else if (JavaEEVersion.ONE_DOT_FOUR.eq(version)) {
-                writer = initializeRootElementOneDotFour(w);
-            } else if (JavaEEVersion.FIVE.eq(version)) {
-                writer = initializeRootElementFive(w);
-            } else if (JavaEEVersion.SIX.eq(version)) {
-                writer = initializeRootElementSix(w);
-            } else if (JavaEEVersion.SEVEN.eq(version)) {
-                writer = initializeRootElementSeven(w);
-            } else if (JavaEEVersion.EIGHT.eq(version)) {
-                writer = initializeRootElementEight(w);
-            } else if (JavaEEVersion.NINE.eq(version)) {
-                writer = initializeRootElementNine(w);
-            } else if (JavaEEVersion.TEN.eq(version)) {
-                writer = initializeRootElementTen(w);
-            } else if (JavaEEVersion.ELEVEN.eq(version)) {
-                writer = initializeRootElementEleven(w);
+            } else {
+                writer = initializeRootElement(w, version);
             }
 
             // writer is still on root element, so we can still add this attribute
@@ -173,99 +159,24 @@ final class ApplicationXmlWriter extends AbstractXmlWriter {
         return writer;
     }
 
-    private XMLWriter initializeRootElementOneDotFour(Writer w) {
+    private XMLWriter initializeRootElement(Writer w, JavaEEVersion version) {
+        String xmlns;
+        if (version.le(JavaEEVersion.ONE_DOT_FOUR)) {
+            xmlns = "http://java.sun.com/xml/ns/j2ee";
+        } else if (version.le(JavaEEVersion.SIX)) {
+            xmlns = "http://java.sun.com/xml/ns/javaee";
+        } else if (version.le(JavaEEVersion.EIGHT)) {
+            xmlns = "http://xmlns.jcp.org/xml/ns/javaee";
+        } else {
+            xmlns = "https://jakarta.ee/xml/ns/jakartaee";
+        }
         XMLWriter writer = initializeXmlWriter(w, null);
         writer.startElement(APPLICATION_ELEMENT);
-        writer.addAttribute("xmlns", "http://java.sun.com/xml/ns/j2ee");
+        writer.addAttribute("xmlns", xmlns);
         writer.addAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        writer.addAttribute(
-                "xsi:schemaLocation",
-                "http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/application_1_4.xsd");
-        writer.addAttribute("version", "1.4");
-        return writer;
-    }
-
-    private XMLWriter initializeRootElementFive(Writer w) {
-        XMLWriter writer = initializeXmlWriter(w, null);
-        writer.startElement(APPLICATION_ELEMENT);
-        writer.addAttribute("xmlns", "http://java.sun.com/xml/ns/javaee");
-        writer.addAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        writer.addAttribute(
-                "xsi:schemaLocation",
-                "http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd");
-        writer.addAttribute("version", "5");
-        return writer;
-    }
-
-    private XMLWriter initializeRootElementSix(Writer w) {
-        XMLWriter writer = initializeXmlWriter(w, null);
-        writer.startElement(APPLICATION_ELEMENT);
-        writer.addAttribute("xmlns", "http://java.sun.com/xml/ns/javaee");
-        writer.addAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        writer.addAttribute(
-                "xsi:schemaLocation",
-                "http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd");
-        writer.addAttribute("version", "6");
-        return writer;
-    }
-
-    private XMLWriter initializeRootElementSeven(Writer w) {
-        XMLWriter writer = initializeXmlWriter(w, null);
-        writer.startElement(APPLICATION_ELEMENT);
-        writer.addAttribute("xmlns", "http://xmlns.jcp.org/xml/ns/javaee");
-        writer.addAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        writer.addAttribute(
-                "xsi:schemaLocation",
-                "http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd");
-        writer.addAttribute("version", "7");
-        return writer;
-    }
-
-    private XMLWriter initializeRootElementEight(Writer w) {
-        XMLWriter writer = initializeXmlWriter(w, null);
-        writer.startElement(APPLICATION_ELEMENT);
-        writer.addAttribute("xmlns", "http://xmlns.jcp.org/xml/ns/javaee");
-        writer.addAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        writer.addAttribute(
-                "xsi:schemaLocation",
-                "http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_8.xsd");
-        writer.addAttribute("version", "8");
-        return writer;
-    }
-
-    private XMLWriter initializeRootElementNine(Writer w) {
-        XMLWriter writer = initializeXmlWriter(w, null);
-        writer.startElement(APPLICATION_ELEMENT);
-        writer.addAttribute("xmlns", "https://jakarta.ee/xml/ns/jakartaee");
-        writer.addAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        writer.addAttribute(
-                "xsi:schemaLocation",
-                "https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/application_9.xsd");
-        writer.addAttribute("version", "9");
-        return writer;
-    }
-
-    private XMLWriter initializeRootElementTen(Writer w) {
-        XMLWriter writer = initializeXmlWriter(w, null);
-        writer.startElement(APPLICATION_ELEMENT);
-        writer.addAttribute("xmlns", "https://jakarta.ee/xml/ns/jakartaee");
-        writer.addAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        writer.addAttribute(
-                "xsi:schemaLocation",
-                "https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/application_10.xsd");
-        writer.addAttribute("version", "10");
-        return writer;
-    }
-
-    private XMLWriter initializeRootElementEleven(Writer w) {
-        XMLWriter writer = initializeXmlWriter(w, null);
-        writer.startElement(APPLICATION_ELEMENT);
-        writer.addAttribute("xmlns", "https://jakarta.ee/xml/ns/jakartaee");
-        writer.addAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        writer.addAttribute(
-                "xsi:schemaLocation",
-                "https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/application_11.xsd");
-        writer.addAttribute("version", "11");
+        String schemaVersion = version.getVersion().replace('.', '_');
+        writer.addAttribute("xsi:schemaLocation", xmlns + " " + xmlns + "/application_" + schemaVersion + ".xsd");
+        writer.addAttribute("version", version.getVersion());
         return writer;
     }
 }
