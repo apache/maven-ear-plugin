@@ -109,7 +109,7 @@ final class ApplicationXmlWriter extends AbstractXmlWriter {
 
             writer.endElement();
         } catch (IOException ex) {
-            // ignore
+            throw new EarPluginException("Failed to write application.xml", ex);
         }
     }
 
