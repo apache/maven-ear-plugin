@@ -29,9 +29,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class EarMojoTest {
 
     @TempDir
-    static File tempDir;
+    File tempDir;
 
-    private static File invokeGetEarFile(String finalName, String classifier) throws Exception {
+    private File invokeGetEarFile(String finalName, String classifier) throws Exception {
         Method method = EarMojo.class.getDeclaredMethod("getEarFile", String.class, String.class, String.class);
         method.setAccessible(true);
         return (File) method.invoke(null, tempDir.getAbsolutePath(), finalName, classifier);
