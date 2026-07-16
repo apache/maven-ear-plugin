@@ -22,34 +22,36 @@ import java.io.File;
 import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EarMojoTest {
 
-    private static final String TMPDIR = System.getProperty("java.io.tmpdir");
+    @TempDir
+    static File tempDir;
 
     private static File invokeGetEarFile(String finalName, String classifier) throws Exception {
         Method method = EarMojo.class.getDeclaredMethod("getEarFile", String.class, String.class, String.class);
         method.setAccessible(true);
-        return (File) method.invoke(null, TMPDIR, finalName, classifier);
+        return (File) method.invoke(null, tempDir.getAbsolutePath(), finalName, classifier);
     }
 
     @Test
     void testGetEarFileWithNullClassifier() throws Exception {
         File result = invokeGetEarFile("myapp", null);
-        assertEquals(new File(TMPDIR, "myapp.ear"), result);
+        assertEquals(new File(tempDir, "myapp.ear"), result);
     }
 
     @Test
     void testGetEarFileWithClassifier() throws Exception {
         File result = invokeGetEarFile("myapp", "sources");
-        assertEquals(new File(TMPDIR, "myapp-sources.ear"), result);
+        assertEquals(new File(tempDir, "myapp-sources.ear"), result);
     }
 
     @Test
     void testGetEarFileWithDashPrefixedClassifier() throws Exception {
         File result = invokeGetEarFile("myapp", "-sources");
-        assertEquals(new File(TMPDIR, "myapp-sources.ear"), result);
+        assertEquals(new File(tempDir, "myapp-sources.ear"), result);
     }
 }
