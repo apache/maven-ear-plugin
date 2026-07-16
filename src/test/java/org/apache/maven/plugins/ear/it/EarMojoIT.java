@@ -1434,4 +1434,17 @@ class EarMojoIT extends AbstractEarPluginIT {
     void testProject102() throws Exception {
         doTestProject("project-102", new String[] {"eartest-ejb-sample-one-1.0.jar"});
     }
+
+    /**
+     * Builds an EAR with a whitespace-only classifier.
+     * Verifies the whitespace is trimmed and does not appear in the filename.
+     */
+    @Test
+    void testProject103() throws Exception {
+        final File baseDir = executeMojo("project-103");
+        final File badFile = new File(baseDir, "target/maven-ear-plugin-test-project-103-99.0   .ear");
+        final File expectedFile = new File(baseDir, "target/maven-ear-plugin-test-project-103-99.0.ear");
+        assertFalse(badFile.exists(), "EAR filename should not contain spaces from whitespace classifier");
+        assertTrue(expectedFile.exists(), "EAR archive not found at expected path without spaces");
+    }
 }
