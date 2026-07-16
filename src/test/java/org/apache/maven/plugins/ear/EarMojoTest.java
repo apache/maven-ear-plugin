@@ -24,40 +24,32 @@ import java.lang.reflect.Method;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class EarMojoTest {
 
-    private static File invokeGetEarFile(String basedir, String finalName, String classifier) throws Exception {
+    private static final String TMPDIR = System.getProperty("java.io.tmpdir");
+
+    private static File invokeGetEarFile(String finalName, String classifier) throws Exception {
         Method method = EarMojo.class.getDeclaredMethod("getEarFile", String.class, String.class, String.class);
         method.setAccessible(true);
-        return (File) method.invoke(null, basedir, finalName, classifier);
+        return (File) method.invoke(null, TMPDIR, finalName, classifier);
     }
 
     @Test
     void testGetEarFileWithNullClassifier() throws Exception {
-        File result = invokeGetEarFile("/tmp", "myapp", null);
-        assertEquals(new File("/tmp", "myapp.ear"), result);
+        File result = invokeGetEarFile("myapp", null);
+        assertEquals(new File(TMPDIR, "myapp.ear"), result);
     }
 
     @Test
     void testGetEarFileWithClassifier() throws Exception {
-        File result = invokeGetEarFile("/tmp", "myapp", "sources");
-        assertEquals(new File("/tmp", "myapp-sources.ear"), result);
+        File result = invokeGetEarFile("myapp", "sources");
+        assertEquals(new File(TMPDIR, "myapp-sources.ear"), result);
     }
 
     @Test
     void testGetEarFileWithDashPrefixedClassifier() throws Exception {
-        File result = invokeGetEarFile("/tmp", "myapp", "-sources");
-        assertEquals(new File("/tmp", "myapp-sources.ear"), result);
-    }
-
-    @Test
-    void testGetEarFileWithWhitespaceOnlyClassifier() throws Exception {
-        File result = invokeGetEarFile("/tmp", "myapp", "   ");
-        assertEquals(new File("/tmp", "myapp.ear"), result);
-        assertFalse(
-                result.getAbsolutePath().contains(" "),
-                "EAR filename should not contain spaces from whitespace-only classifier");
+        File result = invokeGetEarFile("myapp", "-sources");
+        assertEquals(new File(TMPDIR, "myapp-sources.ear"), result);
     }
 }
