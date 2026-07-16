@@ -560,9 +560,12 @@ public class EarMojo extends AbstractEarMojo {
      * @return the EAR file to generate
      */
     private static File getEarFile(String basedir, String finalName, String classifier) {
-        if (classifier == null) {
+        if (classifier != null) {
+            classifier = classifier.trim();
+        }
+        if (classifier == null || classifier.isEmpty()) {
             classifier = "";
-        } else if (classifier.trim().length() > 0 && !classifier.startsWith("-")) {
+        } else if (!classifier.startsWith("-")) {
             classifier = "-" + classifier;
         }
 
