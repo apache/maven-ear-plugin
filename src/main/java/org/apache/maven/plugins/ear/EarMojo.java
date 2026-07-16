@@ -560,9 +560,12 @@ public class EarMojo extends AbstractEarMojo {
      * @return the EAR file to generate
      */
     private static File getEarFile(String basedir, String finalName, String classifier) {
-        if (classifier == null) {
+        if (classifier != null) {
+            classifier = classifier.trim();
+        }
+        if (classifier == null || classifier.isEmpty()) {
             classifier = "";
-        } else if (classifier.trim().length() > 0 && !classifier.startsWith("-")) {
+        } else if (!classifier.startsWith("-")) {
             classifier = "-" + classifier;
         }
 
@@ -884,14 +887,21 @@ public class EarMojo extends AbstractEarMojo {
     }
 
     private void removeFromOutdatedResources(Path destination, Collection<String> outdatedResources) {
-        Path relativeDestFile;
+        String relativeDestFile;
         try {
-            relativeDestFile = getWorkDirectory().toPath().relativize(destination.normalize());
+            relativeDestFile = getWorkDirectory()
+                    .toPath()
+                    .relativize(destination.normalize())
+                    .toString();
         } catch (ProviderMismatchException e) {
-            relativeDestFile = destination.normalize();
+            // destination is from a different filesystem provider (e.g. zip filesystem),
+            // relativize is not possible; strip the root to get a relative path
+            Path normalized = destination.normalize();
+            Path root = normalized.getRoot();
+            relativeDestFile = (root != null) ? root.relativize(normalized).toString() : normalized.toString();
         }
 
-        if (outdatedResources.remove(relativeDestFile.toString())) {
+        if (outdatedResources.remove(relativeDestFile)) {
             getLog().debug("Remove from outdatedResources: " + relativeDestFile);
         }
     }
