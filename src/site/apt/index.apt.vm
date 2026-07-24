@@ -61,7 +61,8 @@ ${project.name}
   {{{./modules.html}modules configuration}}.
 
   For more information please visit
-  {{{https://jakarta.ee/}Jakarta EE}}.
+  {{{https://jakarta.ee/}Jakarta EE}}
+  {{{https://www.oracle.com/java/technologies/java-ee-glance.html}Java EE at a glance}}.
 
 * Version 3.4.0
 
