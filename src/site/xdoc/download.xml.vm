@@ -53,7 +53,7 @@ under the License.
               <td>${project.name} ${project.version} (Source zip)</td>
               <td><a href="[preferred]maven/plugins/${project.artifactId}-${project.version}-source-release.zip">${project.artifactId}-${project.version}-source-release.zip</a></td>
               <td><a href="https://downloads.apache.org/maven/plugins/${project.artifactId}-${project.version}-source-release.zip.sha512">${project.artifactId}-${project.version}-source-release.zip.sha512</a></td>
-              <td><a href="https://downloads.apache.org//maven/plugins/${project.artifactId}-${project.version}-source-release.zip.asc">${project.artifactId}-${project.version}-source-release.zip.asc</a></td>
+              <td><a href="https://downloads.apache.org/maven/plugins/${project.artifactId}-${project.version}-source-release.zip.asc">${project.artifactId}-${project.version}-source-release.zip.asc</a></td>
             </tr>
           </tbody>
         </table>
