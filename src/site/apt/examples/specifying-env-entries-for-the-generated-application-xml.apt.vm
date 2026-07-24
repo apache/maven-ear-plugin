@@ -24,7 +24,7 @@
 ~~ http://maven.apache.org/doxia/references/apt-format.html
 
 
-Specifying Environment entries For The Generated application.xml
+Specifying Environment entries for the Generated application.xml
 
   Environment entries can be added as from the JavaEE 6 spec. For instance:
 
