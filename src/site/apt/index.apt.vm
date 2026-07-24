@@ -97,7 +97,7 @@ ${project.name}
 
   EAR Plugin has two goals:
 
-  * {{{./ear-mojo.html}ear:ear}} generates J2EE Enterprise Archive (EAR) files.
+  * {{{./ear-mojo.html}ear:ear}} generates Java EE / Jakarta EE Enterprise Archive (EAR) files.
 
   * {{{./generate-application-xml-mojo.html}ear:generate-application-xml}}
   generates the deployment descriptor file(s).

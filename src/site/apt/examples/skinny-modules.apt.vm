@@ -130,7 +130,7 @@ Creating Skinny Modules
  If an archive representing the EAR module has non-standard location of libraries,
  then this location can be configured using the <<<libDirectory>>> property.
 
- Here is example for SAR which contains libraries at the root of the archive
+ Here is an example for SAR which contains libraries at the root of the archive
  (refer to {{{../modules.html#sarModule}sarModule}} for description of
  <<<libDirectory>>> property):
 

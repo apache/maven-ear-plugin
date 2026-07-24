@@ -30,7 +30,7 @@ Eclipse and Maven Integration (without m2e)
   
   If you have used <<<mvn eclipse:eclipse>>> to generate the metadata for an EAR project, it will want the <<<application.xml>>> file in the <<<src/main/application/META-INF>>> directory. 
 
-  If you edit <<<application.xml>>> using the WTP based Application Deployment Descriptor editor, it will use the name of the projects (Web, EJB etc) as the name of the modules. Here is an example:
+  If you edit <<<application.xml>>> using the WTP based Application Deployment Descriptor editor, it will use the names of the projects (Web, EJB etc) as the names of the modules. Here is an example:
 
 +------------------------+
 <?xml version="1.0" encoding="UTF-8"?>

@@ -48,7 +48,7 @@ under the License.
    </faq>
    <faq id="avoid-display-name">
      <question>
-       How can I avoid to generate a display-name entry in the generated application.xml?
+       How can I avoid generating a display-name entry in the generated application.xml?
      </question>
      <answer>
        <p>
