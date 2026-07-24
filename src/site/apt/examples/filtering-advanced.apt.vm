@@ -69,8 +69,7 @@ jdbc.password=${db.password}
 +--------
 
   Filtering the content of such a file with this config will produce this content.
-  Note that the escaped property can now be filtered the usual way later if
-  necessary!
+  The escaped property can be filtered the usual way later if necessary.
 
 +--------
 jdbc.url=jdbc:oracle:thin:@localhost:1521:orcl
