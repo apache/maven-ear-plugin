@@ -25,7 +25,7 @@
 
 Specifying Ejb Ref entries For The Generated application.xml
 
-  Ejb Ref entries can be added as from the JavaEE 6 spec. For instance:
+  Ejb Ref entries can be added since the Java EE 6 spec. For instance:
 
 +--------
   <build>

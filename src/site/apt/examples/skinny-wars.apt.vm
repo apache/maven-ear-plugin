@@ -29,10 +29,10 @@
 
 Creating Skinny WARs
 
- In a typical J2EE environment, a WAR is packaged within an EAR for deployment.  The
+ In a typical Java EE environment, a WAR is packaged within an EAR for deployment.  The
  WAR can contain all its dependent JARs in <<<WEB-INF/lib>>> but then the EAR can quickly grow
  very large if there are multiple WARs, due to the presence of duplicate JARs.  Instead
- the J2EE specification allows WARs to reference external JARs packaged within the EAR
+ the Java EE specification allows WARs to reference external JARs packaged within the EAR
  via the <<<Class-Path>>> setting in their <<<MANIFEST.MF>>>.
 
  Starting with version 2.7 Maven EAR Plugin has basic support for this mode of
@@ -42,7 +42,7 @@ Creating Skinny WARs
  in the EAR, using the <<<skinnyWars>>> parameter.
 
  <<Note:>> In this example we package all JARs into a <<<lib/>>> directory
- within the EAR. This is just to distinguish between J2EE modules (which will be
+ within the EAR. This is just to distinguish between Java EE modules (which will be
  packaged in the root of the EAR) and Java libraries (which are packaged in
  <<<lib/>>>).
 

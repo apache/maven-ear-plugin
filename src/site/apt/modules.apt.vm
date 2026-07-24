@@ -71,7 +71,7 @@ EAR Modules
         <configuration>
           <modules>
             <ejbModule>
-              <!-- property configurations goes here -->
+              <!-- property configurations go here -->
             </ejbModule>
           </modules>
         </configuration>
@@ -93,7 +93,7 @@ EAR Modules
   Default is 'ejb-client'.
 
   * <<classifier>> - sets the classifier of the artifact you want to
-  configure if multiple artifacts matches the groupId/artifactId/type. Use
+  configure if multiple artifacts match the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
   the artifact without a classifier).
 
@@ -161,7 +161,7 @@ EAR Modules
   Default is 'ejb'.
 
   * <<classifier>> - sets the classifier of the artifact you want to
-  configure if multiple artifacts matches the groupId/artifactId/type. Use
+  configure if multiple artifacts match the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
   the artifact without a classifier).
 
@@ -207,7 +207,7 @@ EAR Modules
   Default is 'jar'. Use 'test-jar' if the artifact of the module is test JAR.
 
   * <<classifier>> - sets the classifier of the artifact you want to
-  configure if multiple artifacts matches the groupId/artifactId/type. Use
+  configure if multiple artifacts match the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
   the artifact without a classifier).
 
@@ -231,7 +231,7 @@ EAR Modules
 
   * <<moduleId>> - sets the id of the module in the generated application.xml.
 
-  * <<includeInApplicationXml>> - set to true to if you want to generate an entry
+  * <<includeInApplicationXml>> - set to true if you want to generate an entry
   of this module in <<<application.xml>>>. Default is false.
 
   * <<classPathItem>> - defines if the module is an element of the <<<Class-Path>>> setting
@@ -293,7 +293,7 @@ EAR Modules
   and has 'jboss-par' type, then that type should be specified explicitly.
 
   * <<classifier>> - sets the classifier of the artifact you want to
-  configure if multiple artifacts matches the groupId/artifactId/type. Use
+  configure if multiple artifacts match the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
   the artifact without a classifier).
 
@@ -339,7 +339,7 @@ EAR Modules
   Default is 'rar'.
 
   * <<classifier>> - sets the classifier of the artifact you want to
-  configure if multiple artifacts matches the groupId/artifactId/type. Use
+  configure if multiple artifacts match the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
   the artifact without a classifier).
 
@@ -390,7 +390,7 @@ EAR Modules
   and has 'jboss-sar' type, then that type should be specified explicitly.
 
   * <<classifier>> - sets the classifier of the artifact you want to
-  configure if multiple artifacts matches the groupId/artifactId/type. Use
+  configure if multiple artifacts match the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
   the artifact without a classifier).
 
@@ -435,7 +435,7 @@ EAR Modules
   Default is 'war'.
 
   * <<classifier>> - sets the classifier of the artifact you want to
-  configure if multiple artifacts matches the groupId/artifactId/type. Use
+  configure if multiple artifacts match the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
   the artifact without a classifier).
 
@@ -490,7 +490,7 @@ EAR Modules
   Default is 'wsr'.
 
   * <<classifier>> - sets the classifier of the artifact you want to
-  configure if multiple artifacts matches the groupId/artifactId/type. Use
+  configure if multiple artifacts match the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
   the artifact without a classifier).
 
@@ -540,7 +540,7 @@ EAR Modules
   and has 'jboss-har' type, then that type should be specified explicitly.
 
   * <<classifier>> - sets the classifier of the artifact you want to
-  configure if multiple artifacts matches the groupId/artifactId/type. Use
+  configure if multiple artifacts match the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
   the artifact without a classifier).
 
@@ -583,7 +583,7 @@ EAR Modules
   Default is 'app-client'.
 
   * <<classifier>> - sets the classifier of the artifact you want to
-  configure if multiple artifacts matches the groupId/artifactId/type. Use
+  configure if multiple artifacts match the groupId/artifactId/type. Use
   the mainArtifactId ('none' by default) to define the main artifact (e.g.
   the artifact without a classifier).
 

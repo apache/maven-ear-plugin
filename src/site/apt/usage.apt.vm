@@ -54,7 +54,7 @@ Usage
         <artifactId>maven-ear-plugin</artifactId>
         <version>${project.version}</version>
         <configuration>
-          <!-- configuration elements goes here -->
+          <!-- configuration elements go here -->
         </configuration>
       </plugin>
    [...]
@@ -197,7 +197,7 @@ mvn package
   
 
   Hibernate archives (HAR) and Service archives (SAR) will be recognized automatically
-  and added the the <<<jboss-app.xml>>> file.
+  and added to the <<<jboss-app.xml>>> file.
 
   You can take a look at the examples for more information on the JBoss support.
 

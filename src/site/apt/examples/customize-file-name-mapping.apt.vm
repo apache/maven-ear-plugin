@@ -49,7 +49,7 @@ Customizing The File Name Mapping
   </build>
 +---------
 
-  Based on the given things you can influence the resulting naming based on your wishes. For example you
+  The naming pattern can be customized to your needs. For example, you
   want to have all artifacts within your ear file without a version you can change the configuration like the 
   following:
 
@@ -73,7 +73,7 @@ Customizing The File Name Mapping
   dash which is needed to separate it from other parts of the artifact
 
   * <<<@\{version\}@>>> - expands to artifact version,
-  for <<<SNAPSHOT>>> artifacts can contain timestamp postfix instead of <<<SNAPSHOT>>>
+  for <<<SNAPSHOT>>> artifacts. It can contain a timestamp instead of <<<SNAPSHOT>>>
 
   * <<<@\{baseVersion\}@>>> - expands to base artifact version,
   for <<<SNAPSHOT>>> artifacts we will always have <<<SNAPSHOT>>> postfix

@@ -26,7 +26,7 @@
 
 Specifying Environment entries For The Generated application.xml
 
-  Environment entries can be added as from the JavaEE 6 spec. For instance:
+  Environment entries can be added since the Java EE 6 spec. For instance:
 
 +--------
   <build>
