@@ -27,9 +27,9 @@
 
 Customizing The File Name Mapping
 
-  It might happen that you need to change the naming of the artifacts within the EAR file.
-  This can be achieved by using the <<<outputFileNameMapping>>>. The following shows how it could be 
-  configured in your pom file.
+  You can change the names of the artifacts within the EAR file
+  using <<<outputFileNameMapping>>>. The following shows how it can be 
+  configured in the pom file.
 
   In this example the default value is given as a starting point.
 
@@ -49,8 +49,8 @@ Customizing The File Name Mapping
   </build>
 +---------
 
-  The naming pattern can be customized to your needs. For example, you
-  want to have all artifacts within your ear file without a version you can change the configuration like the 
+  The naming pattern can be customized to your needs. For example, if you
+  want all artifacts within the ear file to not include version, change the configuration like the 
   following:
 
 +--------
