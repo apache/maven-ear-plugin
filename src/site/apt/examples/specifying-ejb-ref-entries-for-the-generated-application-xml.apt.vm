@@ -23,9 +23,9 @@
 ~~ http://maven.apache.org/doxia/references/apt-format.html
 
 
-Specifying Ejb Ref entries For The Generated application.xml
+Specifying EJB Ref entries for the Generated application.xml
 
-  Ejb Ref entries can be added since the Java EE 6 spec. For instance:
+  EJB Ref entries can be added since the Java EE 6 spec. For instance:
 
 +--------
   <build>
