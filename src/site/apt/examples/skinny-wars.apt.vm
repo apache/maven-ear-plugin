@@ -30,18 +30,18 @@
 Creating Skinny WARs
 
  In a typical Java EE environment, a WAR is packaged within an EAR for deployment.  The
- WAR can contain all its dependent JARs in <<<WEB-INF/lib>>> but then the EAR can quickly grow
- very large if there are multiple WARs, due to the presence of duplicate JARs.  Instead
+ WAR can contain all its dependent JARs in <<<WEB-INF/lib>>> so the EAR can quickly grow
+ very large if there are multiple WARs, due to the presence of duplicate JARs. Instead,
  the Java EE specification allows WARs to reference external JARs packaged within the EAR
  via the <<<Class-Path>>> setting in their <<<MANIFEST.MF>>>.
 
- Starting with version 2.7 Maven EAR Plugin has basic support for this mode of
+ Starting with version 2.7, the Maven EAR Plugin has basic support for this mode of
  operation.
 
- First we need to change the EAR project's <<<pom.xml>>> to package those JARs
+ First change the EAR project's <<<pom.xml>>> to package those JARs
  in the EAR, using the <<<skinnyWars>>> parameter.
 
- <<Note:>> In this example we package all JARs into a <<<lib/>>> directory
+ <<Note:>> In this example, we package all JARs into a <<<lib/>>> directory
  within the EAR. This is just to distinguish between Java EE modules (which will be
  packaged in the root of the EAR) and Java libraries (which are packaged in
  <<<lib/>>>).
@@ -65,7 +65,7 @@ Creating Skinny WARs
 </project>
 +-----------------+
 
- Now the painful part.  Your EAR project's <<<pom.xml>>> needs to list every
+ Now the painful part. The EAR project's <<<pom.xml>>> needs to list every
  dependency that you want to share through the EAR.
 
 +-----------------+
@@ -95,7 +95,7 @@ Creating Skinny WARs
 </project>
 +-----------------+
 
- Your EAR will contain something like this:
+ The EAR will contain something like this:
 
 +-----------------+
  .
@@ -111,6 +111,6 @@ Creating Skinny WARs
  that are packaged within the EAR, you will see that they no longer contain the
  file <<<WEB-INF/lib/shared-jar-1.0.0.jar>>>.
 
- Also, if you inspect the <<<MANIFEST.MF>>> of the WARs you will notice that the
+ Also, if you inspect the <<<MANIFEST.MF>>> of the WARs, you will notice that the
  <<<Class-Path>>> entry has been modified and now has a reference to
  <<<lib/shared-jar-1.0.0.jar>>>.
