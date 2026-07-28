@@ -665,7 +665,7 @@ public class EarMojo extends AbstractEarMojo {
             EarModule module, File original, JavaEEVersion javaEEVersion, Collection<String> outdatedResources)
             throws MojoFailureException {
         final String moduleLibDir = module.getLibDir();
-        if (!((moduleLibDir == null) || skinnyModules || (skinnyWars && module instanceof WebModule))) {
+        if (!(skinnyModules || (skinnyWars && (module instanceof WebModule || moduleLibDir == null)))) {
             return;
         }
 
