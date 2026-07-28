@@ -713,12 +713,9 @@ public class EarMojo extends AbstractEarMojo {
             Attribute classPath = mf.getMainSection().getAttribute("Class-Path");
             List<String> classPathElements = new ArrayList<>();
 
-            boolean classPathExists;
             if (classPath != null) {
-                classPathExists = true;
                 classPathElements.addAll(Arrays.asList(classPath.getValue().split(" ")));
             } else {
-                classPathExists = false;
                 classPath = new Attribute("Class-Path", "");
             }
 
@@ -777,9 +774,6 @@ public class EarMojo extends AbstractEarMojo {
 
             // Modify the classpath entries in the manifest
             if (!skipClassPathModification) {
-                final boolean forceClassPathModification =
-                        javaEEVersion.lt(JavaEEVersion.FIVE) || defaultLibBundleDir == null;
-                final boolean classPathExtension = !skipClassPathModification || forceClassPathModification;
                 for (EarModule otherModule : getModules()) {
                     if (module.equals(otherModule)) {
                         continue;
@@ -791,7 +785,7 @@ public class EarMojo extends AbstractEarMojo {
                         } else {
                             classPathElements.remove(moduleClassPathIndex);
                         }
-                    } else if (otherModule.isClassPathItem() && classPathExtension) {
+                    } else if (otherModule.isClassPathItem()) {
                         classPathElements.add(otherModule.getUri());
                     }
                 }
