@@ -776,34 +776,34 @@ public class EarMojo extends AbstractEarMojo {
             }
 
             // Modify the classpath entries in the manifest
-            final boolean forceClassPathModification =
-                    javaEEVersion.lt(JavaEEVersion.FIVE) || defaultLibBundleDir == null;
-            final boolean classPathExtension = !skipClassPathModification || forceClassPathModification;
-            for (EarModule otherModule : getModules()) {
-                if (module.equals(otherModule)) {
-                    continue;
+            if (!skipClassPathModification) {
+                final boolean forceClassPathModification =
+                        javaEEVersion.lt(JavaEEVersion.FIVE) || defaultLibBundleDir == null;
+                final boolean classPathExtension = !skipClassPathModification || forceClassPathModification;
+                for (EarModule otherModule : getModules()) {
+                    if (module.equals(otherModule)) {
+                        continue;
+                    }
+                    final int moduleClassPathIndex = findModuleInClassPathElements(classPathElements, otherModule);
+                    if (moduleClassPathIndex != -1) {
+                        if (otherModule.isClassPathItem()) {
+                            classPathElements.set(moduleClassPathIndex, otherModule.getUri());
+                        } else {
+                            classPathElements.remove(moduleClassPathIndex);
+                        }
+                    } else if (otherModule.isClassPathItem() && classPathExtension) {
+                        classPathElements.add(otherModule.getUri());
+                    }
                 }
-                final int moduleClassPathIndex = findModuleInClassPathElements(classPathElements, otherModule);
-                if (moduleClassPathIndex != -1) {
-                    if (otherModule.isClassPathItem()) {
-                        classPathElements.set(moduleClassPathIndex, otherModule.getUri());
-                    } else {
+
+                // Remove provided modules from classpath
+                for (EarModule otherModule : getProvidedEarModules()) {
+                    final int moduleClassPathIndex = findModuleInClassPathElements(classPathElements, otherModule);
+                    if (moduleClassPathIndex != -1) {
                         classPathElements.remove(moduleClassPathIndex);
                     }
-                } else if (otherModule.isClassPathItem() && classPathExtension) {
-                    classPathElements.add(otherModule.getUri());
                 }
-            }
 
-            // Remove provided modules from classpath
-            for (EarModule otherModule : getProvidedEarModules()) {
-                final int moduleClassPathIndex = findModuleInClassPathElements(classPathElements, otherModule);
-                if (moduleClassPathIndex != -1) {
-                    classPathElements.remove(moduleClassPathIndex);
-                }
-            }
-
-            if (!skipClassPathModification || !classPathElements.isEmpty() || classPathExists) {
                 classPath.setValue(StringUtils.join(classPathElements.iterator(), " "));
                 mf.getMainSection().addConfiguredAttribute(classPath);
 

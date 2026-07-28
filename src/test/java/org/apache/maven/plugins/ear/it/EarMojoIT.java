@@ -951,6 +951,8 @@ class EarMojoIT extends AbstractEarPluginIT {
     void testProject090() throws Exception {
         final String warModule = "eartest-war-sample-three-1.0.war";
         final String ejbModule = "eartest-ejb-sample-three-1.0.jar";
+        final String jarSampleTwo = "jar-sample-two-1.0.jar";
+        final String jarSampleThreeWithDeps = "jar-sample-three-with-deps-1.0.jar";
         final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
         final String jarSampleThreeLibrary = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
         doTestProject(
@@ -960,7 +962,7 @@ class EarMojoIT extends AbstractEarPluginIT {
                 new boolean[] {false, false, false, false},
                 new String[] {warModule, ejbModule},
                 new boolean[] {false, false},
-                new String[][] {{jarSampleTwoLibrary}, {jarSampleThreeLibrary, jarSampleTwoLibrary}},
+                new String[][] {{jarSampleTwo}, {jarSampleThreeWithDeps, jarSampleTwo}},
                 true);
     }
 
