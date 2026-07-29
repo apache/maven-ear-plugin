@@ -800,20 +800,20 @@ public class EarMojo extends AbstractEarMojo {
 
                 classPath.setValue(StringUtils.join(classPathElements.iterator(), " "));
                 mf.getMainSection().addConfiguredAttribute(classPath);
-
-                // Write the manifest to disk, preserve timestamp
-                FileTime lastModifiedTime = Files.getLastModifiedTime(manifestFile);
-                try (BufferedWriter writer = Files.newBufferedWriter(
-                        manifestFile,
-                        StandardCharsets.UTF_8,
-                        StandardOpenOption.WRITE,
-                        StandardOpenOption.CREATE,
-                        StandardOpenOption.TRUNCATE_EXISTING)) {
-                    mf.write(writer);
-                }
-                Files.setLastModifiedTime(manifestFile, lastModifiedTime);
-                removeFromOutdatedResources(manifestFile, outdatedResources);
             }
+
+            // Write the manifest to disk, preserve timestamp
+            FileTime lastModifiedTime = Files.getLastModifiedTime(manifestFile);
+            try (BufferedWriter writer = Files.newBufferedWriter(
+                    manifestFile,
+                    StandardCharsets.UTF_8,
+                    StandardOpenOption.WRITE,
+                    StandardOpenOption.CREATE,
+                    StandardOpenOption.TRUNCATE_EXISTING)) {
+                mf.write(writer);
+            }
+            Files.setLastModifiedTime(manifestFile, lastModifiedTime);
+            removeFromOutdatedResources(manifestFile, outdatedResources);
 
             if (fileSystem != null) {
                 fileSystem.close();
