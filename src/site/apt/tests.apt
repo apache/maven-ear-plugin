@@ -26,7 +26,7 @@
 
 EAR Plugin Tests
 
-  This page lists the EAR Plugin integration tests. Each tests is built on top of a sample project available in
+  This page lists the EAR Plugin integration tests. Each test is built on top of a sample project available in
   the {{{https://gitbox.apache.org/repos/asf?p=maven-ear-plugin.git;a=tree;f=src/test/resources/projects}git repository}}.
   This structure provides lots of concrete use cases for beginners.
 
@@ -80,7 +80,7 @@ EAR Plugin Tests
 
   * project-025: builds an EAR and make sure that a classified dependency with multiple candidates is detected when specifying the classifier
 
-  * project-026: builds an EAR and make sure that the build fails if a unclassified module configuration with multiple candidates is specified
+  * project-026: builds an EAR and make sure that the build fails if an unclassified module configuration with multiple candidates is specified
 
   * project-027: builds an EAR and make sure that provided dependencies are not included in the EAR
 
@@ -190,4 +190,4 @@ EAR Plugin Tests
 
   * project-080: builds an EAR with the 'empty' library directory mode. Generate an empty library-directory element
 
-  * project-081: builds an EAR with the 'none' library directory mode. Does not generate an library-directory element
+  * project-081: builds an EAR with the 'none' library directory mode. Does not generate a library-directory element

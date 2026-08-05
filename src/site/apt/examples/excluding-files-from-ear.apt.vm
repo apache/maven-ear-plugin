@@ -190,7 +190,7 @@ Excluding Files From the EAR
 
 * Transitive artifacts
 
-  For those who have good reason to exclude transitive dependencies, they can configure their <<<pom.xml>>> like this when using Maven3
+  For those who have good reason to exclude transitive dependencies, they can configure their <<<pom.xml>>> like this when using Maven 3
   
 +---------------------
   <dependency>
@@ -206,4 +206,4 @@ Excluding Files From the EAR
   </dependency>
 +---------------------
 
-  As you can see <<<exclusions>>> support wildcard expressions, so you can have fast and full control over all the dependencies you'd like to exclude.    
+  As you can see <<<exclusions>>> support wildcard expressions, so you can have fine-grained control over all the dependencies you'd like to exclude.    

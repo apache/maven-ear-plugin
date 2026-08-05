@@ -35,10 +35,10 @@ Filtering: Advanced techniques
 
 * Escaping properties
 
-  It may be necessary to filters some properties in a file and ignore another. The
-  filtering mechanism won't touch a token that is not recognized (i.e. that
-  represents an unknown property). This won't work if the property is known
-  obviously so it should be escaped explicitely.
+  It may be necessary to filter some properties in a file while leaving others
+  untouched. The filtering mechanism will not touch a token that represents an
+  unknown property, but a known property will be interpolated. To prevent that,
+  the known property must be escaped explicitly.
 
   The following configuration defines the value of the <<<escapeString>>> which will
   stop the interpolation of a property if it starts with that value
@@ -69,8 +69,7 @@ jdbc.password=${db.password}
 +--------
 
   Filtering the content of such a file with this config will produce this content.
-  Note that that the escaped property can now be filtered the usual way later if
-  necessary!
+  The escaped property can be filtered the usual way later if necessary.
 
 +--------
 jdbc.url=jdbc:oracle:thin:@localhost:1521:orcl
@@ -82,7 +81,7 @@ jdbc.password=${db.password}
 * Ignoring files based on its extension
 
   Filtering binary files corrupt them so it may be necessary to exclude files from
-  filtering based on the extension. To do so, configure the plugin as follow
+  filtering based on the extension. To do so, configure the plugin as follows
 
 +--------
   <build>
