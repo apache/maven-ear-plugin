@@ -118,7 +118,7 @@ Creating Skinny Modules
  `-- rar-1.0.0.rar
 +-----------------+
 
- If you look inside the copies of <<<war-1.0.0.war>>>, <<<rar-1.0.0.ear>>>
+ If you look inside the copies of <<<war-1.0.0.war>>>, <<<rar-1.0.0.rar>>>
  and <<<sar-1.0.0.sar>>>, that are packaged within the EAR, you will see that
  they no longer contain <<<WEB-INF/lib/shared-jar-1.0.0.jar>>>,
  <<<shared-jar-1.0.0.jar>>> and <<<lib/shared-jar-1.0.0.jar>>> files respectively.
