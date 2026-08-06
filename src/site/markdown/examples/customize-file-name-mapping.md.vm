@@ -1,39 +1,26 @@
-  ------
-  Customizing The File Name Mapping
-  ------
-  Stephane Nicoll
-  <snicoll@apache.org>
-  Karl Heinz Marbaise <khmarbaise@apache.org>
-  ------
-  2006-11-19
+<!--
+Copyright 2006 The Apache Software Foundation.
 
-~~ Copyright 2006 The Apache Software Foundation.
-~~
-~~ Licensed under the Apache License, Version 2.0 (the "License");
-~~ you may not use this file except in compliance with the License.
-~~ You may obtain a copy of the License at
-~~
-~~      http://www.apache.org/licenses/LICENSE-2.0
-~~
-~~ Unless required by applicable law or agreed to in writing, software
-~~ distributed under the License is distributed on an "AS IS" BASIS,
-~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-~~ See the License for the specific language governing permissions and
-~~ limitations under the License.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-~~ NOTE: For help with the syntax of this file, see:
-~~ http://maven.apache.org/doxia/references/apt-format.html
+http://www.apache.org/licenses/LICENSE-2.0
 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
 
-Customizing The File Name Mapping
+# Customizing The File Name Mapping
 
-  It might happen that you need to change the naming of the artifacts within the EAR file.
-  This can be achieved by using the <<<outputFileNameMapping>>>. The following shows how it could be 
-  configured in your pom file.
+It might happen that you need to change the naming of the artifacts within the EAR file. This can be achieved by using the `outputFileNameMapping`. The following shows how it could be configured in your pom file.
 
-  In this example the default value is given as a starting point.
+In this example the default value is given as a starting point.
 
-+--------
+```xml
   <build>
     <plugins>
       <plugin>
@@ -47,13 +34,11 @@ Customizing The File Name Mapping
       </plugin>
     </plugins>
   </build>
-+---------
+```
 
-  Based on the given things you can influence the resulting naming based on your wishes. For example you
-  want to have all artifacts within your ear file without a version you can change the configuration like the 
-  following:
+Based on the given things you can influence the resulting naming based on your wishes. For example you want to have all artifacts within your ear file without a version you can change the configuration like the following:
 
-+--------
+```xml
   <build>
     <plugins>
       <plugin>
@@ -67,15 +52,8 @@ Customizing The File Name Mapping
       </plugin>
     </plugins>
   </build>
-+---------
+```
 
-  * <<<@\{dashClassifier?\}@>>> - expands to a classifier including the preceding
-  dash which is needed to separate it from other parts of the artifact
-
-  * <<<@\{version\}@>>> - expands to artifact version,
-  for <<<SNAPSHOT>>> artifacts can contain timestamp postfix instead of <<<SNAPSHOT>>>
-
-  * <<<@\{baseVersion\}@>>> - expands to base artifact version,
-  for <<<SNAPSHOT>>> artifacts we will always have <<<SNAPSHOT>>> postfix
-
-  []
+- `@{dashClassifier?}@` - expands to a classifier including the preceding dash which is needed to separate it from other parts of the artifact
+- `@{version}@` - expands to artifact version, for `SNAPSHOT` artifacts can contain timestamp postfix instead of `SNAPSHOT`
+- `@{baseVersion}@` - expands to base artifact version, for `SNAPSHOT` artifacts we will always have `SNAPSHOT` postfix

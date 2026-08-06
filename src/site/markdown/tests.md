@@ -1,193 +1,101 @@
- ------
- Tests
- ------
- Stephane Nicoll
- ------
- 2006-10-29
- ------
-
-~~ Copyright 2006 The Apache Software Foundation.
-~~
-~~ Licensed under the Apache License, Version 2.0 (the "License");
-~~ you may not use this file except in compliance with the License.
-~~ You may obtain a copy of the License at
-~~
-~~      http://www.apache.org/licenses/LICENSE-2.0
-~~
-~~ Unless required by applicable law or agreed to in writing, software
-~~ distributed under the License is distributed on an "AS IS" BASIS,
-~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-~~ See the License for the specific language governing permissions and
-~~ limitations under the License.
-
-~~ NOTE: For help with the syntax of this file, see:
-~~ http://maven.apache.org/doxia/references/apt-format.html
-
-
-EAR Plugin Tests
-
-  This page lists the EAR Plugin integration tests. Each tests is built on top of a sample project available in
-  the {{{https://gitbox.apache.org/repos/asf?p=maven-ear-plugin.git;a=tree;f=src/test/resources/projects}git repository}}.
-  This structure provides lots of concrete use cases for beginners.
-
-  * project-001: builds an EAR with a single EJB and no configuration.
-
-  * project-002: builds an EAR with a customized artifact location and a customized artifact name
-
-  * project-003: builds an EAR with a default bundle directory for _java_ modules
-
-  * project-004: builds an EAR with a default bundle directory for _java_ modules and a custom location overriding the default
-
-  * project-005: builds an EAR with a custom URI
-
-  * project-006: builds an EAR with an excluded module
-
-  * project-007: builds an EAR with a classified artifact and no extra configuration
-
-  * project-008: builds an EAR with deployment descriptor configuration for J2EE 1.3
-
-  * project-009: builds an EAR with deployment descriptor configuration for J2EE 1.4
-
-  * project-010: builds an EAR with deployment descriptor configuration for Java EE 5
-
-  * project-011: builds an EAR and make sure that deployment descriptor default settings are applied
-
-  * project-012: builds an EAR and make sure that EAR resources are bundled within the EAR
-
-  * project-013: builds an EAR and make sure that EAR resources in a customized resources directory are bundled within the EAR
-
-  * project-014: builds an EAR and make sure that EAR resources are bundled within the EAR using includes and excludes
-
-  * project-015: builds an EAR and make sure that default manifest is taken into account
-
-  * project-016: builds an EAR and make sure that custom manifest is taken into account
-
-  * project-017: builds an EAR and make sure that custom application.xml is taken into account
-
-  * project-018: builds an EAR with a custom final name
-
-  * project-019: builds an EAR with unpacked archives using the unpackTypes.
-
-  * project-020: builds an EAR with unpacked archives using the unpack module attribute
-
-  * project-021: builds an EAR with unpacked archives using both unpackTypes and the unpack module attribute
-
-  * project-022: builds an EAR with a classifier
-
-  * project-023: builds an EAR and make sure that a single classified dependency is detected without specifying the classifier
-
-  * project-024: builds an EAR and make sure that a single classified dependency is detected when specifying the classifier
-
-  * project-025: builds an EAR and make sure that a classified dependency with multiple candidates is detected when specifying the classifier
-
-  * project-026: builds an EAR and make sure that the build fails if a unclassified module configuration with multiple candidates is specified
-
-  * project-027: builds an EAR and make sure that provided dependencies are not included in the EAR
-
-  * project-028: builds an EAR and make sure that test dependencies are not included in the EAR
-
-  * project-029: builds an EAR and make sure that system dependencies are not included in the EAR
-
-  * project-030: builds an EAR and make sure that ejb-client dependencies are detected and not added by default in the generated application.xml
-
-  * project-031: builds an EAR with a Jboss 4 configuration specifying the security domain and the unauthenticated-principal to use
-
-  * project-032: builds an EAR with a Jboss 3.2 configuration specifying the jmx-name to use
-
-  * project-033: builds an EAR with a Jboss 4 configuration and Jboss specific modules
-
-  * project-034: builds an EAR with custom security settings
-
-  * project-035: builds an EAR with a full filename mapping and make sure that custom locations are not overridden
-
-  * project-036: builds an EAR with a full filename mapping and make sure that groupIds with dots are replaced by dashes in filenames
-
-  * project-037: builds an EAR and make sure that ejb-client dependencies are detected and added in the generated application.xml if includeInApplicationXml is set
-
-  * project-038: builds an EAR and make sure that a non-classified dependency with multiple candidates is detected when specifying the mainArtifactId as classifier
-  
-  * project-039: builds an EAR with a Jboss 4 configuration specifying the loader repository to use
-
-  * project-040: builds an EAR with deployment descriptor configuration for Java EE 5 and an alternative deployment descriptor
-
-  * project-041: builds an EAR with a Jboss 4.2 configuration specifying the module order to use
-
-  * project-042: builds an EAR with a Jboss 4.2 configuration specifying a datasource to add
-
-  * project-043: builds an EAR with a custom descriptor location (generatedDescriptorLocation setting)
-
-  * project-044: builds an EAR with a custom library-directory
-
-  * project-045: builds an EAR and filter the content of the sources directory
-
-  * project-046: builds an EAR and filter the content of the sources directory using a custom filter file
-
-  * project-047: builds an EAR and filter the content with a list of extensions
-
-  * project-048: builds an EAR with a Jboss 5 configuration containing library directory
-
-  * project-049: builds an EAR with a Jboss 4.2 configuration containing a library directory
-
-  * project-050: builds an EAR with a Jboss 5 configuration containing a loader repository configuration definition
-
-  * project-051: builds an EAR with a Jboss 5 configuration containing a loader repository class definition
-
-  * project-052: builds an EAR with a Jboss 5 configuration containing a configuration parser class definition
-
-  * project-053: builds an EAR with a Jboss 5 configuration containing only the loader repo configuration
-
-  * project-054: builds an EAR with deployment descriptor configuration for Java EE 5 and no application.xml
-
-  * project-055: builds an EAR with jar dependencies added in application.xml
-
-  * project-056: builds an EAR with deployment descriptor configuration for J2EE 1.4 and an alternative deployment descriptor
-
-  * project-057: builds an EAR with a complete JBoss 4.2 configuration and validate it matches the DTD (MEAR-104)
-
-  * project-058: builds an EAR with deployment descriptor configuration for Java EE 6
-
-  * project-059: builds an EAR with no display name entry at all
-
-  * project-060: builds an EAR with ejb-client packaged for J2EE 1.3
-
-  * project-061: builds an EAR with ejb-client packaged for J2EE 1.4
-
-  * project-062: builds an EAR with ejb-client packaged for JavaEE 5
-
-  * project-063: builds an EAR with ejb-client packaged for JavaEE 6
-
-  * project-064: builds an EAR with ejb-client packaged for JavaEE 5 and still put it in the root
-
-  * project-065: builds an EAR with a custom moduleId
-
-  * project-066: builds an EAR with generateModuleId enabled
-
-  * project-067: builds an EAR with generateModuleId enabled and a custom module
-
-  * project-068: builds an EAR with the no-version file name mapping
-
-  * project-069: builds an EAR with a custom library-directory and JavaEE 6
-
-  * project-070: builds an EAR with application-name and initialize-in-order tags
-
-  * project-071: builds an EAR with application-name and initialize-in-order tags for unsupported version
-
-  * project-072: builds an EAR with an application client module (app-client)
-
-  * project-073: builds an EAR with an application client module (app-client) and a default bundle directory for _java_ modules
-
-  * project-074: builds an EAR with custom env entries settings and J2EE 1.3 (Not supported by the specification)
-
-  * project-075: builds an EAR with custom env entries settings and J2EE 1.4 (Not supported by the specification)
-
-  * project-076: builds an EAR with custom env entries settings and JavaEE 5 (Not supported by the specification)
-
-  * project-077: builds an EAR with custom env entries settings and JavaEE 6
-
-  * project-078: builds an EAR with the no version for ejb file name mapping
-
-  * project-079: builds an EAR with the 'default' library directory mode. Uses the value of the defaultLibBundleDir
-
-  * project-080: builds an EAR with the 'empty' library directory mode. Generate an empty library-directory element
-
-  * project-081: builds an EAR with the 'none' library directory mode. Does not generate an library-directory element
+<!--
+Copyright 2006 The Apache Software Foundation.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+# EAR Plugin Tests
+
+This page lists the EAR Plugin integration tests. Each tests is built on top of a sample project available in the [git repository](https://gitbox.apache.org/repos/asf?p=maven-ear-plugin.git;a=tree;f=src/test/resources/projects). This structure provides lots of concrete use cases for beginners.
+
+- project-001: builds an EAR with a single EJB and no configuration.
+- project-002: builds an EAR with a customized artifact location and a customized artifact name
+- project-003: builds an EAR with a default bundle directory for \_java\_ modules
+- project-004: builds an EAR with a default bundle directory for \_java\_ modules and a custom location overriding the default
+- project-005: builds an EAR with a custom URI
+- project-006: builds an EAR with an excluded module
+- project-007: builds an EAR with a classified artifact and no extra configuration
+- project-008: builds an EAR with deployment descriptor configuration for J2EE 1.3
+- project-009: builds an EAR with deployment descriptor configuration for J2EE 1.4
+- project-010: builds an EAR with deployment descriptor configuration for Java EE 5
+- project-011: builds an EAR and make sure that deployment descriptor default settings are applied
+- project-012: builds an EAR and make sure that EAR resources are bundled within the EAR
+- project-013: builds an EAR and make sure that EAR resources in a customized resources directory are bundled within the EAR
+- project-014: builds an EAR and make sure that EAR resources are bundled within the EAR using includes and excludes
+- project-015: builds an EAR and make sure that default manifest is taken into account
+- project-016: builds an EAR and make sure that custom manifest is taken into account
+- project-017: builds an EAR and make sure that custom application.xml is taken into account
+- project-018: builds an EAR with a custom final name
+- project-019: builds an EAR with unpacked archives using the unpackTypes.
+- project-020: builds an EAR with unpacked archives using the unpack module attribute
+- project-021: builds an EAR with unpacked archives using both unpackTypes and the unpack module attribute
+- project-022: builds an EAR with a classifier
+- project-023: builds an EAR and make sure that a single classified dependency is detected without specifying the classifier
+- project-024: builds an EAR and make sure that a single classified dependency is detected when specifying the classifier
+- project-025: builds an EAR and make sure that a classified dependency with multiple candidates is detected when specifying the classifier
+- project-026: builds an EAR and make sure that the build fails if a unclassified module configuration with multiple candidates is specified
+- project-027: builds an EAR and make sure that provided dependencies are not included in the EAR
+- project-028: builds an EAR and make sure that test dependencies are not included in the EAR
+- project-029: builds an EAR and make sure that system dependencies are not included in the EAR
+- project-030: builds an EAR and make sure that ejb-client dependencies are detected and not added by default in the generated application.xml
+- project-031: builds an EAR with a Jboss 4 configuration specifying the security domain and the unauthenticated-principal to use
+- project-032: builds an EAR with a Jboss 3.2 configuration specifying the jmx-name to use
+- project-033: builds an EAR with a Jboss 4 configuration and Jboss specific modules
+- project-034: builds an EAR with custom security settings
+- project-035: builds an EAR with a full filename mapping and make sure that custom locations are not overridden
+- project-036: builds an EAR with a full filename mapping and make sure that groupIds with dots are replaced by dashes in filenames
+- project-037: builds an EAR and make sure that ejb-client dependencies are detected and added in the generated application.xml if includeInApplicationXml is set
+- project-038: builds an EAR and make sure that a non-classified dependency with multiple candidates is detected when specifying the mainArtifactId as classifier
+- project-039: builds an EAR with a Jboss 4 configuration specifying the loader repository to use
+- project-040: builds an EAR with deployment descriptor configuration for Java EE 5 and an alternative deployment descriptor
+- project-041: builds an EAR with a Jboss 4.2 configuration specifying the module order to use
+- project-042: builds an EAR with a Jboss 4.2 configuration specifying a datasource to add
+- project-043: builds an EAR with a custom descriptor location (generatedDescriptorLocation setting)
+- project-044: builds an EAR with a custom library-directory
+- project-045: builds an EAR and filter the content of the sources directory
+- project-046: builds an EAR and filter the content of the sources directory using a custom filter file
+- project-047: builds an EAR and filter the content with a list of extensions
+- project-048: builds an EAR with a Jboss 5 configuration containing library directory
+- project-049: builds an EAR with a Jboss 4.2 configuration containing a library directory
+- project-050: builds an EAR with a Jboss 5 configuration containing a loader repository configuration definition
+- project-051: builds an EAR with a Jboss 5 configuration containing a loader repository class definition
+- project-052: builds an EAR with a Jboss 5 configuration containing a configuration parser class definition
+- project-053: builds an EAR with a Jboss 5 configuration containing only the loader repo configuration
+- project-054: builds an EAR with deployment descriptor configuration for Java EE 5 and no application.xml
+- project-055: builds an EAR with jar dependencies added in application.xml
+- project-056: builds an EAR with deployment descriptor configuration for J2EE 1.4 and an alternative deployment descriptor
+- project-057: builds an EAR with a complete JBoss 4.2 configuration and validate it matches the DTD (MEAR-104)
+- project-058: builds an EAR with deployment descriptor configuration for Java EE 6
+- project-059: builds an EAR with no display name entry at all
+- project-060: builds an EAR with ejb-client packaged for J2EE 1.3
+- project-061: builds an EAR with ejb-client packaged for J2EE 1.4
+- project-062: builds an EAR with ejb-client packaged for JavaEE 5
+- project-063: builds an EAR with ejb-client packaged for JavaEE 6
+- project-064: builds an EAR with ejb-client packaged for JavaEE 5 and still put it in the root
+- project-065: builds an EAR with a custom moduleId
+- project-066: builds an EAR with generateModuleId enabled
+- project-067: builds an EAR with generateModuleId enabled and a custom module
+- project-068: builds an EAR with the no-version file name mapping
+- project-069: builds an EAR with a custom library-directory and JavaEE 6
+- project-070: builds an EAR with application-name and initialize-in-order tags
+- project-071: builds an EAR with application-name and initialize-in-order tags for unsupported version
+- project-072: builds an EAR with an application client module (app-client)
+- project-073: builds an EAR with an application client module (app-client) and a default bundle directory for \_java\_ modules
+- project-074: builds an EAR with custom env entries settings and J2EE 1.3 (Not supported by the specification)
+- project-075: builds an EAR with custom env entries settings and J2EE 1.4 (Not supported by the specification)
+- project-076: builds an EAR with custom env entries settings and JavaEE 5 (Not supported by the specification)
+- project-077: builds an EAR with custom env entries settings and JavaEE 6
+- project-078: builds an EAR with the no version for ejb file name mapping
+- project-079: builds an EAR with the 'default' library directory mode. Uses the value of the defaultLibBundleDir
+- project-080: builds an EAR with the 'empty' library directory mode. Generate an empty library-directory element
+- project-081: builds an EAR with the 'none' library directory mode. Does not generate an library-directory element
