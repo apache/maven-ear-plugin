@@ -53,7 +53,7 @@ jdbc.user=${db.username}
 jdbc.password=${db.password}
 ```
 
-Filtering the content of such a file with this config will produce this content. Note that that the escaped property can now be filtered the usual way later if necessary\!
+Filtering the content of such a file with this config will produce this content. Note that that the escaped property can now be filtered the usual way later if necessary!
 
 ```properties
 jdbc.url=jdbc:oracle:thin:@localhost:1521:orcl
