@@ -1,3 +1,10 @@
+---
+title: Tests
+author: 
+  - Stephane Nicoll
+date: 2006-10-29
+---
+
 <!--
 Copyright 2006 The Apache Software Foundation.
 

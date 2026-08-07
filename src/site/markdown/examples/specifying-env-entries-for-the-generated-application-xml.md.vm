@@ -1,3 +1,11 @@
+---
+title: Specifying Security Roles For The Generated application.xml
+author: 
+  - Stephane Nicoll
+  - snicoll@apache.org
+date: 2017-08-27
+---
+
 <!--
 Copyright 2006 The Apache Software Foundation.
 
