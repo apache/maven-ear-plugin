@@ -1,3 +1,11 @@
+---
+title: Using app client
+author: 
+  - Stephane Nicoll
+  - snicoll@apache.org
+date: 2011-04-03
+---
+
 <!--
 Copyright 2006 The Apache Software Foundation.
 
