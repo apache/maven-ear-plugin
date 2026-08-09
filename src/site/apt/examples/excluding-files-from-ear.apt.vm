@@ -206,4 +206,4 @@ Excluding Files From the EAR
   </dependency>
 +---------------------
 
-  As you can see <<<exclusions>>> support wildcard expressions, so you can have fine-grained control over all the dependencies you'd like to exclude.    
+  As you can see <<<exclusions>>> support wildcard expressions, so you can have fine-grained control over all the dependencies you'd like to exclude.
