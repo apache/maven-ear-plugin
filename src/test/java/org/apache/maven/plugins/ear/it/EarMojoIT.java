@@ -1215,8 +1215,7 @@ class EarMojoIT extends AbstractEarPluginIT {
                 new boolean[] {false, false, false, false, false, false, false},
                 earModules,
                 earModuleDirectory,
-                new String[][] {null, null, null, null, new String[] {jarSampleThreeLibrary, jarSampleTwoLibrary}
-                },
+                new String[][] {null, null, null, null, new String[] {jarSampleThreeLibrary, jarSampleTwoLibrary}},
                 true);
 
         assertEarModulesContent(
