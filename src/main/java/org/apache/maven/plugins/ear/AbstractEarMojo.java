@@ -313,8 +313,8 @@ public abstract class AbstractEarMojo extends AbstractMojo {
         return outputFileNameMapping;
     }
 
-    private static boolean isArtifactRegistered(Artifact a, List<EarModule> currentList) {
-        return currentList.stream().anyMatch(em -> em.getArtifact().equals(a));
+    private static boolean isArtifactRegistered(Artifact artifact, List<EarModule> currentList) {
+        return currentList.stream().anyMatch(em -> artifact.equals(em.getArtifact()));
     }
 
     /**
