@@ -135,7 +135,7 @@ String[] includedEntries = {
     "META-INF/MANIFEST.MF"
 };
 
-String[] warModule1ExpectedClassPathElements = { "lib/commons-lang-commons-lang-2.6.jar" };
+String[] warModule1ExpectedClassPathElements = { "commons-lang-2.6.jar" };
 
 assertJar( earBaseDir + "org.apache.maven.its.ear.skinnywars-war-module1-1.0.war", includedEntries,
     warModuleExcludedEntries, true, warModule1ExpectedClassPathElements );
