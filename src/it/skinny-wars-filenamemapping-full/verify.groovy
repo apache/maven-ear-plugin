@@ -31,10 +31,10 @@ if ( !jarFile.isFile() )
 
 JarFile jar = new JarFile( jarFile );
 
-String[] includedEntries = {
+String[] includedEntries = [
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF"
-};
+];
 for ( String included : includedEntries )
 {
     System.out.println( "Checking for included archive entry " + included );
@@ -51,9 +51,9 @@ if ( !manifestClassPath.equals("lib/commons-lang-commons-lang-2.6.jar") )
     throw new IllegalStateException( "Missing entry in war MANIFEST.MF: lib/commons-lang-commons-lang-2.6.jar");
 }
 
-String[] excludedEntries = {
+String[] excludedEntries = [
     "WEB-INF/lib/commons-lang-commons-lang-2.6.jar"
-};
+];
 for ( String excluded : excludedEntries )
 {
     System.out.println( "Checking for excluded artifact " + excluded );
@@ -66,20 +66,20 @@ for ( String excluded : excludedEntries )
 jar.close();
 
 
-File jarFile = new File( basedir, "war-module/target/war-module-1.0.war" );
+jarFile = new File( basedir, "war-module/target/war-module-1.0.war" );
 System.out.println( "Checking for existence of " + jarFile );
 if ( !jarFile.isFile() )
 {
     throw new IllegalStateException( "Missing file: " + jarFile );
 }
 
-JarFile jar = new JarFile( jarFile );
+jar = new JarFile( jarFile );
 
-String[] includedEntries = {
+includedEntries = [
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF",
     "WEB-INF/lib/commons-lang-2.6.jar"
-};
+];
 for ( String included : includedEntries )
 {
     System.out.println( "Checking for included archive entry " + included );

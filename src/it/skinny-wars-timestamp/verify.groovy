@@ -21,7 +21,7 @@ import java.io.*;
 import java.util.*;
 import java.util.jar.*;
 
-assertFileExists( File file )
+void assertFileExists( File file )
 {
     System.out.println( "Checking for existence of " + file );
     if ( !file.isFile() )
@@ -30,7 +30,7 @@ assertFileExists( File file )
     }
 }
 
-assertIncludes( File file, String[] includedEntries )
+void assertIncludes( File file, String[] includedEntries )
 {
     JarFile jar = new JarFile( file );
     try
@@ -50,7 +50,7 @@ assertIncludes( File file, String[] includedEntries )
     }
 }
 
-assertExcludes( File file, String[] excludedEntries )
+void assertExcludes( File file, String[] excludedEntries )
 {
     JarFile jar = new JarFile( file );
     try
@@ -70,7 +70,7 @@ assertExcludes( File file, String[] excludedEntries )
     }
 }
 
-assertManifestClassPath( File file, String classPath )
+void assertManifestClassPath( File file, String classPath )
 {
     JarFile jar = new JarFile( file );
     try
@@ -92,36 +92,36 @@ assertManifestClassPath( File file, String classPath )
 
 File warOneFile = new File( basedir, "war-module-one/target/war-module-one-1.0.war" );
 assertFileExists( warOneFile );
-assertIncludes( warOneFile, new String[] { "WEB-INF/web.xml",
+assertIncludes( warOneFile, [ "WEB-INF/web.xml",
                                            "META-INF/MANIFEST.MF",
                                            "WEB-INF/lib/commons-lang-2.6.jar",
-                                           "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar" } );
+                                           "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar" ] as String[] );
 assertManifestClassPath( warOneFile, "commons-lang-2.6.jar jar-sample-one-1.0-20150825.210557-91.jar" );
 
 File warTwoFile = new File( basedir, "war-module-two/target/war-module-two-1.0.war" );
 assertFileExists( warTwoFile );
-assertIncludes( warTwoFile, new String[] { "WEB-INF/web.xml",
+assertIncludes( warTwoFile, [ "WEB-INF/web.xml",
                                            "META-INF/MANIFEST.MF",
-                                           "WEB-INF/lib/jar-sample-one-1.0-SNAPSHOT.jar" } );
-assertExcludes( warTwoFile, new String[] { "WEB-INF/lib/commons-lang-2.6.jar" } );
+                                           "WEB-INF/lib/jar-sample-one-1.0-SNAPSHOT.jar" ] as String[] );
+assertExcludes( warTwoFile, [ "WEB-INF/lib/commons-lang-2.6.jar" ] as String[] );
 assertManifestClassPath( warTwoFile, "jar-sample-one-1.0-SNAPSHOT.jar" );
 
 File warModuleOneFile = new File( basedir, "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-one-1.0.war" );
 assertFileExists( warModuleOneFile );
-assertIncludes( warModuleOneFile, new String[] { "WEB-INF/web.xml",
-                                                 "META-INF/MANIFEST.MF" } );
-assertExcludes( warModuleOneFile, new String[] { "WEB-INF/lib/commons-lang-2.6.jar",
+assertIncludes( warModuleOneFile, [ "WEB-INF/web.xml",
+                                                 "META-INF/MANIFEST.MF" ] as String[] );
+assertExcludes( warModuleOneFile, [ "WEB-INF/lib/commons-lang-2.6.jar",
                                                  "WEB-INF/lib/jar-sample-one-1.0-SNAPSHOT.jar",
-                                                 "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar" } );
+                                                 "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar" ] as String[] );
 assertManifestClassPath( warModuleOneFile, "commons-lang-commons-lang-2.6.jar eartest-jar-sample-one-1.0-20150825.210557-91.jar" );
 
 File warModuleTwoFile = new File( basedir, "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-two-1.0.war" );
 assertFileExists( warModuleTwoFile );
-assertIncludes( warModuleTwoFile, new String[] { "WEB-INF/web.xml",
-                                                 "META-INF/MANIFEST.MF" } );
-assertExcludes( warModuleTwoFile, new String[] { "WEB-INF/lib/commons-lang-2.6.jar",
+assertIncludes( warModuleTwoFile, [ "WEB-INF/web.xml",
+                                                 "META-INF/MANIFEST.MF" ] as String[] );
+assertExcludes( warModuleTwoFile, [ "WEB-INF/lib/commons-lang-2.6.jar",
                                                  "WEB-INF/lib/jar-sample-one-1.0-SNAPSHOT.jar",
-                                                 "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar" } );
+                                                 "WEB-INF/lib/jar-sample-one-1.0-20150825.210557-91.jar" ] as String[] );
 assertManifestClassPath( warModuleTwoFile, "eartest-jar-sample-one-1.0-20150825.210557-91.jar commons-lang-commons-lang-2.6.jar" );
 
 return true;

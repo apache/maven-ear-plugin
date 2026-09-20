@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.jar.*;
 import java.util.regex.*;
 
-assertJar( String fileName, String[] includedEntries, String[] excludedEntries, boolean assertManifest,
+void assertJar( String fileName, String[] includedEntries, String[] excludedEntries, boolean assertManifest,
     String[] expectedClassPathElements )
 {
     File jarFile = new File( basedir, fileName );
@@ -92,30 +92,30 @@ assertJar( String fileName, String[] includedEntries, String[] excludedEntries, 
     }
 }
 
-String[] includedEntries = {
+String[] includedEntries = [
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF",
     "WEB-INF/lib/commons-lang-2.6.jar"
-};
+];
 
 assertJar( "war-module-one/target/war-module-one-1.0.war", includedEntries, null, false, null );
 
-String[] expectedClassPathElements = {
+String[] expectedClassPathElements = [
     "commons-lang-2.6.jar"
-};
+];
 
 assertJar( "war-module-two/target/war-module-two-1.0.war", includedEntries, null, true, expectedClassPathElements );
 
-String[] includedEntries = {
+includedEntries = [
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF"
-};
+];
 
-String[] excludedEntries = {
+String[] excludedEntries = [
     "WEB-INF/lib/commons-lang-2.6.jar"
-};
+];
 
-String[] expectedClassPathElements = {};
+expectedClassPathElements = [];
 
 assertJar( "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-one-1.0.war",
     includedEntries, excludedEntries, true, expectedClassPathElements );
@@ -123,10 +123,10 @@ assertJar( "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars
 assertJar( "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-two-1.0.war",
     includedEntries, excludedEntries, true, expectedClassPathElements );
 
-String[] excludedEntries = {
+excludedEntries = [
     "commons-lang-2.6.jar",
-    "lib/commons-lang-2.6.jar",
-};
+    "lib/commons-lang-2.6.jar"
+];
 
 assertJar( "ear-module/target/ear-module-1.0.ear", null, excludedEntries, false, null );
 

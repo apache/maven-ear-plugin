@@ -31,11 +31,11 @@ if ( !jarFile.isFile() )
 
 JarFile jar = new JarFile( jarFile );
 
-String[] includedEntries = {
+String[] includedEntries = [
     "commons-lang-commons-lang-2.6.jar",
     "META-INF/application.xml",
     "META-INF/MANIFEST.MF"
-};
+];
 for ( String included : includedEntries )
 {
     System.out.println( "Checking for included archive entry " + included );
@@ -45,9 +45,9 @@ for ( String included : includedEntries )
     }
 }
 
-String[] excludedEntries = {
+String[] excludedEntries = [
     "commons-io-2.11.0.jar"
-};
+];
 for ( String excluded : excludedEntries )
 {
     System.out.println( "Checking for excluded artifact " + excluded );

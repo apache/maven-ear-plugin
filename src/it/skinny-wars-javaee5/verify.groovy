@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.jar.*;
 import java.util.regex.*;
 
-assertJar( String fileName, String[] includedEntries, String[] excludedEntries, boolean assertManifest,
+void assertJar( String fileName, String[] includedEntries, String[] excludedEntries, boolean assertManifest,
     String[] expectedClassPathElements )
 {
     File jarFile = new File( basedir, fileName );
@@ -92,33 +92,33 @@ assertJar( String fileName, String[] includedEntries, String[] excludedEntries, 
     }
 }
 
-String[] includedEntries = {
+String[] includedEntries = [
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF",
     "WEB-INF/lib/commons-lang-2.6.jar"
-};
+];
 
-String[] excludedEntries = {};
+String[] excludedEntries = [];
 
-String[] expectedClassPathElements = { "commons-lang-2.6.jar" };
+String[] expectedClassPathElements = [ "commons-lang-2.6.jar" ];
 
 assertJar( "war-module1/target/war-module1-1.0.war", includedEntries, excludedEntries, true,
     expectedClassPathElements );
 
 assertJar( "war-module2/target/war-module2-1.0.war", includedEntries, excludedEntries, true, null );
 
-String[] warModule3IncludedEntries = {
+String[] warModule3IncludedEntries = [
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF",
     "WEB-INF/lib/commons-io-2.14.0.jar"
-};
+];
 
-String[] warModuleExcludedEntries = {
+String[] warModuleExcludedEntries = [
     "WEB-INF/lib/commons-lang-2.6.jar",
     "WEB-INF/lib/commons-collections4-4.2.jar"
-};
+];
 
-String[] warModule3ExpectedClassPathElements = { "commons-io-2.14.0.jar" };
+String[] warModule3ExpectedClassPathElements = [ "commons-io-2.14.0.jar" ];
 
 assertJar( "war-module3/target/war-module3-1.0.war", warModule3IncludedEntries, warModuleExcludedEntries, true,
     warModule3ExpectedClassPathElements );
@@ -130,12 +130,12 @@ assertJar( earLibDir + "commons-lang-commons-lang-2.6.jar", null, null, false, n
 
 assertJar( earLibDir + "org.apache.commons-commons-collections4-4.2.jar", null, null, false, null );
 
-String[] includedEntries = {
+includedEntries = [
     "WEB-INF/web.xml",
     "META-INF/MANIFEST.MF"
-};
+];
 
-String[] warModule1ExpectedClassPathElements = { "lib/commons-lang-commons-lang-2.6.jar" };
+String[] warModule1ExpectedClassPathElements = [ "lib/commons-lang-commons-lang-2.6.jar" ];
 
 assertJar( earBaseDir + "org.apache.maven.its.ear.skinnywars-war-module1-1.0.war", includedEntries,
     warModuleExcludedEntries, true, warModule1ExpectedClassPathElements );
