@@ -31,10 +31,10 @@ if ( !jarFile.isFile() )
 
 JarFile jar = new JarFile( jarFile );
 
-String[] includedEntries = {
+String[] includedEntries = [
     "META-INF/application.xml",
-    "APP-INF/classes/foo.properties",
-};
+    "APP-INF/classes/foo.properties"
+];
 for ( String included : includedEntries )
 {
     System.out.println( "Checking for existence of " + included );

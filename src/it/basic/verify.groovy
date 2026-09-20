@@ -31,10 +31,10 @@ if ( !jarFile.isFile() )
 
 JarFile jar = new JarFile( jarFile );
 
-String[] includedEntries = {
+String[] includedEntries = [
     "META-INF/application.xml",
-    "META-INF/appserver-application.xml",
-};
+    "META-INF/appserver-application.xml"
+];
 
 // Reproducible Builds: check that every entry has the same timestamp  
 long entryTime = -1;
