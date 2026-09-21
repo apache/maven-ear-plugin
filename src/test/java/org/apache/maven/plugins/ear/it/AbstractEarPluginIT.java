@@ -23,9 +23,16 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,10 +41,12 @@ import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 
+import org.apache.maven.executor.ExecutorException;
+import org.apache.maven.executor.ExecutorHelper;
+import org.apache.maven.executor.ExecutorRequest;
+import org.apache.maven.executor.ExecutorResult;
 import org.apache.maven.plugins.ear.util.ResourceEntityResolver;
-import org.apache.maven.shared.verifier.VerificationException;
-import org.apache.maven.shared.verifier.Verifier;
-import org.apache.maven.shared.verifier.util.ResourceExtractor;
+import org.apache.maven.shared.utils.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -78,33 +87,47 @@ public abstract class AbstractEarPluginIT {
      * @return the base directory of the project
      */
     protected File executeMojo(final String projectName, boolean expectNoError, boolean cleanBeforeExecute)
-            throws VerificationException, IOException {
+            throws IOException {
         System.out.println("  Building: " + projectName);
 
         File testDir = getTestDir(projectName);
-        Verifier verifier = new Verifier(testDir.getAbsolutePath());
-        verifier.setAutoclean(cleanBeforeExecute);
-        // Let's add alternate settings.xml setting so that the latest dependencies are used
-        String localRepo = System.getProperty("localRepositoryPath");
-        verifier.setLocalRepo(localRepo);
 
-        verifier.addCliArguments("-s", settingsFile.getAbsolutePath()); //
-        verifier.addCliArgument("-X");
-        verifier.addCliArgument("package");
-
-        // On linux and MacOS X, an exception is thrown if a build failure occurs underneath
-        try {
-            verifier.execute();
-        } catch (VerificationException e) {
-            // @TODO needs to be handled nicely in the verifier
-            if (expectNoError || !e.getMessage().contains("Exit code was non-zero")) {
-                throw e;
-            }
+        String mavenHome = System.getProperty("maven.home");
+        if (mavenHome == null || mavenHome.isEmpty()) {
+            fail("The 'maven.home' system property must be set to the Maven installation used to run "
+                    + "the integration tests (see the maven-failsafe-plugin configuration in pom.xml)");
         }
 
-        // If no error is expected make sure that error logs are free
+        List<String> arguments = new ArrayList<>();
+        if (cleanBeforeExecute) {
+            arguments.add("clean");
+        }
+        arguments.add("package");
+        // Let's add alternate settings.xml setting so that the latest dependencies are used
+        arguments.add("-s");
+        arguments.add(settingsFile.getAbsolutePath());
+        arguments.add("-X");
+        String localRepo = System.getProperty("localRepositoryPath");
+        arguments.add("-Dmaven.repo.local=" + localRepo);
+
+        ExecutorResult result;
+        try (ExecutorHelper executorHelper =
+                ExecutorHelper.forMavenInstallation(Paths.get(mavenHome), ExecutorHelper.Mode.AUTO)) {
+            ExecutorRequest request = ExecutorRequest.mavenBuilder()
+                    .cwd(testDir.toPath())
+                    .arguments(arguments)
+                    .grabOutputAsString(true)
+                    .build();
+            result = executorHelper.execute(request);
+        } catch (ExecutorException e) {
+            throw new IOException("Failed to execute Maven for project " + projectName, e);
+        }
+
+        writeBuildLog(testDir, result);
+
+        // If no error is expected make sure that the build was successful and error logs are free
         if (expectNoError) {
-            verifier.verifyErrorFreeLog();
+            verifyErrorFreeLog(result, projectName);
         }
         return testDir;
     }
@@ -115,8 +138,41 @@ public abstract class AbstractEarPluginIT {
      * @param projectName the name of the project
      * @return the base directory of the project
      */
-    protected File executeMojo(final String projectName) throws VerificationException, IOException {
+    protected File executeMojo(final String projectName) throws IOException {
         return executeMojo(projectName, true, true);
+    }
+
+    /**
+     * Writes the captured build output to a {@code log.txt} file in the test project's base directory, mirroring
+     * the log file the previous test harness used to leave behind for debugging.
+     *
+     * @param testDir the base directory of the tested project
+     * @param result the result of the Maven execution
+     */
+    private static void writeBuildLog(final File testDir, final ExecutorResult result) throws IOException {
+        File logFile = new File(testDir, "log.txt");
+        try (Writer writer = new OutputStreamWriter(new FileOutputStream(logFile), StandardCharsets.UTF_8)) {
+            writer.write(result.stdOutString().orElse(""));
+            writer.write(result.stdErrString().orElse(""));
+        }
+    }
+
+    /**
+     * Asserts that the given execution was successful and that its captured output does not contain an
+     * {@code [ERROR]} line.
+     *
+     * @param result the result of the Maven execution
+     * @param projectName the name of the tested project
+     */
+    private static void verifyErrorFreeLog(final ExecutorResult result, final String projectName) {
+        assertTrue(
+                result.success(),
+                "Build of project " + projectName + " was not successful, exit code: "
+                        + result.exitCode().map(String::valueOf).orElse("unknown"));
+        String stdOut = result.stdOutString().orElse("");
+        String stdErr = result.stdErrString().orElse("");
+        assertFalse(stdOut.contains("[ERROR]"), "Found [ERROR] in build stdout of project " + projectName);
+        assertFalse(stdErr.contains("[ERROR]"), "Found [ERROR] in build stderr of project " + projectName);
     }
 
     /**
@@ -148,7 +204,7 @@ public abstract class AbstractEarPluginIT {
             boolean[] artifactsToValidateManifestDirectory,
             final String[][] expectedClassPathElements,
             final boolean cleanBeforeExecute)
-            throws VerificationException, IOException {
+            throws IOException {
         final File baseDir = executeMojo(projectName, true, cleanBeforeExecute);
 
         final File earModuleDir = getEarModuleDirectory(baseDir, earModuleName);
@@ -176,7 +232,7 @@ public abstract class AbstractEarPluginIT {
      */
     protected File doTestProject(
             final String projectName, final String[] expectedArtifacts, final boolean[] artifactsDirectory)
-            throws VerificationException, IOException {
+            throws IOException {
         return doTestProject(projectName, null, expectedArtifacts, artifactsDirectory, null, null, null, true);
     }
 
@@ -187,8 +243,7 @@ public abstract class AbstractEarPluginIT {
      * @param expectedArtifacts the list of artifacts to be found in the EAR archive
      * @return the base directory of the project
      */
-    protected File doTestProject(final String projectName, final String[] expectedArtifacts)
-            throws VerificationException, IOException {
+    protected File doTestProject(final String projectName, final String[] expectedArtifacts) throws IOException {
         return doTestProject(projectName, expectedArtifacts, new boolean[expectedArtifacts.length]);
     }
 
@@ -201,7 +256,7 @@ public abstract class AbstractEarPluginIT {
      * @return the base directory of the project
      */
     protected File doTestProject(final String projectName, final String[] expectedArtifacts, boolean cleanBeforeExecute)
-            throws VerificationException, IOException {
+            throws IOException {
         return doTestProject(
                 projectName,
                 null,
@@ -438,7 +493,34 @@ public abstract class AbstractEarPluginIT {
     }
 
     protected File getTestDir(String projectName) throws IOException {
-        return ResourceExtractor.simpleExtractResources(getClass(), "/projects/" + projectName);
+        return extractTestProjectResources(getClass(), "/projects/" + projectName);
+    }
+
+    /**
+     * Extracts the test project resources found at the given classpath resource path into a fresh directory under
+     * {@code java.io.tmpdir} (or {@code maven.test.tmpdir} if set), mirroring the extraction previously performed
+     * by the previous test harness's resource extraction utility.
+     *
+     * @param cls the class whose classloader is used to locate the resource
+     * @param resourcePath the classpath resource path of the test project, e.g. {@code /projects/project-001}
+     * @return the directory the resources were extracted to
+     */
+    private static File extractTestProjectResources(final Class<?> cls, final String resourcePath) throws IOException {
+        String tmpDirPath = System.getProperty("maven.test.tmpdir", System.getProperty("java.io.tmpdir"));
+        File destDir = new File(new File(tmpDirPath), resourcePath);
+        FileUtils.deleteDirectory(destDir);
+
+        URL resource = cls.getResource(resourcePath);
+        if (resource == null) {
+            throw new IllegalArgumentException("Resource not found: " + resourcePath);
+        }
+        try {
+            File sourceDir = new File(resource.toURI());
+            FileUtils.copyDirectoryStructure(sourceDir, destDir);
+        } catch (URISyntaxException e) {
+            throw new IOException("Couldn't convert URL to File: " + resource, e);
+        }
+        return destDir;
     }
 
     // Generated application.xml stuff
