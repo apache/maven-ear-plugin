@@ -111,8 +111,9 @@ public abstract class AbstractEarPluginIT {
         arguments.add("-Dmaven.repo.local=" + localRepo);
 
         ExecutorResult result;
+        // forked on purpose: embedding Maven 4 inside the test JVM hangs (apache/maven-executor#47)
         try (ExecutorHelper executorHelper =
-                ExecutorHelper.forMavenInstallation(Paths.get(mavenHome), ExecutorHelper.Mode.AUTO)) {
+                ExecutorHelper.forMavenInstallation(Paths.get(mavenHome), ExecutorHelper.Mode.FORKED)) {
             ExecutorRequest request = ExecutorRequest.mavenBuilder()
                     .cwd(testDir.toPath())
                     .arguments(arguments)
