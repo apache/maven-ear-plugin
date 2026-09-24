@@ -466,6 +466,8 @@ public class EarMojo extends AbstractEarMojo {
         List<String> unpackTypesList = new ArrayList<>();
         if (unpackTypes != null) {
             unpackTypesList = Arrays.asList(unpackTypes.split(","));
+            unpackTypesList = new ArrayList<>(unpackTypesList);
+            unpackTypesList.removeIf(String::isEmpty);
             for (String type : unpackTypesList) {
                 if (!EarModuleFactory.isStandardArtifactType(type)) {
                     throw new MojoExecutionException("Invalid type [" + type + "] supported types are "
