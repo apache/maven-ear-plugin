@@ -233,7 +233,7 @@
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
           <configuration>
-            <excludes combine.children="append">
+            <inputExcludes>
               <!--
                 ! The manifest specification does not describe any method for writing comments into the manifest.
               -->
@@ -258,7 +258,7 @@
               -->
               <exclude>src/test/resources/m2snapshots/eartest/jar-sample-one/1.0-SNAPSHOT/jar-sample-one-1.0-20150825.210557-91.jar.sha1</exclude>
               <exclude>src/test/resources/m2snapshots/eartest/jar-sample-one/1.0-SNAPSHOT/jar-sample-one-1.0-20150825.210557-91.pom.sha1</exclude>
-            </excludes>
+            </inputExcludes>
           </configuration>
         </plugin>
       </plugins>
