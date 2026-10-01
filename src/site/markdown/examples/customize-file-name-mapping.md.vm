@@ -69,9 +69,9 @@ The following tokens are supported:
 - `@{artifactId}@` - expands to the artifact's ID
 - `@{version}@` - expands to artifact version, for `SNAPSHOT` artifacts can contain timestamp postfix instead of `SNAPSHOT`
 - `@{baseVersion}@` - expands to base artifact version, for `SNAPSHOT` artifacts we will always have `SNAPSHOT` postfix
-- `@{classifier}@` - expands to the artifact's classifier
+- `@{classifier}@` - expands to the artifact's classifier, or to nothing if it has none
 - `@{extension}@` - expands to the artifact's file extension
-- `@{dashClassifier}@` - expands to the classifier including the preceding dash
-- `@{dashClassifier?}@` - expands to a classifier including the preceding dash which is needed to separate it from other parts of the artifact, and to nothing if the artifact has no classifier
+- `@{dashClassifier}@` - expands to the classifier preceded by a dash, or to nothing if the artifact has no classifier
+- `@{dashClassifier?}@` - same as `@{dashClassifier}@`; the spelling supported since 2.1
 
-Any other property of Artifact and ArtifactHandler (for example `packaging`, `language`, `directory`, `addedToClasspath`, `includesDependencies`, `type`, `scope` or `file`) still resolves as a token, but is deprecated: it will not resolve in the Maven 4 line, so use only the tokens listed above.
+Any other property of Artifact and ArtifactHandler (for example `packaging`, `language`, `directory`, `addedToClasspath`, `includesDependencies`, `type`, `scope` or `file`) still resolves as a token, but is deprecated: these properties do not exist in the Maven 4 API, so they stop resolving once the plugin moves to it. Use only the tokens listed above.
