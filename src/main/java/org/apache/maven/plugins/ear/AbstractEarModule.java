@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.ear.util.ArtifactRepository;
 import org.apache.maven.shared.mapping.MappingUtils;
 import org.codehaus.plexus.interpolation.InterpolationException;
@@ -266,9 +267,10 @@ public abstract class AbstractEarModule implements EarModule {
                 String outputFileNameMapping = earExecutionContext.getOutputFileNameMapping();
                 bundleFileName = MappingUtils.evaluateFileNameMapping(outputFileNameMapping, artifact);
             } catch (InterpolationException e) {
-                // We currently ignore this here, cause assumption is that
-                // has already been happened before..
-                // FIXME: Should be checked first.
+                Log log = earExecutionContext.getLog();
+                if (log != null) {
+                    log.warn("Failed to evaluate file name mapping for [" + this + "]", e);
+                }
             }
 
             // bundleFileName = earExecutionContext.getFileNameMapping().mapFileName( artifact );

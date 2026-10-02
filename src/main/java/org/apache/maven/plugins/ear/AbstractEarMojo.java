@@ -196,6 +196,7 @@ public abstract class AbstractEarMojo extends AbstractMojo {
                 jbossConfiguration,
                 outputFileNameMapping,
                 typeMappingService);
+        earExecutionContext.setLog(getLog());
 
         getLog().debug("Resolving ear modules ...");
         List<EarModule> allModules = new ArrayList<>();
