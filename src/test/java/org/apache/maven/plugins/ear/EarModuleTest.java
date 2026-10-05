@@ -40,4 +40,16 @@ class EarModuleTest {
         assertEquals("", AbstractEarModule.cleanArchivePath(""));
         assertNull(AbstractEarModule.cleanArchivePath(null));
     }
+
+    @Test
+    void gettersDoNotModifyConfiguredPaths() {
+        AbstractEarModule module = new JarModule();
+        module.bundleDir = "/APP-INF/lib";
+        module.libDirectory = "/libraries";
+
+        assertEquals("APP-INF/lib/", module.getBundleDir());
+        assertEquals("/APP-INF/lib", module.bundleDir);
+        assertEquals("libraries/", module.getLibDir());
+        assertEquals("/libraries", module.libDirectory);
+    }
 }
