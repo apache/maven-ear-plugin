@@ -18,10 +18,15 @@
  */
 package org.apache.maven.plugins.ear;
 
+import java.lang.reflect.Field;
+import java.util.Collections;
+
+import org.apache.maven.plugin.MojoFailureException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Ear module test case.
@@ -39,5 +44,23 @@ class EarModuleTest {
         assertEquals("", AbstractEarModule.cleanArchivePath("/"));
         assertEquals("", AbstractEarModule.cleanArchivePath(""));
         assertNull(AbstractEarModule.cleanArchivePath(null));
+    }
+
+    @Test
+    void testResolveArtifactRequiresExecutionContext() throws Exception {
+        JarModule module = new JarModule();
+        setField(module, "groupId", "groupId");
+        setField(module, "artifactId", "artifactId");
+
+        MojoFailureException exception = assertThrows(
+                MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
+
+        assertEquals("Ear execution context not initialized for module jar:groupId:artifactId", exception.getMessage());
+    }
+
+    private static void setField(Object target, String name, Object value) throws Exception {
+        Field field = AbstractEarModule.class.getDeclaredField(name);
+        field.setAccessible(true);
+        field.set(target, value);
     }
 }
