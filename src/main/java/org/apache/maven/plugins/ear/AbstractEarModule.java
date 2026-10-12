@@ -334,13 +334,15 @@ public abstract class AbstractEarModule implements EarModule {
             // FIXME: Should we use the mapping using outputFileNameMapping instead
             // of doing this on our own?
             Artifact theArtifact = getArtifact();
-            String generatedId = theArtifact.getType().toUpperCase() + "_" + theArtifact.getGroupId() + "."
-                    + theArtifact.getArtifactId();
-            if (null != theArtifact.getClassifier()
-                    && !theArtifact.getClassifier().trim().isEmpty()) {
-                generatedId += "-" + theArtifact.getClassifier().trim();
+            if (theArtifact != null) {
+                String generatedId = theArtifact.getType().toUpperCase() + "_" + theArtifact.getGroupId() + "."
+                        + theArtifact.getArtifactId();
+                if (null != theArtifact.getClassifier()
+                        && !theArtifact.getClassifier().trim().isEmpty()) {
+                    generatedId += "-" + theArtifact.getClassifier().trim();
+                }
+                writer.addAttribute("id", generatedId);
             }
-            writer.addAttribute("id", generatedId);
         }
     }
 
