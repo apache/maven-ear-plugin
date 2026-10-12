@@ -897,6 +897,9 @@ public class EarMojo extends AbstractEarMojo {
             relativeDestFile = getWorkDirectory().toPath().relativize(destination.normalize());
         } catch (ProviderMismatchException e) {
             relativeDestFile = destination.normalize();
+            if (relativeDestFile.isAbsolute() && relativeDestFile.getRoot() != null) {
+                relativeDestFile = relativeDestFile.getRoot().relativize(relativeDestFile);
+            }
         }
 
         if (outdatedResources.remove(relativeDestFile.toString())) {
