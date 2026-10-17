@@ -19,7 +19,10 @@
 package org.apache.maven.plugins.ear;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -35,6 +38,17 @@ class EarMojoTest {
         Method method = EarMojo.class.getDeclaredMethod("getEarFile", String.class, String.class, String.class);
         method.setAccessible(true);
         return (File) method.invoke(null, tempDir.getAbsolutePath(), finalName, classifier);
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<String> invokeCreateUnpackList(String unpackTypes) throws Exception {
+        EarMojo mojo = new EarMojo(null, null, null, null, null, null);
+        Field field = EarMojo.class.getDeclaredField("unpackTypes");
+        field.setAccessible(true);
+        field.set(mojo, unpackTypes);
+        Method method = EarMojo.class.getDeclaredMethod("createUnpackList");
+        method.setAccessible(true);
+        return (List<String>) method.invoke(mojo);
     }
 
     @Test
@@ -53,5 +67,10 @@ class EarMojoTest {
     void testGetEarFileWithDashPrefixedClassifier() throws Exception {
         File result = invokeGetEarFile("myapp", "-sources");
         assertEquals(new File(tempDir, "myapp-sources.ear"), result);
+    }
+
+    @Test
+    void testCreateUnpackListIgnoresTrailingComma() throws Exception {
+        assertEquals(Arrays.asList("jar", "war"), invokeCreateUnpackList("jar,war,"));
     }
 }
