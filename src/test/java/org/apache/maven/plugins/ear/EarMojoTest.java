@@ -70,7 +70,8 @@ class EarMojoTest {
     }
 
     @Test
-    void testCreateUnpackListIgnoresTrailingComma() throws Exception {
+    void testCreateUnpackListIgnoresEmptyTypes() throws Exception {
         assertEquals(Arrays.asList("jar", "war"), invokeCreateUnpackList("jar,war,"));
+        assertEquals(Arrays.asList("jar", "war"), invokeCreateUnpackList("jar,,war"));
     }
 }
