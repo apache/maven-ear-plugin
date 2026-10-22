@@ -886,7 +886,9 @@ public class EarMojo extends AbstractEarMojo {
             if (resourceFile.lastModified() < startTime) {
                 getLog().debug("deleting outdated resource " + outdatedResource);
                 getLog().debug(outdatedResource + " last modified: " + resourceFile.lastModified());
-                resourceFile.delete();
+                if (!resourceFile.delete()) {
+                    getLog().warn("Failed to delete outdated resource: " + resourceFile);
+                }
             }
         }
     }
