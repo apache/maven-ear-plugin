@@ -305,6 +305,14 @@ public class EarMojo extends AbstractEarMojo {
         // Initializes ear modules
         super.execute();
 
+        // Normalize classifier: trim whitespace and treat empty as null
+        if (classifier != null) {
+            classifier = classifier.trim();
+            if (classifier.isEmpty()) {
+                classifier = null;
+            }
+        }
+
         File earFile = getEarFile(outputDirectory, finalName, classifier);
         MavenArchiver archiver = new EarMavenArchiver(getModules());
         File ddFile = new File(getWorkDirectory(), APPLICATION_XML_URI);
@@ -562,7 +570,7 @@ public class EarMojo extends AbstractEarMojo {
     private static File getEarFile(String basedir, String finalName, String classifier) {
         if (classifier == null) {
             classifier = "";
-        } else if (classifier.trim().length() > 0 && !classifier.startsWith("-")) {
+        } else if (!classifier.startsWith("-")) {
             classifier = "-" + classifier;
         }
 

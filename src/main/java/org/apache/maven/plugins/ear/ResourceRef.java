@@ -69,10 +69,9 @@ public class ResourceRef {
      */
     public ResourceRef(String name, String type, String auth, String lookupName) {
         if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException(
-                    RESOURCE_REF_NAME + " in " + RESOURCE_REF_NAME + " element cannot be null.");
+            throw new IllegalArgumentException("res-ref-name in resource-ref element cannot be null.");
         } else if ((type == null || type.isEmpty()) && (auth == null || auth.isEmpty())) {
-            throw new IllegalArgumentException(RESOURCE_TYPE + " in " + RESOURCE_REF_NAME + " element cannot be null ");
+            throw new IllegalArgumentException("res-type in resource-ref element cannot be null");
         }
 
         this.name = name;
