@@ -332,18 +332,20 @@ public abstract class AbstractEarMojo extends AbstractMojo {
                 childVersion = JbossConfiguration.VERSION_4;
             }
             final String securityDomain = getChildValue(jboss, JbossConfiguration.SECURITY_DOMAIN);
-            final String unauthenticatedPrincipal =
-                    getChildValue(jboss, JbossConfiguration.UNAUHTHENTICTED_PRINCIPAL);
+            final String unauthenticatedPrincipal = getChildValue(jboss, JbossConfiguration.UNAUHTHENTICTED_PRINCIPAL);
 
             final PlexusConfiguration loaderRepositoryEl = jboss.getChild(JbossConfiguration.LOADER_REPOSITORY);
-            final String loaderRepository = getValue(loaderRepositoryEl);
-            final String loaderRepositoryClass =
-                    getAttribute(loaderRepositoryEl, JbossConfiguration.LOADER_REPOSITORY_CLASS_ATTRIBUTE);
+            final String loaderRepository = loaderRepositoryEl == null ? null : loaderRepositoryEl.getValue();
+            final String loaderRepositoryClass = loaderRepositoryEl == null
+                    ? null
+                    : loaderRepositoryEl.getAttribute(JbossConfiguration.LOADER_REPOSITORY_CLASS_ATTRIBUTE);
             final PlexusConfiguration loaderRepositoryConfigEl =
                     jboss.getChild(JbossConfiguration.LOADER_REPOSITORY_CONFIG);
-            final String loaderRepositoryConfig = getValue(loaderRepositoryConfigEl);
-            final String configParserClass =
-                    getAttribute(loaderRepositoryConfigEl, JbossConfiguration.CONFIG_PARSER_CLASS_ATTRIBUTE);
+            final String loaderRepositoryConfig =
+                    loaderRepositoryConfigEl == null ? null : loaderRepositoryConfigEl.getValue();
+            final String configParserClass = loaderRepositoryConfigEl == null
+                    ? null
+                    : loaderRepositoryConfigEl.getAttribute(JbossConfiguration.CONFIG_PARSER_CLASS_ATTRIBUTE);
 
             final String jmxName = getChildValue(jboss, JbossConfiguration.JMX_NAME);
             final String moduleOrder = getChildValue(jboss, JbossConfiguration.MODULE_ORDER);
@@ -375,14 +377,7 @@ public abstract class AbstractEarMojo extends AbstractMojo {
     }
 
     private static String getChildValue(PlexusConfiguration parent, String childName) {
-        return getValue(parent.getChild(childName));
-    }
-
-    private static String getValue(PlexusConfiguration configuration) {
-        return configuration == null ? null : configuration.getValue();
-    }
-
-    private static String getAttribute(PlexusConfiguration configuration, String attributeName) {
-        return configuration == null ? null : configuration.getAttribute(attributeName);
+        PlexusConfiguration child = parent.getChild(childName);
+        return child == null ? null : child.getValue();
     }
 }
