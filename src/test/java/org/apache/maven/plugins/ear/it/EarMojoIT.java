@@ -951,6 +951,8 @@ class EarMojoIT extends AbstractEarPluginIT {
     void testProject090() throws Exception {
         final String warModule = "eartest-war-sample-three-1.0.war";
         final String ejbModule = "eartest-ejb-sample-three-1.0.jar";
+        final String jarSampleTwo = "jar-sample-two-1.0.jar";
+        final String jarSampleThreeWithDeps = "jar-sample-three-with-deps-1.0.jar";
         final String jarSampleTwoLibrary = "lib/eartest-jar-sample-two-1.0.jar";
         final String jarSampleThreeLibrary = "lib/eartest-jar-sample-three-with-deps-1.0.jar";
         doTestProject(
@@ -960,7 +962,7 @@ class EarMojoIT extends AbstractEarPluginIT {
                 new boolean[] {false, false, false, false},
                 new String[] {warModule, ejbModule},
                 new boolean[] {false, false},
-                new String[][] {{jarSampleTwoLibrary}, {jarSampleThreeLibrary, jarSampleTwoLibrary}},
+                new String[][] {{jarSampleTwo}, {jarSampleThreeWithDeps, jarSampleTwo}},
                 true);
     }
 
@@ -976,6 +978,8 @@ class EarMojoIT extends AbstractEarPluginIT {
     void testProject091() throws Exception {
         final String warModule = "eartest-war-sample-three-1.0.war";
         final String ejbModule = "eartest-ejb-sample-three-1.0.jar";
+        final String jarSampleTwo = "jar-sample-two-1.0.jar";
+        final String jarSampleThreeWithDeps = "jar-sample-three-with-deps-1.0.jar";
         final String jarSampleTwoLibrary = "eartest-jar-sample-two-1.0.jar";
         final String jarSampleThreeLibrary = "eartest-jar-sample-three-with-deps-1.0.jar";
         doTestProject(
@@ -985,7 +989,7 @@ class EarMojoIT extends AbstractEarPluginIT {
                 new boolean[] {false, true, false, false},
                 new String[] {warModule, ejbModule},
                 new boolean[] {false, true},
-                new String[][] {{"jar-sample-two-1.0.jar"}, {jarSampleThreeLibrary, jarSampleTwoLibrary}},
+                new String[][] {{jarSampleTwo}, {jarSampleThreeWithDeps, jarSampleTwo}},
                 true);
     }
 
@@ -1169,10 +1173,9 @@ class EarMojoIT extends AbstractEarPluginIT {
      * </ul>
      * then
      * <ul>
-     * <li>movement of JARs and modification of the manifest Class-Path entry is not performed for WAR, SAR, HAR and
-     * RAR modules</li>
-     * <li>modification of the manifest Class-Path entry is performed for EJB module</li>
-     * <li>provided JAR is removed from the manifest Class-Path entry of EJB module</li>
+     * <li>movement of JARs and modification of the manifest Class-Path entry is not performed for WAR, SAR, HAR,
+     * RAR and EJB modules</li>
+     * <li>the original manifest Class-Path entry of EJB module is preserved</li>
      * </ul>
      */
     @Test
@@ -1182,6 +1185,7 @@ class EarMojoIT extends AbstractEarPluginIT {
         final String jarSampleOneLibrary = "jar-sample-one-1.0.jar";
         final String jarSampleTwoLibrary = "jar-sample-two-1.0.jar";
         final String jarSampleThreeLibrary = "jar-sample-three-with-deps-1.0.jar";
+        final String jbossEjbApiLibrary = "jboss-ejb-api_3.1_spec-1.0.2.Final.jar";
         final String jarSampleTwoEarLibrary = "lib/eartest-" + jarSampleTwoLibrary;
         final String jarSampleThreeEarLibrary = "lib/eartest-" + jarSampleThreeLibrary;
         final String warModule = "eartest-war-sample-three-1.0.war";
@@ -1211,7 +1215,12 @@ class EarMojoIT extends AbstractEarPluginIT {
                 new boolean[] {false, false, false, false, false, false, false},
                 earModules,
                 earModuleDirectory,
-                new String[][] {null, null, null, null, new String[] {jarSampleThreeEarLibrary, jarSampleTwoEarLibrary}
+                new String[][] {
+                    null,
+                    null,
+                    null,
+                    null,
+                    new String[] {jbossEjbApiLibrary, jarSampleThreeLibrary, jarSampleTwoLibrary}
                 },
                 true);
 
