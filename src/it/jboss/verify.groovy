@@ -45,6 +45,17 @@ for ( String included : includedEntries )
     }
 }
 
+InputStream descriptor = jar.getInputStream( jar.getEntry( "META-INF/jboss-app.xml" ) );
+String jbossAppXml = descriptor.getText( "UTF-8" );
+descriptor.close();
 jar.close();
+if ( !jbossAppXml.contains( "<unauthenticated-principal>guest</unauthenticated-principal>" ) )
+{
+    throw new IllegalStateException( "Missing configured unauthenticated principal from jboss-app.xml" );
+}
+if ( !jbossAppXml.contains( "<loader-repository>com.foo:loader=foo-application-1.0.ear</loader-repository>" ) )
+{
+    throw new IllegalStateException( "Missing configured loader repository from jboss-app.xml" );
+}
 
 return true;
