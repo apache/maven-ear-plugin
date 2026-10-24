@@ -19,22 +19,17 @@
 package org.apache.maven.plugins.ear;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.zip.ZipOutputStream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EarMojoTest {
 
@@ -66,27 +61,16 @@ class EarMojoTest {
     }
 
     @Test
-    void testRemoveFromOutdatedResourcesWithDifferentFileSystemProvider() throws Exception {
-        EarMojo mojo = new EarMojo(null, null, null, null, null, null);
-        Field workDirectory = AbstractEarMojo.class.getDeclaredField("workDirectory");
-        workDirectory.setAccessible(true);
-        workDirectory.set(mojo, tempDir);
-
+    void testRelativePathFromDifferentFileSystemProvider() throws Exception {
         Path archive = tempDir.toPath().resolve("module.war");
         try (ZipOutputStream ignored = new ZipOutputStream(Files.newOutputStream(archive))) {
             // Create an empty archive before mounting it as a file system.
         }
 
-        try (FileSystem archiveFileSystem = FileSystems.newFileSystem(archive, null)) {
+        try (FileSystem archiveFileSystem = FileSystems.newFileSystem(archive, (ClassLoader) null)) {
             Path destination = archiveFileSystem.getPath("/META-INF/application.xml");
-            Collection<String> outdatedResources = new ArrayList<>(Arrays.asList("META-INF/application.xml"));
-
-            Method method =
-                    EarMojo.class.getDeclaredMethod("removeFromOutdatedResources", Path.class, Collection.class);
-            method.setAccessible(true);
-            method.invoke(mojo, destination, outdatedResources);
-
-            assertTrue(outdatedResources.isEmpty());
+            Path relative = EarMojo.relativePathFromWorkDirectory(tempDir.toPath(), destination);
+            assertEquals(tempDir.toPath().getFileSystem().getPath("META-INF", "application.xml"), relative);
         }
     }
 }
