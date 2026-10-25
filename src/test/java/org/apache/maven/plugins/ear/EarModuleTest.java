@@ -37,6 +37,23 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class EarModuleTest {
 
+    private static class ContextDependentTypeModule extends AbstractEarModule {
+        ContextDependentTypeModule(String groupId, String artifactId) {
+            super(groupId, artifactId, "jar");
+        }
+
+        @Override
+        public String getType() {
+            if (earExecutionContext == null) {
+                throw new IllegalStateException("Execution context is required to resolve the module type");
+            }
+            return super.getType();
+        }
+
+        @Override
+        public void appendModule(org.codehaus.plexus.util.xml.XMLWriter writer, String version, Boolean generateId) {}
+    }
+
     @Test
     void testCleanArchivePath() {
         assertEquals("APP-INF/lib/", AbstractEarModule.cleanArchivePath("APP-INF/lib"));
@@ -59,5 +76,25 @@ class EarModuleTest {
 
         assertTrue(exception.getMessage().contains("Ear execution context not initialized"));
         assertTrue(exception.getMessage().contains("jar:groupId:artifactId"));
+    }
+
+    @Test
+    void testResolveArtifactReportsMissingCoordinatesWithoutReadingType() {
+        ContextDependentTypeModule module = new ContextDependentTypeModule(null, null);
+
+        MojoFailureException exception =
+                assertThrows(MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
+
+        assertEquals("Could not resolve artifact[null:null:jar]", exception.getMessage());
+    }
+
+    @Test
+    void testResolveArtifactReportsIdentityWithoutCallingContextDependentType() {
+        ContextDependentTypeModule module = new ContextDependentTypeModule("groupId", "artifactId");
+
+        MojoFailureException exception =
+                assertThrows(MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
+
+        assertEquals("Ear execution context not initialized for module jar:groupId:artifactId", exception.getMessage());
     }
 }

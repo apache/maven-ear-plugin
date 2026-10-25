@@ -137,6 +137,12 @@ public abstract class AbstractEarModule implements EarModule {
         this.bundleDir = null;
     }
 
+    AbstractEarModule(String groupId, String artifactId, String type) {
+        this.groupId = groupId;
+        this.artifactId = artifactId;
+        this.type = type;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -153,10 +159,11 @@ public abstract class AbstractEarModule implements EarModule {
             // Make sure that at least the groupId and the artifactId are specified
             if (groupId == null || artifactId == null) {
                 throw new MojoFailureException(
-                        "Could not resolve artifact[" + groupId + ":" + artifactId + ":" + getType() + "]");
+                        "Could not resolve artifact[" + groupId + ":" + artifactId + ":" + type + "]");
             }
             if (earExecutionContext == null) {
-                throw new MojoFailureException("Ear execution context not initialized for module " + this);
+                throw new MojoFailureException(
+                        "Ear execution context not initialized for module " + type + ":" + groupId + ":" + artifactId);
             }
             final ArtifactRepository ar = earExecutionContext.getArtifactRepository();
             artifact = ar.getUniqueArtifact(groupId, artifactId, getType(), classifier);
