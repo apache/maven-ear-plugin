@@ -465,9 +465,17 @@ public class EarMojo extends AbstractEarMojo {
     private List<String> createUnpackList() throws MojoExecutionException {
         List<String> unpackTypesList = new ArrayList<>();
         if (unpackTypes != null) {
-            unpackTypesList = Arrays.asList(unpackTypes.split(","));
-            unpackTypesList = new ArrayList<>(unpackTypesList);
-            unpackTypesList.removeIf(String::isEmpty);
+            List<String> rawTypes = Arrays.asList(unpackTypes.split(","));
+
+            // Normalize commonly formatted comma-separated config (e.g. "jar, war,")
+            // by trimming tokens and removing entries that are blank after trimming.
+            for (String rawType : rawTypes) {
+                String type = rawType.trim();
+                if (!type.isEmpty()) {
+                    unpackTypesList.add(type);
+                }
+            }
+
             for (String type : unpackTypesList) {
                 if (!EarModuleFactory.isStandardArtifactType(type)) {
                     throw new MojoExecutionException("Invalid type [" + type + "] supported types are "
