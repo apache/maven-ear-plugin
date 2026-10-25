@@ -326,13 +326,18 @@ public abstract class AbstractEarMojo extends AbstractMojo {
         if (jboss == null) {
             jbossConfiguration = null;
         } else {
-            String childVersion = getChildValue(jboss, JbossConfiguration.VERSION);
+            final PlexusConfiguration versionEl = jboss.getChild(JbossConfiguration.VERSION);
+            String childVersion = versionEl == null ? null : versionEl.getValue();
             if (childVersion == null) {
                 getLog().info("JBoss version not set, using JBoss 4 by default");
                 childVersion = JbossConfiguration.VERSION_4;
             }
-            final String securityDomain = getChildValue(jboss, JbossConfiguration.SECURITY_DOMAIN);
-            final String unauthenticatedPrincipal = getChildValue(jboss, JbossConfiguration.UNAUHTHENTICTED_PRINCIPAL);
+            final PlexusConfiguration securityDomainEl = jboss.getChild(JbossConfiguration.SECURITY_DOMAIN);
+            final String securityDomain = securityDomainEl == null ? null : securityDomainEl.getValue();
+            final PlexusConfiguration unauthenticatedPrincipalEl =
+                    jboss.getChild(JbossConfiguration.UNAUHTHENTICTED_PRINCIPAL);
+            final String unauthenticatedPrincipal =
+                    unauthenticatedPrincipalEl == null ? null : unauthenticatedPrincipalEl.getValue();
 
             final PlexusConfiguration loaderRepositoryEl = jboss.getChild(JbossConfiguration.LOADER_REPOSITORY);
             final String loaderRepository = loaderRepositoryEl == null ? null : loaderRepositoryEl.getValue();
@@ -347,8 +352,10 @@ public abstract class AbstractEarMojo extends AbstractMojo {
                     ? null
                     : loaderRepositoryConfigEl.getAttribute(JbossConfiguration.CONFIG_PARSER_CLASS_ATTRIBUTE);
 
-            final String jmxName = getChildValue(jboss, JbossConfiguration.JMX_NAME);
-            final String moduleOrder = getChildValue(jboss, JbossConfiguration.MODULE_ORDER);
+            final PlexusConfiguration jmxNameEl = jboss.getChild(JbossConfiguration.JMX_NAME);
+            final String jmxName = jmxNameEl == null ? null : jmxNameEl.getValue();
+            final PlexusConfiguration moduleOrderEl = jboss.getChild(JbossConfiguration.MODULE_ORDER);
+            final String moduleOrder = moduleOrderEl == null ? null : moduleOrderEl.getValue();
 
             final List<String> dataSources = new ArrayList<>();
             final PlexusConfiguration dataSourcesEl = jboss.getChild(JbossConfiguration.DATASOURCES);
@@ -360,7 +367,8 @@ public abstract class AbstractEarMojo extends AbstractMojo {
                     dataSources.add(dataSourceConfig.getValue());
                 }
             }
-            final String libraryDirectory = getChildValue(jboss, JbossConfiguration.LIBRARY_DIRECTORY);
+            final PlexusConfiguration libraryDirectoryEl = jboss.getChild(JbossConfiguration.LIBRARY_DIRECTORY);
+            final String libraryDirectory = libraryDirectoryEl == null ? null : libraryDirectoryEl.getValue();
             jbossConfiguration = new JbossConfiguration(
                     childVersion,
                     securityDomain,
@@ -374,10 +382,5 @@ public abstract class AbstractEarMojo extends AbstractMojo {
                     loaderRepositoryClass,
                     configParserClass);
         }
-    }
-
-    private static String getChildValue(PlexusConfiguration parent, String childName) {
-        PlexusConfiguration child = parent.getChild(childName);
-        return child == null ? null : child.getValue();
     }
 }
