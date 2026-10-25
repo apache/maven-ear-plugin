@@ -47,9 +47,20 @@ class EarModuleTest {
         module.bundleDir = "/APP-INF/lib";
         module.libDirectory = "/libraries";
 
-        assertEquals("APP-INF/lib/", module.getBundleDir());
+        String bundleDir1 = module.getBundleDir();
+        assertEquals("APP-INF/lib/", bundleDir1);
         assertEquals("/APP-INF/lib", module.bundleDir);
-        assertEquals("libraries/", module.getLibDir());
+
+        String bundleDir2 = module.getBundleDir();
+        assertEquals(bundleDir1, bundleDir2);
+        assertEquals("/APP-INF/lib", module.bundleDir);
+
+        String libDir1 = module.getLibDir();
+        assertEquals("libraries/", libDir1);
+        assertEquals("/libraries", module.libDirectory);
+
+        String libDir2 = module.getLibDir();
+        assertEquals(libDir1, libDir2);
         assertEquals("/libraries", module.libDirectory);
     }
 }
