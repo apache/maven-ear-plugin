@@ -58,5 +58,6 @@ class EarModuleTest {
                 assertThrows(MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
 
         assertTrue(exception.getMessage().contains("Ear execution context not initialized"));
+        assertTrue(exception.getMessage().contains("jar:groupId:artifactId"));
     }
 }
