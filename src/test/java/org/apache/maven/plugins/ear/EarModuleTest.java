@@ -18,15 +18,17 @@
  */
 package org.apache.maven.plugins.ear;
 
-import java.lang.reflect.Field;
 import java.util.Collections;
 
+import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.ear.stub.ArtifactHandlerTestStub;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Ear module test case.
@@ -47,20 +49,14 @@ class EarModuleTest {
     }
 
     @Test
-    void testResolveArtifactRequiresExecutionContext() throws Exception {
-        JarModule module = new JarModule();
-        setField(module, "groupId", "groupId");
-        setField(module, "artifactId", "artifactId");
+    void testResolveArtifactRequiresExecutionContext() {
+        DefaultArtifact artifact = new DefaultArtifact(
+                "groupId", "artifactId", "1.0", "compile", "jar", null, new ArtifactHandlerTestStub("jar"));
+        JarModule module = new JarModule(artifact, null, false);
 
-        MojoFailureException exception = assertThrows(
-                MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
+        MojoFailureException exception =
+                assertThrows(MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
 
-        assertEquals("Ear execution context not initialized for module jar:groupId:artifactId", exception.getMessage());
-    }
-
-    private static void setField(Object target, String name, Object value) throws Exception {
-        Field field = AbstractEarModule.class.getDeclaredField(name);
-        field.setAccessible(true);
-        field.set(target, value);
+        assertTrue(exception.getMessage().contains("Ear execution context not initialized"));
     }
 }

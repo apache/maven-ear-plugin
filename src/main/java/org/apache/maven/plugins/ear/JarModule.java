@@ -87,6 +87,10 @@ public class JarModule extends AbstractEarModule {
         // Let's resolve the artifact
         super.resolveArtifact(artifacts);
 
+        if (earExecutionContext == null) {
+            throw new MojoFailureException("Ear execution context not initialized for module " + this);
+        }
+
         // If the defaultLibBundleDir is set and no bundle dir is
         // set, set the default as bundle dir
         setLibBundleDir(earExecutionContext.getDefaultLibBundleDir());
