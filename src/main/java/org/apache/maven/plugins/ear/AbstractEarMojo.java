@@ -313,8 +313,8 @@ public abstract class AbstractEarMojo extends AbstractMojo {
         return outputFileNameMapping;
     }
 
-    private static boolean isArtifactRegistered(Artifact a, List<EarModule> currentList) {
-        return currentList.stream().anyMatch(em -> em.getArtifact().equals(a));
+    private static boolean isArtifactRegistered(Artifact artifact, List<EarModule> currentList) {
+        return currentList.stream().anyMatch(em -> artifact.equals(em.getArtifact()));
     }
 
     /**
@@ -328,7 +328,7 @@ public abstract class AbstractEarMojo extends AbstractMojo {
         } else {
             String childVersion = jboss.getChild(JbossConfiguration.VERSION).getValue();
             if (childVersion == null) {
-                getLog().info("JBoss version not set, using JBoss 4 by default");
+                getLog().debug("JBoss version not set, using JBoss 4 by default");
                 childVersion = JbossConfiguration.VERSION_4;
             }
             final String securityDomain =
