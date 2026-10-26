@@ -20,6 +20,7 @@ package org.apache.maven.plugins.ear;
 
 import java.lang.reflect.Proxy;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.handler.DefaultArtifactHandler;
@@ -30,6 +31,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Ear module test case.
@@ -76,10 +78,12 @@ class EarModuleTest {
                     }
                 });
         AtomicInteger warnings = new AtomicInteger();
+        AtomicReference<String> warningMessage = new AtomicReference<>();
         Log log = (Log) Proxy.newProxyInstance(
                 Log.class.getClassLoader(), new Class<?>[] {Log.class}, (proxy, method, args) -> {
                     if ("warn".equals(method.getName())) {
                         warnings.incrementAndGet();
+                        warningMessage.set(args[0].toString());
                     }
                     if (method.getReturnType() == boolean.class) {
                         return false;
@@ -106,5 +110,7 @@ class EarModuleTest {
         assertNull(module.getBundleFileName());
         assertNull(module.getBundleFileName());
         assertEquals(1, warnings.get());
+        assertTrue(warningMessage.get().contains("mapping [@{artifactId}@]"));
+        assertTrue(warningMessage.get().contains("ejb:org.example:example"));
     }
 }

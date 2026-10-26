@@ -274,7 +274,7 @@ public abstract class AbstractEarModule implements EarModule {
                 if (log != null) {
                     log.warn(
                             "Failed to evaluate file name mapping [" + earExecutionContext.getOutputFileNameMapping()
-                                    + "]",
+                                    + "] for artifact [" + type + ":" + groupId + ":" + artifactId + "]",
                             e);
                 }
             }
