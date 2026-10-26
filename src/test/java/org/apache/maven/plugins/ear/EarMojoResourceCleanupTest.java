@@ -22,12 +22,14 @@ import java.io.IOException;
 import java.lang.reflect.Proxy;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.plugin.logging.Log;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -47,6 +49,20 @@ class EarMojoResourceCleanupTest {
         EarMojo.deleteOutdatedResource(tempDir.resolve("missing.txt"), Long.MAX_VALUE, log.proxy());
 
         assertEquals(0, log.warnings.size());
+    }
+
+    @Test
+    void deletesAnOutdatedDanglingSymbolicLink() throws IOException {
+        Path link = tempDir.resolve("dangling.txt");
+        try {
+            Files.createSymbolicLink(link, tempDir.getFileSystem().getPath("missing-target.txt"));
+        } catch (IOException | UnsupportedOperationException | SecurityException e) {
+            Assumptions.assumeTrue(false, "Symbolic links are unavailable: " + e);
+        }
+
+        EarMojo.deleteOutdatedResource(link, Long.MAX_VALUE, new RecordingLog().proxy());
+
+        assertFalse(Files.exists(link, LinkOption.NOFOLLOW_LINKS));
     }
 
     @Test

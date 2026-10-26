@@ -891,7 +891,8 @@ public class EarMojo extends AbstractEarMojo {
 
     static void deleteOutdatedResource(Path resource, long startTime, Log log) {
         try {
-            long lastModified = Files.getLastModifiedTime(resource).toMillis();
+            long lastModified = Files.getLastModifiedTime(resource, LinkOption.NOFOLLOW_LINKS)
+                    .toMillis();
             if (lastModified < startTime) {
                 log.debug("deleting outdated resource " + resource);
                 log.debug(resource + " last modified: " + lastModified);
