@@ -30,6 +30,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.ProviderMismatchException;
@@ -51,6 +52,7 @@ import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -883,13 +885,22 @@ public class EarMojo extends AbstractEarMojo {
 
         for (String outdatedResource : outdatedResources) {
             File resourceFile = new File(getWorkDirectory(), outdatedResource);
-            if (resourceFile.lastModified() < startTime) {
-                getLog().debug("deleting outdated resource " + outdatedResource);
-                getLog().debug(outdatedResource + " last modified: " + resourceFile.lastModified());
-                if (!resourceFile.delete()) {
-                    getLog().warn("Failed to delete outdated resource: " + resourceFile);
-                }
+            deleteOutdatedResource(resourceFile.toPath(), startTime, getLog());
+        }
+    }
+
+    static void deleteOutdatedResource(Path resource, long startTime, Log log) {
+        try {
+            long lastModified = Files.getLastModifiedTime(resource).toMillis();
+            if (lastModified < startTime) {
+                log.debug("deleting outdated resource " + resource);
+                log.debug(resource + " last modified: " + lastModified);
+                Files.deleteIfExists(resource);
             }
+        } catch (NoSuchFileException ignored) {
+            // The resource may have been removed after it was added to outdatedResources.
+        } catch (IOException e) {
+            log.warn("Failed to delete outdated resource: " + resource.toAbsolutePath(), e);
         }
     }
 
