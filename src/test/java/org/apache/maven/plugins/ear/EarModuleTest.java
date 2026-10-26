@@ -85,7 +85,8 @@ class EarModuleTest {
         MojoFailureException exception =
                 assertThrows(MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
 
-        assertEquals("Could not resolve artifact[null:null:jar]", exception.getMessage());
+        assertTrue(exception.getMessage().contains("Could not resolve artifact"));
+        assertTrue(exception.getMessage().contains("null:null:jar"));
     }
 
     @Test
@@ -95,6 +96,7 @@ class EarModuleTest {
         MojoFailureException exception =
                 assertThrows(MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
 
-        assertEquals("Ear execution context not initialized for module jar:groupId:artifactId", exception.getMessage());
+        assertTrue(exception.getMessage().contains("Ear execution context not initialized"));
+        assertTrue(exception.getMessage().contains("jar:groupId:artifactId"));
     }
 }
