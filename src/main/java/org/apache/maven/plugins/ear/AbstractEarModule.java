@@ -75,6 +75,8 @@ public abstract class AbstractEarModule implements EarModule {
      */
     protected String bundleFileName;
 
+    private boolean bundleFileNameInterpolationFailed;
+
     /**
      * Excluded by default {@code false}.
      */
@@ -262,14 +264,18 @@ public abstract class AbstractEarModule implements EarModule {
      * {@inheritDoc}
      */
     public String getBundleFileName() {
-        if (bundleFileName == null) {
+        if (bundleFileName == null && !bundleFileNameInterpolationFailed) {
             try {
                 String outputFileNameMapping = earExecutionContext.getOutputFileNameMapping();
                 bundleFileName = MappingUtils.evaluateFileNameMapping(outputFileNameMapping, artifact);
             } catch (InterpolationException e) {
-                Log log = earExecutionContext.getLog();
+                bundleFileNameInterpolationFailed = true;
+                Log log = earExecutionContext == null ? null : earExecutionContext.getLog();
                 if (log != null) {
-                    log.warn("Failed to evaluate file name mapping for [" + this + "]", e);
+                    log.warn(
+                            "Failed to evaluate file name mapping [" + earExecutionContext.getOutputFileNameMapping()
+                                    + "]",
+                            e);
                 }
             }
 
