@@ -1,0 +1,77 @@
+---
+title: Customizing The File Name Mapping
+author: 
+  - Stephane Nicoll
+  - snicoll@apache.org
+  - Karl Heinz Marbaise khmarbaise@apache.org
+date: 2006-11-19
+---
+
+<!--
+Copyright 2006 The Apache Software Foundation.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+# Customizing The File Name Mapping
+
+It might happen that you need to change the naming of the artifacts within the EAR file. This can be achieved by using the `outputFileNameMapping`. The following shows how it could be configured in your pom file.
+
+In this example the default value is given as a starting point.
+
+```xml
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-ear-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+           [...]
+           <outputFileNameMapping>@{groupId}@-@{artifactId}@-@{version}@@{dashClassifier?}@.@{extension}@</outputFileNameMapping>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+```
+
+Based on the given things you can influence the resulting naming based on your wishes. For example you want to have all artifacts within your ear file without a version you can change the configuration like the following:
+
+```xml
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-ear-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+           [...]
+           <outputFileNameMapping>@{groupId}@-@{artifactId}@@{dashClassifier?}@.@{extension}@</outputFileNameMapping>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+```
+
+The following tokens are supported:
+
+- `@{groupId}@` - expands to the artifact's group ID
+- `@{artifactId}@` - expands to the artifact's ID
+- `@{version}@` - expands to artifact version, for `SNAPSHOT` artifacts can contain timestamp postfix instead of `SNAPSHOT`
+- `@{baseVersion}@` - expands to base artifact version, for `SNAPSHOT` artifacts we will always have `SNAPSHOT` postfix
+- `@{classifier}@` - expands to the artifact's classifier, or to nothing if it has none
+- `@{extension}@` - expands to the artifact's file extension
+- `@{dashClassifier}@` - expands to the classifier preceded by a dash, or to nothing if the artifact has no classifier
+- `@{dashClassifier?}@` - same as `@{dashClassifier}@`; the spelling supported since 2.1
+
+Any other property of Artifact and ArtifactHandler (for example `packaging`, `language`, `directory`, `addedToClasspath`, `includesDependencies`, `type`, `scope` or `file`) still resolves as a token, but is deprecated: these properties do not exist in the Maven 4 API, so they stop resolving once the plugin moves to it. Use only the tokens listed above.
