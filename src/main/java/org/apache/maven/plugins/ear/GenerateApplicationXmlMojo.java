@@ -18,12 +18,18 @@
  */
 package org.apache.maven.plugins.ear;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -156,6 +162,18 @@ public class GenerateApplicationXmlMojo extends AbstractEarMojo {
     private PlexusConfiguration resourceRefs;
 
     /**
+     * A file to write the path of every module in the EAR to. It is a properties file whose keys are
+     * {@code groupId:artifactId:type} or {@code groupId:artifactId:type:classifier} and whose values are the paths of
+     * the modules in the EAR, for example {@code eartest:jar-sample-one:jar=libs/eartest-jar-sample-one-1.0.jar}.
+     * Tools that lay out the EAR themselves, for example as a loose application, can read it instead of reproducing
+     * how this plugin names and places modules. The file is not written unless this parameter is set.
+     *
+     * @since 3.5.0
+     */
+    @Parameter(property = "ear.moduleMapFile")
+    private File moduleMapFile;
+
+    /**
      * {@inheritDoc}
      */
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -204,6 +222,45 @@ public class GenerateApplicationXmlMojo extends AbstractEarMojo {
             } catch (IOException e) {
                 throw new MojoExecutionException("Unable to copy jboss-app.xml to final destination", e);
             }
+        }
+
+        if (moduleMapFile != null) {
+            writeModuleMap();
+        }
+    }
+
+    /**
+     * Writes {@link #moduleMapFile} with sorted lines and no timestamp, so that the file is reproducible.
+     *
+     * @throws MojoExecutionException if the file cannot be written
+     */
+    private void writeModuleMap() throws MojoExecutionException {
+        Properties map = new Properties();
+        for (EarModule module : getModules()) {
+            Artifact artifact = module.getArtifact();
+            String key = artifact.getGroupId() + ":" + artifact.getArtifactId() + ":" + artifact.getType();
+            if (artifact.getClassifier() != null && !artifact.getClassifier().isEmpty()) {
+                key += ":" + artifact.getClassifier();
+            }
+            map.setProperty(key, module.getUri());
+        }
+        try {
+            ByteArrayOutputStream stored = new ByteArrayOutputStream();
+            map.store(stored, null);
+            List<String> lines = new ArrayList<>();
+            for (String line : new String(stored.toByteArray(), StandardCharsets.ISO_8859_1).split("\\R")) {
+                if (!line.isEmpty() && !line.startsWith("#")) {
+                    lines.add(line);
+                }
+            }
+            Collections.sort(lines);
+            File parent = moduleMapFile.getAbsoluteFile().getParentFile();
+            if (parent != null) {
+                Files.createDirectories(parent.toPath());
+            }
+            Files.write(moduleMapFile.toPath(), lines, StandardCharsets.ISO_8859_1);
+        } catch (IOException e) {
+            throw new MojoExecutionException("Unable to write the module map to " + moduleMapFile, e);
         }
     }
 
