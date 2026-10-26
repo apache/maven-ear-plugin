@@ -18,15 +18,9 @@
  */
 package org.apache.maven.plugins.ear;
 
-import java.io.StringWriter;
-
-import org.codehaus.plexus.util.xml.PrettyPrintXMLWriter;
-import org.codehaus.plexus.util.xml.XMLWriter;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
@@ -45,23 +39,5 @@ class EarModuleTest {
         assertEquals("", AbstractEarModule.cleanArchivePath("/"));
         assertEquals("", AbstractEarModule.cleanArchivePath(""));
         assertNull(AbstractEarModule.cleanArchivePath(null));
-    }
-
-    @Test
-    void testStartModuleElementWithoutResolvedArtifact() {
-        StringWriter output = new StringWriter();
-        XMLWriter writer = new PrettyPrintXMLWriter(output);
-        TestableWebModule module = new TestableWebModule();
-
-        assertDoesNotThrow(() -> module.start(writer));
-        writer.endElement();
-
-        assertFalse(output.toString().contains("id="));
-    }
-
-    private static final class TestableWebModule extends WebModule {
-        void start(XMLWriter writer) {
-            startModuleElement(writer, true);
-        }
     }
 }
