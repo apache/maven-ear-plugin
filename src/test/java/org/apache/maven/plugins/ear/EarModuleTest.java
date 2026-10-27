@@ -38,8 +38,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class EarModuleTest {
 
     private static class ContextDependentTypeModule extends AbstractEarModule {
-        ContextDependentTypeModule(String groupId, String artifactId) {
-            super(groupId, artifactId, "jar");
+        ContextDependentTypeModule() {
+            this.type = "jar";
         }
 
         @Override
@@ -79,24 +79,13 @@ class EarModuleTest {
     }
 
     @Test
-    void testResolveArtifactReportsMissingCoordinatesWithoutReadingType() {
-        ContextDependentTypeModule module = new ContextDependentTypeModule(null, null);
+    void testResolveArtifactReportsMissingCoordinatesWithoutReadingContextDependentType() {
+        ContextDependentTypeModule module = new ContextDependentTypeModule();
 
         MojoFailureException exception =
                 assertThrows(MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
 
         assertTrue(exception.getMessage().contains("Could not resolve artifact"));
         assertTrue(exception.getMessage().contains("null:null:jar"));
-    }
-
-    @Test
-    void testResolveArtifactReportsIdentityWithoutCallingContextDependentType() {
-        ContextDependentTypeModule module = new ContextDependentTypeModule("groupId", "artifactId");
-
-        MojoFailureException exception =
-                assertThrows(MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
-
-        assertTrue(exception.getMessage().contains("Ear execution context not initialized"));
-        assertTrue(exception.getMessage().contains("jar:groupId:artifactId"));
     }
 }

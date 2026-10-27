@@ -137,12 +137,6 @@ public abstract class AbstractEarModule implements EarModule {
         this.bundleDir = null;
     }
 
-    AbstractEarModule(String groupId, String artifactId, String type) {
-        this.groupId = groupId;
-        this.artifactId = artifactId;
-        this.type = type;
-    }
-
     /**
      * {@inheritDoc}
      */
