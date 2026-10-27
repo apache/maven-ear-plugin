@@ -42,13 +42,14 @@ class EarModuleTest {
     }
 
     @Test
-    void gettersDoNotModifyConfiguredPaths() {
+    void pathGettersReturnConfiguredValuesAndUriUsesArchivePath() {
         AbstractEarModule module = new JarModule();
         module.bundleDir = "/APP-INF/lib";
         module.libDirectory = "/libraries";
+        module.bundleFileName = "library.jar";
 
         String bundleDir1 = module.getBundleDir();
-        assertEquals("APP-INF/lib/", bundleDir1);
+        assertEquals("/APP-INF/lib", bundleDir1);
         assertEquals("/APP-INF/lib", module.bundleDir);
 
         String bundleDir2 = module.getBundleDir();
@@ -56,11 +57,14 @@ class EarModuleTest {
         assertEquals("/APP-INF/lib", module.bundleDir);
 
         String libDir1 = module.getLibDir();
-        assertEquals("libraries/", libDir1);
+        assertEquals("/libraries", libDir1);
         assertEquals("/libraries", module.libDirectory);
 
         String libDir2 = module.getLibDir();
         assertEquals(libDir1, libDir2);
         assertEquals("/libraries", module.libDirectory);
+
+        assertEquals("APP-INF/lib/library.jar", module.getUri());
+        assertEquals("/APP-INF/lib", module.bundleDir);
     }
 }

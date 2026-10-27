@@ -189,10 +189,11 @@ public abstract class AbstractEarModule implements EarModule {
      */
     public String getUri() {
         if (uri == null) {
-            if (getBundleDir() == null) {
+            String bundleDirectory = cleanArchivePath(getBundleDir());
+            if (bundleDirectory == null) {
                 uri = getBundleFileName();
             } else {
-                uri = getBundleDir() + getBundleFileName();
+                uri = bundleDirectory + getBundleFileName();
             }
         }
         return uri;
@@ -238,14 +239,14 @@ public abstract class AbstractEarModule implements EarModule {
      * @return the custom bundle directory
      */
     public String getBundleDir() {
-        return cleanArchivePath(bundleDir);
+        return bundleDir;
     }
 
     /**
      * {@inheritDoc}
      */
     public String getLibDir() {
-        return cleanArchivePath(libDirectory);
+        return libDirectory;
     }
 
     /**
