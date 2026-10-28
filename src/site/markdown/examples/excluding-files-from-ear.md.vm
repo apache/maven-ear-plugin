@@ -49,7 +49,7 @@ Our company in this example, the Acme Corporation, have wisely set a naming conv
  `-- external-library-3.jar
 
  acme-ear-2
- |-- acme-ejb-1.war
+ |-- acme-ejb-1.jar
  |-- acme-library-1.jar
  |-- acme-library-2.jar
  |-- acme-war-3.war
@@ -143,7 +143,7 @@ With all the Maven configuration done, the resulting directory layout would look
  `-- acme-war-2.war
 
  acme-ear-2
- |-- acme-ejb-1.war
+ |-- acme-ejb-1.jar
  |-- acme-library-1.jar
  |-- acme-library-2.jar
  |-- acme-war-3.war
