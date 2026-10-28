@@ -53,9 +53,17 @@ if ( !jbossAppXml.contains( "<unauthenticated-principal>guest</unauthenticated-p
 {
     throw new IllegalStateException( "Missing configured unauthenticated principal from jboss-app.xml" );
 }
-if ( !jbossAppXml.contains( "<loader-repository>com.foo:loader=foo-application-1.0.ear</loader-repository>" ) )
+if ( !jbossAppXml.contains( "http://www.jboss.org/j2ee/dtd/jboss-app_4_0.dtd" ) )
 {
-    throw new IllegalStateException( "Missing configured loader repository from jboss-app.xml" );
+    throw new IllegalStateException( "Missing default JBoss 4 descriptor from jboss-app.xml" );
+}
+if ( !jbossAppXml.contains( '<loader-repository loaderRepositoryClass="com.foo.LoaderRepository">com.foo:loader=foo-application-1.0.ear' ) )
+{
+    throw new IllegalStateException( "Missing configured loader repository and class from jboss-app.xml" );
+}
+if ( !jbossAppXml.contains( '<loader-repository-config configParserClass="com.foo.LoaderRepositoryConfigParser">java2ParentDelegation=true</loader-repository-config>' ) )
+{
+    throw new IllegalStateException( "Missing configured loader repository parser and config from jboss-app.xml" );
 }
 
 return true;
