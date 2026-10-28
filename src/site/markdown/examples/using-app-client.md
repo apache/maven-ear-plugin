@@ -24,7 +24,7 @@ limitations under the License.
 
 # Using JavaEE application clients
 
-JavaEE application clients are handled by the maven-acr-plugin with the 'app-client' packaging type. Since this packaging is new to Maven, you have to enable the extensions of the acr plugin for Maven to discover it. This sample below describes what needs to be added to your project for a 'app-client-sample' application client. By default the ear plugin adds any application client to the generated application.xml just like it does for other JavaEE packaging types.
+JavaEE application clients are built by the [maven-acr-plugin](https://maven.apache.org/plugins/maven-acr-plugin/), which adds the 'app-client' packaging and the 'app-client' dependency type. Maven core defines neither, so every project that uses one has to load the acr plugin as an extension: the application client module for its packaging, and the EAR project for the dependency type. The sample below shows what the EAR project needs for an 'app-client-sample' application client. By default the ear plugin adds any application client to the generated application.xml just like it does for other JavaEE packaging types.
 
 ```xml
   <dependencies>
@@ -40,7 +40,7 @@ JavaEE application clients are handled by the maven-acr-plugin with the 'app-cli
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-acr-plugin</artifactId>
-        <version>1.0</version>
+        <version>3.2.0</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>

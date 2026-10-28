@@ -336,7 +336,7 @@ public abstract class AbstractEarMojo extends AbstractMojo {
         String childVersion = versionEl == null ? null : versionEl.getValue();
         if (childVersion == null) {
             if (log != null) {
-                log.info("JBoss version not set, using JBoss 4 by default");
+                log.debug("JBoss version not set, using JBoss 4 by default");
             }
             childVersion = JbossConfiguration.VERSION_4;
         }
