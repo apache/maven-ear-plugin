@@ -891,16 +891,29 @@ public class EarMojo extends AbstractEarMojo {
     }
 
     private void removeFromOutdatedResources(Path destination, Collection<String> outdatedResources) {
-        Path relativeDestFile;
-        try {
-            relativeDestFile = getWorkDirectory().toPath().relativize(destination.normalize());
-        } catch (ProviderMismatchException e) {
-            relativeDestFile = destination.normalize();
-        }
+        Path relativeDestFile = relativePathFromWorkDirectory(getWorkDirectory().toPath(), destination);
 
         if (outdatedResources.remove(relativeDestFile.toString())) {
             getLog().debug("Remove from outdatedResources: " + relativeDestFile);
         }
+    }
+
+    static Path relativePathFromWorkDirectory(Path workDirectory, Path destination) {
+        Path relativeDestFile;
+        try {
+            relativeDestFile = workDirectory.relativize(destination.normalize());
+        } catch (ProviderMismatchException e) {
+            relativeDestFile = destination.normalize();
+            if (relativeDestFile.isAbsolute() && relativeDestFile.getRoot() != null) {
+                relativeDestFile = relativeDestFile.getRoot().relativize(relativeDestFile);
+            }
+            Path localRelativePath = workDirectory.getFileSystem().getPath("");
+            for (Path component : relativeDestFile) {
+                localRelativePath = localRelativePath.resolve(component.toString());
+            }
+            relativeDestFile = localRelativePath;
+        }
+        return relativeDestFile;
     }
 
     /**

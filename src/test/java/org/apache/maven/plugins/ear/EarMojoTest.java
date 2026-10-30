@@ -20,6 +20,11 @@ package org.apache.maven.plugins.ear;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.zip.ZipOutputStream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -53,5 +58,19 @@ class EarMojoTest {
     void testGetEarFileWithDashPrefixedClassifier() throws Exception {
         File result = invokeGetEarFile("myapp", "-sources");
         assertEquals(new File(tempDir, "myapp-sources.ear"), result);
+    }
+
+    @Test
+    void testRelativePathFromDifferentFileSystemProvider() throws Exception {
+        Path archive = tempDir.toPath().resolve("module.war");
+        try (ZipOutputStream ignored = new ZipOutputStream(Files.newOutputStream(archive))) {
+            // Create an empty archive before mounting it as a file system.
+        }
+
+        try (FileSystem archiveFileSystem = FileSystems.newFileSystem(archive, (ClassLoader) null)) {
+            Path destination = archiveFileSystem.getPath("/META-INF/application.xml");
+            Path relative = EarMojo.relativePathFromWorkDirectory(tempDir.toPath(), destination);
+            assertEquals(tempDir.toPath().getFileSystem().getPath("META-INF", "application.xml"), relative);
+        }
     }
 }
