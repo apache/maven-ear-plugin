@@ -101,7 +101,7 @@ Your EAR will contain something like this:
  `-- rar-1.0.0.rar
 ```
 
-If you look inside the copies of `war-1.0.0.war`, `rar-1.0.0.ear` and `sar-1.0.0.sar`, that are packaged within the EAR, you will see that they no longer contain `WEB-INF/lib/shared-jar-1.0.0.jar`, `shared-jar-1.0.0.jar` and `lib/shared-jar-1.0.0.jar` files respectively.
+If you look inside the copies of `war-1.0.0.war`, `rar-1.0.0.rar` and `sar-1.0.0.sar`, that are packaged within the EAR, you will see that they no longer contain `WEB-INF/lib/shared-jar-1.0.0.jar`, `shared-jar-1.0.0.jar` and `lib/shared-jar-1.0.0.jar` files respectively.
 
 Also, if you inspect the `MANIFEST.MF` of WAR, SAR and HAR modules of EAR you will notice that the `Class-Path` entry has been modified or added, if it was missing, and now has a reference to `libs/shared-jar-1.0.0.jar`.
 
