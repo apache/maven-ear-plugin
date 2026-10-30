@@ -18,6 +18,7 @@
  */
 package org.apache.maven.plugins.ear;
 
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.ear.util.ArtifactRepository;
 import org.apache.maven.plugins.ear.util.ArtifactTypeMappingService;
 import org.apache.maven.project.MavenProject;
@@ -35,6 +36,8 @@ public class EarExecutionContext {
     private String outputFileNameMapping;
 
     private ArtifactRepository artifactRepository;
+
+    private Log log;
 
     /**
      * @param project {@link MavenProject}
@@ -58,6 +61,14 @@ public class EarExecutionContext {
                 jbossConfiguration,
                 fileNameMappingName,
                 typeMappingService);
+    }
+
+    void setLog(Log log) {
+        this.log = log;
+    }
+
+    Log getLog() {
+        return log;
     }
 
     /**
