@@ -20,6 +20,7 @@ package org.apache.maven.plugins.ear;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -53,5 +54,12 @@ class EarMojoTest {
     void testGetEarFileWithDashPrefixedClassifier() throws Exception {
         File result = invokeGetEarFile("myapp", "-sources");
         assertEquals(new File(tempDir, "myapp-sources.ear"), result);
+    }
+
+    @Test
+    void rootLibraryDirectoryResolvesInsideUnpackedModule() {
+        Path moduleRoot = tempDir.toPath();
+
+        assertEquals(moduleRoot, EarMojo.resolveModuleLibDirectory(moduleRoot, "/"));
     }
 }

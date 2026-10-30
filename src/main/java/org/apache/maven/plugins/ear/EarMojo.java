@@ -739,7 +739,7 @@ public class EarMojo extends AbstractEarMojo {
                     // We use the original name, cause in case of outputFileNameMapping
                     // we could not not delete it and it will end up in the resulting EAR and the WAR
                     // will not be cleaned up.
-                    final Path workLibDir = workDirectory.resolve(moduleLibDir);
+                    final Path workLibDir = resolveModuleLibDirectory(workDirectory, moduleLibDir);
                     Path artifact =
                             workLibDir.resolve(module.getArtifact().getFile().getName());
 
@@ -843,6 +843,10 @@ public class EarMojo extends AbstractEarMojo {
                 }
             }
         }
+    }
+
+    static Path resolveModuleLibDirectory(Path moduleRoot, String configuredPath) {
+        return moduleRoot.resolve(AbstractEarModule.cleanArchivePath(configuredPath));
     }
 
     private static Manifest readManifest(Path manifestFile) throws IOException {
