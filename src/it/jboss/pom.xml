@@ -39,9 +39,9 @@ under the License.
         <configuration>
           <generateApplicationXml>true</generateApplicationXml>
           <jboss>
-            <version>4</version>
             <unauthenticated-principal>guest</unauthenticated-principal>
-            <loader-repository>com.foo:loader=foo-application-1.0.ear</loader-repository>
+            <loader-repository loaderRepositoryClass="com.foo.LoaderRepository">com.foo:loader=foo-application-1.0.ear</loader-repository>
+            <loader-repository-config configParserClass="com.foo.LoaderRepositoryConfigParser">java2ParentDelegation=true</loader-repository-config>
           </jboss>
         </configuration>
       </plugin>

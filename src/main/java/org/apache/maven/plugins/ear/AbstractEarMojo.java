@@ -28,6 +28,7 @@ import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.ear.util.ArtifactTypeMappingService;
 import org.apache.maven.plugins.ear.util.JavaEEVersion;
@@ -323,57 +324,69 @@ public abstract class AbstractEarMojo extends AbstractMojo {
      * @throws EarPluginException if the configuration is invalid
      */
     private void initializeJbossConfiguration() throws EarPluginException {
+        jbossConfiguration = createJbossConfiguration(jboss, getLog());
+    }
+
+    static JbossConfiguration createJbossConfiguration(PlexusConfiguration jboss, Log log) throws EarPluginException {
         if (jboss == null) {
-            jbossConfiguration = null;
-        } else {
-            String childVersion = jboss.getChild(JbossConfiguration.VERSION).getValue();
-            if (childVersion == null) {
-                getLog().debug("JBoss version not set, using JBoss 4 by default");
-                childVersion = JbossConfiguration.VERSION_4;
-            }
-            final String securityDomain =
-                    jboss.getChild(JbossConfiguration.SECURITY_DOMAIN).getValue();
-            final String unauthenticatedPrincipal =
-                    jboss.getChild(JbossConfiguration.UNAUHTHENTICTED_PRINCIPAL).getValue();
-
-            final PlexusConfiguration loaderRepositoryEl = jboss.getChild(JbossConfiguration.LOADER_REPOSITORY);
-            final String loaderRepository = loaderRepositoryEl.getValue();
-            final String loaderRepositoryClass =
-                    loaderRepositoryEl.getAttribute(JbossConfiguration.LOADER_REPOSITORY_CLASS_ATTRIBUTE);
-            final PlexusConfiguration loaderRepositoryConfigEl =
-                    jboss.getChild(JbossConfiguration.LOADER_REPOSITORY_CONFIG);
-            final String loaderRepositoryConfig = loaderRepositoryConfigEl.getValue();
-            final String configParserClass =
-                    loaderRepositoryConfigEl.getAttribute(JbossConfiguration.CONFIG_PARSER_CLASS_ATTRIBUTE);
-
-            final String jmxName = jboss.getChild(JbossConfiguration.JMX_NAME).getValue();
-            final String moduleOrder =
-                    jboss.getChild(JbossConfiguration.MODULE_ORDER).getValue();
-
-            final List<String> dataSources = new ArrayList<>();
-            final PlexusConfiguration dataSourcesEl = jboss.getChild(JbossConfiguration.DATASOURCES);
-            if (dataSourcesEl != null) {
-
-                final PlexusConfiguration[] dataSourcesConfig =
-                        dataSourcesEl.getChildren(JbossConfiguration.DATASOURCE);
-                for (PlexusConfiguration dataSourceConfig : dataSourcesConfig) {
-                    dataSources.add(dataSourceConfig.getValue());
-                }
-            }
-            final String libraryDirectory =
-                    jboss.getChild(JbossConfiguration.LIBRARY_DIRECTORY).getValue();
-            jbossConfiguration = new JbossConfiguration(
-                    childVersion,
-                    securityDomain,
-                    unauthenticatedPrincipal,
-                    jmxName,
-                    loaderRepository,
-                    moduleOrder,
-                    dataSources,
-                    libraryDirectory,
-                    loaderRepositoryConfig,
-                    loaderRepositoryClass,
-                    configParserClass);
+            return null;
         }
+
+        final PlexusConfiguration versionEl = jboss.getChild(JbossConfiguration.VERSION);
+        String childVersion = versionEl == null ? null : versionEl.getValue();
+        if (childVersion == null) {
+            if (log != null) {
+                log.debug("JBoss version not set, using JBoss 4 by default");
+            }
+            childVersion = JbossConfiguration.VERSION_4;
+        }
+        final PlexusConfiguration securityDomainEl = jboss.getChild(JbossConfiguration.SECURITY_DOMAIN);
+        final String securityDomain = securityDomainEl == null ? null : securityDomainEl.getValue();
+        final PlexusConfiguration unauthenticatedPrincipalEl =
+                jboss.getChild(JbossConfiguration.UNAUHTHENTICTED_PRINCIPAL);
+        final String unauthenticatedPrincipal =
+                unauthenticatedPrincipalEl == null ? null : unauthenticatedPrincipalEl.getValue();
+
+        final PlexusConfiguration loaderRepositoryEl = jboss.getChild(JbossConfiguration.LOADER_REPOSITORY);
+        final String loaderRepository = loaderRepositoryEl == null ? null : loaderRepositoryEl.getValue();
+        final String loaderRepositoryClass = loaderRepositoryEl == null
+                ? null
+                : loaderRepositoryEl.getAttribute(JbossConfiguration.LOADER_REPOSITORY_CLASS_ATTRIBUTE);
+        final PlexusConfiguration loaderRepositoryConfigEl =
+                jboss.getChild(JbossConfiguration.LOADER_REPOSITORY_CONFIG);
+        final String loaderRepositoryConfig =
+                loaderRepositoryConfigEl == null ? null : loaderRepositoryConfigEl.getValue();
+        final String configParserClass = loaderRepositoryConfigEl == null
+                ? null
+                : loaderRepositoryConfigEl.getAttribute(JbossConfiguration.CONFIG_PARSER_CLASS_ATTRIBUTE);
+
+        final PlexusConfiguration jmxNameEl = jboss.getChild(JbossConfiguration.JMX_NAME);
+        final String jmxName = jmxNameEl == null ? null : jmxNameEl.getValue();
+        final PlexusConfiguration moduleOrderEl = jboss.getChild(JbossConfiguration.MODULE_ORDER);
+        final String moduleOrder = moduleOrderEl == null ? null : moduleOrderEl.getValue();
+
+        final List<String> dataSources = new ArrayList<>();
+        final PlexusConfiguration dataSourcesEl = jboss.getChild(JbossConfiguration.DATASOURCES);
+        if (dataSourcesEl != null) {
+
+            final PlexusConfiguration[] dataSourcesConfig = dataSourcesEl.getChildren(JbossConfiguration.DATASOURCE);
+            for (PlexusConfiguration dataSourceConfig : dataSourcesConfig) {
+                dataSources.add(dataSourceConfig.getValue());
+            }
+        }
+        final PlexusConfiguration libraryDirectoryEl = jboss.getChild(JbossConfiguration.LIBRARY_DIRECTORY);
+        final String libraryDirectory = libraryDirectoryEl == null ? null : libraryDirectoryEl.getValue();
+        return new JbossConfiguration(
+                childVersion,
+                securityDomain,
+                unauthenticatedPrincipal,
+                jmxName,
+                loaderRepository,
+                moduleOrder,
+                dataSources,
+                libraryDirectory,
+                loaderRepositoryConfig,
+                loaderRepositoryClass,
+                configParserClass);
     }
 }
