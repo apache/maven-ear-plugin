@@ -90,7 +90,7 @@ You need to change the EAR project's `pom.xml` to package those JARs in the EAR 
 
 Your EAR will contain something like this:
 
-```unknown
+```text
  .
  |-- META-INF
  |   `-- application.xml

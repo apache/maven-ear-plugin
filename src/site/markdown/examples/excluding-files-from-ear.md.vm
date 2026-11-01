@@ -37,7 +37,7 @@ As an example, let's say that we want to exclude all non-in-house artifacts from
 
 Our company in this example, the Acme Corporation, have wisely set a naming convention for all their in-house artifacts. The artifactId is always prefixed with "acme-". If they do not use a shared library, the directory layout for their applications might look like this:
 
-```unknown
+```text
  acme-ear-1
  |-- acme-ejb-1.jar
  |-- acme-library-1.jar
@@ -128,7 +128,7 @@ Next we create a shared library EAR that contains all the dependencies that we w
 
 With all the Maven configuration done, the resulting directory layout would look like this:
 
-```unknown
+```text
  external-shared-libraries
  |-- external-library-1.jar
  |-- external-library-2.jar

@@ -85,7 +85,7 @@ Now the painful part. Your EAR project's `pom.xml` needs to list every dependenc
 
 Your EAR will contain something like this:
 
-```unknown
+```text
  .
  |-- META-INF
  |   `-- application.xml
