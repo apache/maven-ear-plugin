@@ -63,7 +63,6 @@ import org.apache.maven.shared.filtering.MavenFileFilter;
 import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.maven.shared.filtering.MavenResourcesExecution;
 import org.apache.maven.shared.filtering.MavenResourcesFiltering;
-import org.apache.maven.shared.mapping.MappingUtils;
 import org.apache.maven.shared.utils.io.FileUtils;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.UnArchiver;
@@ -766,7 +765,7 @@ public class EarMojo extends AbstractEarMojo {
                         final Artifact otherModuleArtifact = otherModule.getArtifact();
                         if (otherModuleArtifact.isSnapshot()) {
                             try {
-                                artifact = workLibDir.resolve(MappingUtils.evaluateFileNameMapping(
+                                artifact = workLibDir.resolve(FileNameMapping.evaluate(
                                         ARTIFACT_DEFAULT_FILE_NAME_MAPPING, otherModuleArtifact));
                                 getLog().debug("Artifact with default mapping file name: " + artifact.toAbsolutePath());
                             } catch (InterpolationException e) {
@@ -929,7 +928,7 @@ public class EarMojo extends AbstractEarMojo {
         if (artifact.isSnapshot()) {
             try {
                 moduleClassPathIndex = classPathElements.indexOf(
-                        MappingUtils.evaluateFileNameMapping(ARTIFACT_DEFAULT_FILE_NAME_MAPPING, artifact));
+                        FileNameMapping.evaluate(ARTIFACT_DEFAULT_FILE_NAME_MAPPING, artifact));
                 if (moduleClassPathIndex != -1) {
                     return moduleClassPathIndex;
                 }

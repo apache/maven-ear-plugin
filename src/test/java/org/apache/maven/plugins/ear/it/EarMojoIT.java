@@ -20,7 +20,16 @@ package org.apache.maven.plugins.ear.it;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
@@ -1446,5 +1455,43 @@ class EarMojoIT extends AbstractEarPluginIT {
         final File expectedFile = new File(baseDir, "target/maven-ear-plugin-test-project-103-99.0.ear");
         assertFalse(badFile.exists(), "EAR filename should not contain spaces from whitespace classifier");
         assertTrue(expectedFile.exists(), "EAR archive not found at expected path without spaces");
+    }
+
+    /**
+     * Builds an EAR with {@code moduleMapFile} set and checks that the map holds every module's path in the EAR,
+     * including a custom {@code bundleFileName}, a {@code bundleDir} and the {@code defaultLibBundleDir}.
+     */
+    @Test
+    void testProject104() throws Exception {
+        final File baseDir = doTestProject("project-104", new String[] {
+            "foo/eartest-ejb-sample-one-1.0.jar",
+            "eartest-ejb-sample-two-1.0.jar",
+            "com.foo.bar-ejb-sample-one-1.0.jar",
+            "com.foo.bar-ejb-sample-two-1.0.jar",
+            "libs/eartest-jar-sample-one-1.0.jar",
+            "libs/eartest-jar-sample-two-1.0.jar",
+            "sar-sample-one.sar"
+        });
+
+        final Path moduleMap = baseDir.toPath().resolve("target/ear-modules.properties");
+        final List<String> lines = Files.readAllLines(moduleMap, StandardCharsets.ISO_8859_1);
+        final List<String> sorted = new ArrayList<>(lines);
+        Collections.sort(sorted);
+        assertEquals(sorted, lines, "module map lines are sorted");
+        assertTrue(lines.stream().noneMatch(line -> line.startsWith("#")), "module map has no comment lines");
+
+        final Properties map = new Properties();
+        try (InputStream in = Files.newInputStream(moduleMap)) {
+            map.load(in);
+        }
+        final Map<String, String> expected = new HashMap<>();
+        expected.put("eartest:ejb-sample-one:ejb", "foo/eartest-ejb-sample-one-1.0.jar");
+        expected.put("eartest:ejb-sample-two:ejb", "eartest-ejb-sample-two-1.0.jar");
+        expected.put("com.foo.bar:ejb-sample-one:ejb", "com.foo.bar-ejb-sample-one-1.0.jar");
+        expected.put("com.foo.bar:ejb-sample-two:ejb", "com.foo.bar-ejb-sample-two-1.0.jar");
+        expected.put("eartest:jar-sample-one:jar", "libs/eartest-jar-sample-one-1.0.jar");
+        expected.put("eartest:jar-sample-two:jar", "libs/eartest-jar-sample-two-1.0.jar");
+        expected.put("eartest:sar-sample-one:sar", "sar-sample-one.sar");
+        assertEquals(expected, new HashMap<>(map));
     }
 }

@@ -23,7 +23,6 @@ import java.util.Set;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.ear.util.ArtifactRepository;
-import org.apache.maven.shared.mapping.MappingUtils;
 import org.codehaus.plexus.interpolation.InterpolationException;
 import org.codehaus.plexus.util.xml.XMLWriter;
 
@@ -264,7 +263,7 @@ public abstract class AbstractEarModule implements EarModule {
         if (bundleFileName == null) {
             try {
                 String outputFileNameMapping = earExecutionContext.getOutputFileNameMapping();
-                bundleFileName = MappingUtils.evaluateFileNameMapping(outputFileNameMapping, artifact);
+                bundleFileName = FileNameMapping.evaluate(outputFileNameMapping, artifact);
             } catch (InterpolationException e) {
                 // We currently ignore this here, cause assumption is that
                 // has already been happened before..
