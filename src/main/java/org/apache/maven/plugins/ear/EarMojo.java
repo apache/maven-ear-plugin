@@ -462,9 +462,8 @@ public class EarMojo extends AbstractEarMojo {
     }
 
     private List<String> createUnpackList() throws MojoExecutionException {
-        List<String> unpackTypesList = new ArrayList<>();
+        List<String> unpackTypesList = parseUnpackTypes(unpackTypes);
         if (unpackTypes != null) {
-            unpackTypesList = Arrays.asList(unpackTypes.split(","));
             for (String type : unpackTypesList) {
                 if (!EarModuleFactory.isStandardArtifactType(type)) {
                     throw new MojoExecutionException("Invalid type [" + type + "] supported types are "
@@ -472,6 +471,19 @@ public class EarMojo extends AbstractEarMojo {
                 }
             }
             getLog().debug("Initialized unpack types " + unpackTypesList);
+        }
+        return unpackTypesList;
+    }
+
+    static List<String> parseUnpackTypes(String unpackTypes) {
+        List<String> unpackTypesList = new ArrayList<>();
+        if (unpackTypes != null) {
+            for (String rawType : unpackTypes.split(",")) {
+                String type = rawType.trim();
+                if (!type.isEmpty()) {
+                    unpackTypesList.add(type);
+                }
+            }
         }
         return unpackTypesList;
     }
