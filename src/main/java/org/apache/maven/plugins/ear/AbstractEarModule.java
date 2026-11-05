@@ -157,7 +157,7 @@ public abstract class AbstractEarModule implements EarModule {
             }
             if (earExecutionContext == null) {
                 throw new MojoFailureException(
-                        "Ear execution context not initialized for module " + type + ":" + groupId + ":" + artifactId);
+                        "EAR execution context not initialized for module " + type + ":" + groupId + ":" + artifactId);
             }
             final ArtifactRepository ar = earExecutionContext.getArtifactRepository();
             artifact = ar.getUniqueArtifact(groupId, artifactId, getType(), classifier);

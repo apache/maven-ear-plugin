@@ -23,6 +23,10 @@ import java.util.Collections;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.ear.stub.ArtifactHandlerTestStub;
+import org.codehaus.plexus.component.configurator.converters.composite.ObjectWithFieldsConverter;
+import org.codehaus.plexus.component.configurator.converters.lookup.DefaultConverterLookup;
+import org.codehaus.plexus.component.configurator.expression.DefaultExpressionEvaluator;
+import org.codehaus.plexus.configuration.DefaultPlexusConfiguration;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -74,7 +78,28 @@ class EarModuleTest {
         MojoFailureException exception =
                 assertThrows(MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
 
-        assertTrue(exception.getMessage().contains("Ear execution context not initialized"));
+        assertTrue(exception.getMessage().contains("EAR execution context not initialized"));
+        assertTrue(exception.getMessage().contains("jar:groupId:artifactId"));
+    }
+
+    @Test
+    void testResolveArtifactReportsUninitializedContextBeforeReadingContextDependentType() throws Exception {
+        ContextDependentTypeModule module = new ContextDependentTypeModule();
+        DefaultPlexusConfiguration configuration = new DefaultPlexusConfiguration("module");
+        configuration.addChild("groupId", "groupId");
+        configuration.addChild("artifactId", "artifactId");
+        new ObjectWithFieldsConverter()
+                .processConfiguration(
+                        new DefaultConverterLookup(),
+                        module,
+                        getClass().getClassLoader(),
+                        configuration,
+                        new DefaultExpressionEvaluator());
+
+        MojoFailureException exception =
+                assertThrows(MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
+
+        assertTrue(exception.getMessage().contains("EAR execution context not initialized"));
         assertTrue(exception.getMessage().contains("jar:groupId:artifactId"));
     }
 
