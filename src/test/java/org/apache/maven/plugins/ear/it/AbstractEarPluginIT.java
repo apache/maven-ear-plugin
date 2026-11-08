@@ -46,7 +46,7 @@ import org.apache.maven.executor.ExecutorHelper;
 import org.apache.maven.executor.ExecutorRequest;
 import org.apache.maven.executor.ExecutorResult;
 import org.apache.maven.plugins.ear.util.ResourceEntityResolver;
-import org.apache.maven.shared.utils.io.FileUtils;
+import org.codehaus.plexus.util.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
