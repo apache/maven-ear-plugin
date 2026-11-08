@@ -63,7 +63,6 @@ import org.apache.maven.shared.filtering.MavenFileFilter;
 import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.maven.shared.filtering.MavenResourcesExecution;
 import org.apache.maven.shared.filtering.MavenResourcesFiltering;
-import org.apache.maven.shared.utils.io.FileUtils;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.UnArchiver;
 import org.codehaus.plexus.archiver.ear.EarArchiver;
@@ -89,6 +88,67 @@ import org.codehaus.plexus.util.StringUtils;
         threadSafe = true,
         requiresDependencyResolution = ResolutionScope.TEST)
 public class EarMojo extends AbstractEarMojo {
+    /**
+     * Patterns excluded when copying the ear source directory: version control metadata and editor leftovers.
+     */
+    private static final String[] DEFAULT_EXCLUDES = {
+        // Miscellaneous typical temporary files
+        "**/*~",
+        "**/#*#",
+        "**/.#*",
+        "**/%*%",
+        "**/._*",
+
+        // CVS
+        "**/CVS",
+        "**/CVS/**",
+        "**/.cvsignore",
+
+        // Subversion
+        "**/.svn",
+        "**/.svn/**",
+
+        // Arch
+        "**/.arch-ids",
+        "**/.arch-ids/**",
+
+        // Bazaar
+        "**/.bzr",
+        "**/.bzr/**",
+
+        // SurroundSCM
+        "**/.MySCMServerInfo",
+
+        // Mac
+        "**/.DS_Store",
+
+        // Serena Dimensions Version 10
+        "**/.metadata",
+        "**/.metadata/**",
+
+        // Mercurial
+        "**/.hg",
+        "**/.hg/**",
+
+        // git
+        "**/.git",
+        "**/.git/**",
+
+        // BitKeeper
+        "**/BitKeeper",
+        "**/BitKeeper/**",
+        "**/ChangeSet",
+        "**/ChangeSet/**",
+
+        // darcs
+        "**/_darcs",
+        "**/_darcs/**",
+        "**/.darcsrepo",
+        "**/.darcsrepo/**",
+        "**/-darcs-backup*",
+        "**/.darcs-temp-mail"
+    };
+
     /**
      * Default file name mapping used by artifacts located in local repository.
      */
@@ -496,7 +556,7 @@ public class EarMojo extends AbstractEarMojo {
      * @return an array of tokens to exclude
      */
     protected String[] getExcludes() {
-        List<String> excludeList = new ArrayList<>(FileUtils.getDefaultExcludesAsList());
+        List<String> excludeList = new ArrayList<>(Arrays.asList(DEFAULT_EXCLUDES));
         if (earSourceExcludes != null && !"".equals(earSourceExcludes)) {
             excludeList.addAll(Arrays.asList(StringUtils.split(earSourceExcludes, ",")));
         }
