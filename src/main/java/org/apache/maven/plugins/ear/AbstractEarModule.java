@@ -332,8 +332,8 @@ public abstract class AbstractEarModule implements EarModule {
             writer.addAttribute("id", getModuleId());
         } else if (generateId) {
             // No module id was specified but one should be generated.
-            // FIXME: Should we use the mapping using outputFileNameMapping instead
-            // of doing this on our own?
+            // Keep module IDs independent of outputFileNameMapping: that mapping controls archive file names,
+            // which may contain a version or characters unsuitable for an XML ID. Preserve the existing ID format.
             Artifact theArtifact = getArtifact();
             if (theArtifact != null) {
                 String generatedId = theArtifact.getType().toUpperCase(Locale.ROOT) + "_" + theArtifact.getGroupId()
