@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.ear.util.ArtifactRepository;
 import org.codehaus.plexus.interpolation.InterpolationException;
 import org.codehaus.plexus.util.xml.XMLWriter;
@@ -72,6 +73,8 @@ public abstract class AbstractEarModule implements EarModule {
      * The bundleFileName.
      */
     protected String bundleFileName;
+
+    private boolean bundleFileNameInterpolationFailed;
 
     /**
      * Excluded by default {@code false}.
@@ -260,14 +263,19 @@ public abstract class AbstractEarModule implements EarModule {
      * {@inheritDoc}
      */
     public String getBundleFileName() {
-        if (bundleFileName == null) {
+        if (bundleFileName == null && !bundleFileNameInterpolationFailed) {
             try {
                 String outputFileNameMapping = earExecutionContext.getOutputFileNameMapping();
                 bundleFileName = FileNameMapping.evaluate(outputFileNameMapping, artifact);
             } catch (InterpolationException e) {
-                // We currently ignore this here, cause assumption is that
-                // has already been happened before..
-                // FIXME: Should be checked first.
+                bundleFileNameInterpolationFailed = true;
+                Log log = earExecutionContext == null ? null : earExecutionContext.getLog();
+                if (log != null) {
+                    log.warn(
+                            "Failed to evaluate file name mapping [" + earExecutionContext.getOutputFileNameMapping()
+                                    + "] for artifact [" + type + ":" + groupId + ":" + artifactId + "]",
+                            e);
+                }
             }
 
             // bundleFileName = earExecutionContext.getFileNameMapping().mapFileName( artifact );
