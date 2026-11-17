@@ -68,7 +68,7 @@ public class ArtifactRepository {
      */
     public Artifact getUniqueArtifact(String groupId, String artifactId, String type, String classifier) {
         final Set<Artifact> candidates = getArtifacts(groupId, artifactId, type);
-        if (candidates.size() == 0) {
+        if (candidates.isEmpty()) {
             return null;
         } else if (candidates.size() == 1 && classifier == null) {
             return candidates.iterator().next();
