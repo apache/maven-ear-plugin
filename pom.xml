@@ -321,7 +321,7 @@
                 <userlocalRepository>${settings.localRepository}</userlocalRepository>
                 <localRepositoryPath>${localRepositoryPath}</localRepositoryPath>
                 <java.io.tmpdir>${project.build.directory}</java.io.tmpdir>
-                <basedirectory>${basedir}</basedirectory>
+                <basedirectory>${project.basedir}</basedirectory>
               </systemPropertyVariables>
             </configuration>
             <executions>
