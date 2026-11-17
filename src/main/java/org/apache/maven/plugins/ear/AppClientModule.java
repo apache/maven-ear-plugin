@@ -49,6 +49,7 @@ public class AppClientModule extends AbstractEarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void appendModule(XMLWriter writer, String version, Boolean generateId) {
         startModuleElement(writer, generateId);
         writer.startElement(JAVA_MODULE);

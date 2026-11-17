@@ -65,6 +65,7 @@ public class WebModule extends AbstractEarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void appendModule(XMLWriter writer, String version, Boolean generateId) {
         startModuleElement(writer, generateId);
         writer.startElement(WEB_MODULE);
@@ -86,6 +87,7 @@ public class WebModule extends AbstractEarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void resolveArtifact(Set<Artifact> artifacts) throws EarPluginException, MojoFailureException {
         // Let's resolve the artifact
         super.resolveArtifact(artifacts);

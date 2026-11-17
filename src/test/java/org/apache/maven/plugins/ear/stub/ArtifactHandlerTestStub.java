@@ -31,30 +31,37 @@ public class ArtifactHandlerTestStub implements ArtifactHandler {
         this.extension = extension;
     }
 
+    @Override
     public String getExtension() {
         return extension;
     }
 
+    @Override
     public String getDirectory() {
         throw new UnsupportedOperationException("not implemented ; fake artifact stub");
     }
 
+    @Override
     public String getClassifier() {
         return null;
     }
 
+    @Override
     public String getPackaging() {
         throw new UnsupportedOperationException("not implemented ; fake artifact stub");
     }
 
+    @Override
     public boolean isIncludesDependencies() {
         throw new UnsupportedOperationException("not implemented ; fake artifact stub");
     }
 
+    @Override
     public String getLanguage() {
         throw new UnsupportedOperationException("not implemented ; fake artifact stub");
     }
 
+    @Override
     public boolean isAddedToClasspath() {
         throw new UnsupportedOperationException("not implemented ; fake artifact stub");
     }

@@ -203,6 +203,7 @@ public final class JavaEEVersion implements Comparable<JavaEEVersion> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int compareTo(JavaEEVersion otherVersion) {
         if (otherVersion == null) {
             throw new NullPointerException("other object to compare to could not be null.");

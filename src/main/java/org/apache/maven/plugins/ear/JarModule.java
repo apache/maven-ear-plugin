@@ -65,6 +65,7 @@ public class JarModule extends AbstractEarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void appendModule(XMLWriter writer, String version, Boolean generateId) {
         // Generates an entry in the application.xml only if
         // includeInApplicationXml is set
@@ -83,6 +84,7 @@ public class JarModule extends AbstractEarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void resolveArtifact(Set<Artifact> artifacts) throws EarPluginException, MojoFailureException {
         // Let's resolve the artifact
         super.resolveArtifact(artifacts);
@@ -101,6 +103,7 @@ public class JarModule extends AbstractEarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean changeManifestClasspath() {
         return false;
     }

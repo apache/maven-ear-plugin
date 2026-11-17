@@ -139,6 +139,7 @@ public abstract class AbstractEarModule implements EarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setEarExecutionContext(EarExecutionContext earExecutionContext) {
         this.earExecutionContext = earExecutionContext;
     }
@@ -146,6 +147,7 @@ public abstract class AbstractEarModule implements EarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void resolveArtifact(Set<Artifact> artifacts) throws EarPluginException, MojoFailureException {
         // If the artifact is already set no need to resolve it
         if (artifact == null) {
@@ -172,6 +174,7 @@ public abstract class AbstractEarModule implements EarModule {
     /**
      * @return {@link #artifact}
      */
+    @Override
     public Artifact getArtifact() {
         return artifact;
     }
@@ -186,6 +189,7 @@ public abstract class AbstractEarModule implements EarModule {
     /**
      * @return return the URI
      */
+    @Override
     public String getUri() {
         if (uri == null) {
             if (getBundleDir() == null) {
@@ -200,6 +204,7 @@ public abstract class AbstractEarModule implements EarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getType() {
         return type;
     }
@@ -244,6 +249,7 @@ public abstract class AbstractEarModule implements EarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getLibDir() {
         libDirectory = cleanArchivePath(libDirectory);
         return libDirectory;
@@ -252,6 +258,7 @@ public abstract class AbstractEarModule implements EarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isClassPathItem() {
         return classPathItem;
     }
@@ -259,6 +266,7 @@ public abstract class AbstractEarModule implements EarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getBundleFileName() {
         if (bundleFileName == null) {
             try {
@@ -282,6 +290,7 @@ public abstract class AbstractEarModule implements EarModule {
      *
      * @return the alternative deployment descriptor for this module
      */
+    @Override
     public String getAltDeploymentDescriptor() {
         return altDeploymentDescriptor;
     }
@@ -291,6 +300,7 @@ public abstract class AbstractEarModule implements EarModule {
      *
      * @return true if this module should be skipped, false otherwise
      */
+    @Override
     public boolean isExcluded() {
         return excluded;
     }
@@ -298,6 +308,7 @@ public abstract class AbstractEarModule implements EarModule {
     /**
      * @return {@link #unpack}
      */
+    @Override
     public Boolean shouldUnpack() {
         return unpack;
     }
@@ -346,6 +357,7 @@ public abstract class AbstractEarModule implements EarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getType()).append(":").append(groupId).append(":").append(artifactId);
@@ -397,6 +409,7 @@ public abstract class AbstractEarModule implements EarModule {
     /**
      * @return always {@code true}
      */
+    @Override
     public boolean changeManifestClasspath() {
         return true;
     }

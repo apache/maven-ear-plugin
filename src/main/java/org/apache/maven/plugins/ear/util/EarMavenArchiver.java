@@ -69,6 +69,7 @@ public class EarMavenArchiver extends MavenArchiver {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Manifest getManifest(MavenSession session, MavenProject project, MavenArchiveConfiguration config)
             throws ManifestException, DependencyResolutionRequiredException {
         final Manifest manifest = super.getManifest(session, project, config);
