@@ -175,6 +175,7 @@ public class GenerateApplicationXmlMojo extends AbstractEarMojo {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         // Initializes ear modules
         super.execute();

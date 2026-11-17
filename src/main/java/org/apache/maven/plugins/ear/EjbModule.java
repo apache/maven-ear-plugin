@@ -51,6 +51,7 @@ public class EjbModule extends AbstractEarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void appendModule(XMLWriter writer, String version, Boolean generateId) {
         startModuleElement(writer, generateId);
         writer.startElement(EJB_MODULE);

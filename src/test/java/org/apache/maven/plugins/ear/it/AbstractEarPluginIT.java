@@ -458,6 +458,7 @@ public abstract class AbstractEarPluginIT {
 
     private static void addFiles(final File directory, final List<File> files, final List<File> expectedDirectories) {
         File[] result = directory.listFiles(new FilenameFilter() {
+            @Override
             public boolean accept(File dir, String name) {
                 return !name.equals("META-INF");
             }
@@ -588,6 +589,7 @@ public abstract class AbstractEarPluginIT {
 
     private static File[] getDeploymentDescriptors(final File ddDirectory) {
         return ddDirectory.listFiles(new FilenameFilter() {
+            @Override
             public boolean accept(File dir, String name) {
                 return !name.equalsIgnoreCase("manifest.mf");
             }
