@@ -529,7 +529,7 @@ class EarMojoIT extends AbstractEarPluginIT {
                 doTestProject("project-047", new String[] {"README.txt", "eartest-ejb-sample-one-1.0.jar"});
         final File actualReadme = new File(getEarDirectory(baseDir, "project-047"), "README.txt");
         final String content = new String(Files.readAllBytes(actualReadme.toPath()), "UTF-8");
-        assertTrue(!content.contains("my-app 99.0"), "application name and version should not have been filtered");
+        assertFalse(content.contains("my-app 99.0"), "application name and version should not have been filtered");
         assertTrue(content.contains("${application.name} ${project.version}"), "original properties not found");
     }
 
