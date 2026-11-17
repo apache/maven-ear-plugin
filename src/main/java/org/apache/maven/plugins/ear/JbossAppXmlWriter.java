@@ -156,7 +156,7 @@ final class JbossAppXmlWriter extends AbstractXmlWriter {
 
             // Write the JBoss specific modules
             for (EarModule earModule : earModules) {
-                if (JbossEarModule.class.isInstance(earModule)) {
+                if (earModule instanceof JbossEarModule) {
                     JbossEarModule jbossEarModule = (JbossEarModule) earModule;
                     jbossEarModule.appendJbossModule(writer, jbossConfiguration.getVersion());
                 }

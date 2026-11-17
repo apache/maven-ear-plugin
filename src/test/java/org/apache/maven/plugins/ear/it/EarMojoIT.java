@@ -25,7 +25,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1476,7 +1475,7 @@ class EarMojoIT extends AbstractEarPluginIT {
         final Path moduleMap = baseDir.toPath().resolve("target/ear-modules.properties");
         final List<String> lines = Files.readAllLines(moduleMap, StandardCharsets.ISO_8859_1);
         final List<String> sorted = new ArrayList<>(lines);
-        Collections.sort(sorted);
+        sorted.sort(null);
         assertEquals(sorted, lines, "module map lines are sorted");
         assertTrue(lines.stream().noneMatch(line -> line.startsWith("#")), "module map has no comment lines");
 

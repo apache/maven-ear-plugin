@@ -371,7 +371,7 @@ public abstract class AbstractEarPluginIT {
         }
 
         final File earDirectory = getEarDirectory(getEarModuleDirectory(baseDir, earModuleName), projectName);
-        for (int i = 0; i != artifacts.length; ++i) {
+        for (int i = 0; i < artifacts.length; ++i) {
             final String artifactName = artifacts[i];
             final File module = new File(earDirectory, artifactName);
             assertTrue(module.exists(), "Artifact [" + artifactName + "] should exist in EAR");
@@ -630,7 +630,7 @@ public abstract class AbstractEarPluginIT {
                 "Rows of expectedClassPathElements parameter should match items of artifacts parameter");
 
         final File earFile = getEarArchive(baseDir, projectName);
-        for (int i = 0; i != artifacts.length; ++i) {
+        for (int i = 0; i < artifacts.length; ++i) {
             final String moduleArtifact = artifacts[i];
             final String[] classPathElements = getClassPathElements(earFile, moduleArtifact, artifactsDirectory[i]);
             if (expectedClassPathElements[i] == null) {

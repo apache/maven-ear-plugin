@@ -25,7 +25,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -253,7 +252,7 @@ public class GenerateApplicationXmlMojo extends AbstractEarMojo {
                     lines.add(line);
                 }
             }
-            Collections.sort(lines);
+            lines.sort(null);
             File parent = moduleMapFile.getAbsoluteFile().getParentFile();
             if (parent != null) {
                 Files.createDirectories(parent.toPath());
