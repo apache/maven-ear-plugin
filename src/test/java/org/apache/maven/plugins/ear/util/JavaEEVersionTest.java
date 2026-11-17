@@ -106,7 +106,7 @@ class JavaEEVersionTest {
     }
 
     @Test
-    void testGetJavaEEVersionValid() throws Exception {
+    void testGetJavaEEVersionValid() throws InvalidJavaEEVersion {
         assertEquals(JavaEEVersion.SIX, JavaEEVersion.getJavaEEVersion("6"));
     }
 
