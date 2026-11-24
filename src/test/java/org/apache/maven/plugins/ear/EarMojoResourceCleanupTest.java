@@ -35,6 +35,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EarMojoResourceCleanupTest {
@@ -98,7 +99,7 @@ class EarMojoResourceCleanupTest {
         assertEquals(1, log.warnings.size());
         Object[] warning = log.warnings.get(0);
         assertTrue(warning[0].toString().contains(directory.toAbsolutePath().toString()));
-        assertTrue(warning[1] instanceof IOException);
+        assertInstanceOf(IOException.class, warning[1]);
     }
 
     private static final class RecordingLog {
