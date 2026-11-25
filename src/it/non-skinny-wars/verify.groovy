@@ -17,17 +17,11 @@
  * under the License.
  */
 
-import java.io.*;
-import java.util.*;
 import java.util.jar.*;
-import java.util.regex.*;
 
 File jarFile = new File( basedir, "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.nonskinnywars-war-module-1.0.war" );
 System.out.println( "Checking for existence of " + jarFile );
-if ( !jarFile.isFile() )
-{
-    throw new IllegalStateException( "Missing file: " + jarFile );
-}
+assert jarFile.isFile() : "Missing file: " + jarFile
 
 JarFile jar = new JarFile( jarFile );
 
@@ -50,10 +44,7 @@ jar.close();
 
 jarFile = new File( basedir, "war-module/target/war-module-1.0.war" );
 System.out.println( "Checking for existence of " + jarFile );
-if ( !jarFile.isFile() )
-{
-    throw new IllegalStateException( "Missing file: " + jarFile );
-}
+assert jarFile.isFile() : "Missing file: " + jarFile
 
 jar = new JarFile( jarFile );
 

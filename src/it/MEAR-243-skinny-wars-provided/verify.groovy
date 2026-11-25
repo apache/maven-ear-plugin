@@ -17,10 +17,7 @@
  * under the License.
  */
 
-import java.io.*;
-import java.util.*;
 import java.util.jar.*;
-import java.util.regex.*;
 
 void assertJar( String fileName, String[] includedEntries, String[] excludedEntries, boolean assertManifest,
     String[] expectedClassPathElements )

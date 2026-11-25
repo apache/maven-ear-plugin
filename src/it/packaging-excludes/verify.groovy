@@ -17,17 +17,11 @@
  * under the License.
  */
 
-import java.io.*;
-import java.util.*;
 import java.util.jar.*;
-import java.util.regex.*;
 
 File jarFile = new File( basedir, "target/test-1.0.ear" );
 System.out.println( "Checking for existence of " + jarFile );
-if ( !jarFile.isFile() )
-{
-    throw new IllegalStateException( "Missing file: " + jarFile );
-}
+assert jarFile.isFile() : "Missing file: " + jarFile
 
 JarFile jar = new JarFile( jarFile );
 

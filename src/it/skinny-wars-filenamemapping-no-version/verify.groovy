@@ -17,17 +17,11 @@
  * under the License.
  */
 
-import java.io.*;
-import java.util.*;
 import java.util.jar.*;
-import java.util.regex.*;
 
 File jarFile = new File( basedir, "ear-module/target/ear-module-1.0/war-module.war" );
 System.out.println( "Checking for existence of " + jarFile );
-if ( !jarFile.isFile() )
-{
-    throw new IllegalStateException( "Missing file: " + jarFile );
-}
+assert jarFile.isFile() : "Missing file: " + jarFile
 
 JarFile jar = new JarFile( jarFile );
 
@@ -46,10 +40,7 @@ for ( String included : includedEntries )
 
 Manifest manifest = jar.getManifest();
 String manifestClassPath = manifest.getMainAttributes().getValue("Class-Path");
-if ( !manifestClassPath.equals("lib/commons-lang.jar") )
-{
-    throw new IllegalStateException( "Missing entry in war MANIFEST.MF: lib/commons-lang.jar");
-}
+assert manifestClassPath.equals("lib/commons-lang.jar") : "Missing entry in war MANIFEST.MF: lib/commons-lang.jar"
 
 String[] excludedEntries = [
     "WEB-INF/lib/commons-lang-2.6.jar"
@@ -68,10 +59,7 @@ jar.close();
 
 jarFile = new File( basedir, "war-module/target/war-module-1.0.war" );
 System.out.println( "Checking for existence of " + jarFile );
-if ( !jarFile.isFile() )
-{
-    throw new IllegalStateException( "Missing file: " + jarFile );
-}
+assert jarFile.isFile() : "Missing file: " + jarFile
 
 jar = new JarFile( jarFile );
 
