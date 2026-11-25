@@ -16,26 +16,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
- 
- def service1 = new File( basedir, "app/target/app-1.0-SNAPSHOT/service1.jar" ).toURL().toString();
- assert new URL( "jar:${service1}!/com/example/A.class" ).content != null
- try
- {
-   new URL( "jar:${service1}!/com/example/B.class" ).content
-   assert false : "service1.jar should not contain com.example.B.class" 
- }
- catch( FileNotFoundException e)
- {
- }
- 
- def service2 = new File( basedir, "app/target/app-1.0-SNAPSHOT/service2.jar" ).toURL().toString();
- assert new URL( "jar:${service2}!/com/example/B.class").content != null
-  try
- {
-   new URL( "jar:${service2}!/com/example/A.class").content
-   assert false : "service2.jar should not contain com.example.A.class" 
- }
- catch( FileNotFoundException e)
- {
- }
- 
+
+def service1 = new File(basedir, "app/target/app-1.0-SNAPSHOT/service1.jar").toURL().toString()
+assert new URL("jar:${service1}!/com/example/A.class").content != null
+try {
+    new URL("jar:${service1}!/com/example/B.class").content
+    assert false : "service1.jar should not contain com.example.B.class"
+}
+catch(FileNotFoundException e) {
+}
+
+def service2 = new File(basedir, "app/target/app-1.0-SNAPSHOT/service2.jar").toURL().toString()
+assert new URL("jar:${service2}!/com/example/B.class").content != null
+try {
+    new URL("jar:${service2}!/com/example/A.class").content
+    assert false : "service2.jar should not contain com.example.A.class"
+}
+catch(FileNotFoundException e) {
+}

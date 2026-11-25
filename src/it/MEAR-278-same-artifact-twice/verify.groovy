@@ -19,21 +19,19 @@
 
 import java.util.jar.JarFile
 
-File jarFile = new File( basedir, "target/test-ear-0.0.1-SNAPSHOT.ear" )
+File jarFile = new File(basedir, "target/test-ear-0.0.1-SNAPSHOT.ear")
 
-JarFile jar = new JarFile( jarFile )
+JarFile jar = new JarFile(jarFile)
 
-def shouldNotBeIncludedEntries = [ "log4j-log4j-1.2.8.jar" ]
+def shouldNotBeIncludedEntries = ["log4j-log4j-1.2.8.jar"]
 
 println shouldNotBeIncludedEntries
 
-for ( String entry : shouldNotBeIncludedEntries )
-{
-    print( "Checking for existence of " + entry )
+for (String entry : shouldNotBeIncludedEntries) {
+    print("Checking for existence of " + entry)
 
-    if ( jar.getEntry( entry ) == null )
-    {
-       return true
+    if (jar.getEntry(entry) == null) {
+        return true
     }
 }
 

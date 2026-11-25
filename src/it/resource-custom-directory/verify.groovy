@@ -17,27 +17,22 @@
  * under the License.
  */
 
-import java.util.jar.*;
+import java.util.jar.*
 
-File jarFile = new File( basedir, "target/test-1.0.ear" );
-System.out.println( "Checking for existence of " + jarFile );
+File jarFile = new File(basedir, "target/test-1.0.ear")
+System.out.println("Checking for existence of " + jarFile)
 assert jarFile.isFile() : "Missing file: " + jarFile
 
-JarFile jar = new JarFile( jarFile );
+JarFile jar = new JarFile( jarFile )
 
-String[] includedEntries = [
-    "META-INF/application.xml",
-    "APP-INF/classes/foo.properties"
-];
-for ( String included : includedEntries )
-{
-    System.out.println( "Checking for existence of " + included );
-    if ( jar.getEntry( included ) == null )
-    {
-        throw new IllegalStateException( "Missing archive entry: " + included );
+String[] includedEntries = ["META-INF/application.xml", "APP-INF/classes/foo.properties"]
+for ( String included : includedEntries ) {
+    System.out.println( "Checking for existence of " + included )
+    if ( jar.getEntry( included ) == null ) {
+        throw new IllegalStateException( "Missing archive entry: " + included )
     }
 }
 
-jar.close();
+jar.close()
 
-return true;
+return true
