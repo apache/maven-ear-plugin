@@ -17,40 +17,30 @@
  * under the License.
  */
 
-import java.util.jar.*;
+import java.util.jar.*
 
-File jarFile = new File( basedir, "target/test-1.0.ear" );
-System.out.println( "Checking for existence of " + jarFile );
+File jarFile = new File(basedir, "target/test-1.0.ear")
+System.out.println("Checking for existence of " + jarFile)
 assert jarFile.isFile() : "Missing file: " + jarFile
 
-JarFile jar = new JarFile( jarFile );
+JarFile jar = new JarFile( jarFile )
 
-String[] includedEntries = [
-    "commons-lang-commons-lang-2.6.jar",
-    "META-INF/application.xml",
-    "META-INF/MANIFEST.MF"
-];
-for ( String included : includedEntries )
-{
-    System.out.println( "Checking for included archive entry " + included );
-    if ( jar.getEntry( included ) == null )
-    {
-        throw new IllegalStateException( "Missing archive entry: " + included );
+String[] includedEntries = ["commons-lang-commons-lang-2.6.jar", "META-INF/application.xml", "META-INF/MANIFEST.MF"]
+for ( String included : includedEntries ) {
+    System.out.println( "Checking for included archive entry " + included )
+    if ( jar.getEntry( included ) == null ) {
+        throw new IllegalStateException( "Missing archive entry: " + included )
     }
 }
 
-String[] excludedEntries = [
-    "commons-io-2.11.0.jar"
-];
-for ( String excluded : excludedEntries )
-{
-    System.out.println( "Checking for excluded artifact " + excluded );
-    if ( jar.getEntry( excluded ) != null )
-    {
-        throw new IllegalStateException( "Archive entry should be excluded: " + excluded );
+String[] excludedEntries = ["commons-io-2.11.0.jar"]
+for ( String excluded : excludedEntries ) {
+    System.out.println( "Checking for excluded artifact " + excluded )
+    if ( jar.getEntry( excluded ) != null ) {
+        throw new IllegalStateException( "Archive entry should be excluded: " + excluded )
     }
 }
 
-jar.close();
+jar.close()
 
-return true;
+return true

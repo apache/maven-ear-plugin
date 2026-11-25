@@ -17,81 +17,64 @@
  * under the License.
  */
 
-import java.util.jar.*;
+import java.util.jar.*
 
-File jarFile = new File( basedir, "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-1.0.war" );
-System.out.println( "Checking for existence of " + jarFile );
+File jarFile = new File(basedir, "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.skinnywars-war-module-1.0.war")
+System.out.println("Checking for existence of " + jarFile)
 assert jarFile.isFile() : "Missing file: " + jarFile
 
-JarFile jar = new JarFile( jarFile );
+JarFile jar = new JarFile( jarFile )
 
-String[] includedEntries = [
-    "WEB-INF/web.xml",
-    "META-INF/MANIFEST.MF"
-];
+String[] includedEntries = ["WEB-INF/web.xml", "META-INF/MANIFEST.MF"]
 
-// Reproducible Builds: check that every entry has the same timestamp  
-long entryTime = -1;
+// Reproducible Builds: check that every entry has the same timestamp
+long entryTime = -1
 
-for ( String included : includedEntries )
-{
-    System.out.println( "Checking for included archive entry " + included );
-    JarEntry jarEntry = jar.getEntry( included );
-    if ( jarEntry == null )
-    {
-        throw new IllegalStateException( "Missing WAR entry: " + included );
+for ( String included : includedEntries ) {
+    System.out.println( "Checking for included archive entry " + included )
+    JarEntry jarEntry = jar.getEntry( included )
+    if ( jarEntry == null ) {
+        throw new IllegalStateException( "Missing WAR entry: " + included )
     }
-    if ( entryTime < 0 )
-    {
-        entryTime = jarEntry.getTime();
+    if ( entryTime < 0 ) {
+        entryTime = jarEntry.getTime()
     }
-    if ( entryTime != jarEntry.getTime() )
-    {
+    if ( entryTime != jarEntry.getTime() ) {
         throw new IllegalStateException( "Invalid jar entry time: " + jarEntry.getTime()
-            + " of archive entry: " + included
-            + ", expected: " + entryTime );
+        + " of archive entry: " + included
+        + ", expected: " + entryTime )
     }
 }
 
-Manifest manifest = jar.getManifest();
-String manifestClassPath = manifest.getMainAttributes().getValue("Class-Path");
+Manifest manifest = jar.getManifest()
+String manifestClassPath = manifest.getMainAttributes().getValue("Class-Path")
 assert manifestClassPath.equals("commons-lang-commons-lang-2.6.jar") : "Missing entry in war MANIFEST.MF: commons-lang-commons-lang-2.6.jar"
 
-String[] excludedEntries = [
-    "WEB-INF/lib/commons-lang-commons-lang-2.6.jar"
-];
-for ( String excluded : excludedEntries )
-{
-    System.out.println( "Checking for excluded artifact " + excluded );
-    if ( jar.getEntry( excluded ) != null )
-    {
-        throw new IllegalStateException( "Archive entry should be excluded: " + excluded );
+String[] excludedEntries = ["WEB-INF/lib/commons-lang-commons-lang-2.6.jar"]
+for ( String excluded : excludedEntries ) {
+    System.out.println( "Checking for excluded artifact " + excluded )
+    if ( jar.getEntry( excluded ) != null ) {
+        throw new IllegalStateException( "Archive entry should be excluded: " + excluded )
     }
 }
 
-jar.close();
+jar.close()
 
 
-jarFile = new File( basedir, "war-module/target/war-module-1.0.war" );
-System.out.println( "Checking for existence of " + jarFile );
+jarFile = new File( basedir, "war-module/target/war-module-1.0.war" )
+System.out.println( "Checking for existence of " + jarFile )
 assert jarFile.isFile() : "Missing file: " + jarFile
 
-jar = new JarFile( jarFile );
+jar = new JarFile( jarFile )
 
-includedEntries = [
-    "WEB-INF/web.xml",
-    "META-INF/MANIFEST.MF",
-    "WEB-INF/lib/commons-lang-2.6.jar"
-];
-for ( String included : includedEntries )
-{
-    System.out.println( "Checking for included archive entry " + included );
-    if ( jar.getEntry( included ) == null )
-    {
-        throw new IllegalStateException( "Missing archive entry: " + included );
+includedEntries = ["WEB-INF/web.xml", "META-INF/MANIFEST.MF", "WEB-INF/lib/commons-lang-2.6.jar"]
+for ( String included : includedEntries ) {
+    System.out.println( "Checking for included archive entry " + included )
+    if ( jar.getEntry( included ) == null ) {
+        throw new IllegalStateException( "Missing archive entry: " + included )
     }
 }
 
-jar.close();
+jar.close()
 
-return true;
+return true

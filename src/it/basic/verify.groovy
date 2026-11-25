@@ -17,42 +17,35 @@
  * under the License.
  */
 
-import java.util.jar.*;
+import java.util.jar.*
 
-File jarFile = new File( basedir, "target/test-1.0.ear" );
-System.out.println( "Checking for existence of " + jarFile );
+File jarFile = new File(basedir, "target/test-1.0.ear")
+System.out.println("Checking for existence of " + jarFile)
 assert jarFile.isFile() : "Missing file: " + jarFile
 
-JarFile jar = new JarFile( jarFile );
+JarFile jar = new JarFile( jarFile )
 
-String[] includedEntries = [
-    "META-INF/application.xml",
-    "META-INF/appserver-application.xml"
-];
+String[] includedEntries = ["META-INF/application.xml", "META-INF/appserver-application.xml"]
 
-// Reproducible Builds: check that every entry has the same timestamp  
-long entryTime = -1;
+// Reproducible Builds: check that every entry has the same timestamp
+long entryTime = -1
 
-for ( String included : includedEntries )
-{
-    System.out.println( "Checking for existence of " + included );
-    JarEntry jarEntry = jar.getEntry( included );
-    if ( jarEntry == null )
-    {
-        throw new IllegalStateException( "Missing archive entry: " + included );
+for ( String included : includedEntries ) {
+    System.out.println( "Checking for existence of " + included )
+    JarEntry jarEntry = jar.getEntry( included )
+    if ( jarEntry == null ) {
+        throw new IllegalStateException( "Missing archive entry: " + included )
     }
-    if ( entryTime < 0 )
-    {
-        entryTime = jarEntry.getTime();
+    if ( entryTime < 0 ) {
+        entryTime = jarEntry.getTime()
     }
-    if ( entryTime != jarEntry.getTime() )
-    {
+    if ( entryTime != jarEntry.getTime() ) {
         throw new IllegalStateException( "Invalid jar entry time: " + jarEntry.getTime()
-            + " of archive entry: " + included
-            + ", expected: " + entryTime );
+        + " of archive entry: " + included
+        + ", expected: " + entryTime )
     }
 }
 
-jar.close();
+jar.close()
 
-return true;
+return true
