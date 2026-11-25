@@ -21,10 +21,7 @@ import java.util.jar.JarEntry
 import java.util.jar.JarFile
 
 File earFile = new File( basedir, "target/mear73-1.0-SNAPSHOT.ear" );
-if ( !earFile.isFile() )
-{
-    throw new IllegalStateException( "Missing file: " + earFile );
-}
+assert earFile.isFile() : "Missing file: " + earFile
 
 JarFile ear = new JarFile( earFile );
 Enumeration entries = ear.entries();

@@ -17,8 +17,6 @@
  * under the License.
  */
 
-import java.io.*;
-import java.util.*;
 import java.util.jar.*;
 
 void assertFileExists( File file )
