@@ -22,9 +22,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.codehaus.plexus.util.WriterFactory;
 import org.codehaus.plexus.util.xml.PrettyPrintXMLWriter;
 import org.codehaus.plexus.util.xml.XMLWriter;
+import org.codehaus.plexus.util.xml.XmlStreamWriter;
 
 /**
  * A base class for deployment descriptor file generators.
@@ -41,7 +41,7 @@ abstract class AbstractXmlWriter {
 
     Writer initializeWriter(final File destinationFile) throws EarPluginException {
         try {
-            return WriterFactory.newXmlWriter(destinationFile);
+            return new XmlStreamWriter(destinationFile);
         } catch (IOException ex) {
             throw new EarPluginException("Exception while opening file[" + destinationFile.getAbsolutePath() + "]", ex);
         }

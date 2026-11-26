@@ -24,6 +24,7 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
 public class ResourceEntityResolver implements EntityResolver {
+    @Override
     public InputSource resolveEntity(String publicId, String systemId) {
         String dtd = "/dtd" + systemId.substring(systemId.lastIndexOf('/'));
         InputStream in = ResourceEntityResolver.class.getResourceAsStream(dtd);

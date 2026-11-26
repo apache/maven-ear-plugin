@@ -56,6 +56,7 @@ public class SarModule extends AbstractEarModule implements JbossEarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void appendModule(XMLWriter writer, String version, Boolean generateId) {
         // If JBoss is not configured, add the module as a connector element
         if (!earExecutionContext.isJbossConfigured()) {
@@ -70,6 +71,7 @@ public class SarModule extends AbstractEarModule implements JbossEarModule {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void appendJbossModule(XMLWriter writer, String version) {
         writer.startElement(MODULE_ELEMENT);
         writer.startElement("service");

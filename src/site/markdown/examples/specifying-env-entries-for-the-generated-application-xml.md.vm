@@ -1,5 +1,5 @@
 ---
-title: Specifying Security Roles For The Generated application.xml
+title: Specifying Environment Entries for the Generated application.xml
 author: 
   - Stephane Nicoll
   - snicoll@apache.org
@@ -22,7 +22,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-# Specifying Environment entries For The Generated application.xml
+# Specifying Environment Entries for the Generated application.xml
 
 Environment entries can be added as from the JavaEE 6 spec. For instance:
 

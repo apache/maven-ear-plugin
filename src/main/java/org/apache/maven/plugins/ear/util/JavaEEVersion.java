@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @author Stephane Nicoll
  */
-public class JavaEEVersion implements Comparable<JavaEEVersion> {
+public final class JavaEEVersion implements Comparable<JavaEEVersion> {
 
     private static final String VERSION_1_3 = "1.3";
 
@@ -203,6 +203,7 @@ public class JavaEEVersion implements Comparable<JavaEEVersion> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int compareTo(JavaEEVersion otherVersion) {
         if (otherVersion == null) {
             throw new NullPointerException("other object to compare to could not be null.");

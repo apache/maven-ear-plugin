@@ -21,6 +21,7 @@ package org.apache.maven.plugins.ear;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -61,5 +62,14 @@ class EarMojoTest {
         Path moduleRoot = tempDir.toPath();
 
         assertEquals(moduleRoot, EarMojo.resolveModuleLibDirectory(moduleRoot, "/"));
+    }
+
+    @Test
+    void testParseUnpackTypesIgnoresEmptyAndWhitespaceEntries() {
+        assertEquals(Arrays.asList("jar", "war"), EarMojo.parseUnpackTypes("jar,war,"));
+        assertEquals(Arrays.asList("jar", "war"), EarMojo.parseUnpackTypes("jar,,war"));
+        assertEquals(Arrays.asList("jar", "war"), EarMojo.parseUnpackTypes("jar, war,"));
+        assertEquals(Arrays.asList("jar", "war"), EarMojo.parseUnpackTypes("jar, ,war"));
+        assertEquals(Arrays.asList(), EarMojo.parseUnpackTypes(null));
     }
 }

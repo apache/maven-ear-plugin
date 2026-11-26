@@ -40,7 +40,7 @@ Ejb Ref entries can be added as from the JavaEE 6 spec. For instance:
             <ejb-ref>
               <description>A description test</description>
               <ejb-ref-name>first-name</ejb-ref-name>
-              <ejb-ref-type>java.lang.String</ejb-ref-type>
+              <ejb-ref-type>Session</ejb-ref-type>
               <lookup-name>java-test</lookup-name>
             </ejb-ref>
           </ejbRefs>

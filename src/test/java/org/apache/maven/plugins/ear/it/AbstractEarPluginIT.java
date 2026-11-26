@@ -46,7 +46,7 @@ import org.apache.maven.executor.ExecutorHelper;
 import org.apache.maven.executor.ExecutorRequest;
 import org.apache.maven.executor.ExecutorResult;
 import org.apache.maven.plugins.ear.util.ResourceEntityResolver;
-import org.apache.maven.shared.utils.io.FileUtils;
+import org.codehaus.plexus.util.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -371,7 +371,7 @@ public abstract class AbstractEarPluginIT {
         }
 
         final File earDirectory = getEarDirectory(getEarModuleDirectory(baseDir, earModuleName), projectName);
-        for (int i = 0; i != artifacts.length; ++i) {
+        for (int i = 0; i < artifacts.length; ++i) {
             final String artifactName = artifacts[i];
             final File module = new File(earDirectory, artifactName);
             assertTrue(module.exists(), "Artifact [" + artifactName + "] should exist in EAR");
@@ -458,6 +458,7 @@ public abstract class AbstractEarPluginIT {
 
     private static void addFiles(final File directory, final List<File> files, final List<File> expectedDirectories) {
         File[] result = directory.listFiles(new FilenameFilter() {
+            @Override
             public boolean accept(File dir, String name) {
                 return !name.equals("META-INF");
             }
@@ -588,6 +589,7 @@ public abstract class AbstractEarPluginIT {
 
     private static File[] getDeploymentDescriptors(final File ddDirectory) {
         return ddDirectory.listFiles(new FilenameFilter() {
+            @Override
             public boolean accept(File dir, String name) {
                 return !name.equalsIgnoreCase("manifest.mf");
             }
@@ -630,7 +632,7 @@ public abstract class AbstractEarPluginIT {
                 "Rows of expectedClassPathElements parameter should match items of artifacts parameter");
 
         final File earFile = getEarArchive(baseDir, projectName);
-        for (int i = 0; i != artifacts.length; ++i) {
+        for (int i = 0; i < artifacts.length; ++i) {
             final String moduleArtifact = artifacts[i];
             final String[] classPathElements = getClassPathElements(earFile, moduleArtifact, artifactsDirectory[i]);
             if (expectedClassPathElements[i] == null) {

@@ -63,8 +63,6 @@ import org.apache.maven.shared.filtering.MavenFileFilter;
 import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.maven.shared.filtering.MavenResourcesExecution;
 import org.apache.maven.shared.filtering.MavenResourcesFiltering;
-import org.apache.maven.shared.mapping.MappingUtils;
-import org.apache.maven.shared.utils.io.FileUtils;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.UnArchiver;
 import org.codehaus.plexus.archiver.ear.EarArchiver;
@@ -77,6 +75,7 @@ import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.interpolation.InterpolationException;
 import org.codehaus.plexus.util.DirectoryScanner;
+import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
@@ -463,9 +462,8 @@ public class EarMojo extends AbstractEarMojo {
     }
 
     private List<String> createUnpackList() throws MojoExecutionException {
-        List<String> unpackTypesList = new ArrayList<>();
+        List<String> unpackTypesList = parseUnpackTypes(unpackTypes);
         if (unpackTypes != null) {
-            unpackTypesList = Arrays.asList(unpackTypes.split(","));
             for (String type : unpackTypesList) {
                 if (!EarModuleFactory.isStandardArtifactType(type)) {
                     throw new MojoExecutionException("Invalid type [" + type + "] supported types are "
@@ -473,6 +471,19 @@ public class EarMojo extends AbstractEarMojo {
                 }
             }
             getLog().debug("Initialized unpack types " + unpackTypesList);
+        }
+        return unpackTypesList;
+    }
+
+    static List<String> parseUnpackTypes(String unpackTypes) {
+        List<String> unpackTypesList = new ArrayList<>();
+        if (unpackTypes != null) {
+            for (String rawType : unpackTypes.split(",")) {
+                String type = rawType.trim();
+                if (!type.isEmpty()) {
+                    unpackTypesList.add(type);
+                }
+            }
         }
         return unpackTypesList;
     }
@@ -766,7 +777,7 @@ public class EarMojo extends AbstractEarMojo {
                         final Artifact otherModuleArtifact = otherModule.getArtifact();
                         if (otherModuleArtifact.isSnapshot()) {
                             try {
-                                artifact = workLibDir.resolve(MappingUtils.evaluateFileNameMapping(
+                                artifact = workLibDir.resolve(FileNameMapping.evaluate(
                                         ARTIFACT_DEFAULT_FILE_NAME_MAPPING, otherModuleArtifact));
                                 getLog().debug("Artifact with default mapping file name: " + artifact.toAbsolutePath());
                             } catch (InterpolationException e) {
@@ -933,7 +944,7 @@ public class EarMojo extends AbstractEarMojo {
         if (artifact.isSnapshot()) {
             try {
                 moduleClassPathIndex = classPathElements.indexOf(
-                        MappingUtils.evaluateFileNameMapping(ARTIFACT_DEFAULT_FILE_NAME_MAPPING, artifact));
+                        FileNameMapping.evaluate(ARTIFACT_DEFAULT_FILE_NAME_MAPPING, artifact));
                 if (moduleClassPathIndex != -1) {
                     return moduleClassPathIndex;
                 }

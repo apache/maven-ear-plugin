@@ -20,22 +20,17 @@
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
 
-File earFile = new File( basedir, "target/mear73-1.0-SNAPSHOT.ear" );
-if ( !earFile.isFile() )
-{
-    throw new IllegalStateException( "Missing file: " + earFile );
-}
+File earFile = new File(basedir, "target/mear73-1.0-SNAPSHOT.ear")
+assert earFile.isFile() : "Missing file: " + earFile
 
-JarFile ear = new JarFile( earFile );
-Enumeration entries = ear.entries();
-while( entries.hasMoreElements() )
-{
-  JarEntry entry = (JarEntry) entries.nextElement();
-  if( entry.getName().endsWith( ".jar" ) && !"org.apache.maven-maven-core-3.9.9.jar".equals( entry.getName() ) )
-  {
-    throw new IllegalStateException( "Unexpected archive entry: " + entry.getName() );
-  }
+JarFile ear = new JarFile( earFile )
+Enumeration entries = ear.entries()
+while( entries.hasMoreElements() ) {
+    JarEntry entry = (JarEntry) entries.nextElement()
+    if( entry.getName().endsWith( ".jar" ) && !"org.apache.maven-maven-core-3.9.9.jar".equals( entry.getName() ) ) {
+        throw new IllegalStateException( "Unexpected archive entry: " + entry.getName() )
+    }
 }
-ear.close();
+ear.close()
 
-return true;
+return true
