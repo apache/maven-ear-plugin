@@ -79,7 +79,7 @@ under the License.
         <configuration>
           <!--
             ! We are using by default outputFileNameMapping
-            ! with groupId-artifactId-version-classifier.extension 
+            ! with groupId-artifactId-version-classifier.extension
            -->
 <!--           <fileNameMapping>full</fileNameMapping> -->
           <defaultLibBundleDir>libs</defaultLibBundleDir>
