@@ -19,11 +19,11 @@
 package org.apache.maven.plugins.ear;
 
 import java.io.File;
-import java.lang.reflect.Method;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.zip.ZipOutputStream;
 
 import org.junit.jupiter.api.Test;
@@ -36,27 +36,21 @@ class EarMojoTest {
     @TempDir
     File tempDir;
 
-    private File invokeGetEarFile(String finalName, String classifier) throws Exception {
-        Method method = EarMojo.class.getDeclaredMethod("getEarFile", String.class, String.class, String.class);
-        method.setAccessible(true);
-        return (File) method.invoke(null, tempDir.getAbsolutePath(), finalName, classifier);
-    }
-
     @Test
     void testGetEarFileWithNullClassifier() throws Exception {
-        File result = invokeGetEarFile("myapp", null);
+        File result = EarMojo.getEarFile(tempDir.getAbsolutePath(), "myapp", null);
         assertEquals(new File(tempDir, "myapp.ear"), result);
     }
 
     @Test
     void testGetEarFileWithClassifier() throws Exception {
-        File result = invokeGetEarFile("myapp", "sources");
+        File result = EarMojo.getEarFile(tempDir.getAbsolutePath(), "myapp", "sources");
         assertEquals(new File(tempDir, "myapp-sources.ear"), result);
     }
 
     @Test
     void testGetEarFileWithDashPrefixedClassifier() throws Exception {
-        File result = invokeGetEarFile("myapp", "-sources");
+        File result = EarMojo.getEarFile(tempDir.getAbsolutePath(), "myapp", "-sources");
         assertEquals(new File(tempDir, "myapp-sources.ear"), result);
     }
 
@@ -72,5 +66,14 @@ class EarMojoTest {
             Path relative = EarMojo.relativePathFromWorkDirectory(tempDir.toPath(), destination);
             assertEquals(tempDir.toPath().getFileSystem().getPath("META-INF", "application.xml"), relative);
         }
+    }
+
+    @Test
+    void testParseUnpackTypesIgnoresEmptyAndWhitespaceEntries() {
+        assertEquals(Arrays.asList("jar", "war"), EarMojo.parseUnpackTypes("jar,war,"));
+        assertEquals(Arrays.asList("jar", "war"), EarMojo.parseUnpackTypes("jar,,war"));
+        assertEquals(Arrays.asList("jar", "war"), EarMojo.parseUnpackTypes("jar, war,"));
+        assertEquals(Arrays.asList("jar", "war"), EarMojo.parseUnpackTypes("jar, ,war"));
+        assertEquals(Arrays.asList(), EarMojo.parseUnpackTypes(null));
     }
 }

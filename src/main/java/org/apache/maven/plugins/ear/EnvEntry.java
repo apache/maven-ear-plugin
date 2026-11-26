@@ -126,6 +126,7 @@ class EnvEntry {
         writer.endElement();
     }
 
+    @Override
     public String toString() {
         return "env-entry [name=" + getName() + ", type=" + getType() + ", value=" + getValue() + ", lookup-name="
                 + getLookupName() + "]";

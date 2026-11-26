@@ -17,16 +17,6 @@
  * under the License.
  */
 
-def buildLog = new File( basedir, "build.log" ).getText('UTF-8')
-
-if (!buildLog.contains ( '[ERROR] fileNameMapping has been removed with version 3.0.0. You are still using it.' )) {
-  println ( "missing output about fileNameMapping removement.")
-  return false
-}
-if (!buildLog.contains ( '[ERROR] Use outputFileNameMapping instead.' )) {
-  println ( "missing information about usage today.")
-  return false
-}
-
-
-return true;
+def buildLog = new File(basedir, "build.log").getText('UTF-8')
+assert buildLog.contains('[ERROR] fileNameMapping has been removed with version 3.0.0. You are still using it.') : "missing output about fileNameMapping removement."
+assert buildLog.contains( '[ERROR] Use outputFileNameMapping instead.' ) : "missing information about usage today."

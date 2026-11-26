@@ -17,78 +17,51 @@
  * under the License.
  */
 
-import java.io.*;
-import java.util.*;
-import java.util.jar.*;
-import java.util.regex.*;
+import java.util.jar.*
 
-File jarFile = new File( basedir, "ear-module/target/ear-module-1.0/war-module.war" );
-System.out.println( "Checking for existence of " + jarFile );
-if ( !jarFile.isFile() )
-{
-    throw new IllegalStateException( "Missing file: " + jarFile );
-}
+File jarFile = new File(basedir, "ear-module/target/ear-module-1.0/war-module.war")
+System.out.println("Checking for existence of " + jarFile)
+assert jarFile.isFile() : "Missing file: " + jarFile
 
-JarFile jar = new JarFile( jarFile );
+JarFile jar = new JarFile( jarFile )
 
-String[] includedEntries = [
-    "WEB-INF/web.xml",
-    "META-INF/MANIFEST.MF"
-];
-for ( String included : includedEntries )
-{
-    System.out.println( "Checking for included archive entry " + included );
-    if ( jar.getEntry( included ) == null )
-    {
-        throw new IllegalStateException( "Missing archive entry: " + included );
+String[] includedEntries = ["WEB-INF/web.xml", "META-INF/MANIFEST.MF"]
+for ( String included : includedEntries ) {
+    System.out.println( "Checking for included archive entry " + included )
+    if ( jar.getEntry( included ) == null ) {
+        throw new IllegalStateException( "Missing archive entry: " + included )
     }
 }
 
-Manifest manifest = jar.getManifest();
-String manifestClassPath = manifest.getMainAttributes().getValue("Class-Path");
-if ( !manifestClassPath.equals("lib/commons-lang.jar") )
-{
-    throw new IllegalStateException( "Missing entry in war MANIFEST.MF: lib/commons-lang.jar");
-}
+Manifest manifest = jar.getManifest()
+String manifestClassPath = manifest.getMainAttributes().getValue("Class-Path")
+assert manifestClassPath.equals("lib/commons-lang.jar") : "Missing entry in war MANIFEST.MF: lib/commons-lang.jar"
 
-String[] excludedEntries = [
-    "WEB-INF/lib/commons-lang-2.6.jar"
-];
-for ( String excluded : excludedEntries )
-{
-    System.out.println( "Checking for excluded artifact " + excluded );
-    if ( jar.getEntry( excluded ) != null )
-    {
-        throw new IllegalStateException( "Archive entry should be excluded: " + excluded );
+String[] excludedEntries = ["WEB-INF/lib/commons-lang-2.6.jar"]
+for ( String excluded : excludedEntries ) {
+    System.out.println( "Checking for excluded artifact " + excluded )
+    if ( jar.getEntry( excluded ) != null ) {
+        throw new IllegalStateException( "Archive entry should be excluded: " + excluded )
     }
 }
 
-jar.close();
+jar.close()
 
 
-jarFile = new File( basedir, "war-module/target/war-module-1.0.war" );
-System.out.println( "Checking for existence of " + jarFile );
-if ( !jarFile.isFile() )
-{
-    throw new IllegalStateException( "Missing file: " + jarFile );
-}
+jarFile = new File( basedir, "war-module/target/war-module-1.0.war" )
+System.out.println( "Checking for existence of " + jarFile )
+assert jarFile.isFile() : "Missing file: " + jarFile
 
-jar = new JarFile( jarFile );
+jar = new JarFile( jarFile )
 
-includedEntries = [
-    "WEB-INF/web.xml",
-    "META-INF/MANIFEST.MF",
-    "WEB-INF/lib/commons-lang-2.6.jar"
-];
-for ( String included : includedEntries )
-{
-    System.out.println( "Checking for included archive entry " + included );
-    if ( jar.getEntry( included ) == null )
-    {
-        throw new IllegalStateException( "Missing archive entry: " + included );
+includedEntries = ["WEB-INF/web.xml", "META-INF/MANIFEST.MF", "WEB-INF/lib/commons-lang-2.6.jar"]
+for ( String included : includedEntries ) {
+    System.out.println( "Checking for included archive entry " + included )
+    if ( jar.getEntry( included ) == null ) {
+        throw new IllegalStateException( "Missing archive entry: " + included )
     }
 }
 
-jar.close();
+jar.close()
 
-return true;
+return true

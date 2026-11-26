@@ -111,6 +111,7 @@ class SecurityRole {
         writer.endElement();
     }
 
+    @Override
     public String toString() {
         return "Security role " + getRoleName();
     }

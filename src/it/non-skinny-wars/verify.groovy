@@ -17,60 +17,39 @@
  * under the License.
  */
 
-import java.io.*;
-import java.util.*;
-import java.util.jar.*;
-import java.util.regex.*;
+import java.util.jar.*
 
-File jarFile = new File( basedir, "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.nonskinnywars-war-module-1.0.war" );
-System.out.println( "Checking for existence of " + jarFile );
-if ( !jarFile.isFile() )
-{
-    throw new IllegalStateException( "Missing file: " + jarFile );
-}
+File jarFile = new File(basedir, "ear-module/target/ear-module-1.0/org.apache.maven.its.ear.nonskinnywars-war-module-1.0.war")
+System.out.println("Checking for existence of " + jarFile)
+assert jarFile.isFile() : "Missing file: " + jarFile
 
-JarFile jar = new JarFile( jarFile );
+JarFile jar = new JarFile( jarFile )
 
-String[] includedEntries = [
-    "WEB-INF/web.xml",
-    "META-INF/MANIFEST.MF",
-    "WEB-INF/lib/commons-lang-2.6.jar"
-];
-for ( String included : includedEntries )
-{
-    System.out.println( "Checking for included archive entry " + included );
-    if ( jar.getEntry( included ) == null )
-    {
-        throw new IllegalStateException( "Missing archive entry: " + included );
+String[] includedEntries = ["WEB-INF/web.xml", "META-INF/MANIFEST.MF", "WEB-INF/lib/commons-lang-2.6.jar"]
+for ( String included : includedEntries ) {
+    System.out.println( "Checking for included archive entry " + included )
+    if ( jar.getEntry( included ) == null ) {
+        throw new IllegalStateException( "Missing archive entry: " + included )
     }
 }
 
-jar.close();
+jar.close()
 
 
-jarFile = new File( basedir, "war-module/target/war-module-1.0.war" );
-System.out.println( "Checking for existence of " + jarFile );
-if ( !jarFile.isFile() )
-{
-    throw new IllegalStateException( "Missing file: " + jarFile );
-}
+jarFile = new File( basedir, "war-module/target/war-module-1.0.war" )
+System.out.println( "Checking for existence of " + jarFile )
+assert jarFile.isFile() : "Missing file: " + jarFile
 
-jar = new JarFile( jarFile );
+jar = new JarFile( jarFile )
 
-includedEntries = [
-    "WEB-INF/web.xml",
-    "META-INF/MANIFEST.MF",
-    "WEB-INF/lib/commons-lang-2.6.jar"
-];
-for ( String included : includedEntries )
-{
-    System.out.println( "Checking for included archive entry " + included );
-    if ( jar.getEntry( included ) == null )
-    {
-        throw new IllegalStateException( "Missing archive entry: " + included );
+includedEntries = ["WEB-INF/web.xml", "META-INF/MANIFEST.MF", "WEB-INF/lib/commons-lang-2.6.jar"]
+for ( String included : includedEntries ) {
+    System.out.println( "Checking for included archive entry " + included )
+    if ( jar.getEntry( included ) == null ) {
+        throw new IllegalStateException( "Missing archive entry: " + included )
     }
 }
 
-jar.close();
+jar.close()
 
-return true;
+return true
