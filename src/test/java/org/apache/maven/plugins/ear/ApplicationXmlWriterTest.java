@@ -18,13 +18,24 @@
  */
 package org.apache.maven.plugins.ear;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import java.io.File;
 import java.util.Collections;
+import java.util.Locale;
 
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.DefaultArtifact;
+import org.apache.maven.plugins.ear.stub.ArtifactHandlerTestStub;
+import org.apache.maven.plugins.ear.util.ArtifactTypeMappingService;
 import org.apache.maven.plugins.ear.util.JavaEEVersion;
+import org.apache.maven.project.MavenProject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.w3c.dom.Element;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -70,5 +81,104 @@ class ApplicationXmlWriterTest {
                 null,
                 null);
         assertThrows(EarPluginException.class, () -> writer.write(context));
+    }
+
+    @Test
+    void testUnresolvedArtifactDoesNotGenerateModuleId() throws Exception {
+        File destination = writeApplicationXml(new TestableWebModule(), true);
+
+        Element module = (Element) DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder()
+                .parse(destination)
+                .getElementsByTagName("module")
+                .item(0);
+
+        assertTrue(module != null, "application.xml should contain the web module");
+        assertFalse(module.hasAttribute("id"), "an unresolved artifact must not receive a generated id");
+    }
+
+    @Test
+    void testGeneratedModuleIdIsLocaleIndependent() throws Exception {
+        Locale originalLocale = Locale.getDefault();
+        try {
+            Locale.setDefault(Locale.forLanguageTag("tr-TR"));
+            DefaultArtifact artifact = new DefaultArtifact(
+                    "groupId", "artifactId", "1.0", "compile", "client", null, new ArtifactHandlerTestStub("client"));
+            File destination = writeApplicationXml(new TestableWebModule(artifact), true);
+
+            Element module = (Element) DocumentBuilderFactory.newInstance()
+                    .newDocumentBuilder()
+                    .parse(destination)
+                    .getElementsByTagName("module")
+                    .item(0);
+
+            assertEquals("CLIENT_groupId.artifactId", module.getAttribute("id"));
+        } finally {
+            Locale.setDefault(originalLocale);
+        }
+    }
+
+    @Test
+    void testGeneratedModuleIdDoesNotUseOutputFileNameMapping() throws Exception {
+        for (String version : new String[] {"1.0", "2.0"}) {
+            DefaultArtifact artifact = new DefaultArtifact(
+                    "groupId", "artifactId", version, "compile", "war", "tests", new ArtifactHandlerTestStub("war"));
+            TestableWebModule module = new TestableWebModule(artifact);
+            module.setEarExecutionContext(new EarExecutionContext(
+                    new MavenProject(),
+                    "main",
+                    null,
+                    null,
+                    "9 custom-@{artifactId}@-@{version}@.@{extension}@",
+                    new ArtifactTypeMappingService()));
+
+            assertEquals("9 custom-artifactId-" + version + ".war", module.getBundleFileName());
+            File destination = writeApplicationXml(module, true);
+            Element element = (Element) DocumentBuilderFactory.newInstance()
+                    .newDocumentBuilder()
+                    .parse(destination)
+                    .getElementsByTagName("module")
+                    .item(0);
+            assertEquals("WAR_groupId.artifactId-tests", element.getAttribute("id"));
+        }
+    }
+
+    private File writeApplicationXml(EarModule module, boolean generateModuleId) throws Exception {
+        ApplicationXmlWriter writer = new ApplicationXmlWriter(JavaEEVersion.ELEVEN, "UTF-8", generateModuleId);
+        File destination = new File(tempDir, "application.xml");
+        ApplicationXmlWriterContext context = new ApplicationXmlWriterContext(
+                destination,
+                Collections.singletonList(module),
+                Collections.emptyList(),
+                Collections.emptyList(),
+                Collections.emptyList(),
+                Collections.emptyList(),
+                null,
+                null,
+                null,
+                null,
+                null);
+        writer.write(context);
+        return destination;
+    }
+
+    private static final class TestableWebModule extends WebModule {
+        private TestableWebModule() {
+            super();
+        }
+
+        private TestableWebModule(Artifact artifact) {
+            super(artifact);
+        }
+
+        @Override
+        public String getContextRoot() {
+            return "/context";
+        }
+
+        @Override
+        public String getUri() {
+            return "module.war";
+        }
     }
 }
