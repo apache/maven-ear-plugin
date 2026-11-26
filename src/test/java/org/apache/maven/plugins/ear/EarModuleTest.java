@@ -18,10 +18,21 @@
  */
 package org.apache.maven.plugins.ear;
 
+import java.util.Collections;
+
+import org.apache.maven.artifact.DefaultArtifact;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.ear.stub.ArtifactHandlerTestStub;
+import org.codehaus.plexus.component.configurator.converters.composite.ObjectWithFieldsConverter;
+import org.codehaus.plexus.component.configurator.converters.lookup.DefaultConverterLookup;
+import org.codehaus.plexus.component.configurator.expression.DefaultExpressionEvaluator;
+import org.codehaus.plexus.configuration.DefaultPlexusConfiguration;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Ear module test case.
@@ -29,6 +40,23 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @author <a href="snicoll@apache.org">Stephane Nicoll</a>
  */
 class EarModuleTest {
+
+    private static class ContextDependentTypeModule extends AbstractEarModule {
+        ContextDependentTypeModule() {
+            this.type = "jar";
+        }
+
+        @Override
+        public String getType() {
+            if (earExecutionContext == null) {
+                throw new IllegalStateException("Execution context is required to resolve the module type");
+            }
+            return super.getType();
+        }
+
+        @Override
+        public void appendModule(org.codehaus.plexus.util.xml.XMLWriter writer, String version, Boolean generateId) {}
+    }
 
     @Test
     void testCleanArchivePath() {
@@ -39,5 +67,50 @@ class EarModuleTest {
         assertEquals("", AbstractEarModule.cleanArchivePath("/"));
         assertEquals("", AbstractEarModule.cleanArchivePath(""));
         assertNull(AbstractEarModule.cleanArchivePath(null));
+    }
+
+    @Test
+    void testResolveArtifactRequiresExecutionContext() {
+        DefaultArtifact artifact = new DefaultArtifact(
+                "groupId", "artifactId", "1.0", "compile", "jar", null, new ArtifactHandlerTestStub("jar"));
+        JarModule module = new JarModule(artifact, null, false);
+
+        MojoFailureException exception =
+                assertThrows(MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
+
+        assertTrue(exception.getMessage().contains("EAR execution context not initialized"));
+        assertTrue(exception.getMessage().contains("jar:groupId:artifactId"));
+    }
+
+    @Test
+    void testResolveArtifactReportsUninitializedContextBeforeReadingContextDependentType() throws Exception {
+        ContextDependentTypeModule module = new ContextDependentTypeModule();
+        DefaultPlexusConfiguration configuration = new DefaultPlexusConfiguration("module");
+        configuration.addChild("groupId", "groupId");
+        configuration.addChild("artifactId", "artifactId");
+        new ObjectWithFieldsConverter()
+                .processConfiguration(
+                        new DefaultConverterLookup(),
+                        module,
+                        getClass().getClassLoader(),
+                        configuration,
+                        new DefaultExpressionEvaluator());
+
+        MojoFailureException exception =
+                assertThrows(MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
+
+        assertTrue(exception.getMessage().contains("EAR execution context not initialized"));
+        assertTrue(exception.getMessage().contains("jar:groupId:artifactId"));
+    }
+
+    @Test
+    void testResolveArtifactReportsMissingCoordinatesWithoutReadingContextDependentType() {
+        ContextDependentTypeModule module = new ContextDependentTypeModule();
+
+        MojoFailureException exception =
+                assertThrows(MojoFailureException.class, () -> module.resolveArtifact(Collections.emptySet()));
+
+        assertTrue(exception.getMessage().contains("Could not resolve artifact"));
+        assertTrue(exception.getMessage().contains("null:null:jar"));
     }
 }
